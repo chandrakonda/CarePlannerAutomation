@@ -8,7 +8,7 @@
         "removeComments": false,
         "declaration": false,
         "outDir": "typeScriptConvertedFiles",
-        "types": ["jasmine", "node"]
+        "types": ["jasmine","jasminewd2", "node"]
     },
     "exclude": [
         "node_modules",

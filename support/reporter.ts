@@ -18,16 +18,21 @@ export class Reporter{
             jasmine.getEnv().addReporter(new reporter({
                 savePath: htmlReportsPath,
                 cleanDestination: false,
-                fileNameSeparator: '_',
-                fileNameDateSuffix: true,
-                consolidateAll: true,
-                displayStacktrace: true,
+
                 screenshotsFolder: 'images',
                 takeScreenshots: true,
-                takeScreenshotsOnlyOnFailures: true,
+                takeScreenshotsOnlyOnFailures: false,
                 fixedScreenshotName: false,
-                showPassed:true,
-                fileName:"Protractor-Jasmine Report Title",
+
+                fileName:"Automation Report",
+                fileNamePrefix:"VCA",
+                fileNameSeparator: '_',
+                fileNameSuffix:'',
+                fileNameDateSuffix: true,
+
+                showPassed: true,
+                consolidateAll: true,
+                displayStacktrace: true
 
             }));
         } catch (err) {
