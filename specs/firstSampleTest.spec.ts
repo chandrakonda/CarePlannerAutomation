@@ -4,10 +4,14 @@ import {petDetails} from '../pages/cpPetDetails.po';
 describe('angularjs homepage', () => {
 
  it("validatepetdetails",function(){
+   console.log("Enter to validate pet details");
     browser.get('https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=271842817&orderId=472962706&userName=chandrasekhar.konda&userId=0&accessToken=wc0VVYzxdvHCPH1RRrRLuB5XwZr40PXgRIu21qJxCG2qMuUMDoG_qIrG9leOMHVGy8mur5bo4TLJR576RJ78ALwunMlIAdkfV6F3p8-tsDlGZFu52vz-JgeCBNMI0XdVuk3j_imGOmscuHlMtiBIip8PKf3aM4X6Yh78jMrT-V8Fdjn7iN57s07-do7dGV1qLeUkA7SpyRKvwsOxmhBiQsTXtILNHvXX4RMq0kfWJXVw10tmClD0PHFyxLv695-7Y2q40Q'); // Entering application url in browser
     browser.waitForAngularEnabled();
+    browser.sleep(25000);
     var ec = ExpectedConditions;
     let objPetDetails = new petDetails();
+    browser.wait(ec.visibilityOf(objPetDetails.element_petName),50000,"Wait for pet name");
+    
     //browser.driver.wait
     browser.driver.wait(ec.elementToBeClickable(objPetDetails.element_petName),50000 );
     

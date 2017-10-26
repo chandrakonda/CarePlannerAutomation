@@ -24,9 +24,11 @@ export const config : Config ={
     onPrepare: () =>{
 
         Reporter.addHTMLReporter();
-        browser.ignoreSynchronization = true;
+        browser.ignoreSynchronization = false;
         browser.manage().window().maximize();
-        browser.manage().timeouts().implicitlyWait(5000);
+        console.log("Waiting for the page to load..");
+        //browser.driver.wait()
+        browser.driver.manage().timeouts().implicitlyWait(25000);
     },
 
     onComplete: () => {
