@@ -1,0 +1,29 @@
+{
+  "name": "Protractor_Jasmine_TypeScript_FromScratch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {    
+    "build": "tsc",
+    "pretest": "npm run tsc",
+    "clean-build": "npm run clean && npm run build",
+    "test": "protractor typeScriptConvertedFiles/config/config.js",
+    "tsc":"tsc"
+  },
+  "keywords": ["Protractor", "Typescript"],
+  "author": "Prabu Ramaraj",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jasmine": "^2.6.2",
+    "@types/jasminewd2": "^2.0.3",
+    "@types/node": "^8.0.47",
+    "@types/selenium-webdriver": "^3.0.8",
+    "jasmine": "^2.8.0",
+    "jasmine-node": "^1.14.5",
+    "jasminewd2": "^2.2.0",
+    "mkdirp": "^0.5.1",
+    "protractor": "^5.2.0",
+    "typescript": "^2.5.3",
+    "protractor-jasmine2-html-reporter": "0.0.7"
+  }
+}
