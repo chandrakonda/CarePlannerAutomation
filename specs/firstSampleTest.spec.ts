@@ -1,53 +1,114 @@
-import { ElementFinder, browser, by, element, ExpectedConditions } from 'protractor';
-import {petDetails} from '../pages/cpPetDetails.po';
+import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
+import { CarePlannerSchedulerPage } from '../pages/carePlanner/cpScheduler.page';
 
-describe('angularjs homepage', () => {
 
-  // it('should greet the named user', () => {
-  //   browser.driver.sleep(10000);
-  //   browser.get('http://www.angularjs.org');
-  //   var  objname= element(by.model('yourName'));
-  //   var ec = ExpectedConditions;
-  //   browser.wait(ec.visibilityOf(objname),50000,"Wait for pet name");
-  //   element(by.model('yourName')).sendKeys('Julie');
-  //   const greeting = element(by.binding('yourName'));
-  //   greeting.getText().then(function(text){
-  //     console.log(text);
-  //   });
-
-  //   console.log("Hello")
-  // });
-
-    it('should greet the named user', () => {
-    browser.get('http://www.angularjs.org');
-    element(by.model('yourName')).sendKeys('Julie');
-    const greeting = element(by.binding('yourName'));
-    expect(greeting.getText()).toEqual('Hello Julie!');
+describe(' pending Verify the Careplanner Scheduler Page 2', () => {
+  
+    it("pending spec", async () =>{
+      browser.get('/');
+      browser.pause();
+      console.log(browser.baseUrl);
+      console.log(browser.jsonconfig.username);
+      console.log(browser.jsonconfig.applicationurl);
+      console.log(browser.jsonconfig.apiendpoint);
+      console.log("pending spec is tested");
+    });
+  
+    it("pending spec 1", async () =>{
+      console.log("pending spec is tested");
+    });
+  
+    it("pending spec 2", async () =>{
+      console.log("pending spec is tested4234234");
+    });
+  
+    it("pending spec 3", async () =>{
+      console.log("pending spec is tested");
+    });
   });
 
-// it("validatepetdetails",function(){
-//      console.log("Enter to validate pet details");
-//       browser.get('https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=271842817&orderId=472962706&userName=chandrasekhar.konda&userId=0&accessToken=wc0VVYzxdvHCPH1RRrRLuB5XwZr40PXgRIu21qJxCG2qMuUMDoG_qIrG9leOMHVGy8mur5bo4TLJR576RJ78ALwunMlIAdkfV6F3p8-tsDlGZFu52vz-JgeCBNMI0XdVuk3j_imGOmscuHlMtiBIip8PKf3aM4X6Yh78jMrT-V8Fdjn7iN57s07-do7dGV1qLeUkA7SpyRKvwsOxmhBiQsTXtILNHvXX4RMq0kfWJXVw10tmClD0PHFyxLv695-7Y2q40Q'); // Entering application url in browser
-//       browser.waitForAngularEnabled(true);
-//       browser.driver.sleep(25000);
-//       var ec = ExpectedConditions;
-//       let objPetDetails = new petDetails();
-//       browser.wait(ec.visibilityOf(objPetDetails.element_petName),50000,"Wait for pet name");
-      
-//       //browser.driver.wait
-//       browser.driver.wait(ec.elementToBeClickable(objPetDetails.element_petName),50000 );
-      
-//       browser.ignoreSynchronization = false;
-//       //browser.manage().timeouts().implicitlyWait(25000);
-//       var varclientname = objPetDetails.getClientName();
-//       var varpetname = objPetDetails.getPetName();
-//       console.log(varclientname); 
-//       console.log(varpetname); 
-//       //var varpetname = objPetDetails.getClientName();
+
+// describe('Verify the Careplanner Scheduler Page 1', () => {
+ 
+//   let cpSchedulerPage = new CarePlannerSchedulerPage();
+
   
-//     });
+//   beforeAll( async ()=>{
+//     console.log("before each is printed");
+//     cpSchedulerPage.navigateTo();
+//     browser.waitForAngularEnabled(false);    
+//   });
+  
 
-});
+//   it('should have the title as VCA Charge Capture', async () => {
+//     console.log("it in the first case");
+    
+//     await expect(cpSchedulerPage.pageTitle).toEqual('VCA Charge Capture');
+    
+//   });
+
+//   it('Enter care notes in the page', async () => {
+//     console.log("it in the first case");
+//     // Click on care note button
+//     cpSchedulerPage.eleCareNotesButton.click();
+//     cpSchedulerPage.eleEnterCareNotes.sendKeys("Test this value to enter");
+//     cpSchedulerPage.eleAddCareNoteButton.click();
+//     // Enter care note
+
+//     // Click on Add care note button 
+
+    
+    
+//   });
+  // it('should have the Pet Name as M3 ', async () =>{
+
+  //   await expect(cpSchedulerPage.petName).toEqual('Lion');
+  // });
+
+  // it('should have the Client Name as Chandra ', async () => {
+
+  //   await expect(cpSchedulerPage.clientName).toEqual('Chandra');
+  // });
+
+  // it('should have the Species Name as Canine ', async () => {
+
+  //   await expect(cpSchedulerPage.speciesName).toEqual('Canine');
+  //   cpSchedulerPage.eledrName.getText().then(function(text){
+  //     console.log(text);
+  //   });
+  // });
+
+  // it('Get pet gender ', async () => {
+  //   cpSchedulerPage.elePetGender.getText().then(function(text){
+  //     console.log(text);
+  //   });
+  // });
+
+  // it('Get pet shift ', async () => {
+  //     cpSchedulerPage.eledrshift.getText().then(function(text){
+  //       console.log(text);
+  //     });
+  // });
+  // it('Get pet shift ', async () => {
+  //   cpSchedulerPage.eleCageDropdownValue.getText().then(function(text){
+  //     console.log("Cage drop down value "+text);
+  //   });
+  // });
+
+  // it('Get pet shift ', async () => {
+  //   cpSchedulerPage.eleLocationDropdownValue.getText().then(function(text){
+  //     console.log("Location drop down " + text);
+  //   });
+  // });
+  // it('Get pet shift ', async () => {
+  //   cpSchedulerPage.eleTechnicianValue.getText().then(function(text){
+  //     console.log(" Technician drop down "+ text);
+  //   });
+  // });
+
+  // afterAll(async ()=>{
+  //   console.log("after all is printed in this");
+  // })
+//});
 
 
-//  

@@ -3,13 +3,12 @@
         "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
-        
         "sourceMap": false,
         "noImplicitAny": false,
         "removeComments": false,
         "declaration": false,
         "outDir": "typeScriptConvertedFiles",
-        "types": ["jasmine","jasminewd2", "node"]
+        "types": ["jasmine","jasminewd2", "node","protractor"]
     },
     "exclude": [
         "node_modules",

@@ -1,9 +1,16 @@
 import * as fs from "fs";
 import * as mkdirp from "mkdirp";
-import * as path from "path";
 import * as reporter from "protractor-jasmine2-html-reporter";
+import {DisplayProcessor, SpecReporter} from "jasmine-spec-reporter";
+import SuiteInfo = jasmine.SuiteInfo;
+var HtmlReporter = require('protractor-beautiful-reporter');
+var path = require('path');
 
-const htmlReportsPath = path.join(process.cwd(), "/reports/html");
+class CustomProcessor extends DisplayProcessor {
+    public displayJasmineStarted(info: SuiteInfo, log: string): string {
+        return `TypeScript ${log}`;
+    }
+}
 
 export class Reporter{
     public static createDirectory(dir: string) {
@@ -11,34 +18,50 @@ export class Reporter{
             mkdirp.sync(dir);
         }
     }
-
-    public static addHTMLReporter() {
-        try {
-            this.createDirectory(htmlReportsPath),
-            jasmine.getEnv().addReporter(new reporter({
-                savePath: htmlReportsPath,
-                cleanDestination: false,
-
-                screenshotsFolder: 'images',
-                takeScreenshots: true,
-                takeScreenshotsOnlyOnFailures: false,
-                fixedScreenshotName: false,
-
-                fileName:"Automation Report",
-                fileNamePrefix:"VCA",
-                fileNameSeparator: '_',
-                fileNameSuffix:'',
-                fileNameDateSuffix: true,
-
-                showPassed: true,
-                consolidateAll: true,
-                displayStacktrace: true
+    public static addSpecReporter() {
+        try {           
+            //jasmine.getEnv().clearReporters();
+            jasmine.getEnv().addReporter(new SpecReporter({
+                customProcessors: [CustomProcessor],
 
             }));
-        } catch (err) {
-            if (err) {
-                throw new Error("Failed to save jasmine report as test results to html file.");
+        } catch (error) {
+            
+        }
+    }
+
+    public static addBeautifulHTMLReporter(){
+        try {
+            // Add a screenshot reporter:
+            jasmine.getEnv().addReporter(new HtmlReporter({
+            preserveDirectory: true,
+            baseDirectory: 'reports',
+            screenshotsSubfolder: 'screenshots',
+            jsonsSubfolder: 'jsons',
+            takeScreenShotsOnlyForFailedSpecs: true,
+            pathBuilder: function pathBuilder(spec, descriptions, results, capabilities) {
+                // Return '<30-12-2016>/<browser>/<specname>' as path for screenshots:
+                // Example: '30-12-2016/firefox/list-should work'.
+                var currentDate = new Date(),
+                    day = currentDate.getDate(),
+                    month = currentDate.getMonth() + 1,
+                    year = currentDate.getFullYear(),
+                    hours = currentDate.getUTCHours(),
+                    min = currentDate.getUTCMinutes()/*,
+                    sec = currentDate.getUTCSeconds()*/;
+
+                var validDescriptions = descriptions.map(function (description) {
+                    return description.replace('/', '@');
+                });
+
+                return path.join(
+                    day + "-" + month + "-" + year + hours + min /*+ sec*/,
+                    // capabilities.get('browserName'),
+                    validDescriptions.join('-'));
             }
+        }).getJasmine2Reporter());
+        } catch (error) {
+            
         }
     }
 }
