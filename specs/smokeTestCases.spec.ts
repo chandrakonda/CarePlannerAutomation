@@ -11,7 +11,7 @@ describe('Verify the Careplanner Scheduler Page', () => {
   beforeAll( () =>{    
     cpPetDetailsPage = new CarePlannerPetDetails();
     cpSchedulerPage = new CarePlannerSchedulerPage();
-    cpPetDetailsPage.navigateTo();    
+    cpPetDetailsPage.navigateTo();   // comments 
     console.log("***********URL Launched***********");
   });
  
