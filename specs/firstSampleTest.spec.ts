@@ -1,30 +1,44 @@
 import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
 import { CarePlannerSchedulerPage } from '../pages/carePlanner/cpScheduler.page';
+import { CarePlannerPetDetails } from '../pages/carePlanner/cpPetdetails.page';
 
 
 describe(' pending Verify the Careplanner Scheduler Page 2', () => {
   
     it("pending spec", async () =>{
-      browser.get('/');
+     // browser.get(browser.baseUrl.toString());
       browser.pause();
-      console.log(browser.baseUrl);
-      console.log(browser.jsonconfig.username);
-      console.log(browser.jsonconfig.applicationurl);
-      console.log(browser.jsonconfig.apiendpoint);
+
+      element.all(by.xpath(".//div[starts-with(@class,'wj-cell wj')]//div[@class='task-table']/descendant::div[@class='itemname']")).then(function(icons1){
+        console.log(icons1.length);
+        for (var i = 0; i < icons1.length; i++) {
+        icons1[i].getText().then(function (txt) {
+          console.log(txt)
+        });
+      }
+      });
+     //var eleclientName1 = browser.driver.findElements(by.xpath(".//div[starts-with(@class,'wj-cell wj')]//div[@class='task-table']/descendant::div[@class='itemname']"));
+     
+
+     
+      // console.log(browser.baseUrl);
+      // console.log(browser.jsonconfig.username);
+      // console.log(browser.jsonconfig.applicationurl);
+      // console.log(browser.jsonconfig.apiendpoint);
       console.log("pending spec is tested");
     });
   
-    it("pending spec 1", async () =>{
-      console.log("pending spec is tested");
-    });
+    // it("pending spec 1", async () =>{
+    //   console.log("pending spec is tested");
+    // });
   
-    it("pending spec 2", async () =>{
-      console.log("pending spec is tested4234234");
-    });
+    // it("pending spec 2", async () =>{
+    //   console.log("pending spec is tested4234234");
+    // });
   
-    it("pending spec 3", async () =>{
-      console.log("pending spec is tested");
-    });
+    // it("pending spec 3", async () =>{
+    //   console.log("pending spec is tested");
+    // });
   });
 
 

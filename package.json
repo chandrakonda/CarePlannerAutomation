@@ -9,8 +9,7 @@
     "clean-build": "npm run clean && npm run build",
     "test": "protractor typeScriptConvertedFiles/config/config.js",
     "tsc": "tsc",
-    "debug":"protractor debug typeScriptConvertedFiles/config/config.js"
-
+    "debug": "protractor debug typeScriptConvertedFiles/config/config.js"
   },
   "keywords": [
     "Protractor",
@@ -31,6 +30,7 @@
     "protractor": "^5.2.0",
     "protractor-beautiful-reporter": "^0.5.0",
     "protractor-jasmine2-html-reporter": "0.0.7",
-    "typescript": "^2.5.3"
+    "typescript": "^2.5.3",
+    "typescript-collections": "^1.2.5"
   }
 }

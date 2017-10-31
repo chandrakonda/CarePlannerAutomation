@@ -1,94 +1,68 @@
-import {$, browser, element, by, By, ExpectedConditions } from "protractor";
+import { arrays } from 'typescript-collections/dist/lib';
+import { $$ } from "protractor/built";
+import { ElementFinder, WebdriverWebElement } from "protractor/built/element";
+import { browser, element, by, By, ExpectedConditions } from "protractor";
+import * as Collections from 'typescript-collections';
+import * as console from 'console';
 
-export class CarePlannerSchedulerPage{
+export class CarePlannerSchedulerPage {
 
-    
+  eleWJGrid = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']"));
+  elePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']"));
 
-    // Page elements ////////////////////////
+  eleScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[contains(@class,'wj-frozen-col')]/descendant::div[contains(@class,'unscheduled-cell') and not(*)]"));
+  eleOverduePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='overduecount-cell']"));
+  eleNonScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='occurrence-text']"));
+  eleCategoryList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[contains(@class,'wj-frozen-col')]/descendant::div[contains(@class,'groupheader_txt')]"));
 
-    eleclientName = element(by.xpath(".//div[@class='petname']/following-sibling::span"));
-    elepetName = element(by.xpath(".//div[@class='petname']"));
-    eledrName = element(by.xpath(".//label[text()='PRIMARY']/following-sibling::span"));
-    eledrshift =  element(by.xpath(".//label[text()='DAY/SHIFT']/following-sibling::span"));
-    eleWellness =  element(by.xpath(".//li[@client_wellness cellinfo wellness']//span[@class='txt']"));
-    eleAlert =  element(by.xpath(".//li[@client_wellness cellinfo vcaAlert']//span[@class='txt']"));
-    
+  
 
-    eleSpecies = element(by.xpath(".//div[@class='species']"));
-    elePetGender = element(by.xpath(".//div[@class='bBox two']/div/div"));
-    eleAge = element(by.xpath(".//div[@class='bBox one']/div/div"));
-    eleWeight = element(by.xpath(".//div[@class='col-md-3 bBox']/div/div"));
-    eleRecorded = element(by.xpath(".//div[@class='col-md-4 bBox']/div/div"));
-
-    //eleTechnicianDropdown = element(by.xpath(".//div[normalize-space(text())='Choose technician']/following-sibling::div"));
-    eleTechnicianValue = element(by.xpath(".//label[text()='TECHNICIAN']/following-sibling::div//i/following-sibling::div[contains(@class,'ng-tns')]"));
-    //eleSelectLocationDropdown = element(by.xpath(".//div[normalize-space(text())='Select a location']/following-sibling::div"));
-    eleLocationDropdownValue = element(by.xpath(".//div[@class='block navigation']/div[1]//i[@class='dropdown icon']/following-sibling::div[contains(@class,'ng-tns')]"));
-    //eleSelectCageDropdown = element(by.xpath(".//div[normalize-space(text())='Select a cage']/following-sibling::div"));
-    eleCageDropdownValue = element(by.xpath(".//div[@class='block navigation']/div[2]//i[@class='dropdown icon']/following-sibling::div[contains(@class,'ng-tns')]"));
-    
-    /////////////////////
-    eleAddTaskButton = element(by.xpath(".//button[@id='addtask']"));
-    eleCareNotesButton = element(by.xpath(".//button[@id='carenotes']"));
-    eleEnterCareNotes = element(by.xpath(".//textarea[@placeholder='Add care note here.']"));
-    eleAddCareNoteButton = element(by.xpath(".//button[text()='Add care note']")); 
-
-    navigateTo(){
-        browser.get(browser.baseUrl);
-        //console.log(browser.myname);
+ 
+  get categoryCount(){
+    try {      
+      return this.eleCategoryList.count().then((catCount:number) => { return  catCount; });
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    get pageTitle():any {
-        return browser.getTitle();
+  get productTaskListCount(){
+    try {
+      return this.elePrdTaskList.count().then((taskCount:number) => { return taskCount });
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    get clientName():any {
-        return this.eleclientName.getText();
+  get scheduledProductTaskCount(){
+    try {
+      return this.eleScheduledPrdTaskList.count().then((taskCount:number) => { return taskCount });
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    get petName(): any {
-        return this.elepetName.getText();
+  get nonScheduledProductTaskCount(){
+    try {
+      return this.eleNonScheduledPrdTaskList.count().then((taskCount:number) => { return taskCount });
+    } catch (error) {
+      console.log(error);
     }
+   }
+  
+   get categoryList(){
+     try {
+      return this.eleCategoryList.getText().then((catName:string)=>{ return catName }); 
+     } catch (error) {
+       console.log(error);
+     }
+   }
 
-    get speciesName(): any {
-        return this.eleSpecies.getText();
-    }
-
-    get drName():any {
-        try{
-            let varName : any ;
-            var EC = ExpectedConditions;
-            browser.wait(EC.presenceOf(this.eledrName),5000).then(() =>{
-                varName = this.eledrName.getText();
-            });
-            return varName;
-        } catch(e){
-            console.log(e);
-        }
-    }
-
-    get drShift():any {
-        return this.eledrshift.getText();
-    }
-
-    get wellNess():any {
-        return this.eleWellness.getText();
-    }
-}
-
-
-    // getTitle():any {
-    //     return browser.getTitle();
-    // }
-
-    // getClientName():any {
-    //     return this.clientName.getText();
-    // }
-
-    // getPetName():any {
-    //     return this.elepetName.getText();
-    // }
-
-    // getSpeciesName():any {
-    //     return this.speciesName.getText();
-    // }
+   get productTaskList(){
+     try {
+       return this.elePrdTaskList.getText().then((prdList) => { return prdList}); 
+     } catch (error) {
+       console.log(error);
+     }
+   }
+  }
