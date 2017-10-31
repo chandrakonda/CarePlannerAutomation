@@ -1,9 +1,7 @@
 {
-	"applicationurl" : "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160619&orderId=471563537&userName=chandrasekhar.konda&userId=0&accessToken=RzPt5HiYVxAbTbmeMFRqayITBFzfcpLaNYWYqkQTUZeulULr4G-RvychsA4y6rItG5sfQjtvUXf_nB7aV8cIZGrNwRhSYY2XEe3DlsjjhkSAFESMgZDwquODH6sehZG2jJIoDtj1g91qaPmkGEsKf3JLLuQW14l6uIJ_BNe0Lfy4JB3x3E8MROiOlomTvhN9o1Zcczj7WxYUMkaDITJRVoF_-33xLHoXhVg0xM4HEWZZG82V9nmkmWZILk_J76Q5ubCjhg",
-	
+	"applicationurl" : "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160619&orderId=471563537&userName=chandrasekhar.konda&userId=0&accessToken=",
+	"hospitalId" : 595,
 	"username" : "chandra",
 	"password"  : "password",
 	"apiendpoint" : "http://apiendpoint"
-
-
 }
