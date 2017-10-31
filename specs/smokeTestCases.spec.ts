@@ -2,62 +2,82 @@ import * as console from 'console';
 import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
 import { CarePlannerSchedulerPage } from '../pages/carePlanner/cpScheduler.page';
 import { CarePlannerPetDetails } from '../pages/carePlanner/cpPetdetails.page';
+var request = require('request');
 let cpSchedulerPage,cpPetDetailsPage;
 
 describe('Verify the Careplanner Scheduler Page', () => {
 
-  beforeAll( () =>{
+  // beforeAll( () =>{
+  //   cpPetDetailsPage = new CarePlannerPetDetails();
+  //   cpSchedulerPage = new CarePlannerSchedulerPage();
+  //   // cpPetDetailsPage.navigateTo();   // comments
+  //   console.log("***********URL Launched***********");
+  // });
+
+  beforeAll(function() {
     cpPetDetailsPage = new CarePlannerPetDetails();
     cpSchedulerPage = new CarePlannerSchedulerPage();
     // cpPetDetailsPage.navigateTo();   // comments
+    // console.log("***********URL Launched***********");
 
-    var token;
-  	var responseObj;
-    var request = require("request");
-		var options = { method: 'POST',
-		  url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token',
-		  headers:
-		   { //'postman-token': 'dd5b6efc-fe55-4760-20e9-3b75184a8038',
-		     'cache-control': 'no-cache',
-		     authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
-		     'content-type': 'application/x-www-form-urlencoded' },
-		  form: { grant_type: 'client_credentials' } };
+    var token='';
+    var jar = request.jar();
+    var req = request.defaults({
+        jar : jar
+    });
 
-		request(options, function (error, response, body) {
-		  if (error) throw new Error(error);
-      console.log("Body: "+body);
-			responseObj=JSON.parse(body);
-			token=responseObj.access_token;
-		});
+    function post(options) {
+      var defer = protractor.promise.defer();
+      request(options, function (error, response, body) {
+      		  if (error || body.statusCode>=400) {
+              defer.reject({
+                error:error,
+                message:body
+              });
+            } else {
+              defer.fulfill(JSON.parse(body));
+            }
+      		});
+          return defer.promise;
+    }
 
+    function getAuthToken() {
+      var options = { method: 'POST',
+  		  url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token',
+  		  headers:
+  		   { //'postman-token': 'dd5b6efc-fe55-4760-20e9-3b75184a8038',
+  		     'cache-control': 'no-cache',
+  		     authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
+  		     'content-type': 'application/x-www-form-urlencoded' },
+  		  form: { grant_type: 'client_credentials' } };
+      return post(options);
+    }
 
-    console.log("token: "+token);
+    var flow = protractor.promise.controlFlow();
+    flow.execute(getAuthToken).then(function(response){
+      var responseObj=response;
+      // console.log(responseObj['access_token']);
+      token=responseObj['access_token'];
+      console.log("new token: "+token);
+    });
+    flow.execute(function(){
+      console.log("token: "+token);
+      var url = browser.baseUrl+token;
+      console.log("URL: "+url);
+      browser.get(url);
+      browser.sleep(4000);
+    });
 
-    browser.get(browser.baseUrl+token);
-    browser.sleep(4000);
-
-    console.log("***********URL Launched***********");
   });
 
-  // beforeEach(() => {
-  //   var accessToken=await lib.apiCalls.getAuthToken();
-  //   var hosptialId= await lib.getHospitalId();
-  //   var patientId=await lib.apiCalls.createNewPatient(); //this is a meta api call that creates both the client and patient
-  //   var orderId=await lib.apiCalls.createNewOrder('medical');  //create a new medical appt
-  //   var userName=await lib.apiCalls.getCurrentUserName();
-  //   var userId=await lib.apiCalls.getCurrentUserId();
-  //
-  //   var url = function {baseUrl+'?hospitalId='+hospitalId+'&patientId='patientId+'&orderId='+orderId+'&userName='+userName+'&userId='+userId+'&accessToken='+accessToken};
-  //
-  //   browser.get(url);
-  // });
-
   it('Should have the title as VCA Charge Capture', () => {
-    console.log("***********Verifying Page Title***********");
+    // console.log("***********Verifying Page Title***********");
+    console.log('TEST 1')
     expect(cpSchedulerPage.pageTitle).toEqual('VCA Charge Capture');
   });
 
   it('Should have the Pet Name as Lilly ', async () =>{
+    console.log('TEST 2')
     await expect(cpSchedulerPage.petName).toEqual('Lilly');
   });
 
