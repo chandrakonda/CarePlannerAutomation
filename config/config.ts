@@ -8,8 +8,8 @@ export const config : Config ={
 
     seleniumAddress: 'http://localhost:4444/wd/hub',
     // Starting selenium server
-    // seleniumServerJar : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar",
-    // chromeDriver : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
+    // seleniumServerJar : process.env.SELENIUM_SERVER_PATH,
+    // chromeDriver : process.env.CHROME_DRIVER_PATH,
     // seleniumArgs : [],
     // seleniumPort : 4444,
     // baseUrl : " https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=yNEIp_d5k9Xlai7fCPaMMIwEa2y49ejDWM3l2JoPrPlhtAvbFe09znrrorh6ren8F-euh5fAy5rdZGAi53ai0XYEnKhKqA4ID6gEXPRDoQA4n6oUha4KwcvOOTzb8FWcuhdVuCT2qtW-jMqKQ_lli1jcjxVidxl9WI0NXXGUIM7Jd-3h3PoOzTUYZC-e4Fsj2XylAMD-doO8rFtOuprh3bI7bo7_fFmFC-XJYZZ_Vu6grYY0Y4ZTVOcSqXw7_hELReb_mA",
@@ -60,7 +60,7 @@ export const config : Config ={
         console.log("App Config location: "+process.env.APP_CONFIG_PATH+"\\appconfig.json");
         let configvalues: Appconfig = require(process.env.APP_CONFIG_PATH+"\\appconfig.json");
         browser.jsonconfig = configvalues;
-
+        console.log(browser.seleniumServerJar);
         browser.allScriptsTimeout=99999;
         browser.ignoreSynchronization = false;
         browser.waitForAngularEnabled(false);
