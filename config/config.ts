@@ -33,7 +33,7 @@ export const config : Config ={
     
     framework:"jasmine",
 
-    specs:["../specs/smokeTestCases.spec.js"],
+    specs:["../specs/apiTestCases.spec.js"],
 
     jasmineNodeOpts:{
         showColors:true,
