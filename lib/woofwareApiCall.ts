@@ -8,30 +8,30 @@ export class WWApiCalls {
   
   constructor( ){
   }
-  private _clientID:string;
-  private _bearerToken:string;
+  // private _clientID:string;
+  // private _bearerToken:string;
 
   
 
-  get clientID():string {
-    return this._clientID;
-  }
-  set clientID(value:string){
-    if(value === undefined){
-      throw "provide valid client id";
-    }
-    this._clientID = value;
-  }
+  // get clientID():string {
+  //   return this._clientID;
+  // }
+  // set clientID(value:string){
+  //   if(value === undefined){
+  //     throw "provide valid client id";
+  //   }
+  //   this._clientID = value;
+  // }
 
-  get bearerToken():string{
-    return this._bearerToken;
-  }
-  set bearerToken(value:string){
-    if(value === undefined){
-      throw "provide a valid bearer token";
-    }
-    this._bearerToken = value;
-  }
+  // get bearerToken():string{
+  //   return this._bearerToken;
+  // }
+  // set bearerToken(value:string){
+  //   if(value === undefined){
+  //     throw "provide a valid bearer token";
+  //   }
+  //   this._bearerToken = value;
+  // }
   
 
   makeRequest(options) {
