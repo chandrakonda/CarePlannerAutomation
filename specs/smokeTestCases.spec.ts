@@ -5,37 +5,38 @@ import { CarePlannerPetDetails } from '../pages/carePlanner/cpPetdetails.page';
 let cpSchedulerPage,cpPetDetailsPage;
 
 describe('Verify the Careplanner Scheduler Page', () => {
-  
-   
 
-  beforeAll( () =>{    
+  beforeAll(() =>{    
     cpPetDetailsPage = new CarePlannerPetDetails();
+    
     cpSchedulerPage = new CarePlannerSchedulerPage();
     cpPetDetailsPage.navigateTo();   // comments 
     console.log("***********URL Launched***********");
+    
   });
- 
+// UI TEST CASES   ????????////////////////////////////
+
   it('Should have the title as VCA Charge Capture', () => {    
     console.log("***********Verifying Page Title***********");
-    expect(cpSchedulerPage.pageTitle).toEqual('VCA Charge Capture');
+    expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
   });
 
   it('Should have the Pet Name as Lilly ', async () =>{
-    await expect(cpSchedulerPage.petName).toEqual('Lilly');
+    await expect(cpPetDetailsPage.petName).toEqual('Lilly');
   });
 
   it('Should have the Client Name as Chandra ', async () => {
-    await expect(cpSchedulerPage.clientName).toEqual('Chandra');
+    await expect(cpPetDetailsPage.clientName).toEqual('Chandra');
   });
 
   it('Should have the Species Name as Canine ', async () => {
-    await expect(cpSchedulerPage.speciesName).toEqual('Canine');
+    await expect(cpPetDetailsPage.speciesName).toEqual('Canine');
   });
 });
 
 describe('Verify the Category Details from the Scehduler Page', () => {
 
-  //let cpSchedulerPage =  new CarePlannerSchedulerPage();
+  let cpSchedulerPage =  new CarePlannerSchedulerPage();
   it('Should have the category count of 1',async () => {    
     await expect(cpSchedulerPage.categoryCount).toEqual(1);
   });
@@ -47,7 +48,7 @@ describe('Verify the Category Details from the Scehduler Page', () => {
 
 describe('Verify the Product Task Details from the Scheduler Page', () => {
 
-  //let cpSchedulerPage =  new CarePlannerSchedulerPage();
+  let cpSchedulerPage =  new CarePlannerSchedulerPage();
   
   it('Should have the Product Task Count of 4', async () => {
     await expect(cpSchedulerPage.productTaskListCount).toEqual(4);

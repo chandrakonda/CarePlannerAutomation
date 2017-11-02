@@ -1,4 +1,4 @@
-import { Config, browser } from "protractor";
+import { Config, browser,protractor } from "protractor";
 import { Reporter } from '../support/reporter';
 import {Appconfig} from '../config/appconfig';
 // var path = require('path');
@@ -12,7 +12,7 @@ export const config : Config ={
     chromeDriver : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
     seleniumArgs : [],
     seleniumPort : 4444,
-    baseUrl : " https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=yNEIp_d5k9Xlai7fCPaMMIwEa2y49ejDWM3l2JoPrPlhtAvbFe09znrrorh6ren8F-euh5fAy5rdZGAi53ai0XYEnKhKqA4ID6gEXPRDoQA4n6oUha4KwcvOOTzb8FWcuhdVuCT2qtW-jMqKQ_lli1jcjxVidxl9WI0NXXGUIM7Jd-3h3PoOzTUYZC-e4Fsj2XylAMD-doO8rFtOuprh3bI7bo7_fFmFC-XJYZZ_Vu6grYY0Y4ZTVOcSqXw7_hELReb_mA",
+    baseUrl : "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=YpFUu_H_Z_rA0bg90T16u06ATi0Xf_eqcxpsunkRz7ILm6siEX9TzH0BPIneCzMQ7uqUn5U7SuBQxB7eggj7dry4rlOeqdsslj8XzghPugkjZOdvd6ftDaAOzittDiMXOjDgAhAcClBOGLS14a258i0NXs1QR9csJNek1U8xAxeJHqjpGKDBT8DFiYwptsw6lVZ6z4Ef8l49GOdvb1MSR_2dBb9YM9HcfynJ4mGRnm88wqYQNPc8m_hkpo0dP2Io5RzFdQ",
 
     //elementExplorer : 
     
@@ -30,10 +30,10 @@ export const config : Config ={
             'args': ['disable-infobars']
         }
     },
-
+    
     framework:"jasmine",
 
-    specs:["../specs/**/smokeTestCases.spec.js"],
+    specs:["../specs/smokeTestCases.spec.js"],
 
     jasmineNodeOpts:{
         showColors:true,
@@ -48,6 +48,7 @@ export const config : Config ={
         console.log('************beforeLaunch*******************');
     },
 
+    
 
     onPrepare: () =>{
         //Adding Reporters to the execution
@@ -63,8 +64,8 @@ export const config : Config ={
         browser.ignoreSynchronization = false;               
         browser.waitForAngularEnabled(false);
         browser.manage().window().maximize();
-        browser.get("https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=4lQaJ0jw-5BpFThL4IcAVVCemF3AShcDIFBsCtQqj7mw2a-makDIqfB7L2KPjkjBLKo2LHN4xejg025ag8AxCiE_rG1qq_d0x0rrIwcQaYOeKqd0w2o3-X77p09EOHpUJ_G60WHj86-MpS2QJwGXniVWlFKLeLh4jbUFQBFStdy7FNT74SnwFTCuHMq3_KtOvGYp3XfDh8X3C61lpEejcvgpSpGeI4heDhGjO4GgPbBASIClXkx_s8iCx8h-bqWA3a3MxQ");
-        // browser.manage().timeouts().implicitlyWait(50000);
+        // browser.get("https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=4lQaJ0jw-5BpFThL4IcAVVCemF3AShcDIFBsCtQqj7mw2a-makDIqfB7L2KPjkjBLKo2LHN4xejg025ag8AxCiE_rG1qq_d0x0rrIwcQaYOeKqd0w2o3-X77p09EOHpUJ_G60WHj86-MpS2QJwGXniVWlFKLeLh4jbUFQBFStdy7FNT74SnwFTCuHMq3_KtOvGYp3XfDh8X3C61lpEejcvgpSpGeI4heDhGjO4GgPbBASIClXkx_s8iCx8h-bqWA3a3MxQ");
+        browser.manage().timeouts().implicitlyWait(50000);
     },
 
     onComplete: () => {
