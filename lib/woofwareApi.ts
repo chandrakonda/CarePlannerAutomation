@@ -1,3 +1,4 @@
+//'use strict';
 import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
 var request = require('request');
 
@@ -15,15 +16,19 @@ export class WWApiCalls{
             });
             // console.log('API Failed with error: '+error);
           } else {
+            console.log(defer.promise)
             console.log('statuscode: ', response.statusCode);
             console.log('body: ', body);
-            defer.fulfill(JSON.parse(body));
+            //defer.fulfill(JSON.parse(body));
+            defer.fulfill(body);
           }
-        });
-        return defer.promise;
+        })
+        console.log("***********promise is fulfilled");
+       return defer.promise;
+       //return "welcome";
   }
-
-  getAuthToken() {
+  
+   getAuthToken() {
     console.log("getting auth token");
     var options = { method: 'POST',
       url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token',
@@ -33,11 +38,13 @@ export class WWApiCalls{
          authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
          'content-type': 'application/x-www-form-urlencoded' },
       form: { grant_type: 'client_credentials' } };
-    let api = new WWApiCalls();
-    return api.makeRequest(options);
+      let api = new WWApiCalls();
+    //return api.makeRequest(options);
+
+    return api.makeRequest(options);  // this is throwing error
   }
 
-  createClient(token: String) {
+  public createClient() {
     console.log('creating client');
     var options = { method: 'POST',
       url: 'https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/Clients',
@@ -52,7 +59,7 @@ export class WWApiCalls{
          applicationname: 'Retriever',
          username: 'PTM-WebApp-qa',
          'x-hospital-id': '153',
-         authorization: 'bearer '+token },
+         authorization: 'bearer TEpdV-u6cquITUixTODkZ9t-7ZG8luIvHV3ekb1UlvZz5QwXu7Ux4Hrlg3_YK4lAif_uoJKPplPWhr_gvGViujJT3k51Hqjav88nwTv8pJ5aPxO7aPlKOGruYqhuDd3pU8e81RT71eQAeucODnQjpLuGFjyu50EPPrEWA0HL6tesT2dTuHozfpOjWF43OM-QpHlUM4-XSrMrLlnV8KJn2wz7e_DwyAwp9z1ISpLwf0IW1DCTtTtntqPrQh0wF82FBRMLIw' },
       body:
        { ClientId: 0,
          HospitalId: 153,
@@ -75,6 +82,6 @@ export class WWApiCalls{
       console.log('Options: '+options.headers.authorization);
       let api = new WWApiCalls();
       return api.makeRequest(options);
-  }
+    }
 
 }
