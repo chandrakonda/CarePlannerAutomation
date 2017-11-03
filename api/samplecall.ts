@@ -2,7 +2,7 @@ import { protractor,error } from 'protractor';
 //import { $ } from '../node_modules/jquery/dist/jquery';
 import * as jQuery from 'jquery';
 
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -30,35 +30,35 @@ export function getToken2() {
 
 
 
-export function getToken3() {
+// export function getToken3() {
 
-    var url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token';
-    jQuery.$
-    // var options = { method: 'POST',
-    // url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token',
-    // headers:
-    //  { //'postman-token': 'dd5b6efc-fe55-4760-20e9-3b75184a8038',
-    //    'cache-control': 'no-cache',
-    //    authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
-    //    'content-type': 'application/x-www-form-urlencoded' },
-    // form: { grant_type: 'client_credentials' } };
+//     var url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token';
+//     jQuery.$
+//     // var options = { method: 'POST',
+//     // url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token',
+//     // headers:
+//     //  { //'postman-token': 'dd5b6efc-fe55-4760-20e9-3b75184a8038',
+//     //    'cache-control': 'no-cache',
+//     //    authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
+//     //    'content-type': 'application/x-www-form-urlencoded' },
+//     // form: { grant_type: 'client_credentials' } };
 
     
-    $.ajax({
-        url: url,
-        beforeSend: {
+//     $.ajax({
+//         url: url,
+//         beforeSend: {
 
-                'cache-control': 'no-cache',
-                authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
-                'content-type': 'application/x-www-form-urlencoded' 
-        },
-        success: function( result ) {
-         console.log(result);
-        }
-       // error: 
-      });
+//                 'cache-control': 'no-cache',
+//                 authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
+//                 'content-type': 'application/x-www-form-urlencoded' 
+//         },
+//         success: function( result ) {
+//          console.log(result);
+//         }
+//        // error: 
+//       });
     
-}
+// }
        
      
 //     return val;

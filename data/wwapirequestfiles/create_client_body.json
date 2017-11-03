@@ -1,0 +1,40 @@
+{
+  "method": "POST",
+  "url": "",
+  "qs": {
+    "ignoreDuplicateAddress": "true",
+    "validateAddress": "false",
+    "ignoreDuplicatePhone": "true"
+  },
+  "headers": {
+    "cache-control": "no-cache",
+    "content-type": "application/json",
+    "applicationname": "Retriever",
+    "username": "PTM-WebApp-qa",
+    "x-hospital-id": "153",
+    "authorization": ""
+  },
+  "body": {
+    "ClientId": 0,
+    "HospitalId": 153,
+    "FirstName": "Steve_1491610122703",
+    "LastName": "Rogers_1491610122703",
+    "IsCorporateClient": false,
+    "StatusId": 1,
+    "ClientPhones": [
+      {
+        "PhoneId": 0,
+        "PhoneLabel": "Home",
+        "ClientId": 0,
+        "PhoneNumber": "8052343967",
+        "IsPrimaryContact": true,
+        "HospitalId": 153,
+        "PhoneTypeId": 1,
+        "OptInStatusId": 1,
+        "OptInStatusChangedDate": "2017-04-08T00:08:42.703Z",
+        "IsMobileNumber": true
+      }
+    ]
+  },
+  "json": true
+}

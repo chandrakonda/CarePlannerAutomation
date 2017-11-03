@@ -4,7 +4,7 @@ import { CarePlannerSchedulerPage } from '../pages/carePlanner/cpScheduler.page'
 import { CarePlannerPetDetails } from '../pages/carePlanner/cpPetdetails.page';
 var request = require('request');
 import { WWApiCalls } from '../lib/woofwareApiCall';
-import { getToken3 } from '../api/samplecall';
+
 
 let cpSchedulerPage, cpPetDetailsPage;
 
@@ -49,6 +49,30 @@ describe('Verify the Careplanner Scheduler Page', () => {
         browser.patientID = response;
         console.log("************Second client response ***************" + browser.patientID);
       });
+
+       //Create a new appointment for patient
+    flow.execute(api.createNewAppointment).then(function (response) {
+      console.log("--- Creating a new appointment...  ----------"); 
+      console.log(JSON.stringify(response));
+      browser.appointmentID = response['AppointmentId'];
+      console.log("Appointment ID: " + browser.appointmentID);
+    });
+
+    //Check appointment in
+    flow.execute(api.checkInAppointment).then(function (response) {
+      console.log("--- Checking in the appointment...  ----------");
+      console.log(JSON.stringify(response));
+      // browser.appointmentID = response['AppointmentId'];
+      // console.log("Appointment ID: " + browser.appointmentID);
+    });  
+
+    //launch browser
+    flow.execute(() => {
+      console.log('************Launching browser*************')
+      cpPetDetailsPage = new CarePlannerPetDetails()
+      browser.get(browser.baseUrl+browser.token);
+      browser.sleep(3000);
+    });
     });
   });
 
