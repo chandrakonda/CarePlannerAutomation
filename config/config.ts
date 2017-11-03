@@ -1,6 +1,7 @@
 import { Config, browser,protractor } from "protractor";
 import { Reporter } from '../support/reporter';
 import {Appconfig} from '../config/appconfig';
+import { ReadAppConfig } from "./appconfig - Copy";
 // var path = require('path');
 // var HtmlReporter = require('protractor-beautiful-reporter');
 
@@ -33,7 +34,7 @@ export const config : Config ={
     
     framework:"jasmine",
 
-    specs:["../specs/apiTestCasesCall.spec.js"],
+    specs:["../specs/firstSampleTest.spec.js"],
 
     jasmineNodeOpts:{
         showColors:true,
@@ -46,6 +47,8 @@ export const config : Config ={
 
     beforeLaunch: () => {
         console.log('************beforeLaunch*******************');
+       // var path = require('path');
+        
     },
 
     
@@ -56,8 +59,12 @@ export const config : Config ={
         //Reporter.addSpecReporter();
         //Reporter.addHTMLReporter();
         // Add a screenshot reporter:
-        
-        let configvalues: Appconfig = require("C:/Workingdirectory/Vca/Protractor/Careplannernew/protractor_jasmine_typescript/config/appconfig.json");
+        var path = require('path');
+        browser.path = path;
+       // var configfilepath = browser.path.join(__dirname,'..\\..\\config\\appconfig.json');
+       let appenvdetails : ReadAppConfig.AppConfig =   ReadAppConfig.LoadConfigAndGetEnvironment();
+       browser.appenvdetails = appenvdetails;
+        let configvalues: Appconfig = require(browser.path.join(__dirname,'..\\..\\config\\appconfig.json'));
         browser.jsonconfig = configvalues;
         
         browser.allScriptsTimeout=99999;

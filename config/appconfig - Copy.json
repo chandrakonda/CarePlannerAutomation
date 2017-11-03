@@ -1,72 +1,96 @@
 {
-	"applicationurl": "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160619&orderId=471563537&userName=chandrasekhar.konda&userId=0&accessToken=RzPt5HiYVxAbTbmeMFRqayITBFzfcpLaNYWYqkQTUZeulULr4G-RvychsA4y6rItG5sfQjtvUXf_nB7aV8cIZGrNwRhSYY2XEe3DlsjjhkSAFESMgZDwquODH6sehZG2jJIoDtj1g91qaPmkGEsKf3JLLuQW14l6uIJ_BNe0Lfy4JB3x3E8MROiOlomTvhN9o1Zcczj7WxYUMkaDITJRVoF_-33xLHoXhVg0xM4HEWZZG82V9nmkmWZILk_J76Q5ubCjhg",
-	"environment": "qa",
-	"server": "ns02",
-	"apiendpoint": "http://apiendpoint",
-	"environmentcollection": [
-		{
-			"qa": [
-				{
-					"authorizationurl":"endpoint",
-					"nso2": {
-						"severname": "ns02",
-						"apiendpoint": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint",
-						"hospitalid" : 123
-						
-					},
-					"nso3": {
-						"apiendpoint": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint",
-						"hospitalid" : 123
-					},
-					"nso4": {
-						"apiendpoint": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint",
-						"hospitalid" : 123
-					}
-				}
-			],
-			"UAT": [
-				{
-					"nso2": {
-						"severname": "ns02",
-						"apiendpoint": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint"
-					},
-					"nso3": {
-						"apiendpoint": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint"
-					},
-					"nso4": {
-						"apiendpoint": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint"
-					}
-				}
-			],
-			"PRODUAT": [
-				{
-					"nso2": {
-						"severname": "ns02",
-						"apiendpoint": "https://apiendpoint",
-						"username": "https://apiendpoint",
-						"password": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint"
-					},
-					"nso3": {
-						"apiendpoint": "https://apiendpoint",
-						"username": "https://apiendpoint",
-						"password": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint"
-					},
-					"nso4": {
-						"apiendpoint": "https://apiendpoint",
-						"username": "https://apiendpoint",
-						"password": "https://apiendpoint",
-						"applicationurl": "https://apiendpoint"
-					}
-				}
-			]
-		}
-	]
+    "applicationurl": "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160619&orderId=471563537&userName=chandrasekhar.konda&userId=0&accessToken=RzPt5HiYVxAbTbmeMFRqayITBFzfcpLaNYWYqkQTUZeulULr4G-RvychsA4y6rItG5sfQjtvUXf_nB7aV8cIZGrNwRhSYY2XEe3DlsjjhkSAFESMgZDwquODH6sehZG2jJIoDtj1g91qaPmkGEsKf3JLLuQW14l6uIJ_BNe0Lfy4JB3x3E8MROiOlomTvhN9o1Zcczj7WxYUMkaDITJRVoF_-33xLHoXhVg0xM4HEWZZG82V9nmkmWZILk_J76Q5ubCjhg",
+    "environment": "Qa",
+    "server": "ns02",
+    "apiendpoint": "http://apiendpoint",
+    "hospitalid" : 125,
+    "runtimeenvironment" : "will be set in runtime",
+    "environmentcollection": {
+        "Qa": [
+             {
+                "severname": "ns02",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 123,
+                "authorizationurl" : "auth end point"
+            },
+             {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 124,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            },
+             {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 125,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            }
+        ],
+        "UAT": [
+            {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 124,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            },
+            {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 125,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            },
+            {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 126,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            }
+        ],
+        "Staging": [
+            {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 127,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            },
+            {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 128,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            },
+            {
+                "severname": "ns02",
+                "apiendpoint": "https://apiendpoint",
+                "applicationurl": "https://apiendpoint",
+                "hospitalid": 129,
+                "authorizationurl" : "auth end point",
+                "wwapiendpoint": "https://apiendpoint",
+                "cloudapiendpoint": "https://apiendpoint"
+            }
+        ]
+    }
 }

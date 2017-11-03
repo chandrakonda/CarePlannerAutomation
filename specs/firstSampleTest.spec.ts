@@ -1,21 +1,36 @@
 import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
 import { CarePlannerSchedulerPage } from '../pages/carePlanner/cpScheduler.page';
 import { CarePlannerPetDetails } from '../pages/carePlanner/cpPetdetails.page';
-
+import {ReadAppConfig} from '../config/appconfig - Copy';
 
 describe(' pending Verify the Careplanner Scheduler Page 2', () => {
   
     it("pending spec", async () =>{
      // browser.get(browser.baseUrl.toString());
-      browser.pause();
+      
+       //let configvalues : readconfig.AppConfig = require(__dirname+'../config/appconfig - Copy.json');
+       //var path = require('path');
+      
+       //var fpath = browser.path.join(__dirname,'..\\..\\config\\appconfig - Copy.json')
+       
+      //  let configvalues : ReadAppConfig.AppConfig = require(browser.path.join(__dirname,'..\\..\\config\\appconfig - Copy.json'));
+      //  console.log(configvalues);
+       
+      //  let envlist: ReadAppConfig.EnvironmentDetails[] = configvalues.environmentcollection[configvalues.environment];
+     
+      //  var val = envlist.filter(env => env.hospitalid == configvalues.hospitalid );
+      let appenvdetails : ReadAppConfig.AppConfig =   ReadAppConfig.LoadConfigAndGetEnvironment();
+      
+       
+       
+       
+      //  let col1 :readconfig.EnvironmentDetails ;
+      // for (let col1 of envcoll)
+      // {
+      //   console.log(col1);
+      // }
+      
 
-      element.all(by.xpath(".//div[starts-with(@class,'wj-cell wj')]//div[@class='task-table']/descendant::div[@class='itemname']")).then(function(icons1){
-        console.log(icons1.length);
-        for (var i = 0; i < icons1.length; i++) {
-        icons1[i].getText().then(function (txt) {
-          console.log(txt)
-        });
-      }
       });
      //var eleclientName1 = browser.driver.findElements(by.xpath(".//div[starts-with(@class,'wj-cell wj')]//div[@class='task-table']/descendant::div[@class='itemname']"));
      
@@ -25,7 +40,7 @@ describe(' pending Verify the Careplanner Scheduler Page 2', () => {
       // console.log(browser.jsonconfig.username);
       // console.log(browser.jsonconfig.applicationurl);
       // console.log(browser.jsonconfig.apiendpoint);
-      console.log("pending spec is tested");
+      
     });
   
     // it("pending spec 1", async () =>{
@@ -39,7 +54,7 @@ describe(' pending Verify the Careplanner Scheduler Page 2', () => {
     // it("pending spec 3", async () =>{
     //   console.log("pending spec is tested");
     // });
-  });
+
 
 
 // describe('Verify the Careplanner Scheduler Page 1', () => {
