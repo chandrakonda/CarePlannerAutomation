@@ -18,8 +18,6 @@
   "author": "Prabu Ramaraj",
   "license": "ISC",
   "dependencies": {
-    "@angular/common": "^5.0.0",
-    "@angular/platform-browser": "^5.0.0",
     "@types/jasmine": "^2.6.2",
     "@types/jasminewd2": "^2.0.3",
     "@types/node": "^8.0.47",

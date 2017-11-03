@@ -44,6 +44,8 @@ export class WWApiCalls {
         // console.log('API Failed with error: '+error);
       } else {
         defer.fulfill(body.Data);
+        
+
       }
     });
     return defer.promise;

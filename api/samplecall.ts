@@ -1,45 +1,64 @@
-// import { protractor,error } from 'protractor';
-// import { $ } from 'jquery';
+import { protractor,error } from 'protractor';
+//import { $ } from '../node_modules/jquery/dist/jquery';
+import * as jQuery from 'jquery';
+
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+
+//var request = require('request');
+
+export function getToken2() {
+    var val;
+    var defer = protractor.promise.defer();
+
+    var options = { method: "POST", url: "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token", headers: { //'postman-token': 'dd5b6efc-fe55-4760-20e9-3b75184a8038',
+    "cache-control": "no-cache", authorization: "Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=", "content-type": "application/x-www-form-urlencoded" }, form: { grant_type: "client_credentials" } };
+    var request1 = require('request-promise');
+    request1(options)
+    .then(function (body) {
+      var valstatus = JSON.parse(body);
+      defer.fulfill(JSON.parse(body).access_token);
+      console.log(valstatus);
+
+    });
 
 
-// import { Http, Response, Headers, RequestOptions } from '@angular/http';
-// import { Observable } from 'rxjs/Observable';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/catch';
+    //return options;
+}
 
 
-// var request = require('request');
 
-// export function getToken2() {
-//     var val;
-//     var request1 = require('request-promise');
-//     var options = {
-//         token: null,
+export function getToken3() {
 
-//         method: 'POST',
-//         uri: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token',
-//         json: true,
-//         headers:
-//         { //'postman-token': 'dd5b6efc-fe55-4760-20e9-3b75184a8038',
-//             'cache-control': 'no-cache',
-//             authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
-//             'content-type': 'application/x-www-form-urlencoded'
-//         },
-//        // form: { grant_type: 'client_credentials' }
+    var url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token';
+    jQuery.$
+    // var options = { method: 'POST',
+    // url: 'https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token',
+    // headers:
+    //  { //'postman-token': 'dd5b6efc-fe55-4760-20e9-3b75184a8038',
+    //    'cache-control': 'no-cache',
+    //    authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
+    //    'content-type': 'application/x-www-form-urlencoded' },
+    // form: { grant_type: 'client_credentials' } };
 
-//     }
+    
+    $.ajax({
+        url: url,
+        beforeSend: {
 
-//     request1(options)
-//     .then(function (body){
-//        // val = body;
-//         //process(body);
-//          console.log(body);
-//          //console.log(error);
-//        //  console.log(response);
-//     })
-//     .catch(function (err) {
-//         console.log(err);
-//     });
+                'cache-control': 'no-cache',
+                authorization: 'Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=',
+                'content-type': 'application/x-www-form-urlencoded' 
+        },
+        success: function( result ) {
+         console.log(result);
+        }
+       // error: 
+      });
+    
+}
        
      
 //     return val;
