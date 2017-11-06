@@ -13,7 +13,6 @@ export const config : Config ={
     chromeDriver : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
     seleniumArgs : [],
     seleniumPort : 4444,
-    //baseUrl : "",
 
     //elementExplorer : 
     
@@ -64,9 +63,8 @@ export const config : Config ={
        // var configfilepath = browser.path.join(__dirname,'..\\..\\config\\appconfig.json');
        let appenvdetails : ReadAppConfig.AppConfig =   ReadAppConfig.LoadConfigAndGetEnvironment();
        browser.appenvdetails = appenvdetails;
-        let configvalues: Appconfig = require(browser.path.join(__dirname,'..\\..\\config\\appconfig.json'));
+        let configvalues: Appconfig = require(path.join(__dirname,'..\\..\\config\\appconfig.json'));
         browser.jsonconfig = configvalues;
-        
         browser.allScriptsTimeout=99999;
         browser.ignoreSynchronization = false;               
         browser.waitForAngularEnabled(false);
@@ -74,6 +72,7 @@ export const config : Config ={
         // browser.get("https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=4lQaJ0jw-5BpFThL4IcAVVCemF3AShcDIFBsCtQqj7mw2a-makDIqfB7L2KPjkjBLKo2LHN4xejg025ag8AxCiE_rG1qq_d0x0rrIwcQaYOeKqd0w2o3-X77p09EOHpUJ_G60WHj86-MpS2QJwGXniVWlFKLeLh4jbUFQBFStdy7FNT74SnwFTCuHMq3_KtOvGYp3XfDh8X3C61lpEejcvgpSpGeI4heDhGjO4GgPbBASIClXkx_s8iCx8h-bqWA3a3MxQ");
         browser.manage().timeouts().implicitlyWait(50000);
         browser.baseUrl=browser.jsonconfig.applicationurl;
+        
     },
 
     onComplete: () => {

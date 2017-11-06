@@ -8,15 +8,16 @@
     "environmentcollection": {
         "Qa": [
              {
-                "severname": "ns02",
-                "wwapiendpoint": "https://apiendpoint",
+                "servername": "hcorpqa-ns02",
+                "hospitalid": 153,
+                "applicationurl" : "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture/?hospitalId=153&patientId=314759968&orderId=472962733&userName=Josh.Chezum&userId=246000242&accessToken=",
                 "cloudapiendpoint": "https://apiendpoint",
-                "applicationurl": "https://apiendpoint",
-                "hospitalid": 123,
-                "authorizationurl" : "auth end point"
+                "wwapiendpoint":"https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
+                "authorizationurl" : "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
+                "clientsapiendpoint":"https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/Clients"
             },
              {
-                "severname": "ns02",
+                "severname": "lapmsqa-ns04",
                 "apiendpoint": "https://apiendpoint",
                 "applicationurl": "https://apiendpoint",
                 "hospitalid": 124,
@@ -25,7 +26,7 @@
                 "cloudapiendpoint": "https://apiendpoint"
             },
              {
-                "severname": "ns02",
+                "severname": "ns04",
                 "apiendpoint": "https://apiendpoint",
                 "applicationurl": "https://apiendpoint",
                 "hospitalid": 125,

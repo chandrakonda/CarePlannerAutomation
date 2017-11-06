@@ -2,14 +2,6 @@ import { $, browser, element, by, By, ExpectedConditions } from "protractor";
 
 export class CarePlannerPetDetails {
 
-  // ToDO: 
-  // We need to implement try catch.
-  // Need to implement log file.
-  // more information need to add more file.
-
-
-
-
   // Page elements ////////////////////////
   //eletmp = browser.driver.findElement(by.xpath("test"));
   eleclientName = element(by.xpath(".//div[@class='petname']/following-sibling::span"));
