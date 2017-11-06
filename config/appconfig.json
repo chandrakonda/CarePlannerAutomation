@@ -4,11 +4,7 @@
 	"hospitalId" : 153,
 	"applicationurl" : "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture/?hospitalId=153&patientId=314759968&orderId=472962733&userName=Josh.Chezum&userId=246000242&accessToken=",
 	"authorizationURL": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
-	"WWApiEndpoint":"https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
-	"clientsAPIEndpoint":"https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/Clients"
-
-
-
+	"WWApiEndpoint":"https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/"
 }
 
 
