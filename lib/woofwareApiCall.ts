@@ -39,7 +39,7 @@ export class WWApiCalls {
   getAuthToken() {
     console.log("******************getting auth token******************");
     var options = {
-      method: "POST", url: "",
+      method: "POST", url:"",
       headers: {
         "cache-control": "no-cache",
         authorization: "Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=",
@@ -54,6 +54,9 @@ export class WWApiCalls {
     else if (browser.jsonconfig.environment == "Staging") {
       options.url = browser.jsonconfig.authorizationURL;
     }
+    // Set auth URL when we set options 
+   //browser.appenvdetails.runtimeenvironment.authorizationurl = options.url ;
+
     var api = new WWApiCalls();
     return api.makeAuthRequest(options);
   }

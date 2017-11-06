@@ -61,10 +61,10 @@ export const config : Config ={
         var path = require('path');
         browser.path = path;
        // var configfilepath = browser.path.join(__dirname,'..\\..\\config\\appconfig.json');
-       let appenvdetails : ReadAppConfig.AppConfig =   ReadAppConfig.LoadConfigAndGetEnvironment();
+       let appenvdetails : ReadAppConfig.AppConfig =  ReadAppConfig.LoadConfigAndGetEnvironment();
        browser.appenvdetails = appenvdetails;
-        let configvalues: Appconfig = require(path.join(__dirname,'..\\..\\config\\appconfig.json'));
-        browser.jsonconfig = configvalues;
+        // let configvalues: Appconfig = require(path.join(__dirname,'..\\..\\config\\appconfig.json'));
+        // browser.jsonconfig = configvalues;
         browser.allScriptsTimeout=99999;
         browser.ignoreSynchronization = false;               
         browser.waitForAngularEnabled(false);
