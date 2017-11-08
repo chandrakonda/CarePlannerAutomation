@@ -7,12 +7,12 @@ import { ReadAppConfig } from "./appconfig - Copy";
 
 export const config : Config ={
 
-    //seleniumAddress: 'http://localhost:4444/wd/hub',
+    seleniumAddress: 'http://localhost:4444/wd/hub',
     // Starting selenium server
-    seleniumServerJar : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar",
-    chromeDriver : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
-    seleniumArgs : [],
-    seleniumPort : 4444,
+    // seleniumServerJar : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar",
+    // chromeDriver : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
+    // seleniumArgs : [],
+    // seleniumPort : 4444,
 
     //elementExplorer : 
     
@@ -33,7 +33,7 @@ export const config : Config ={
     
     framework:"jasmine",
 
-    specs:["../specs/firstSampleTest.spec.js"],
+    specs:["../specs/testPatientHeader.spec.js"],
 
     jasmineNodeOpts:{
         showColors:true,
@@ -50,29 +50,23 @@ export const config : Config ={
         
     },
 
-    
-
     onPrepare: () =>{
         //Adding Reporters to the execution
         Reporter.addBeautifulHTMLReporter();
-        //Reporter.addSpecReporter();
-        //Reporter.addHTMLReporter();
-        // Add a screenshot reporter:
+        
         var path = require('path');
-        browser.path = path;
-       // var configfilepath = browser.path.join(__dirname,'..\\..\\config\\appconfig.json');
-       let appenvdetails : ReadAppConfig.AppConfig =  ReadAppConfig.LoadConfigAndGetEnvironment();
-       browser.appenvdetails = appenvdetails;
-        // let configvalues: Appconfig = require(path.join(__dirname,'..\\..\\config\\appconfig.json'));
-        // browser.jsonconfig = configvalues;
+        browser.path = path;        
+
+        let appenvdetails : ReadAppConfig.AppConfig =  ReadAppConfig.LoadConfigAndGetEnvironment();
+        browser.appenvdetails = appenvdetails;
+
         browser.allScriptsTimeout=99999;
         browser.ignoreSynchronization = false;               
         browser.waitForAngularEnabled(false);
         browser.manage().window().maximize();
-        // browser.get("https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=4lQaJ0jw-5BpFThL4IcAVVCemF3AShcDIFBsCtQqj7mw2a-makDIqfB7L2KPjkjBLKo2LHN4xejg025ag8AxCiE_rG1qq_d0x0rrIwcQaYOeKqd0w2o3-X77p09EOHpUJ_G60WHj86-MpS2QJwGXniVWlFKLeLh4jbUFQBFStdy7FNT74SnwFTCuHMq3_KtOvGYp3XfDh8X3C61lpEejcvgpSpGeI4heDhGjO4GgPbBASIClXkx_s8iCx8h-bqWA3a3MxQ");
+
         browser.manage().timeouts().implicitlyWait(50000);
-        browser.baseUrl=browser.jsonconfig.applicationurl;
-        
+        browser.baseUrl=browser.appenvdetails.runtimeenvironment.applicationurl;
     },
 
     onComplete: () => {
