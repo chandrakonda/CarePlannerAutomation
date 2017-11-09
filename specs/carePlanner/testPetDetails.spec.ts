@@ -1,21 +1,24 @@
 import { AppointmentController } from '../../lib/apiControllers/appointmentController';
 import { AuthController } from '../../lib/apiControllers/authController';
 import { ClientAndPatientController } from '../../lib/apiControllers/clientAndPatientController';
+import { VisitController } from '../../lib/apiControllers/visitController';
 import { browser, protractor } from 'protractor';
 
 
 let cpSchedulerPage, cpPetDetailsPage;
-let authController, clientAndPatientController, appointmentController;
+//let authController, clientAndPatientController, appointmentController;
 
 describe('Verify the Patient Header has accurate Patient and Visit information', () => {
 
     beforeAll(() => {
-        authController = new AuthController();
-        clientAndPatientController = new ClientAndPatientController();
-        appointmentController = new AppointmentController();
+        //console.log("before all");
+        let authController : AuthController = new AuthController();
+        let clientAndPatientController : ClientAndPatientController = new ClientAndPatientController();
+        let appointmentController :AppointmentController = new AppointmentController();
+        let visitController :VisitController = new VisitController();
 
         var flow = protractor.promise.controlFlow();
-
+        
         //Creating a Auth Token
         flow.execute(authController.getAuthToken).then((response) => {
             console.log("--- Getting Basic Auth token...  ----------");
@@ -24,6 +27,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
             console.log("Bearer token: " + browser.bearerToken);    
         });
 
+       
         //Create a Client
         flow.execute(clientAndPatientController.createClient).then((response) => {
             console.log("--- Creating a new client...  ----------");
@@ -31,6 +35,14 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
             browser.clientID = response['ClientId'];
             console.log("ClientId: " + browser.clientID);
             console.log("Client name: " + response['FirstName'] + ' '+ response['LastName']);
+        });
+        // Create patient
+        flow.execute(clientAndPatientController.createPatient).then((response) => {
+            console.log("--- Creating a new client...  ----------");
+            console.log(JSON.stringify(response));            
+            browser.patientID = response;
+            console.log("PatientId: " + browser.patientID);
+           
         });
 
         //Create a new appointment for patient
@@ -54,6 +66,39 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
             console.log(JSON.stringify(response));
             browser.visitId = response[0].VisitId;
         });
+
+        // Get resource id to form care planner URL 
+        flow.execute(visitController.getVisitResources).then(function (response) {
+            console.log("--- Getting User Id...  ----------");
+            // console.log(JSON.stringify(response));
+      
+            for (let i in response){
+                // console.log(response[i]);
+                let user = response[i];
+                if (user['ADusername']==browser.appenvdetails.username){
+                    console.log('UserId: ',user['ResourceId']);
+                    browser.userId=user['ResourceId'];
+                }
+            }
+        });
+
+        // Form URL to navigate to Careplanner
+        flow.execute(() => {
+            console.log("\n*********** Launching Browser ***********");
+            console.log("--- Creating URL and launching browser...  ----------");
+            var url = browser.baseUrl+
+                      '?hospitalId='+browser.appenvdetails.hospitalid+
+                      '&patientId='+browser.patientID+
+                      '&orderId='+browser.visitId+
+                      '&userName='+browser.appenvdetails.username+
+                      '&userId='+browser.userId+
+                      '&accessToken='+browser.token;
+            console.log('URL: ',url);
+            browser.get(url);
+          //   browser.sleep(3000);
+      
+            console.log("\n*********** Executing Tests ***********");
+          });        
 
     });
 

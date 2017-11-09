@@ -10,7 +10,8 @@ export class AuthController{
     constructor(){
         // this.apiServices = new AuthServices();
         // this.options = require(path.join(__dirname, '..//..//..//data//jsonObject//authToken.json'));
-        // this.options.url = browser.appenvdetails.authorizationurl;           
+        // this.options.url = browser.appenvdetails.authorizationurl;     
+        console.log("test")      ;
     }
 
     // getAuthToken() {
@@ -24,7 +25,7 @@ export class AuthController{
     // }
 
     getAuthToken(){
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObject//authToken.json'));
+        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//authToken.json'));
         options.url = browser.appenvdetails.authorizationurl;          
         console.log("\n*********** Getting Auth Token ***********");
         let apiServices = new CarePlannerApiServices();

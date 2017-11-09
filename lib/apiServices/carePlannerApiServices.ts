@@ -23,6 +23,7 @@ export class CarePlannerApiServices{
       request(options, function (error, response, body) {
         var result;
         result = body;
+        console.log(body);
         if (error || body.statusCode >= 400) {
           defer.reject({ error: error, message: body });
         } else {

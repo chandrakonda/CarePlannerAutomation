@@ -5,7 +5,9 @@ import * as moment from 'moment';
 
 export class AppointmentController{
 
-    constructor(){}
+    constructor(){
+        console.log("AppointmentController");
+    }
 
     createNewAppointment(){
         console.log("\n*********** Create New Appointment ***********");
@@ -15,15 +17,15 @@ export class AppointmentController{
         var endtime = moment().subtract(4,'hours').toISOString();
     
         //Set URL
-        options.url = browser.appenvdetails.runtimeenvironment.wwapiendpoint + 'Appointments';
+        options.url = browser.appenvdetails.wwapiendpoint + 'Appointments';
     
         //Set header values
-        options.headers['x-hospital-id']=browser.appenvdetails.runtimeenvironment.hospitalId;
+        options.headers['x-hospital-id']=browser.appenvdetails.hospitalid;
         options.headers.authorization = browser.bearerToken;
     
         //Set body data
         options.body.ClientId = browser.clientID;
-        options.body.HospitalId = browser.appenvdetails.runtimeenvironment.hospitalId;
+        options.body.HospitalId = browser.appenvdetails.hospitalid;
         options.body.PetAppointments[0].PatientId = browser.patientID;
         options.body.PetAppointments[0].StartTime = startTime;
         options.body.PetAppointments[0].EndTime = endtime;
@@ -37,37 +39,37 @@ export class AppointmentController{
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//checkInAppointment.json'));
     
         //Set URL
-        options.url = browser.appenvdetails.runtimeenvironment.wwapiendpoint + 'CheckInAppointment';
+        options.url = browser.appenvdetails.wwapiendpoint + 'CheckInAppointment';
     
         //Set qs values
         options.qs.appointmentId = browser.appointmentID.toString();
         options.qs.isMergeMedicalNote = "false";
     
         //Set header values
-        options.headers['x-hospital-id']=browser.appenvdetails.runtimeenvironment.hospitalId.toString();
+        options.headers['x-hospital-id']=browser.appenvdetails.hospitalid.toString();
         options.headers.authorization = browser.bearerToken;
     
         console.log("Options: " + options.qs.appointmentId);
-        
+        console.log(options);
         let apiServices = new CarePlannerApiServices();
         return apiServices.postRequest(options);
     }
 
-    checkedInPatientDetails(){
+    getCheckedInPatientDetails(){
         console.log('\n*********** Getting visit details ***********');
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//checkedInPatientDetails.json'));
     
         //Set URL
-        options.url = browser.appenvdetails.runtimeenvironment.wwapiendpoint + 'CheckedInPatients';
+        options.url = browser.appenvdetails.wwapiendpoint + 'CheckedInPatients';
         
         //Set qs values
         options.qs.patientId = browser.patientID.toString();
         options.qs.IncludeOrderItemList = 'true';
     
         //Set header values
-        options.headers['x-hospital-id']=browser.appenvdetails.runtimeenvironment.hospitalId.toString();
+        options.headers['x-hospital-id']=browser.appenvdetails.hospitalid.toString();
         options.headers.authorization = browser.bearerToken;
-    
+        console.log(options);
         let apiServices = new CarePlannerApiServices();
         return apiServices.postRequest(options);  
     }
