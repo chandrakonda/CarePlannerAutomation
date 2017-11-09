@@ -3,8 +3,16 @@ Tasks To Do - 11022017
 
 ****************************************************************************
 Frameworkimplementation
-1. Need to implement log file.
+
+1. Need to implement log file. 
+    - We found log4js module, which we will use for implementation. 
 2. Exception handling in framework
+    - this will be done along with log. 
+3. Need to defind on global variables for entire framework.
+       1. Which can store responses from requests. 
+       2. Which holds results of test cases. 
+       3. Other global values needed during run time.
+4. Email service
 
 ****************************************************************************
 TestBed:

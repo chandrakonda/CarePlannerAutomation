@@ -24,6 +24,7 @@ export namespace ReadAppConfig {
         authorizationurl: string;
         wwapiendpoint: string;
         cloudapiendpoint:string;
+        username: string;
     }
 
     class Environmentcollection {
