@@ -16,7 +16,13 @@ TestBed:
 Framework deployment
 
 1. Need deployment script
-2. Set up environment variables
+    script should:
+        grab code from git/tfs (?)
+        run npm install
+        configure any environment variables needed
+        ensure test user account exists in database as a resource (and create it if it does not) 
+        PTM-WebApp-QA user needs to be a DVM/OfficeManager on the hospital
+        
 
 ****************************************************************************
 API - 11022017

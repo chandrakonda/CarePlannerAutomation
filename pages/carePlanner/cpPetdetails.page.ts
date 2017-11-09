@@ -40,7 +40,7 @@ export class CarePlannerPetDetails {
   get pageTitle(): any {
     try {
       return browser.getTitle().then(function (title) {
-        console.log("Page title is "+title);
+        // console.log("Page title is "+title);
         return title;
       });
     }catch (error) {
@@ -51,7 +51,7 @@ export class CarePlannerPetDetails {
   get clientName(): any {
     try {
       return this.eleclientName.getText().then(function(clientname){
-        console.log("Page title is "+clientname);
+        // console.log("Page title is "+clientname);
         return clientname;
       })
     } catch (error) {
@@ -62,18 +62,28 @@ export class CarePlannerPetDetails {
   get petName(): any {
     try {
         return this.elepetName.getText().then(function(petname){
-        console.log("Page title is "+petname);
+        // console.log("Page title is "+petname);
         return petname; });
       } catch (error) {
         console.log(error);
       }
   }
 
+  get petGender(): any {
+    try {
+      return this.elePetGender.getText().then(function(gender){
+        return gender.toLowerCase();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   get speciesName(): any {
     try {
       return this.eleSpecies.getText().then(function(species1){
-        console.log("Page title is "+species1);
-        return species1;
+        // console.log("Page title is "+species1);
+        return species1.toLowerCase();
       })
     } catch (error) {
       console.log(error);
@@ -97,7 +107,7 @@ export class CarePlannerPetDetails {
   get drShift(): any {
     try {
       return this.eledrshift.getText().then(function(drshift){
-        console.log("Page title is "+drshift);
+        // console.log("Page title is "+drshift);
         return drshift;
       })
     } catch (error) {
@@ -109,7 +119,7 @@ export class CarePlannerPetDetails {
   get wellness(): any {
     try {
       return this.eleWellness.getText().then(function(welness){
-        console.log("Page title is "+welness);
+        // console.log("Page title is "+welness);
         return welness;
       })
     } catch (error) {

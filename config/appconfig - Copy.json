@@ -9,19 +9,20 @@
             {
                 "servername": "hcorpqa-ns02",
                 "hospitalId": 153,
-                "applicationurl": "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture/?hospitalId=153&patientId=314759968&orderId=472962733&userName=Josh.Chezum&userId=246000242&accessToken=",
+                "applicationurl": "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture/",
                 "cloudapiendpoint": "https://apiendpoint",
                 "WWApiEndpoint": "https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
                 "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
-                "username":"chandrasekhar.konda"
+                "userName":"Josh.Chezum"
             },
             {
-                "servername": "hcorpqa-ns02",
-                "hospitalId": 125,
-                "applicationurl": "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture/?hospitalId=153&patientId=314759968&orderId=472962733&userName=Josh.Chezum&userId=246000242&accessToken=",
+                "servername": "lapmsqa-ns04",
+                "hospitalId": 595,
+                "applicationurl": "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/",
                 "cloudapiendpoint": "https://apiendpoint",
-                "WWApiEndpoint": "https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
-                "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token"
+                "WWApiEndpoint": "https://lapmsqa-ns04.vcaantech.com:443/WoofwareWebAPI/API/",
+                "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
+                "userName":"Josh.Chezum"
             },
             {
                 "servername": "hcorpqa-ns02",
