@@ -1,89 +1,81 @@
-import { Config, browser,protractor } from "protractor";
+import { Config, browser, protractor } from "protractor";
 import { Reporter } from '../support/reporter';
-import {Appconfig} from '../config/appconfig';
-import { ReadAppConfig } from "./appconfig - Copy";
-// var path = require('path');
-// var HtmlReporter = require('protractor-beautiful-reporter');
+import { ReadAppConfig } from "./appconfig";
 
-export const config : Config ={
+let path = require('path');
+export const config: Config = {
 
+    
     //seleniumAddress: 'http://localhost:4444/wd/hub',
     // Starting selenium server
-    seleniumServerJar : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar",
-    chromeDriver : "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
-    seleniumArgs : [],
-    seleniumPort : 4444,
+    seleniumServerJar: "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar",
+    chromeDriver: "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
+    seleniumArgs: [],
+    seleniumPort: 4444,
 
     //elementExplorer : 
-    
+
     // SELENIUM_PROMISE_MANAGER:false,
 
     capabilities: {
         browserName: 'chrome',
-        loggingPrefs:{
-            'driver':'WARNING',
-            'server':'WARNING',
-            'browser':'INFO'
-        },        
+        loggingPrefs: {
+            'driver': 'WARNING',
+            'server': 'WARNING',
+            'browser': 'INFO'
+        },
         //directConnect:true,
         chromeOptions: {
             'args': ['disable-infobars']
         }
     },
-    
-    framework:"jasmine",
 
-    specs:["../specs/firstSampleTest.spec.js"],
+    framework: "jasmine",
 
-    jasmineNodeOpts:{
-        showColors:true,
+    specs: ["../specs/sample.spec.js"],
+
+    jasmineNodeOpts: {
+        showColors: true,
         defaultTimeoutInterval: 400000,
         isVerbose: true,
-        includeStackTrace:true
+        includeStackTrace: true
     },
 
-    allScriptsTimeOut:99999,
+    allScriptsTimeOut: 99999,
 
     beforeLaunch: () => {
         console.log('************beforeLaunch*******************');
-       // var path = require('path');
-        
+        // var path = require('path');
+
     },
 
-    
 
-    onPrepare: () =>{
+
+    onPrepare: () => {
         //Adding Reporters to the execution
         Reporter.addBeautifulHTMLReporter();
-        //Reporter.addSpecReporter();
-        //Reporter.addHTMLReporter();
-        // Add a screenshot reporter:
-        var path = require('path');
-        browser.path = path;
-       // var configfilepath = browser.path.join(__dirname,'..\\..\\config\\appconfig.json');
-       let appenvdetails : ReadAppConfig.AppConfig =  ReadAppConfig.LoadConfigAndGetEnvironment();
-       browser.appenvdetails = appenvdetails;
-        // let configvalues: Appconfig = require(path.join(__dirname,'..\\..\\config\\appconfig.json'));
-        // browser.jsonconfig = configvalues;
-        browser.allScriptsTimeout=99999;
-        browser.ignoreSynchronization = false;               
+        // we are filtering config options based on environment and we are taking only filtered environment details
+        let appenvdetails: ReadAppConfig.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
+        browser.appenvdetails = appenvdetails;
+        browser.allScriptsTimeout = 99999;
+        browser.ignoreSynchronization = false;
         browser.waitForAngularEnabled(false);
         browser.manage().window().maximize();
-        // browser.get("https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160584&orderId=471563555&userName=chandrasekhar.konda&userId=0&accessToken=4lQaJ0jw-5BpFThL4IcAVVCemF3AShcDIFBsCtQqj7mw2a-makDIqfB7L2KPjkjBLKo2LHN4xejg025ag8AxCiE_rG1qq_d0x0rrIwcQaYOeKqd0w2o3-X77p09EOHpUJ_G60WHj86-MpS2QJwGXniVWlFKLeLh4jbUFQBFStdy7FNT74SnwFTCuHMq3_KtOvGYp3XfDh8X3C61lpEejcvgpSpGeI4heDhGjO4GgPbBASIClXkx_s8iCx8h-bqWA3a3MxQ");
         browser.manage().timeouts().implicitlyWait(50000);
-        browser.baseUrl=browser.jsonconfig.applicationurl;
-        
+        browser.baseUrl = browser.appenvdetails.applicationurl;
+
     },
 
     onComplete: () => {
-        console.log('*************onComplete******************');
+        console.log('*************onComplete- Place holder ******************');
+       browser.driver.quit();
     },
 
     onCleanUp: () => {
-        console.log('*************onCleanUp******************');
+        console.log('*************onCleanUp - Place holder ******************');
     },
 
     afterLaunch: () => {
-        console.log('************afterLaunch**************************');
+        console.log('************afterLaunch - Place holder **************************');
     }
 };

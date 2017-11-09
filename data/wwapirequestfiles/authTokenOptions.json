@@ -1,0 +1,12 @@
+{
+  "method": "POST",
+  "url": "",
+  "headers": {
+    "cache-control": "no-cache",
+    "authorization": "Basic VmNhYW50ZWNoXFBUTS1XZWJBcHAtcWE6QFlZRnlZVDdWWkRFM3M=",
+    "content-type": "application/x-www-form-urlencoded"
+  },
+  "form": {
+    "grant_type": "client_credentials"
+  }
+}
