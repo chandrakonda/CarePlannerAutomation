@@ -1,11 +1,12 @@
 {
     "applicationurl": "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160619&orderId=471563537&userName=chandrasekhar.konda&userId=0&accessToken=RzPt5HiYVxAbTbmeMFRqayITBFzfcpLaNYWYqkQTUZeulULr4G-RvychsA4y6rItG5sfQjtvUXf_nB7aV8cIZGrNwRhSYY2XEe3DlsjjhkSAFESMgZDwquODH6sehZG2jJIoDtj1g91qaPmkGEsKf3JLLuQW14l6uIJ_BNe0Lfy4JB3x3E8MROiOlomTvhN9o1Zcczj7WxYUMkaDITJRVoF_-33xLHoXhVg0xM4HEWZZG82V9nmkmWZILk_J76Q5ubCjhg",
-    "environment": "Qa",
+    "environment": "QA",
     "apiendpoint": "place holder",
     "hospitalId": 153,
     "runtimeenvironment": "will be set in runtime",
     "environmentcollection": {
-        "Qa": [
+        "QA": [
+            
             {
                 "servername": "hcorpqa-ns02",
                 "hospitalId": 153,
@@ -16,6 +17,15 @@
                 "userName":"Josh.Chezum"
             },
             {
+                "servername": "hcorpqa-ns06",
+                "hospitalId": 80105,
+                "applicationurl": "https://hcorpqa-ns06.vcaantech.com/VCAChargeCapture/",
+                "cloudapiendpoint": "https://apiendpoint",
+                "WWApiEndpoint": "https://hcorpqa-ns06.vcaantech.com:443/WoofwareWebAPI/API/",
+                "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
+                "userName":"Josh.Chezum"
+            },            
+            {
                 "servername": "lapmsqa-ns04",
                 "hospitalId": 595,
                 "applicationurl": "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/",
@@ -23,34 +33,26 @@
                 "WWApiEndpoint": "https://lapmsqa-ns04.vcaantech.com:443/WoofwareWebAPI/API/",
                 "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
                 "userName":"Josh.Chezum"
-            },
-            {
-                "servername": "hcorpqa-ns02",
-                "hospitalId": 157,
-                "applicationurl": "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture/?hospitalId=153&patientId=314759968&orderId=472962733&userName=Josh.Chezum&userId=246000242&accessToken=",
-                "cloudapiendpoint": "https://apiendpoint",
-                "WWApiEndpoint": "https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
-                "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token"
             }
         ],
         "UAT": [
             {
-                "severname": "ns02",
-                "apiendpoint": "https://apiendpoint",
-                "applicationurl": "https://apiendpoint",
-                "hospitalId": 124,
-                "authorizationurl": "auth end point",
-                "WWApiEndpoint": "https://apiendpoint",
-                "cloudapiendpoint": "https://apiendpoint"
-            },
+                "severname": "lapmsuat-ns02",
+                "hospitalId": 183,
+                "applicationurl": "https://lapmsuat-ns02.vcaantech.com/VCAChargeCapture/",
+                "cloudapiendpoint": "https://apiendpoint",
+                "WWApiEndpoint": "https://lapmsuat-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
+                "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
+                "userName":"Josh.Chezum"
+            },            
             {
-                "severname": "ns02",
-                "apiendpoint": "https://apiendpoint",
-                "applicationurl": "https://apiendpoint",
-                "hospitalId": 125,
-                "authorizationurl": "auth end point",
-                "WWApiEndpoint": "https://apiendpoint",
-                "cloudapiendpoint": "https://apiendpoint"
+                "severname": "lapmsuat-ns01",
+                "hospitalId": 528,
+                "applicationurl": "https://lapmsuat-ns01.vcaantech.com/VCAChargeCapture/",
+                "cloudapiendpoint": "https://apiendpoint",
+                "WWApiEndpoint": "https://lapmsuat-ns01.vcaantech.com:443/WoofwareWebAPI/API/",
+                "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
+                "userName":"Josh.Chezum"
             },
             {
                 "severname": "ns02",

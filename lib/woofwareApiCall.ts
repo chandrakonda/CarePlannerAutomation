@@ -75,7 +75,7 @@ export class WWApiCalls {
     options.qs.ignoreDuplicatePhone = "true";
 
     //Set header values
-    options.headers['x-hospital-id']=browser.appenvdetails.runtimeenvironment.hospitalId;
+    options.headers['x-hospital-id']=browser.appenvdetails.runtimeenvironment.hospitalId.toString();
     options.headers.authorization = browser.bearerToken;
 
     //Create client data 
@@ -90,8 +90,10 @@ export class WWApiCalls {
     options.body.FirstName = browser.clientFirstName;
     options.body.LastName = browser.clientLastName;
     options.body.HospitalId = browser.appenvdetails.runtimeenvironment.hospitalId;
+    options.body.ClientPhones[0].HospitalId = browser.appenvdetails.runtimeenvironment.hospitalId;
 
-    // console.log("Options: " + options.headers.authorization);
+    console.log("Options: " + options.url);
+    console.log("Options: " + options.headers['x-hospital-id']);
     var api = new WWApiCalls();
     return api.makeRequest(options);
   }
@@ -272,6 +274,37 @@ export class WWApiCalls {
 
     var api = new WWApiCalls();
     return api.makeRequest(options);    
+  }
+
+  putVisitInvoiceItems(){
+    var options = { method: 'PUT',
+    url: 'https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/Visits/472962778/VisitInvoiceItems',
+    headers: 
+     {'cache-control': 'no-cache',
+       applicationname: 'Retriever',
+       username: 'vcaantech\\tablet_nonprod',
+       'x-hospital-id': '153',
+       authorization: '',
+       'content-type': 'application/json',
+       accept: 'application/json, text/json, application/xml, text/xml' },
+    body: 
+     { InvoiceItemId: 75705,
+       InvoiceItemTypeId: 1,
+       PLNo: 53,
+       SeqNo: 1,
+       Code: '53.1' },
+    json: true };
+
+    //Set URL
+    options.url = browser.appenvdetails.runtimeenvironment.WWApiEndpoint + 'VisitInvoiceItems';
+    
+    //Set header values
+    options.headers['x-hospital-id']=browser.appenvdetails.runtimeenvironment.hospitalId;
+    options.headers.authorization = browser.bearerToken;    
+
+
+    var api = new WWApiCalls();
+    return api.makeRequest(options);
   }
 
 }

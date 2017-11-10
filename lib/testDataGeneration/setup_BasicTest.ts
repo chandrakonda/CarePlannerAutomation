@@ -34,6 +34,24 @@ export class testSetupScenarios {
         let api = new WWApiCalls(); 
         var flow = protractor.promise.controlFlow();
     
+        // flow.execute( () => {
+        //     var sql = require('mssql');
+        //     var config = {
+        //         user:'ha',
+        //         password:'D3nnyW@$here',
+        //         server:'lapmsqa-db04',
+        //         database:'SparkyHosp595_QA'
+        //     }
+
+        //     sql.connect(config, function(err){
+        //         if (err){console.log(err);}
+        //         var request = new sql.Request();
+        //         request.query('SELECT TOP 10 * FROM dbo.Client',function(err,recordset){
+        //             if (err){console.log(err);}
+        //             console.log(recordset);
+        //         });
+        //     });
+        // });        
         //Get an Auth Token
         flow.execute(api.getAuthToken).then(function (response) {
           console.log("--- Getting Basic Auth token...  ----------");
@@ -99,6 +117,12 @@ export class testSetupScenarios {
                 }
             }
         });
+
+        //Add line item to visit
+        // flow.execute(api.putVisitInvoiceItems).then(function (response) {
+        //     console.log("--- Adding line item to visit...  ----------");
+        //     console.log(response);
+        // });
     
         //launch browser
         flow.execute(() => {
@@ -113,7 +137,7 @@ export class testSetupScenarios {
                     '&accessToken='+browser.token;
           console.log('URL: ',url);
           browser.get(url);
-        //   browser.sleep(3000);
+          browser.sleep(6000);
     
           console.log("\n*********** Executing Tests ***********");
         });        
