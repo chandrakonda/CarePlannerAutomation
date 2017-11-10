@@ -13,17 +13,23 @@ Frameworkimplementation
        2. Which holds results of test cases. 
        3. Other global values needed during run time.
 4. Email service
-
+5. Time outs and waits used
 ****************************************************************************
 TestBed:
 
-1. Reading Appconfig - > Generate class 
-2. Filter environment data and assign to global "browser"
+1. Reading Appconfig - > Generate class - Completed
+2. Filter environment data and assign to global "browser" - Completed
 
 ****************************************************************************
 Framework deployment
 
 1. Need deployment script
+    script should:
+        grab code from git/tfs (?)
+        run npm install
+        configure any environment variables needed
+        ensure test user account exists in database as a resource (and create it if it does not) 
+        PTM-WebApp-QA user needs to be a DVM/OfficeManager on the hospital
 2. Set up environment variables
 
 ****************************************************************************
@@ -33,3 +39,7 @@ API - 11022017
    Client -> pet -> appointment -> visit -> add products -> 
 2. Put all requests in JSON file.
 3. Create classes for all JSON request files.
+
+
+***********************************************************************************
+1. schedule 

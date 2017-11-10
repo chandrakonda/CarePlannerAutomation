@@ -30,11 +30,11 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
        
         //Create a Client
         flow.execute(clientAndPatientController.createClient).then((response) => {
-            console.log("--- Creating a new client...  ----------");
-            console.log(JSON.stringify(response));
+          //  console.log("--- Creating a new client...  ----------");
+           // console.log(JSON.stringify(response));
             browser.clientID = response['ClientId'];
-            console.log("ClientId: " + browser.clientID);
-            console.log("Client name: " + response['FirstName'] + ' '+ response['LastName']);
+           // console.log("ClientId: " + browser.clientID);
+           // console.log("Client name: " + response['FirstName'] + ' '+ response['LastName']);
         });
         // Create patient
         flow.execute(clientAndPatientController.createPatient).then((response) => {
@@ -44,6 +44,8 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
             console.log("PatientId: " + browser.patientID);
            
         });
+
+        
 
         //Create a new appointment for patient
         flow.execute(appointmentController.createNewAppointment).then(function (response) {
@@ -95,15 +97,33 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
                       '&accessToken='+browser.token;
             console.log('URL: ',url);
             browser.get(url);
-          //   browser.sleep(3000);
+           browser.sleep(3000);
       
             console.log("\n*********** Executing Tests ***********");
           });        
 
     });
 
+    /// Test cases 
+
+      it('Should have the title as VCA Charge Capture', () => {    
+    console.log("\n***********Verifying Page Title***********");
+    expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
+    });
+
     it('Should have the title as VCA Charge Capture', () => {    
         console.log("\n***********Verifying Page Title***********");
         expect('VCA Charge Capture').toEqual('VCA Charge Capture'); 
     });
+
+    it('Should have the title as VCA Charge Capture', () => {    
+        console.log("\n***********Verifying Page Title***********");
+        expect('VCA Charge Capture').toEqual('VCA Charge Capture'); 
+    });
+
+    it('Should have the title as VCA Charge Capture', () => {    
+        console.log("\n***********Verifying Page Title***********");
+        expect('VCA Charge Capture').toEqual('VCA Charge Capture'); 
+    });
+
 });    
