@@ -37,4 +37,26 @@ export class CarePlannerApiServices{
       });
       return defer.promise;
     }
+
+    putRequest(options){
+      var defer = protractor.promise.defer();
+      request(options, function (error, response, body) {
+        var result = body;
+        if (error || body.statusCode >= 400) {
+          defer.reject({ error: error, message: body });
+        } else {
+          if (result instanceof Object) {
+            if (result.Data) { defer.fulfill(result.StatusCode);}
+          } else {
+            result = JSON.parse(result);
+            if (result.Data == null) { 
+              defer.fulfill(result.StatusCode);
+            } else {
+              defer.fulfill(result.Data);
+            }
+          }
+        }
+      });
+      return defer.promise;
+    }
 }

@@ -6,12 +6,12 @@ let path = require('path');
 export const config: Config = {
 
     
-    //seleniumAddress: 'http://localhost:4444/wd/hub',
+    seleniumAddress: 'http://localhost:4444/wd/hub',
     // Starting selenium server
-    seleniumServerJar: "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.6.0.jar",
-    chromeDriver: "C:/Users/User/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
-    seleniumArgs: [],
-    seleniumPort: 4444,
+    // seleniumServerJar: "C:/Users/prabur/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.7.1.jar",
+    // chromeDriver: "C:/Users/prabur/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
+    // seleniumArgs: [],
+    // seleniumPort: 4444,
 
     //elementExplorer : 
 
@@ -53,7 +53,7 @@ export const config: Config = {
 
     onPrepare: () => {
         //Adding Reporters to the execution
-        Reporter.addBeautifulHTMLReporter();
+        //Reporter.addBeautifulHTMLReporter();
         // we are filtering config options based on environment and we are taking only filtered environment details
         let appenvdetails: ReadAppConfig.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
         browser.appenvdetails = appenvdetails;
