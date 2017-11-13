@@ -8,38 +8,30 @@ export class ClientAndPatientController{
     //private options; 
     static __timestamp = new Date().getTime();
     constructor() {
-        console.log("ClientAndPatientController");
+        browser.logger.info("*********** ClientAndPatientController ***********");
         //this.__timestamp = new Date().getTime();
         //this.apiServices = new CarePlannerApiServices();
     }
 
     createClient() {
+        browser.logger.info("*********** Creating Client ***********");
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//createClientDetails.json'));
-        console.log("\n*********** Creating Client ***********");
     
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + 'Clients';
-    
-        //Set qs values
-        // options.qs.ignoreDuplicateAddress = "true";
-        // options.qs.validateAddress = "false";
-        // options.qs.ignoreDuplicatePhone = "true";
     
         //Set header values
         options.headers['x-hospital-id']=browser.appenvdetails.hospitalid;
         options.headers.authorization = browser.bearerToken;
     
         //Set body data
-       
-        //browser.timestamp = timestamp;
-        // var fname = "Steve_" + timestamp;
-        // var lname = "Rogers_" + timestamp;
         options.body.FirstName = "Steve_" + ClientAndPatientController.__timestamp;
         options.body.LastName = "Rogers_" + ClientAndPatientController.__timestamp;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
-        console.log(options);
+        //browser.logger.info(options);
+
         let apiServices = new CarePlannerApiServices();
-        return apiServices.postRequest(options);
+        return apiServices.makePostRequest(options);
     }
 
     //TODO: Need to implement the get service method in ClientServices.ts
@@ -58,7 +50,7 @@ export class ClientAndPatientController{
 
 
     createPatient(){
-        console.log("\n*********** Creating Patient ***********");
+        browser.logger.info("*********** Creating Patient ***********");
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//createPatientDetails.json'));
         //var options = { "method": "POST", "url": "", "qs": { "ignoreDuplicateAddress": "true", "validateAddress": "false", "ignoreDuplicatePhone": "true" }, "headers": { "cache-control": "no-cache", "content-type": "application/json", "applicationname": "Retriever", "username": "PTM-WebApp-qa", "x-hospital-id": "153", "authorization": "" }, "body": { "ClientId": "", "HospitalId": 153, "PatientId": 0, "PatientName": "Lilly", "GenderId": 2, "SpeciesId": 1, "SpeciesName": "Canine", "DateOfBirth": "2015-06-16T00:00:00", "Breeds": [{ "BreedId": 156, "BreedName": "Rhodesian Ridgeback","Description": "Rhodesian Ridgeback", "SpeciesId": 1, "ZoasisBreed": "RHOD" }], "Appearances": [{ "AppearanceId": 163, "AppearanceName": "Black And Beige", "AppearanceTypeId": 1, "AppearanceValue": "Black And Beige", "IsActive": true }], "Weight": 3.5, "WeightUnit": "lb", "EnteredDate": "2017-10-30T00:00:00", "HasModifiedWeight": false, "Photo": null, "Neutered": "Neutered", "Sex": { "SexId": 1, "Name": "Male" }, "HasWellnessMembership": false, "DOBAgeAsEntered": "6/16/2015", "PetAge": "2y 4m", "IsPatientCareClubMember": false, "BreedNames": "Canaan Dog", "IsNewPatient": true, "Notes": "This dog will bite you ", "IsModified": null, "NumberOfActiveMemberships": 0, "EarliestMembershipStartDate": null, "HasPhoto": false, "EnteredWeight": "3.5 lb", "EnteredWeightUnitId": 3 }, "json": true };
     
@@ -79,7 +71,7 @@ export class ClientAndPatientController{
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         
         let apiServices = new CarePlannerApiServices();
-        return apiServices.postRequest(options);
+        return apiServices.makePostRequest(options);
     }
 
 }

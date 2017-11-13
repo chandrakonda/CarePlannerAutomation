@@ -1,5 +1,3 @@
-import * as fs from "fs";
-import * as mkdirp from "mkdirp";
 import * as reporter from "protractor-jasmine2-html-reporter";
 import {DisplayProcessor, SpecReporter} from "jasmine-spec-reporter";
 import SuiteInfo = jasmine.SuiteInfo;
@@ -12,12 +10,8 @@ class CustomProcessor extends DisplayProcessor {
     }
 }
 
-export class Reporter{
-    public static createDirectory(dir: string) {
-        if (!fs.existsSync(dir)) {
-            mkdirp.sync(dir);
-        }
-    }
+export class ReportHelper{
+
     public static addSpecReporter() {
         try {           
             //jasmine.getEnv().clearReporters();

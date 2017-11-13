@@ -6,11 +6,11 @@ import * as moment from 'moment';
 export class AppointmentController{
 
     constructor(){
-        console.log("AppointmentController");
+        browser.logger.info("*********** AppointmentController ***********");
     }
 
     createNewAppointment(){
-        console.log("\n*********** Create New Appointment ***********");
+        browser.logger.info("*********** Create New Appointment ***********");
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//createNewAppointment.json'));
     
         var startTime = moment().subtract(6,'hours').toISOString();
@@ -31,11 +31,11 @@ export class AppointmentController{
         options.body.PetAppointments[0].EndTime = endtime;
     
         let apiServices = new CarePlannerApiServices();
-        return apiServices.postRequest(options);
+        return apiServices.makePostRequest(options);
     }
 
     checkInAppointment(){
-        console.log("\n*********** Check In Appointment ***********");
+        browser.logger.info("*********** Check In Appointment ***********");
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//checkInAppointment.json'));
     
         //Set URL
@@ -49,14 +49,15 @@ export class AppointmentController{
         options.headers['x-hospital-id']=browser.appenvdetails.hospitalid.toString();
         options.headers.authorization = browser.bearerToken;
     
-        console.log("Options: " + options.qs.appointmentId);
-        console.log(options);
+        browser.logger.info("Options: " + options.qs.appointmentId);
+        //browser.logger.info(options);
+
         let apiServices = new CarePlannerApiServices();
-        return apiServices.postRequest(options);
+        return apiServices.makePostRequest(options);
     }
 
     getCheckedInPatientDetails(){
-        console.log('\n*********** Getting visit details ***********');
+        browser.logger.info('*********** Getting visit details ***********');
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//checkedInPatientDetails.json'));
     
         //Set URL
@@ -69,9 +70,10 @@ export class AppointmentController{
         //Set header values
         options.headers['x-hospital-id']=browser.appenvdetails.hospitalid.toString();
         options.headers.authorization = browser.bearerToken;
-        console.log(options);
+        //browser.logger.info(options);
+        
         let apiServices = new CarePlannerApiServices();
-        return apiServices.postRequest(options);  
+        return apiServices.makePostRequest(options);  
     }
 
 }

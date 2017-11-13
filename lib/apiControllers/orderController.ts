@@ -5,12 +5,21 @@ const path = require('path');
 
 export class OrderController{
     
-    constructor(){}
+    constructor(){
+        browser.logger.info("*********** Order Controller ***********")
+    }
 
     addOrderToVisit(){
-        console.log("*************** Adding Product to Order **************");
+        browser.logger.info("*********** Adding Product to Order ***********");
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//addOrderToVisit.json'));
 
+
+        if(options.body.length >1)
+        {
+
+        var newbody = options.body;
+
+        }
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + "Visits/"+ browser.visitId + "/VisitInvoiceItems";
 
@@ -18,29 +27,23 @@ export class OrderController{
         options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
         options.headers.authorization = browser.bearerToken;
 
-        // let newOptions = options
-        // options.body = null;
-
-        // if(newOptions.body.length >1){
-        //     console.log(newOptions.body[1]);
-        //     options = options.body[1];
-        //     console.log(options.body);
-        // };
-        
-
-
-        // var product = [{
-        //         "InvoiceItemId": 75705,
-        //         "InvoiceItemTypeId": 1,
-        //         "PLNo": 53,
-        //         "SeqNo": 1,
-        //         "Code": "53.1"              
-        //     }];
-
-        // options.body = {body:JSON.stringify(product)};
-        
         var api = new CarePlannerApiServices();
-        return api.putRequest(options);
+        return api.makePutRequest(options);
+    }
+
+    getTaskSeriesByOrderId(){
+        browser.logger.info("*********** Adding Product to Order ***********");
+        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//generalGetMethod.json'));
+
+        //Set URL
+        options.url = browser.appenvdetails.wwapiendpoint + "Orders/"+ browser.visitId + "/TaskSeries";
+        
+        //Set header values
+        options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
+        options.headers.authorization = browser.bearerToken;
+
+        var api = new CarePlannerApiServices();
+        return api.makeGetRequest(options);
     }
 
 }

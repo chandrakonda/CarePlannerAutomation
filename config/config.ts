@@ -1,8 +1,13 @@
+import { LogHelper } from '../support/logHelper';
 import { Config, browser, protractor } from "protractor";
-import { Reporter } from '../support/reporter';
+import { ReportHelper } from '../support/reportHelper';
 import { ReadAppConfig } from "./appconfig";
+import * as fs from 'fs';
+import * as mkdirp from 'mkdirp';
 
 let path = require('path');
+var log4js = require('log4js');
+
 export const config: Config = {
 
     
@@ -44,16 +49,22 @@ export const config: Config = {
     allScriptsTimeOut: 99999,
 
     beforeLaunch: () => {
-        console.log('************beforeLaunch*******************');
-        // var path = require('path');
+        console.log('************Before Launch Started*******************');
 
+        LogHelper.loggerConfiguration();
+
+        console.log('************Before Launch Finished*******************');
     },
 
 
 
     onPrepare: () => {
+        browser.logger = LogHelper.getLogger();
+        browser.logger.info('**************On Prepare Started**************');
+        
         //Adding Reporters to the execution
-        //Reporter.addBeautifulHTMLReporter();
+        //ReportHelper.addBeautifulHTMLReporter();
+        
         // we are filtering config options based on environment and we are taking only filtered environment details
         let appenvdetails: ReadAppConfig.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
         browser.appenvdetails = appenvdetails;

@@ -11,24 +11,25 @@ export class AuthController{
         // this.apiServices = new AuthServices();
         // this.options = require(path.join(__dirname, '..//..//..//data//jsonObject//authToken.json'));
         // this.options.url = browser.appenvdetails.authorizationurl;     
-        console.log("test")      ;
+        browser.logger.info("*********** Auth Controller ***********");
     }
 
     // getAuthToken() {
-    //     console.log("\n*********** Getting Auth Token ***********");
+    //     browser.logger.info("\n*********** Getting Auth Token ***********");
     //     return this.apiServices.authRequest(this.options);
     // }
     
     // getOAuthToken() {
-    //     console.log("\n******************Getting OAuth Token******************");
+    //     browser.logger.info("\n******************Getting OAuth Token******************");
     //     return this.apiServices.authRequest(this.options);
     // }
 
     getAuthToken(){
+        browser.logger.info("*********** Getting Auth Token ***********");
         let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//authToken.json'));
         options.url = browser.appenvdetails.authorizationurl;          
-        console.log("\n*********** Getting Auth Token ***********");
+        
         let apiServices = new CarePlannerApiServices();
-        return apiServices.postAuthRequest(options);
+        return apiServices.makePostAuthRequest(options);
     }
 }

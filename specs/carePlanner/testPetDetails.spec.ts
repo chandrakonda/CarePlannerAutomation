@@ -14,7 +14,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
 
     beforeAll(() => {
         cpPetDetailsPage = new CarePlannerPetDetails();
-        //console.log("before all");
+        
         let authController : AuthController = new AuthController();
         let clientAndPatientController : ClientAndPatientController = new ClientAndPatientController();
         let appointmentController :AppointmentController = new AppointmentController();
@@ -25,67 +25,100 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         
         //Creating a Auth Token
         flow.execute(authController.getAuthToken).then((response) => {
-            console.log("--- Getting Basic Auth token...  ----------");
+            browser.logger.info("Getting Basic Auth token...");
             browser.token=response;
             browser.bearerToken =  'bearer ' + response;     
-            console.log("Bearer token: " + browser.bearerToken);    
+            browser.logger.info("Bearer token: " + browser.bearerToken);    
         });
 
        
         //Create a Client
         flow.execute(clientAndPatientController.createClient).then((response) => {
-          //  console.log("--- Creating a new client...  ----------");
-           // console.log(JSON.stringify(response));
+            browser.logger.info("Creating a new client...");
+            //browser.logger.info(JSON.stringify(response));
             browser.clientID = response['ClientId'];
-           // console.log("ClientId: " + browser.clientID);
-           // console.log("Client name: " + response['FirstName'] + ' '+ response['LastName']);
+            browser.logger.info("ClientId: " + browser.clientID);
+            browser.logger.info("Client name: " + response['FirstName'] + ' '+ response['LastName']);
         });
+
         // Create patient
         flow.execute(clientAndPatientController.createPatient).then((response) => {
-            console.log("--- Creating a new client...  ----------");
-            console.log(JSON.stringify(response));            
+            browser.logger.info("Creating a new patient...");
+            //browser.logger.info(JSON.stringify(response));            
             browser.patientID = response;
-            console.log("PatientId: " + browser.patientID);           
+            browser.logger.info("PatientId: " + browser.patientID);           
         });
 
         //Create a new appointment for patient
         flow.execute(appointmentController.createNewAppointment).then(function (response) {
-            console.log("--- Creating a new appointment...  ----------"); 
-            console.log(JSON.stringify(response));
+            browser.logger.info("Creating a new appointment..."); 
+            //browser.logger.info(JSON.stringify(response));
             browser.appointmentID = response['AppointmentId'];
-            console.log("Appointment ID: " + browser.appointmentID);
+            browser.logger.info("Appointment ID: " + browser.appointmentID);
         });
 
         //Check appointment in
         flow.execute(appointmentController.checkInAppointment).then(function (response) {
-            console.log("--- Checking in the appointment...  ----------");
-            console.log(JSON.stringify(response));
-            console.log(response);
+            browser.logger.info("Checking in the appointment...");
+            //browser.logger.info(JSON.stringify(response));
+            browser.logger.info("Response received for adding product : " + response);
         }); 
 
         //Get checked in patient's details
         flow.execute(appointmentController.getCheckedInPatientDetails).then(function (response) {
-            console.log("--- Getting details of checked in appointment...  ----------");
-            console.log(JSON.stringify(response));
+            browser.logger.info("Getting details of checked in appointment...");
+            //browser.logger.info(JSON.stringify(response));
             browser.visitId = response[0].VisitId;
+            browser.logger.info("Visit Id is :" + browser.visitId);
         });
 
         //Add Product to the Visit
         flow.execute(orderController.addOrderToVisit).then(function (response) {
-            console.log("--- Product Ordered Response...  ----------");
-            console.log(JSON.stringify(response));
+            browser.logger.info("Product Ordered Response...");
+            browser.logger.info(JSON.stringify(response));
         });
 
+        //Get Visit & Invoice Details by Visit Id
+        flow.execute(visitController.getVisitDetailsByVisitId).then(function (response){
+            browser.logger.info("Visit Details & Invoice Details by Visit Id...");
+            //browser.logger.info(JSON.stringify(response));
+            browser.visitInvoiceItems = response[0].VisitInvoiceItems;
+
+           for(let items of browser.visitInvoiceItems) {
+                browser.logger.info("Visit Invoice Details :" + JSON.stringify(items));
+                browser.logger.info("Visit Invoice Details [Visit Invoice Item Id]" + items.VisitInvoiceItemId);
+                browser.logger.info("Visit Invoice Details [Invoice Item Id]" + items.InvoiceItemId);
+           }
+        });
+
+        //Get Task Series Details By Order Id
+        flow.execute(orderController.getTaskSeriesByOrderId).then(function (response) {
+            browser.logger.info("Task Series by Order Id...");
+            //browser.logger.info(JSON.stringify(response));
+            browser.taskOccurances = response[0].TaskOccurences;
+
+            for(let items of browser.taskOccurances) {
+                browser.taskSeriesId = items.TaskSeriesId;
+                browser.taskOccurrenceId = items.TaskOccurrenceId;
+                browser.logger.info("Task Series Id :'" + browser.taskSeriesId +"' for OrderId : '" + browser.visitId + "'");
+                browser.logger.info("Task Occurance Id :'" + browser.taskOccurrenceId +"' for OrderId : '" + browser.visitId + "'");
+            }
+        });
+
+
+        
+
+       
         // Get resource id to form care planner URL 
         flow.execute(visitController.getVisitResources).then(function (response) {
-            console.log("--- Getting User Id...  ----------");
-            // console.log(JSON.stringify(response));
+            browser.logger.info("Getting User Id...");
+            // browser.logger(JSON.stringify(response));
       
             for (let i in response){
-                // console.log(response[i]);
+                // browser.logger(response[i]);
                 let user = response[i];
                 if (user['ADusername']==browser.appenvdetails.username){
-                    console.log('UserId: ',user['ResourceId']);
+                    browser.logger.info('UserId: ',user['ResourceId']);
                     browser.userId=user['ResourceId'];
                 }
             }
@@ -93,8 +126,8 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
 
         // Form URL to navigate to Careplanner
         flow.execute(() => {
-            console.log("\n*********** Launching Browser ***********");
-            console.log("--- Creating URL and launching browser...  ----------");
+            browser.logger.info("*********** Launching Browser ***********");
+            browser.logger.info("Creating URL and launching browser...");
             var url = browser.baseUrl+
                       '?hospitalId='+browser.appenvdetails.hospitalid+
                       '&patientId='+browser.patientID+
@@ -102,35 +135,23 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
                       '&userName='+browser.appenvdetails.username+
                       '&userId='+browser.userId+
                       '&accessToken='+browser.token;
-            console.log('URL: ',url);
+            browser.logger.info('URL: ',url);
             browser.get(url);
-           browser.sleep(3000);
-      
-            console.log("\n*********** Executing Tests ***********");
-          });        
+            browser.sleep(3000);
+            browser.logger.info("*********** Executing Tests ***********");
+          });
+          
+          
 
     });
 
     /// Test cases 
 
       it('Should have the title as VCA Charge Capture', () => {    
-    console.log("\n***********Verifying Page Title***********");
-    expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
+        browser.logger.info("***********Verifying Page Title***********");
+        expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
     });
 
-    // it('Should have the title as VCA Charge Capture', () => {    
-    //     console.log("\n***********Verifying Page Title***********");
-    //     expect('VCA Charge Capture').toEqual('VCA Charge Capture'); 
-    // });
-
-    // it('Should have the title as VCA Charge Capture', () => {    
-    //     console.log("\n***********Verifying Page Title***********");
-    //     expect('VCA Charge Capture').toEqual('VCA Charge Capture'); 
-    // });
-
-    // it('Should have the title as VCA Charge Capture', () => {    
-    //     console.log("\n***********Verifying Page Title***********");
-    //     expect('VCA Charge Capture').toEqual('VCA Charge Capture'); 
-    // });
+   
 
 });    

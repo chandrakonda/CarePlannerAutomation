@@ -1,10 +1,6 @@
 { 
-    "method": "POST",
-    "url": "",
-    "qs": { 
-        "appointmentId": "", 
-        "isMergeMedicalNote": ""
-    },
+	"method": "GET",
+    "url": "",  
     "headers": { 
         "cache-control": "no-cache",
         "applicationname": "Retriever",
