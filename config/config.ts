@@ -11,15 +11,15 @@ var log4js = require('log4js');
 export const config: Config = {
 
     
-    seleniumAddress: 'http://localhost:4444/wd/hub',
+    //seleniumAddress: 'http://localhost:4444/wd/hub',
     // Starting selenium server
     // seleniumServerJar: "C:/Users/prabur/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.7.1.jar",
     // chromeDriver: "C:/Users/prabur/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
     // seleniumArgs: [],
     // seleniumPort: 4444,
-
+    directConnect:true,
     //elementExplorer : 
-
+    chromeDriver: path.join(__dirname,'../../support/drivers/chromedriver.exe'),
     // SELENIUM_PROMISE_MANAGER:false,
 
     capabilities: {
@@ -29,7 +29,7 @@ export const config: Config = {
             'server': 'WARNING',
             'browser': 'INFO'
         },
-        //directConnect:true,
+        
         chromeOptions: {
             'args': ['disable-infobars']
         }
@@ -37,7 +37,7 @@ export const config: Config = {
 
     framework: "jasmine",
 
-    specs: ["../specs/carePlanner/testPetDetails.spec.js"],
+    specs: ["../specs/carePlanner/logtest.spec.js"],
 
     jasmineNodeOpts: {
         showColors: true,

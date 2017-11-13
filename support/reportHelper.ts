@@ -2,7 +2,7 @@ import * as reporter from "protractor-jasmine2-html-reporter";
 import {DisplayProcessor, SpecReporter} from "jasmine-spec-reporter";
 import SuiteInfo = jasmine.SuiteInfo;
 var HtmlReporter = require('protractor-beautiful-reporter');
-var path = require('path');
+
 
 class CustomProcessor extends DisplayProcessor {
     public displayJasmineStarted(info: SuiteInfo, log: string): string {
@@ -25,6 +25,7 @@ export class ReportHelper{
     }
 
     public static addBeautifulHTMLReporter(){
+        const __path = require('path');
         try {
             // Add a screenshot reporter:
             jasmine.getEnv().addReporter(new HtmlReporter({
@@ -48,7 +49,7 @@ export class ReportHelper{
                     return description.replace('/', '@');
                 });
 
-                return path.join(
+                return __path.join(
                     day + "-" + month + "-" + year + hours + min /*+ sec*/,
                     // capabilities.get('browserName'),
                     validDescriptions.join('-'));

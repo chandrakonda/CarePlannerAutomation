@@ -2,5 +2,6 @@ node_modules/
 typeScriptConvertedFiles/
 reports/
 support/log/
+log/
 *.js
 .vscode
