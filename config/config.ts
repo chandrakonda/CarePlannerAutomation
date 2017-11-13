@@ -37,7 +37,7 @@ export const config: Config = {
 
     framework: "jasmine",
 
-    specs: ["../specs/carePlanner/logtest.spec.js"],
+    specs: ["../specs/carePlanner/testPetDetails.spec.js"],
 
     jasmineNodeOpts: {
         showColors: true,

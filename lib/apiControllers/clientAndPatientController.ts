@@ -29,7 +29,8 @@ export class ClientAndPatientController{
         options.body.LastName = "Rogers_" + ClientAndPatientController.__timestamp;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         //browser.logger.info(options);
-
+        browser.logger.info("*********reate client options *********");
+        browser.logger.info(options);
         let apiServices = new CarePlannerApiServices();
         return apiServices.makePostRequest(options);
     }

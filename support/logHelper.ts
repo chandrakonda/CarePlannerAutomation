@@ -50,6 +50,7 @@ export class LogHelper{
     }
 
     public static getLogger(){
-        return log4js.getLogger('protractorLog4js');
+        //return log4js.getLogger('protractorLog4js');
+        return log4js.getLogger("LOG");
     }
 }

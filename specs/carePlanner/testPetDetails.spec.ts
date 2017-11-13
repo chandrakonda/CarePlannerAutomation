@@ -75,7 +75,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         //Add Product to the Visit
         flow.execute(orderController.addOrderToVisit).then(function (response) {
             browser.logger.info("Product Ordered Response...");
-            browser.logger.info(JSON.stringify(response));
+            browser.logger.info((response));
         });
 
         //Get Visit & Invoice Details by Visit Id
@@ -104,9 +104,6 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
                 browser.logger.info("Task Occurance Id :'" + browser.taskOccurrenceId +"' for OrderId : '" + browser.visitId + "'");
             }
         });
-
-
-        
 
        
         // Get resource id to form care planner URL 
@@ -147,10 +144,25 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
 
     /// Test cases 
 
+
       it('Should have the title as VCA Charge Capture', () => {    
         browser.logger.info("***********Verifying Page Title***********");
         expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
     });
+
+    
+    it('Should have the Pet Name as Lilly ', async () =>{
+        await expect(cpPetDetailsPage.petName).toEqual('Lilly');
+      });
+    
+      it('Should have the Client Name as Chandra ', async () => {
+        await expect(cpPetDetailsPage.clientName).toEqual('Chandra');
+      });
+    
+      it('Should have the Species Name as Canine ', async () => {
+        await expect(cpPetDetailsPage.speciesName).toEqual('Canine');
+      });
+
 
    
 

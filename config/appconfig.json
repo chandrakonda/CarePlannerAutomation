@@ -1,5 +1,5 @@
 {
-    "applicationurl": "https://lapmsqa-ns04.vcaantech.com/VCAChargeCapture/?hospitalId=595&patientId=314160619&orderId=471563537&userName=chandrasekhar.konda&userId=0&accessToken=RzPt5HiYVxAbTbmeMFRqayITBFzfcpLaNYWYqkQTUZeulULr4G-RvychsA4y6rItG5sfQjtvUXf_nB7aV8cIZGrNwRhSYY2XEe3DlsjjhkSAFESMgZDwquODH6sehZG2jJIoDtj1g91qaPmkGEsKf3JLLuQW14l6uIJ_BNe0Lfy4JB3x3E8MROiOlomTvhN9o1Zcczj7WxYUMkaDITJRVoF_-33xLHoXhVg0xM4HEWZZG82V9nmkmWZILk_J76Q5ubCjhg",
+    
     "environment": "Qa",
     "apiendpoint": "place holder",
     "hospitalid": 153,
@@ -9,7 +9,7 @@
             {
                 "servername": "hcorpqa-ns02",
                 "hospitalid": 153,
-                "applicationurl": "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture/?hospitalId=153&patientId=314759968&orderId=472962733&userName=Josh.Chezum&userId=246000242&accessToken=",
+                "applicationurl": "https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture",
                 "cloudapiendpoint": "https://apiendpoint",
                 "wwapiendpoint": "https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
                 "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
