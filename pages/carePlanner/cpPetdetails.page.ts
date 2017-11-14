@@ -6,7 +6,7 @@ export class CarePlannerPetDetails {
   //eletmp = browser.driver.findElement(by.xpath("test"));
   eleclientName = element(by.xpath(".//div[@class='petname']/following-sibling::span"));
   elepetName = element(by.xpath(".//div[@class='petname']"));
-  eledrName = element(by.xpath(".//label[text()='PRIMARY']/following-sibling::span"));
+  eleprimarydrName = element(by.xpath(".//label[text()='PRIMARY']/following-sibling::span"));
   eledrshift = element(by.xpath(".//label[text()='DAY/SHIFT']/following-sibling::span"));
   eleWellness = element(by.xpath(".//li[@client_wellness cellinfo wellness']//span[@class='txt']"));
   eleAlert = element(by.xpath(".//li[@client_wellness cellinfo vcaAlert']//span[@class='txt']"));
@@ -31,11 +31,11 @@ export class CarePlannerPetDetails {
   eleEnterCareNotes = element(by.xpath(".//textarea[@placeholder='Add care note here.']"));
   eleAddCareNoteButton = element(by.xpath(".//button[text()='Add care note']"));
 
-  navigateTo() {
-    browser.get(browser.baseUrl);
-    //  browser.get(browser.baseUrl).then(() => {debugger});
-    //console.log(browser.myname);
-  }
+  // navigateTo() {
+  //   browser.get(browser.baseUrl);
+  //   //  browser.get(browser.baseUrl).then(() => {debugger});
+  //   //console.log(browser.myname);
+  // }
 
   get pageTitle(): any {
     try {
@@ -44,64 +44,74 @@ export class CarePlannerPetDetails {
         return title;
       });
     }catch (error) {
-      console.log(error);
+      browser.logger.error(error);
     }
   }
 
   get clientName(): any {
     try {
       return this.eleclientName.getText().then(function(clientname){
-        console.log("Page title is "+clientname);
+        console.log("client name is "+clientname);
         return clientname;
       })
     } catch (error) {
-      console.log(error);
+      browser.logger.error(error);
     }
   }
 
   get petName(): any {
     try {
         return this.elepetName.getText().then(function(petname){
-        console.log("Page title is "+petname);
+        console.log("pet name is "+petname);
         return petname; });
       } catch (error) {
-        console.log(error);
+        browser.logger.error(error);
       }
+  }
+
+  get petGender(): any {
+    try {
+      return this.elePetGender.getText().then(function(gender){
+        return gender.toLowerCase();
+      });
+    } catch (error) {
+      browser.logger.error(error);
+    }
   }
 
   get speciesName(): any {
     try {
       return this.eleSpecies.getText().then(function(species1){
-        console.log("Page title is "+species1);
+        console.log("species name is "+species1);
         return species1;
       })
     } catch (error) {
-      console.log(error);
+      browser.logger.error(error);
     }
   }
 
-  get drName(): any {
+  get primaryDrName(): string {
+    let doctorName: any;
     try {
-      let doctorName: any;
       browser
-        .wait(ExpectedConditions.presenceOf(this.eledrName), 5000)
+        .wait(ExpectedConditions.presenceOf(this.eleprimarydrName), 5000)
         .then(() => {
-          doctorName = this.eledrName.getText();
+          doctorName = this.eleprimarydrName.getText();
         });
       return doctorName;
     } catch (error) {
-      console.log(error);
+      browser.logger.error(error);
     }
   }
 
   get drShift(): any {
     try {
       return this.eledrshift.getText().then(function(drshift){
-        console.log("Page title is "+drshift);
+        console.log("Dr shift is "+drshift);
         return drshift;
       })
     } catch (error) {
-      console.log(error);
+      browser.logger.error(error);
     }
   }
 
@@ -109,11 +119,11 @@ export class CarePlannerPetDetails {
   get wellness(): any {
     try {
       return this.eleWellness.getText().then(function(welness){
-        console.log("Page title is "+welness);
+        console.log("wellness is "+welness);
         return welness;
       })
     } catch (error) {
-      console.log(error);
+      browser.logger.error(error);
     }
   }
 

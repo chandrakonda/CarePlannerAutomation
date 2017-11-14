@@ -1,0 +1,67 @@
+{ 
+    "method": "POST", 
+    "url": "", 
+    "qs": { 
+        "ignoreDuplicateAddress": "true", 
+        "validateAddress": "false", 
+        "ignoreDuplicatePhone": "true" 
+    }, 
+    "headers": { 
+        "cache-control": "no-cache", 
+        "content-type": "application/json", 
+        "applicationname": "Retriever", 
+        "username": "PTM-WebApp-qa", 
+        "x-hospital-id": "153", 
+        "authorization": "" 
+    }, 
+    "body": { 
+        "ClientId": "", 
+        "HospitalId": 153, 
+        "PatientId": 0, 
+        "PatientName": "Lilly", 
+        "GenderId": 2, 
+        "SpeciesId": 1, 
+        "SpeciesName": "Canine", 
+        "DateOfBirth": "2015-06-16T00:00:00", 
+        "Breeds": [{ 
+            "BreedId": 10, 
+            "BreedName": "Canaan Dog", 
+            "BreedRank": 1, 
+            "Description": "Canaan Dog", 
+            "GeriatricAge": null, 
+            "SpeciesId": 1, 
+            "ZoasisBreed": "CANA"
+        }], 
+        "Appearances": [{ 
+            "AppearanceId": 163, 
+            "AppearanceName": "Black And Beige", 
+            "AppearanceTypeId": 1, 
+            "AppearanceValue": "Black And Beige", 
+            "IsActive": true 
+        }], 
+        "Weight": 3.5, 
+        "WeightUnit": "lb", 
+        "EnteredDate": "2017-10-30T00:00:00", 
+        "HasModifiedWeight": false, 
+        "Photo": null, 
+        "Neutered": "Neutered", 
+        "Sex": { 
+            "SexId": 1, 
+            "Name": "Male" 
+        }, 
+        "HasWellnessMembership": false, 
+        "DOBAgeAsEntered": "6/16/2015", 
+        "PetAge": "2y 4m", 
+        "IsPatientCareClubMember": false, 
+        "BreedNames": "Canaan Dog", 
+        "IsNewPatient": true, 
+        "Notes": "This dog will bite you ", 
+        "IsModified": null, 
+        "NumberOfActiveMemberships": 0, 
+        "EarliestMembershipStartDate": null, 
+        "HasPhoto": false, 
+        "EnteredWeight": "3.5 lb", 
+        "EnteredWeightUnitId": 3 
+    },
+    "json": true 
+}

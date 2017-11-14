@@ -4,7 +4,7 @@ import { CarePlannerApiServices } from '../../lib/apiServices/carePlannerApiServ
 export namespace AddingProductsModel {
     const path = require('path');
     // Products data model 
-    let __poroductToBeAddedJson = require(path.join(__dirname, '..//..//..//data//jsonObjects//productsToAdd.json'));
+    let __productToBeAddedJson = require(path.join(__dirname, '..//..//..//data//jsonObjects//productsToAdd.json'));
 
     interface ProductCollection {
         InvoiceItemId: number;
@@ -19,7 +19,7 @@ export namespace AddingProductsModel {
         products: ProductCollection[];
 
         constructor() {
-            this.products = __poroductToBeAddedJson.products;
+            this.products = __productToBeAddedJson.products;
         }
 
     }
