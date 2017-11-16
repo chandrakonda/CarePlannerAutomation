@@ -11,15 +11,15 @@ var log4js = require('log4js');
 export const config: Config = {
 
     
-    //seleniumAddress: 'http://localhost:4444/wd/hub',
+    seleniumAddress: 'http://localhost:4444/wd/hub',
     // Starting selenium server
     // seleniumServerJar: "C:/Users/prabur/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.7.1.jar",
     // chromeDriver: "C:/Users/prabur/AppData/Roaming/npm/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver",
     // seleniumArgs: [],
     // seleniumPort: 4444,
-    directConnect:true,
+    //directConnect:true,
     //elementExplorer : 
-    chromeDriver: path.join(__dirname,'../../support/drivers/chromedriver.exe'),
+    //chromeDriver: path.join(__dirname,'../../support/drivers/chromedriver.exe'),
     // SELENIUM_PROMISE_MANAGER:false,
 
     capabilities: {
@@ -37,11 +37,11 @@ export const config: Config = {
 
     framework: "jasmine",
 
-    specs: ["../specs/carePlanner/logtest.spec.js"],
+    specs: ["../specs/carePlanner/scheduleTask.spec.js"],
 
     jasmineNodeOpts: {
         showColors: true,
-        defaultTimeoutInterval: 30000,
+        defaultTimeoutInterval: 99999,
         isVerbose: true,
         includeStackTrace: true
     },
@@ -62,14 +62,14 @@ export const config: Config = {
         browser.logger.info('**************On Prepare Started**************');
         
         //Adding Reporters to the execution
-        ReportHelper.addBeautifulHTMLReporter();
+        //ReportHelper.addBeautifulHTMLReporter();
         
         // we are filtering config options based on environment and we are taking only filtered environment details
         let appenvdetails: ReadAppConfig.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
         browser.appenvdetails = appenvdetails;
         browser.allScriptsTimeout = 99999;
         browser.ignoreSynchronization = false;
-        browser.waitForAngularEnabled(false);
+        browser.waitForAngularEnabled(true);
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(50000);
         browser.baseUrl = browser.appenvdetails.applicationurl;

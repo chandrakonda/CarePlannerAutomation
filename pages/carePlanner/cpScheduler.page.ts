@@ -1,7 +1,5 @@
 import { arrays } from 'typescript-collections/dist/lib';
-import { $$ } from "protractor/built";
-import { ElementFinder, WebdriverWebElement } from "protractor/built/element";
-import { browser, element, by, By, ExpectedConditions } from "protractor";
+import { $, browser, element, by, By, ExpectedConditions } from "protractor";
 import * as Collections from 'typescript-collections';
 import * as console from 'console';
 
@@ -28,7 +26,10 @@ export class CarePlannerSchedulerPage {
 
   get productTaskListCount(){
     try {
-      return this.elePrdTaskList.count().then((taskCount:number) => { return taskCount });
+      return this.elePrdTaskList.count()
+      .then((taskCount:number) => {
+         return taskCount 
+        });
     } catch (error) {
       console.log(error);
     }
@@ -65,4 +66,19 @@ export class CarePlannerSchedulerPage {
        console.log(error);
      }
    }
+
+
+   async clickOnTaskName(taskName:string){
+     try {
+       browser.logger.info("Clicking on the task Name: " + taskName);
+       await this.elePrdTaskList.filter((elem)=>{
+         return elem.getText().then((text)=>{
+           return text == taskName;
+          })
+       }).click();
+     } catch (error) {
+       browser.logger.info(error);
+     }
+   }
   }
+
