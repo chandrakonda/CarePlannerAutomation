@@ -3,13 +3,13 @@
     "url": "",
     "qs": { 
         "IncludeOrderItemList": "true", 
-        "patientId": "314760138"
+        "patientId": ""
     },
     "headers": { 
        "cache-control": "no-cache",
        "applicationname": "Retriever",
        "username": "vcaantech\\tablet_nonprod",
-       "x-hospital-id": "153",
+       "x-hospital-id": "",
        "authorization": "",
        "accept": "application/json, text/json, application/xml, text/xml"
     }

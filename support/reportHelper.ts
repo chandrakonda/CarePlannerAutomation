@@ -25,7 +25,7 @@ export class ReportHelper{
     }
 
     public static addBeautifulHTMLReporter(){
-        const __path = require('path');
+        let __path = require('path');
         try {
             // Add a screenshot reporter:
             jasmine.getEnv().addReporter(new HtmlReporter({
@@ -59,4 +59,7 @@ export class ReportHelper{
             
         }
     }
+ 
+
+
 }

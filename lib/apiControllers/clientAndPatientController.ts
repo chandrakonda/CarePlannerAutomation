@@ -15,7 +15,7 @@ export class ClientAndPatientController{
 
     createClient() {
         browser.logger.info("*********** Creating Client ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//createClientDetails.json'));
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postClients.json'));
     
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + 'Clients';
@@ -25,8 +25,9 @@ export class ClientAndPatientController{
         options.headers.authorization = browser.bearerToken;
     
         //Set body data
-        options.body.FirstName = "Steve_" + ClientAndPatientController.__timestamp;
-        options.body.LastName = "Rogers_" + ClientAndPatientController.__timestamp;
+        options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//postClients.json'));
+        options.body.FirstName = options.body.FirstName + ClientAndPatientController.__timestamp;
+        options.body.LastName = options.body.LastName + ClientAndPatientController.__timestamp;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         //browser.logger.info(options);
         browser.logger.info("*********reate client options *********");
@@ -52,7 +53,7 @@ export class ClientAndPatientController{
 
     createPatient(){
         browser.logger.info("*********** Creating Patient ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//createPatientDetails.json'));
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postPatients.json'));
         //var options = { "method": "POST", "url": "", "qs": { "ignoreDuplicateAddress": "true", "validateAddress": "false", "ignoreDuplicatePhone": "true" }, "headers": { "cache-control": "no-cache", "content-type": "application/json", "applicationname": "Retriever", "username": "PTM-WebApp-qa", "x-hospital-id": "153", "authorization": "" }, "body": { "ClientId": "", "HospitalId": 153, "PatientId": 0, "PatientName": "Lilly", "GenderId": 2, "SpeciesId": 1, "SpeciesName": "Canine", "DateOfBirth": "2015-06-16T00:00:00", "Breeds": [{ "BreedId": 156, "BreedName": "Rhodesian Ridgeback","Description": "Rhodesian Ridgeback", "SpeciesId": 1, "ZoasisBreed": "RHOD" }], "Appearances": [{ "AppearanceId": 163, "AppearanceName": "Black And Beige", "AppearanceTypeId": 1, "AppearanceValue": "Black And Beige", "IsActive": true }], "Weight": 3.5, "WeightUnit": "lb", "EnteredDate": "2017-10-30T00:00:00", "HasModifiedWeight": false, "Photo": null, "Neutered": "Neutered", "Sex": { "SexId": 1, "Name": "Male" }, "HasWellnessMembership": false, "DOBAgeAsEntered": "6/16/2015", "PetAge": "2y 4m", "IsPatientCareClubMember": false, "BreedNames": "Canaan Dog", "IsNewPatient": true, "Notes": "This dog will bite you ", "IsModified": null, "NumberOfActiveMemberships": 0, "EarliestMembershipStartDate": null, "HasPhoto": false, "EnteredWeight": "3.5 lb", "EnteredWeightUnitId": 3 }, "json": true };
     
         //Set URL
@@ -63,12 +64,11 @@ export class ClientAndPatientController{
         options.headers.authorization = browser.bearerToken;
     
         //Define patient data
-
-        browser.patientName = "dogy_" + ClientAndPatientController.__timestamp;
     
         //Set body data
+        options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//postPatients.json'));
         options.body.ClientId = browser.clientID;
-        options.body.PatientName = browser.patientName;
+        options.body.PatientName = options.body.PatientName+ClientAndPatientController.__timestamp;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         
         let apiServices = new CarePlannerApiServices();

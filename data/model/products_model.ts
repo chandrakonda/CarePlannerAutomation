@@ -3,8 +3,7 @@ import { browser } from 'protractor';
 import { CarePlannerApiServices } from '../../lib/apiServices/carePlannerApiServices';
 export namespace AddingProductsModel {
     const path = require('path');
-    // Products data model 
-    let __productToBeAddedJson = require(path.join(__dirname, '..//..//..//data//jsonObjects//productsToAdd.json'));
+
 
     interface ProductCollection {
         InvoiceItemId: number;
@@ -15,20 +14,30 @@ export namespace AddingProductsModel {
     }
 
     class RootObject {
-
         products: ProductCollection[];
-
-        constructor() {
-            this.products = __productToBeAddedJson.products;
+        constructor(productFileName?: string) {
+            // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values
+            if (productFileName != null) {
+                let __productToBeAdded = require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
+                this.products = __productToBeAdded.products;
+            }
+            else {
+                let __productToBeAdded = require(path.join(__dirname, '..//..//..//data//defaultValues//visitInvoiceItems.json'));
+                
+                this.products = __productToBeAdded.products;
+            }
         }
-
     }
 
     // Loop products to form request to add products 
-    export function submitProductToVisit(){
+    export function submitProductToVisit(productFileName?: string, productCollection?: any) {
         let response1 = [];
-        let options = require(path.join(__dirname, '..//..//..//data//jsonApiTemplates//addOrderToVisit.json'));
-        let rootObject = new RootObject();
+        let rootObject: RootObject;
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//putVisitInvoiceItems.json'));
+        rootObject = new RootObject();
+        // if (productFileName == null) { rootObject = new RootObject(); }
+        // else { rootObject = new RootObject(productFileName); }
+
         browser.visitId = browser.visitId;
         rootObject.products.forEach(product => {
             browser.logger.log("*************** Adding Product to Order **************");
@@ -41,7 +50,7 @@ export namespace AddingProductsModel {
             browser.logger.info("************product options **********")
             browser.logger.info(options)
             browser.logger.info("************product options **********")
-             let apiServices = new CarePlannerApiServices();
+            let apiServices = new CarePlannerApiServices();
             response1.push(apiServices.makePutRequest(options));
         });
 

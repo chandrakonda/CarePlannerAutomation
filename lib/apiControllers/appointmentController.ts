@@ -11,7 +11,8 @@ export class AppointmentController{
 
     createNewAppointment(){
         browser.logger.info("*********** Create New Appointment ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//createNewAppointment.json'));
+        // Load Template
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postBookAppointment.json'));
     
         var startTime = moment().subtract(6,'hours').toISOString();
         var endtime = moment().subtract(4,'hours').toISOString();
@@ -23,7 +24,8 @@ export class AppointmentController{
         options.headers['x-hospital-id']=browser.appenvdetails.hospitalid;
         options.headers.authorization = browser.bearerToken;
     
-        //Set body data
+        //Set body data using default values
+        options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//bookAppointment.json'));
         options.body.ClientId = browser.clientID;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         options.body.PetAppointments[0].PatientId = browser.patientID;
@@ -36,7 +38,8 @@ export class AppointmentController{
 
     checkInAppointment(){
         browser.logger.info("*********** Check In Appointment ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//checkInAppointment.json'));
+        // Load Template
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postCheckInAppointment.json'));
     
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + 'CheckInAppointment';
@@ -58,7 +61,9 @@ export class AppointmentController{
 
     getCheckedInPatientDetails(){
         browser.logger.info('*********** Getting visit details ***********');
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//checkedInPatientDetails.json'));
+
+        // Load Template
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getCheckedInPatientDetails.json'));
     
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + 'CheckedInPatients';

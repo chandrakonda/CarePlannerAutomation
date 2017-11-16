@@ -15,13 +15,14 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
 
     beforeAll(() => {
         cpPetDetailsPage = new CarePlannerPetDetails();
-       cpSchedulerPage = new CarePlannerSchedulerPage();
+        cpSchedulerPage = new CarePlannerSchedulerPage();
         let authController: AuthController = new AuthController();
         let clientAndPatientController: ClientAndPatientController = new ClientAndPatientController();
         let appointmentController: AppointmentController = new AppointmentController();
         let visitController: VisitController = new VisitController();
         let orderController: OrderController = new OrderController();
-
+        //jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+        
         var flow = protractor.promise.controlFlow();
 
         //Creating a Auth Token
@@ -113,7 +114,6 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         flow.execute(visitController.getVisitResources).then(function (response) {
             browser.logger.info("Getting User Id...");
             // browser.logger(JSON.stringify(response));
-
             for (let i in response) {
                 // browser.logger(response[i]);
                 let user = response[i];

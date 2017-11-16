@@ -11,7 +11,7 @@ export class VisitController{
 
     getVisitResources(){
         browser.logger.info('*********** Getting User details ***********');
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//generalGetMethod.json'));
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getVisitResources.json'));
 
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + 'VisitResources';
@@ -27,7 +27,7 @@ export class VisitController{
     getVisitDetailsByVisitId(){
         browser.logger.info('*********** Gettting Visit Details and Invoice Items by Visit Id ***********');
 
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//getVisitAndInvoiceDetails.json'));
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getOrders.json'));
 
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + 'Orders';

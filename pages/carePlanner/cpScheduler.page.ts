@@ -15,7 +15,7 @@ export class CarePlannerSchedulerPage {
   eleNonScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='occurrence-text']"));
   eleCategoryList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[contains(@class,'wj-frozen-col')]/descendant::div[contains(@class,'groupheader_txt')]"));
 
-  
+  // div[class^='groupheader_txt']
 
  
   get categoryCount(){

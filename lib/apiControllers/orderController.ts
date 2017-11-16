@@ -11,24 +11,15 @@ export class OrderController{
     }
 
     addOrderToVisit(){
-       // browser.logger.info("*********** Adding Product to Order ***********");
-       // let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//addOrderToVisit.json'));
+       
        return AddingProductsModel.submitProductToVisit();
-        //Set URL
-       // options.url = browser.appenvdetails.wwapiendpoint + "Visits/"+ browser.visitId + "/VisitInvoiceItems";
 
-        //Set header values
-       // options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
-       // options.headers.authorization = browser.bearerToken;
-
-      //  var api = new CarePlannerApiServices();
-      //  return api.makePutRequest(options);
     }
 
     getTaskSeriesByOrderId(){
+        
         browser.logger.info("*********** get task series by order id ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//generalGetMethod.json'));
-
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getTaskSeriesByOrderId.json'));
         //Set URL
         options.url = browser.appenvdetails.wwapiendpoint + "Orders/"+ browser.visitId + "/TaskSeries";
         

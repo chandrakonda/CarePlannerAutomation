@@ -6,7 +6,8 @@ export namespace SetClient {
 
     // Load data model 
 
-    let clientRequest = require(path.join(__dirname, '..//..//..//data//jsonObjects//createClientDetails.json'));
+    
+    let apiTemplateValues = require(path.join(__dirname, '..//..//..//data//apiTemplates//postClients.json'));
 
     export interface ClientPhone {
         PhoneId: number;
@@ -31,14 +32,24 @@ export namespace SetClient {
         StatusId: number;
         ClientPhones: ClientPhone[];
 
-        constructor() {
-            this.ClientId = clientRequest.body.ClientId
+        constructor(defaultClientValues : any) {
+            // this.ClientId = defaultClientValues.body.ClientId
+            // this.HospitalId = browser.appenvdetails.hospitalid;
+            // this.FirstName = defaultClientValues.body.FirstName + '-' + new Date().getTime().toString();
+            // this.LastName = defaultClientValues.body.LastName + '-' + new Date().getTime().toString();
+            // this.IsCorporateClient = defaultClientValues.body.IsCorporateClient;
+            // this.StatusId = defaultClientValues.body.StatusId;
+            // this.ClientPhones = defaultClientValues.body.ClientPhones;
+            // this.ClientPhones.forEach(element => {
+            //     element.HospitalId = browser.appenvdetails.hospitalid;
+            // });
+            this.ClientId = defaultClientValues.ClientId
             this.HospitalId = browser.appenvdetails.hospitalid;
-            this.FirstName = clientRequest.body.FirstName + '-' + new Date().getTime().toString();
-            this.LastName = clientRequest.body.LastName + '-' + new Date().getTime().toString();
-            this.IsCorporateClient = clientRequest.body.IsCorporateClient;
-            this.StatusId = clientRequest.body.StatusId;
-            this.ClientPhones = clientRequest.body.ClientPhones;
+            this.FirstName = defaultClientValues.FirstName + '-' + new Date().getTime().toString();
+            this.LastName = defaultClientValues.LastName + '-' + new Date().getTime().toString();
+            this.IsCorporateClient = defaultClientValues.IsCorporateClient;
+            this.StatusId = defaultClientValues.StatusId;
+            this.ClientPhones = defaultClientValues.ClientPhones;
             this.ClientPhones.forEach(element => {
                 element.HospitalId = browser.appenvdetails.hospitalid;
             });
@@ -53,21 +64,13 @@ export namespace SetClient {
         private headers: any;
         private body: Body;
         constructor(specfolder: string) {
-            // Loaded data template in beginning and fill regular data
-            // Load user data for given spec
-                // let userdataforspec = require(path.join(__dirname, '..//..//..//data//' + specfolder + '//createclientdata.json+'));
-            // create seperate data folder for each spec ex: spec1data, spec2data, spec3data
-            // place all data files related to spec in that folder
-            // file name will be constant for all the files.so we just need to take data from the spec folder.
-            // specfolder name will be given in the specfile/we need to pass this ? 
-            // All common data manipulation will be done in data model only.
-            // in spec, we will create object for this RootObject and this will return a object [we can convert to json], which we can send to request.
+            let defaultClientValues = require(path.join(__dirname, '..//..//..//data//defaultValues//postClientsDetails.json'));
             this.method = browser.appenvdetails.method;
             this.url = browser.appenvdetails.wwapiendpoint + 'Clients';
-            this.qs = clientRequest.qs;
-            this.headers = clientRequest.headers;
+            this.qs = apiTemplateValues.qs;
+            this.headers = apiTemplateValues.headers;
             this.headers["x-hospital-id"] = browser.appenvdetails.hospitalid;
-            this.body = new Body()
+            this.body = new Body(defaultClientValues)
 
         }
 

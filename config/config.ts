@@ -37,11 +37,11 @@ export const config: Config = {
 
     framework: "jasmine",
 
-    specs: ["../specs/carePlanner/testPetDetails.spec.js"],
+    specs: ["../specs/carePlanner/logtest.spec.js"],
 
     jasmineNodeOpts: {
         showColors: true,
-        defaultTimeoutInterval: 400000,
+        defaultTimeoutInterval: 30000,
         isVerbose: true,
         includeStackTrace: true
     },
@@ -57,13 +57,12 @@ export const config: Config = {
     },
 
 
-
     onPrepare: () => {
         browser.logger = LogHelper.getLogger();
         browser.logger.info('**************On Prepare Started**************');
         
         //Adding Reporters to the execution
-        //ReportHelper.addBeautifulHTMLReporter();
+        ReportHelper.addBeautifulHTMLReporter();
         
         // we are filtering config options based on environment and we are taking only filtered environment details
         let appenvdetails: ReadAppConfig.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();

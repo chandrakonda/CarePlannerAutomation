@@ -1,0 +1,19 @@
+{ 
+    "method": "POST", 
+    "url": "", 
+    "qs": { 
+        "ignoreDuplicateAddress": "true", 
+        "validateAddress": "false", 
+        "ignoreDuplicatePhone": "true" 
+    }, 
+    "headers": { 
+        "cache-control": "no-cache", 
+        "content-type": "application/json", 
+        "applicationname": "Retriever", 
+        "username": "PTM-WebApp-qa", 
+        "x-hospital-id": "153", 
+        "authorization": "" 
+    }, 
+    "body": {    },
+    "json": true 
+}

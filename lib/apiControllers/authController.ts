@@ -26,7 +26,7 @@ export class AuthController{
 
     getAuthToken(){
         browser.logger.info("*********** Getting Auth Token ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//jsonObjects//authToken.json'));
+        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//authToken.json'));
         options.url = browser.appenvdetails.authorizationurl;          
         
         let apiServices = new CarePlannerApiServices();
