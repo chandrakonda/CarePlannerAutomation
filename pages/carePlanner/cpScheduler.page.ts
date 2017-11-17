@@ -70,7 +70,8 @@ export class CarePlannerSchedulerPage {
 
   async clickOnTaskName(taskName: string) {
     //try {
-      let ele1 = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']//div[contains(@class,'wj-frozen-col') and not(contains(@class,'wj-group')) and not(contains(@class,'wj-wrap'))][1]//div[@class='itemname']"));
+      //let ele1 = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']//div[contains(@class,'wj-frozen-col') and not(contains(@class,'wj-group')) and not(contains(@class,'wj-wrap'))][1]//div[@class='itemname']"));
+      let ele1 = element(by.xpath("//div[contains(@class,'wj-cell wj-alt wj-frozen')]/descendant::div[@class='itemname'][../../../../../../preceding-sibling::div[contains(@class,'wj-cell wj-group wj-frozen')]/descendant::div/div[contains(@class,'groupheader_txt') and contains(text(),'Diagnostics')]]"));
       // browser.executeScript("arguments[0].click();",ele1);
       ele1.click();
        browser.sleep(3000);
@@ -82,7 +83,48 @@ export class CarePlannerSchedulerPage {
     //   }).click();
     // } catch (error) {
     //   browser.logger.info(error);
+    
     // }
   }
+
+  IsTaskScheduled(){
+    try {
+      return element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/div/descendant::li/div[contains(@class,'occurance-icon')]")).isDisplayed()
+      .then((value)=>{
+        browser.logger.info("The Value is : " + value);
+        return  value;
+      });
+    } catch (error) {
+        browser.logger.error(error);    
+    }
+  }
+
+  clickScheduledTaskItem(){
+    try {
+      let item = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/descendant::li"));
+      item.click();           
+    } catch (error) {
+      browser.logger.error(error);    
+    }
+  }
+
+  TaskOccurenceStatus(){
+    try {
+      let item = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/descendant::li"));
+      return item.getAttribute('class').then((status:string) =>{
+        browser.logger.info("Task Occurence Status is: " + status);
+          return status;
+      });
+    } catch (error) {
+      browser.logger.error(error);    
+    }
+  }
+
+
 }
+
+
+
+
+
 

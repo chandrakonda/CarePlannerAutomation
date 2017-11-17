@@ -26,11 +26,15 @@ export class CarePlannerEditSchedulePopup {
     eleScheduleButton = element(by.xpath(".//button[text()='Cancel']/following-sibling::button"));
 
 
-    get isPopupDisplayed() {
+    get isPopupDisplayed():Boolean {
         try {
             browser.logger.info("Check the Popup is displayed");
             browser.logger.info(this.elePopup.isDisplayed());
-            return this.elePopup.isDisplayed();
+            let x:boolean;
+            this.elePopup.isDisplayed().then((value)=>{
+                x = value;
+            });
+            return x;
         } catch (error) {
             browser.logger.info(error);
         }

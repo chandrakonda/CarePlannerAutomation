@@ -7,9 +7,10 @@ import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page
 import { OrderController } from '../../lib/apiControllers/orderController';
 import { CarePlannerSchedulerPage } from '../../pages/carePlanner/cpScheduler.page';
 import { CarePlannerEditSchedulePopup } from '../../pages/carePlanner/cpEditSchedulePopup.page';
+import { CarePlannerEditOccuranceSeriesPopup } from '../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
 
 
-let cpSchedulerPage, cpPetDetailsPage,cpEditSchedulePopupPage;
+let cpSchedulerPage, cpPetDetailsPage,cpEditSchedulePopupPage, cpEditOccuranceSeriesPopup;
 //let authController, clientAndPatientController, appointmentController;
 
 describe('Verify the Patient Header has accurate Patient and Visit information', () => {
@@ -23,6 +24,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         let visitController: VisitController = new VisitController();
         let orderController: OrderController = new OrderController();
         cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        cpEditOccuranceSeriesPopup = new CarePlannerEditOccuranceSeriesPopup();
         //jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
         
         var flow = protractor.promise.controlFlow();
@@ -249,7 +251,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
     it('Enter repeat hours ', () =>{
         
        // browser.sleep(3000);
-        cpEditSchedulePopupPage.EnterRepeatEveryHour(1);
+        cpEditSchedulePopupPage.EnterRepeatEveryHour(12);
        // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
     });
 
@@ -258,7 +260,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
     it('Enter End time ', () =>{
         //cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
         browser.sleep(3000);
-        cpEditSchedulePopupPage.EnterEndTime(19.00);
+        cpEditSchedulePopupPage.EnterEndTime(20.00);
        // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
     });
 
@@ -275,8 +277,40 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         cpEditSchedulePopupPage.ClickScheduleButton();
        // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
 
-       browser.sleep(7000);
+       browser.sleep(10000);
+       
+    });
+
+    it('Verify the task is scheduled', async () =>{
+        //browser.executeScript("document.body.style.zoom='80%'");
+        browser.sleep(10000);
+
+        await expect(cpSchedulerPage.IsTaskScheduled()).toBe(true);
+        browser.logger.info("Verified the scheduled task");
+    });
+
+    it("Click on the scheduler from sceduled time", async ()=>{
+        await cpSchedulerPage.clickScheduledTaskItem();
+        browser.sleep(7000);
+        browser.logger.info("Clicked on the task scheduled item  ");
+        expect(cpEditOccuranceSeriesPopup.isPopupDisplayed).toBe(true);
+        browser.logger.info("Verified the occurrence Popup");
+    });
+
+    
+    it("Enter the task notes", ()=>{
+        cpEditOccuranceSeriesPopup.EnterTaskNotes("Task has been completed");    
     });
 
 
+    it("Click on Schedule & Save", () => {
+        cpEditOccuranceSeriesPopup.ClickOnCompleteAndSave();
+        browser.sleep(4000);
+    });
+
+
+    it("Verify the Status after completing the occurence", async ()=>{
+        await expect(cpSchedulerPage.TaskOccurenceStatus()).toEqual('Complete');
+    });
+    
 });    
