@@ -19,9 +19,9 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
             // cpSchedulerPage = new CarePlannerSchedulerPage();
             // browser.clientLastName = "Rogers1510694963537" ;
             // browser.patientName = "Lilly1510694963537"; 
-            // browser.get("https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=314760342&orderId=472962967&userName=chandrasekhar.konda&userId=0&accessToken=SltRMWmy6I6W_FY-kwONiNKgtpYqK9xPtanDVkY2VdG8JK7yxErMGj7AMIJpX8xQKhnMe3FK208n7Ul75E1ep95HSm3QvyPzbGQ-VaGPOYm1iFe2VNKS1K-E-7blA8BeSvgkM8KPy09fvS8fnbZ7WAceGtFS8WU_bl7SI9qJ_U1X5PXLdcn8FbTAZzyjHgY5GYyctItNPGfRBKc_HwvxCFwZfemrFuQYaI-k3qOmJ3y7SOZMBcHPr0THRxtgs9_Bcnt1DQ ");
+            browser.get("https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=314760342&orderId=472962967&userName=chandrasekhar.konda&userId=0&accessToken=SltRMWmy6I6W_FY-kwONiNKgtpYqK9xPtanDVkY2VdG8JK7yxErMGj7AMIJpX8xQKhnMe3FK208n7Ul75E1ep95HSm3QvyPzbGQ-VaGPOYm1iFe2VNKS1K-E-7blA8BeSvgkM8KPy09fvS8fnbZ7WAceGtFS8WU_bl7SI9qJ_U1X5PXLdcn8FbTAZzyjHgY5GYyctItNPGfRBKc_HwvxCFwZfemrFuQYaI-k3qOmJ3y7SOZMBcHPr0THRxtgs9_Bcnt1DQ ");
             //     //https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=314760342&orderId=472962967&userName=chandrasekhar.konda&userId=0&accessToken=Fxw1VkLrNPLQ0O29lswsuAzBQOiTyRZxg2I9Y39UyLdkDALtfE1CkI1ZC6duSXlYckV3bg2iToR_FpeDUMbaCrSJn3g8Cq0UpUgjKZ0ARnPiBTJmXAVoQZp9zuMU9ZIp-gA9L9-5IBR0Qhdl3iqWjHWen6egDDBjuvdJ3U-_QWebLfzPbn3tnVtSIt2FYEQcsVfxcD8Q6AhsPrw1FhwhgCHmVxUj2hjGB5vnOb-7hGdxbA-087k329PLCJJ_pNFr6AB3lg 
-            // browser.sleep(3000);
+            browser.sleep(3000);
             browser.logger.info("*********** Executing Tests ***********");
         });
 
@@ -136,24 +136,24 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         //     });
         // });
         
-        // it('click on vitals in the windiow', async () => {
+        it('click on vitals in the windiow', async () => {
             
-        //    let ele1 = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']//div[contains(@class,'wj-frozen-col') and not(contains(@class,'wj-group')) and not(contains(@class,'wj-wrap'))][1]//div[@class='itemname']"));
-        //   // browser.executeScript("arguments[0].click();",ele1);
-        //    ele1.click();
-        //    browser.sleep(6000);
+           let ele1 = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']//div[contains(@class,'wj-frozen-col') and not(contains(@class,'wj-group')) and not(contains(@class,'wj-wrap'))][1]//div[@class='itemname']"));
+          // browser.executeScript("arguments[0].click();",ele1);
+           ele1.click();
+           browser.sleep(6000);
 
-        // });
+        });
 
 
-        //     // Get values from drop downs
-        // it('Click on cancel button', async () => {
-        //     let elePlaceHolder = element(by.xpath(".//textarea[@placeholder='Add instructions here.']"));
-        //     elePlaceHolder.sendKeys("Enter text in the fields ");
-
-        //     let eleCancelButton = element(by.xpath(".//button[text()='Cancel']"));
-        //     eleCancelButton.click();  
-        // })
+            // Get values from drop downs
+        it('Click on cancel button', async () => {
+            let elePlaceHolder = element(by.xpath(".//textarea[@placeholder='Add instructions here.']"));
+            elePlaceHolder.sendKeys("Enter text in the fields ");
+            browser.sleep(6000);
+            let eleCancelButton = element(by.xpath(".//button[text()='Cancel']"));
+            eleCancelButton.click();  
+        })
     
         
            // browser.sleep(6000);

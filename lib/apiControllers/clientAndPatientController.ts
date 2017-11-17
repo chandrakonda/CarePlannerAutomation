@@ -68,7 +68,8 @@ export class ClientAndPatientController{
         //Set body data
         options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//postPatients.json'));
         options.body.ClientId = browser.clientID;
-        options.body.PatientName = options.body.PatientName+ClientAndPatientController.__timestamp;
+        browser.patientName = options.body.PatientName+ClientAndPatientController.__timestamp;
+        options.body.PatientName = browser.patientName;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         
         let apiServices = new CarePlannerApiServices();

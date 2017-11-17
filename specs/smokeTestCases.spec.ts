@@ -41,9 +41,9 @@ describe('Verify the Category Details from the Scehduler Page', () => {
     await expect(cpSchedulerPage.categoryCount).toEqual(1);
   });
 
-  it('Should have the category name as DIAGNOSTIC', async () => {
-     await expect(cpSchedulerPage.categoryList).toMatch('DIAGNOSTIC');
-  });  
+  // it('Should have the category name as DIAGNOSTIC', async () => {
+  //    await expect(cpSchedulerPage.categoryList).toMatch('DIAGNOSTIC');
+  // });  
 });
 
 describe('Verify the Product Task Details from the Scheduler Page', () => {

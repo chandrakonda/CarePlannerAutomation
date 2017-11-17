@@ -40,6 +40,7 @@
     "typescript-collections": "^1.2.5"
   },
   "devDependencies": {
-    "moment": "^2.19.1"
+    "moment": "^2.19.1",
+    "protractor-pretty-html-reporter": "0.0.15"
   }
 }

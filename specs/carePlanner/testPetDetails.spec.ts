@@ -6,9 +6,10 @@ import { browser, protractor } from 'protractor';
 import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
 import { OrderController } from '../../lib/apiControllers/orderController';
 import { CarePlannerSchedulerPage } from '../../pages/carePlanner/cpScheduler.page';
+import { CarePlannerEditSchedulePopup } from '../../pages/carePlanner/cpEditSchedulePopup.page';
 
 
-let cpSchedulerPage, cpPetDetailsPage;
+let cpSchedulerPage, cpPetDetailsPage,cpEditSchedulePopupPage;
 //let authController, clientAndPatientController, appointmentController;
 
 describe('Verify the Patient Header has accurate Patient and Visit information', () => {
@@ -21,6 +22,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         let appointmentController: AppointmentController = new AppointmentController();
         let visitController: VisitController = new VisitController();
         let orderController: OrderController = new OrderController();
+        cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
         //jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
         
         var flow = protractor.promise.controlFlow();
@@ -50,7 +52,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
             //browser.logger.info(JSON.stringify(response));            
             browser.patientID = response;
             browser.logger.info("PatientId: " + browser.patientID);
-        browser.patientName 
+        //browser.patientName 
         });
 
         //Create a new appointment for patient
@@ -137,7 +139,9 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
                 '&accessToken=' + browser.token;
             browser.logger.info('URL: ', url);
             browser.get(url);
-            browser.sleep(3000);
+            
+          //  browser.executeScript("document.body.style.zoom='80%'");
+            browser.sleep(5000);
             browser.logger.info("*********** Executing Tests ***********");
         });
        
@@ -236,6 +240,43 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
                
     });
 
+    it('Click on Vitals Task series ', async () =>{
+        cpSchedulerPage = new CarePlannerSchedulerPage();
+        browser.logger.info(cpSchedulerPage.productTaskList);
+        await cpSchedulerPage.clickOnTaskName("Vitals");
+    });
+
+    it('Enter repeat hours ', () =>{
+        
+       // browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterRepeatEveryHour(1);
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    });
+
+
+    
+    it('Enter End time ', () =>{
+        //cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterEndTime(19.00);
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    });
+
+    it('Enter instructions  ', () =>{
+       // cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        //browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterInstructions("Enter your instructions");
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    });
+
+    it('Click on Schedule button ', () =>{
+       // cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        //browser.sleep(3000);
+        cpEditSchedulePopupPage.ClickScheduleButton();
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+
+       browser.sleep(7000);
+    });
 
 
 });    

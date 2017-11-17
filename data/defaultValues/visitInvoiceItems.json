@@ -9,6 +9,16 @@
             "MinimumQty": 1,
             "DefaultQty": 1,
             "MaximumQty": 1
+        },
+        {
+            "MinimumQty": 1,
+            "DefaultQty": 1,
+            "MaximumQty": 1,
+            "InvoiceItemId": 94062,
+            "InvoiceItemTypeId": 1,
+            "PLNo": 101,
+            "SeqNo": 210,
+            "Code": "101.210"
         }
     ]
 }

@@ -10,8 +10,11 @@ describe('Verify the user can schedule task', () => {
     
     beforeAll(() => {
         
-        browser.get("https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=314760342&orderId=472962967&userName=chandrasekhar.konda&userId=0&accessToken=SltRMWmy6I6W_FY-kwONiNKgtpYqK9xPtanDVkY2VdG8JK7yxErMGj7AMIJpX8xQKhnMe3FK208n7Ul75E1ep95HSm3QvyPzbGQ-VaGPOYm1iFe2VNKS1K-E-7blA8BeSvgkM8KPy09fvS8fnbZ7WAceGtFS8WU_bl7SI9qJ_U1X5PXLdcn8FbTAZzyjHgY5GYyctItNPGfRBKc_HwvxCFwZfemrFuQYaI-k3qOmJ3y7SOZMBcHPr0THRxtgs9_Bcnt1DQ ");
+        browser.get("https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=314760369&orderId=472963006&userName=Josh.Chezum&userId=246200262&accessToken=s7r7kG-9H8aMp9aiGjkFQo3794o4Q4-UkSrj3bf_sXD1nUC1jAdGsdIPA3wVjOqVfAstMZ8PZPDIoj3ZUbbn5QcqqzgGpV-HS4hsR-Xfaw3STt1Y6pBZUyv9y2UqR-frIAN9A8MeJ4M-Wtzb12Ev3QKe8JXIvW0Yg2qlf3ngnX8s_mOgIqAu5BHW8tkE4N7Kut9RHZji4Nwh7iSczxOPd3r2co7gVTAcBsd2F37Ea6IVW4Yy7heCVAx41jsQmPxAJmj2SA ");
         browser.ignoreSynchronization = true;
+       // browser.executeScript("document.body.style.zoom='80%'");
+        cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        cpSchedulerPage = new CarePlannerSchedulerPage();
     });
 
     it('Should have the title as VCA Charge Capture', async () => {    
@@ -20,16 +23,49 @@ describe('Verify the user can schedule task', () => {
         await expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
     });
     
+    it('Category name list should be ', async () =>{
+        let list1 : any;
+        
+        console.log(await cpSchedulerPage.categoryNameList);
+    });
+
 
     it('Verifying Task Count', async () =>{
-        cpSchedulerPage = new CarePlannerSchedulerPage();
+       // cpSchedulerPage = new CarePlannerSchedulerPage();
         browser.logger.info(cpSchedulerPage.productTaskList);
         await cpSchedulerPage.clickOnTaskName("Vitals");
     });
 
     it('Enter repeat hours ', () =>{
-        cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
-        cpEditSchedulePopupPage.EnterRepeatEveryHour(3);
-        expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+        
+        browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterRepeatEveryHour(1);
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
     });
+
+
+    
+    it('Enter End time ', () =>{
+        //cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterEndTime(20.00);
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    });
+
+    it('Enter instructions  ', () =>{
+       // cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        //browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterInstructions("Enter your instructions");
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    });
+
+    it('Click on Schedule button ', () =>{
+       // cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        //browser.sleep(3000);
+        cpEditSchedulePopupPage.ClickScheduleButton();
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    });
+
+
+
 });

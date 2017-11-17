@@ -5,3 +5,4 @@ support/log/
 log/
 *.js
 .vscode
+results/
