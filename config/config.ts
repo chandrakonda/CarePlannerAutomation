@@ -73,7 +73,7 @@ export const config: Config = {
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(50000);
         browser.baseUrl = browser.appenvdetails.applicationurl;
-      //  browser.executeScript("document.body.style.zoom='70%'");
+       
 
     },
 

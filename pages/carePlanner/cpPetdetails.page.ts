@@ -39,6 +39,7 @@ export class CarePlannerPetDetails {
 
   get pageTitle(): any {
     try {
+
       return browser.getTitle().then(function (title) {
         browser.logger.info("Page title is "+title);
         return title;

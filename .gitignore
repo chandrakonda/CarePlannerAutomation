@@ -6,3 +6,4 @@ log/
 *.js
 .vscode
 results/
+debug.log

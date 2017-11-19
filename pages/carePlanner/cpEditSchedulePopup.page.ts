@@ -8,10 +8,11 @@ export class CarePlannerEditSchedulePopup {
     eleScheduleAccordion = element(by.xpath("//taskschedule/descendant::lsu-accordionpanel/div[@class='title active']"));
     // eleDataToCollectAccordion = element(by.xpath("//taskschedule/descendant::lsu-accordionpanel/div[@class='title']"));
 
-    eleFrequencyOnceToggleButton = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='once']"))
-    eleFrequencyRecurringToggleButton = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='recurring']"));
+    eleFrequencyOnceToggleButton = element(by.xpath(".//input[@id='once']/following-sibling::label[text()='Once']"))
+    eleFrequencyRecurringToggleButton = element(by.xpath(".//input[@id='recurring']/following-sibling::label[text()='Recurring']"));
 
     eleStartTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start time']/following-sibling::div/input[contains(@class,'custominput')]"));
+    eleStartTimeTextBoxScheduleOnce = element(by.xpath(".//input[@class='custominput ng-untouched ng-pristine ng-valid']"));
     eleEndTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End time']/following-sibling::div/input[contains(@class,'custominput')]"));
     eleRepeatEveryTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Repeat every']/following-sibling::div/input[contains(@class,'custominput')]"));
 
@@ -25,11 +26,12 @@ export class CarePlannerEditSchedulePopup {
     eleTimeSensitiveCheckBox = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='Overdue']"));
     eleScheduleButton = element(by.xpath(".//button[text()='Cancel']/following-sibling::button"));
 
+    
 
     get isPopupDisplayed():Boolean {
         try {
-            browser.logger.info("Check the Popup is displayed");
-            browser.logger.info(this.elePopup.isDisplayed());
+           
+           // browser.logger.info(this.elePopup.isDisplayed());
             let x:boolean;
             this.elePopup.isDisplayed().then((value)=>{
                 x = value;
@@ -42,6 +44,8 @@ export class CarePlannerEditSchedulePopup {
 
     ToggleFrequencyOnce() {
         try {
+            var EC = protractor.ExpectedConditions;
+            browser.wait(EC.visibilityOf(this.eleFrequencyOnceToggleButton), 5000);
             this.eleFrequencyOnceToggleButton.click();
         } catch (error) {
             browser.logger.error(error);
@@ -79,7 +83,21 @@ export class CarePlannerEditSchedulePopup {
             browser.logger.error(error);
         }
     }
-    get StartTime(): any {
+
+    
+
+    get getStartTimeScheduleOnce(): any {
+        try {
+            return this.eleStartTimeTextBoxScheduleOnce.getAttribute('value').then((startTime) => {
+                console.log("Start time is        "+startTime);
+                return startTime;
+            });
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    get getStartTime(): any {
         try {
             return this.eleStartTimeTextBox.getText().then((startTime) => {
                 return startTime;

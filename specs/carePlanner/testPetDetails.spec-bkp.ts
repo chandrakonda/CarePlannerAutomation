@@ -2,17 +2,15 @@ import { AppointmentController } from '../../lib/apiControllers/appointmentContr
 import { AuthController } from '../../lib/apiControllers/authController';
 import { ClientAndPatientController } from '../../lib/apiControllers/clientAndPatientController';
 import { VisitController } from '../../lib/apiControllers/visitController';
-import { browser, protractor, element, by } from 'protractor';
+import { browser, protractor } from 'protractor';
 import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
 import { OrderController } from '../../lib/apiControllers/orderController';
 import { CarePlannerSchedulerPage } from '../../pages/carePlanner/cpScheduler.page';
 import { CarePlannerEditSchedulePopup } from '../../pages/carePlanner/cpEditSchedulePopup.page';
 import { CarePlannerEditOccuranceSeriesPopup } from '../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
-import { By } from 'selenium-webdriver';
-import { ActionSequence } from 'protractor/node_modules/@types/selenium-webdriver';
 
 
-let cpSchedulerPage, cpPetDetailsPage, cpEditSchedulePopupPage, cpEditOccuranceSeriesPopup;
+let cpSchedulerPage, cpPetDetailsPage,cpEditSchedulePopupPage, cpEditOccuranceSeriesPopup;
 //let authController, clientAndPatientController, appointmentController;
 
 describe('Verify the Patient Header has accurate Patient and Visit information', () => {
@@ -27,8 +25,8 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         let orderController: OrderController = new OrderController();
         cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
         cpEditOccuranceSeriesPopup = new CarePlannerEditOccuranceSeriesPopup();
-
-
+        //jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+        
         var flow = protractor.promise.controlFlow();
 
         //Creating a Auth Token
@@ -56,7 +54,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
             //browser.logger.info(JSON.stringify(response));            
             browser.patientID = response;
             browser.logger.info("PatientId: " + browser.patientID);
-            //browser.patientName 
+        //browser.patientName 
         });
 
         //Create a new appointment for patient
@@ -143,16 +141,13 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
                 '&accessToken=' + browser.token;
             browser.logger.info('URL: ', url);
             browser.get(url);
-
-            //  browser.executeScript("document.body.style.zoom='80%'");
+            
+          //  browser.executeScript("document.body.style.zoom='80%'");
             browser.sleep(5000);
             browser.logger.info("*********** Executing Tests ***********");
         });
+       
 
-
-        // browser.get(" https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=314760412&orderId=472963060&userName=Josh.Chezum&userId=246200262&accessToken=W5kykM4WP8hyJ9M-tELtdHjEwnKByK6b8Q508J3H6lsIexgiZkqxLY9rqdqPaOFOqmmxW7bh16x9sVB_9QlT_i260U1gds9cAcx490HvVZeNjrgzj2tEQP6U4Bm1LF-RYiUSDvTUtsq7JTB5cUwR0yoNVsMqvy0COr2mY1mdn4k1bnaYcVN6vplYsOXl9JuoN_F8ntiwWYAmnt8NIJgBYyFcL8mRaH2FFyfb5TmF-pM7k9S2sYBaJ2YAfqcnS_F1BkzICA");
-        // //     //  browser.executeScript("document.body.style.zoom='100%'");
-        // browser.sleep(10000);
     });
 
     /// Test cases 
@@ -166,7 +161,6 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
         else {
             browser.logger.error("Page title is not matching");
             fail("Page title are not matching");
-            // .//div[@wj-part='cells'  and @class='wj-cells']
         }
     });
 
@@ -175,7 +169,7 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
 
         let __patientName = browser.patientName.length >= 12 ? browser.patientName.slice(0, 12) + '…' : browser.patientName;
 
-        if (__patientName == await cpPetDetailsPage.petName) {
+        if (__patientName  == await cpPetDetailsPage.petName) {
             browser.logger.info("Patient name is matching");
         }
         else {
@@ -211,111 +205,114 @@ describe('Verify the Patient Header has accurate Patient and Visit information',
     });
 
     it('Should validate primary doctor name ', async () => {
-
+        
         browser.logger.info('validate doctor name');
 
     });
 
     it('Should validate category count ', async () => {
-        var __catCount = await cpSchedulerPage.categoryCount;
+        
+       var __catCount =  await cpSchedulerPage.categoryCount;
 
-        browser.logger.info("Cat count " + __catCount);
+       browser.logger.info("Cat count "+__catCount);
+               
+    });
+
+ 
+
+    it('Should validate product count ', async () => {
+        
+       var __productTaskList =  await cpSchedulerPage.productTaskListCount;
+
+       browser.logger.info("task list count  "+__productTaskList);
+               
+    });
+
+    it('Should validate non scheduled task count ', async () => {
+        
+       var __productTaskList =  await cpSchedulerPage.nonScheduledProductTaskCount;
+
+       browser.logger.info("non scheduled "+__productTaskList);
+               
+    });
+
+    it('Click on Task series ', async () =>{
+        cpSchedulerPage = new CarePlannerSchedulerPage();
+        browser.logger.info(cpSchedulerPage.productTaskList);
+        await cpSchedulerPage.clickOnTaskName("Vitals");
+    });
+
+        
+    it('Frequency as Once ', () =>{
+        
+       // browser.sleep(3000);
+        cpEditSchedulePopupPage.ToggleFrequencyOnce(1);
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    });
+    
+    it('Enter repeat hours ', () =>{
+        
+       // browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterRepeatEveryHour(12);
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
     });
 
 
-
-    it('Should get product count ', async () => {
-
-        var __productTaskList = await cpSchedulerPage.productTaskListCount;
-
-        browser.logger.info("task list count  " + __productTaskList);
-
-    });
-
-    it('Should get list of category names', async () => {
-
-        browser.logger.info(await cpSchedulerPage.productTaskList);
-
-    });
-
-
-    it('Click on Task series ', async () => {
-   
-        await cpSchedulerPage.clickOnTaskName("Medication");
-
-    });
-
-    it('Task series pop up should be displayed', async () =>{
-
-        let val : boolean = await cpSchedulerPage.IsTaskSeriesPopUpdisplayed();
-        if (val) {browser.logger.info("Task series pop up is opened");}
-        else {browser.logger.info("Task series pop up is not opened");}
-
-    });
-
-
-    it('Frequency as Once and get Start Time ', async () => {
+    
+    it('Enter End time ', () =>{
+        //cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
         browser.sleep(3000);
-        // browser.sleep(3000);
-        await cpEditSchedulePopupPage.ToggleFrequencyOnce();
-        // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
-        let __startTime: any = await (cpEditSchedulePopupPage.getStartTimeScheduleOnce);
-        browser.starttimeoftaskseries = await parseInt(__startTime);
-        await console.log("Start time value is .....  " + (browser.starttimeoftaskseries));
-        //browser.starttimeoftaskseries =8;
+        cpEditSchedulePopupPage.EnterEndTime(20.00);
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
     });
 
-
-    it('Enter instructions  ', async () => {
-        await cpEditSchedulePopupPage.EnterInstructions("Enter your instructions");
-        // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+    it('Enter instructions  ', () =>{
+       // cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        //browser.sleep(3000);
+        cpEditSchedulePopupPage.EnterInstructions("Enter your instructions");
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
     });
 
-    it('Click on Schedule button ', async () => {
-        await cpEditSchedulePopupPage.ClickScheduleButton();
+    it('Click on Schedule button ', () =>{
+       // cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+        //browser.sleep(3000);
+        cpEditSchedulePopupPage.ClickScheduleButton();
+       // expect(cpEditSchedulePopupPage.repeatEvery).toEqual(3);
+
+       browser.sleep(10000);
+       
     });
 
+    it('Verify the task is scheduled', async () =>{
+        //browser.executeScript("document.body.style.zoom='80%'");
+        browser.sleep(10000);
 
-    it('Verify the task is scheduled', async () => {
-        browser.sleep(5000);
-        let __taskOcccurence = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position()=" + (browser.starttimeoftaskseries + 1) + "]//ul//div[@class='occurance-icon']";
-        browser.logger.info(__taskOcccurence);
-        await expect(cpSchedulerPage.IsTaskScheduled1(__taskOcccurence)).toBe(true);
-        //  browser.logger.info("Verified scheduled task");
+        await expect(cpSchedulerPage.IsTaskScheduled()).toBe(true);
+        browser.logger.info("Verified the scheduled task");
     });
 
-
-    it('Click on scheduled task occurenace cell', async () => {
-        let __taskOcccurence = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position()=" + (browser.starttimeoftaskseries + 1) + "]//ul";
-        browser.logger.info(__taskOcccurence);
-        // browser.sleep(10000);
-        await cpSchedulerPage.clickScheduledTaskItem1(__taskOcccurence);
-        // browser.sleep(6000);
-    });
-
-    it("Task occurrence popup should be displayed", async () => {
-
+    it("Click on the scheduler from sceduled time", async ()=>{
+        await cpSchedulerPage.clickScheduledTaskItem();
+        browser.sleep(7000);
         browser.logger.info("Clicked on the task scheduled item  ");
-        expect(await cpEditOccuranceSeriesPopup.isPopupDisplayed).toBe(true);
-        await browser.logger.info("Task occurrence pop up is displayed");
+        expect(cpEditOccuranceSeriesPopup.isPopupDisplayed).toBe(true);
+        browser.logger.info("Verified the occurrence Popup");
+    });
+
+    
+    it("Enter the task notes", ()=>{
+        cpEditOccuranceSeriesPopup.EnterTaskNotes("Task has been completed");    
     });
 
 
-    it("Enter the task notes", async () => {
-        await cpEditOccuranceSeriesPopup.EnterTaskNotes("Task has been completed");
+    it("Click on Schedule & Save", () => {
+        cpEditOccuranceSeriesPopup.ClickOnCompleteAndSave();
+        browser.sleep(4000);
     });
 
 
-    it("Click on Schedule & Save", async () => {
-        await cpEditOccuranceSeriesPopup.ClickOnCompleteAndSave();
-
+    it("Verify the Status after completing the occurence", async ()=>{
+        await expect(cpSchedulerPage.TaskOccurenceStatus()).toEqual('Complete');
     });
-
-
-    it("Verify the Status after completing the occurence", async () => {
-        browser.starttimeoftaskseries;
-        let __taskOcccurence = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position()=" + (browser.starttimeoftaskseries) + "]//ul//li[@class='Complete']";
-        await expect(cpSchedulerPage.TaskOccurenceStatus1(__taskOcccurence)).toEqual('Complete');
-    });
-
-});
+    
+});    
