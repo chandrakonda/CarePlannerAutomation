@@ -1,23 +1,25 @@
+import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
+
 import { AppointmentController } from '../../lib/apiControllers/appointmentController';
 import { AuthController } from '../../lib/apiControllers/authController';
 import { ClientAndPatientController } from '../../lib/apiControllers/clientAndPatientController';
 import { VisitController } from '../../lib/apiControllers/visitController';
-import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
 import { OrderController } from '../../lib/apiControllers/orderController';
 
-import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
-import { CareNoteDialog } from '../../pages/carePlanner/careNoteDialog.page';
+import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
+import { AddOptionalTaskDialog } from '../../pages/carePlanner/addTaskDialog.page';
+import { CarePlannerSchedulerPage } from '../../pages/carePlanner/cpScheduler.page';
 import * as moment from 'moment';
 
-let cpSchedulerPage, cpPetDetailsPage, careNote;
-//let authController, clientAndPatientController, appointmentController;
+let schdedulerPage, cpPetDetailsPage, addTask;
 
-describe('Verify user can create a CareNote', () => {
+describe('Verify user can add an optional task', () => {
 
     beforeAll(() => {
         cpPetDetailsPage = new CarePlannerPetDetails();
-        careNote = new CareNoteDialog();
-        var flow = protractor.promise.controlFlow();
+        addTask = new AddOptionalTaskDialog();
+        schdedulerPage = new CarePlannerSchedulerPage();
+
         let authController: AuthController = new AuthController();
         let clientAndPatientController: ClientAndPatientController = new ClientAndPatientController();
         let appointmentController: AppointmentController = new AppointmentController();
@@ -35,7 +37,6 @@ describe('Verify user can create a CareNote', () => {
             browser.logger.info("Bearer token: " + browser.bearerToken);
         });
 
-
         //Create a Client
         flow.execute(clientAndPatientController.createClient).then((response) => {
             browser.logger.info("Creating a new client...");
@@ -52,7 +53,7 @@ describe('Verify user can create a CareNote', () => {
             //browser.logger.info(JSON.stringify(response));            
             browser.patientID = response;
             browser.logger.info("PatientId: " + browser.patientID);
-        browser.patientName 
+            browser.patientName; 
         });
 
         //Create a new appointment for patient
@@ -129,6 +130,9 @@ describe('Verify user can create a CareNote', () => {
         flow.execute(() => {
             browser.logger.info("*********** Launching Browser ***********");
             browser.logger.info("Creating URL and launching browser...");
+            // browser.token='0uOXfFVs5INHMjqHjeoV9DeZKg2oMxfXBmQRTAmhBwVZpKpDcCe3mFy70TBAabTMwoZXQmg_mQ_RMBbEf_th03LeUuwxmbvWEHih1qZZ1ntCMgfCTZV-N-bwyk3-rAxG39ZlQv4acz9gQKQwwgNAeADbOJqr9vJ4Ndlm8apD_KQLKofsb3zaa3FnMU1CHWxeYBHenK2uooucMW-gAriyjnr5vUnbPCfHdIxWCkjZRkMgLVDe_Cb0YT9cq1y9KdN0wStdLw';
+            // browser.patientID=314759968;
+            // browser.visitId=472962947;            
             var url = browser.baseUrl+
                       '?hospitalId='+browser.appenvdetails.hospitalid+
                       '&patientId='+browser.patientID+
@@ -138,42 +142,43 @@ describe('Verify user can create a CareNote', () => {
                       '&accessToken='+browser.token;
             browser.logger.info('URL: ',url);
             browser.get(url);
-            browser.sleep(3000);
+            browser.sleep(4000);
             browser.logger.info("*********** Executing Tests ***********");
           });
           browser.ignoreSynchronization = true;
     });
 
     /// Test cases 
-    it('Should have the title as VCA Charge Capture', async () => {    
+    it('Should have the title VCA Charge Capture', async () => {    
         browser.logger.info("***********Verifying Page Title***********");
         await expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
     });
 
-    it('Verify clicking the \'+CareNote\' button opens the Add CareNote dialog', async () => {
-        careNote.openCareNoteDialog();
-        browser.sleep(2000);
-        await expect(careNote.careNoteHeader).toEqual('Add Care Note');
-    });   
-
-    it('Verify clicking \'Add care note\' after entering text saves the CareNote and audit information', async () => {    
-        //Ensure dialog is open
-        // var x = careNote.careNoteTextArea;
-        // if (x.IsPresent()){
-        //     careNote.openCareNoteDialog();
-        // }
-        
-        var t = moment();
-        console.log(t);
-        var careNoteText='this is new careNote text '+t;
-        careNote.enterCareNoteText(careNoteText);
-        // browser.sleep(3500);
-        // await expect(careNote.getCareNoteText).toEqual(careNoteText); 
-
-        careNote.clickAddCareNoteButton();
-        browser.sleep(2000);
-
-        await expect(careNote.getTextOfFirstCareNote).toEqual(careNoteText);
+    it('Should open the AddTask dialog', async () => {    
+        addTask.openAddTaskDialog();
+        browser.sleep(3000);
+        await expect(addTask.getAddTaskHeaderTitle).toEqual('Add Task');
     });    
 
-});    
+    //currently this test is hardcoded
+    it('Should select a task from the list', async () => {    
+        addTask.selectTaskFromList();
+        browser.sleep(1500);
+
+        await expect(addTask.selectedTaskName).toEqual('Body weight');
+        await expect(addTask.getSelectHeaderText).toContain('1');
+    });    
+
+    it('Should add selected tasks to schedule', async () => {    
+        addTask.addSelectedTasksToScheduler();
+        browser.sleep(3000);
+        // console.log(schdedulerPage.productTaskList);
+
+        schdedulerPage.productTaskList.then(function(value){
+            console.log(value);
+            expect(value).toContain['Body weight'];
+        })
+
+    });        
+});      
+

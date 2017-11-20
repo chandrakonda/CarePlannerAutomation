@@ -1,0 +1,11 @@
+{
+    "products": [
+        {
+            "InvoiceItemId": 85037,
+            "InvoiceItemTypeId": 1,
+            "PLNo": 49,
+            "SeqNo": 270,
+            "Code": "49.270"
+        }        
+    ]
+}
