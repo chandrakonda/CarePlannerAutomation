@@ -172,8 +172,7 @@ describe('Verify user can add an optional task', () => {
     it('Should add selected tasks to schedule', async () => {    
         addTask.addSelectedTasksToScheduler();
         browser.sleep(3000);
-        // console.log(schdedulerPage.productTaskList);
-
+        
         schdedulerPage.productTaskList.then(function(value){
             console.log(value);
             expect(value).toContain['Body weight'];

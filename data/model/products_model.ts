@@ -34,9 +34,9 @@ export namespace AddingProductsModel {
         let response1 = [];
         let rootObject: RootObject;
         let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//putVisitInvoiceItems.json'));
-        rootObject = new RootObject();
-        // if (productFileName == null) { rootObject = new RootObject(); }
-        // else { rootObject = new RootObject(productFileName); }
+        
+        if (productFileName == null) { rootObject = new RootObject(); }
+        else { rootObject = new RootObject(productFileName); }
 
         browser.visitId = browser.visitId;
         rootObject.products.forEach(product => {

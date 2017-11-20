@@ -16,6 +16,8 @@ export class AddOptionalTaskDialog {
     selectedListHeader = element(by.xpath("//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[@class='wj-cell wj-group']"));
     selectedBodyWeightListItem = element(by.xpath("//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[contains(text(),'Body weight')]"));
 
+    // taskLocatorBase = element(by.xpath("//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[contains(text(),'Body weight')]"));
+
     
 
     // element(by.xpath());
