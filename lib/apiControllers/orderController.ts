@@ -11,9 +11,8 @@ export class OrderController{
     }
 
     addOrderToVisit(){
-       
-       return AddingProductsModel.submitProductToVisit();
-
+       if (browser.productDataFile != undefined){return AddingProductsModel.submitProductToVisit(browser.productDataFile);}
+       else {return AddingProductsModel.submitProductToVisit();}
     }
 
     getTaskSeriesByOrderId(){

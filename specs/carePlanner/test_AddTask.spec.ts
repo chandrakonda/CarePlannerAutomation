@@ -80,6 +80,7 @@ describe('Verify user can add an optional task', () => {
         });
 
         //Add Product to the Visit
+        browser.productDataFile='test_addTask.spec.data';
         flow.execute(orderController.addOrderToVisit).then(function (response) {
             browser.logger.info("Product Ordered Response...");
             browser.logger.info((response));
