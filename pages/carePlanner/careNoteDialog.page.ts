@@ -31,6 +31,10 @@ export class CareNoteDialog {
         this.addCareNoteButton.click();
     }
 
+    closeCareNoteDialog() {
+        this.careNoteHeaderClose.click();
+    }
+
     get getCareNoteText(): any {
         try {
             return this.careNotetextArea.getText();

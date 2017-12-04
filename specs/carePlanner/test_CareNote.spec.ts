@@ -145,7 +145,7 @@ describe('Verify user can create a CareNote', () => {
     });
 
     /// Test cases 
-    it('Should have the title as VCA Charge Capture', async () => {    
+    it('- the page has the title "VCA Charge Capture"', async () => {    
         browser.logger.info("***********Verifying Page Title***********");
         await expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
     });
@@ -156,15 +156,8 @@ describe('Verify user can create a CareNote', () => {
         await expect(careNote.careNoteHeader).toEqual('Add Care Note');
     });   
 
-    it('Verify clicking \'Add care note\' after entering text saves the CareNote and audit information', async () => {    
-        //Ensure dialog is open
-        // var x = careNote.careNoteTextArea;
-        // if (x.IsPresent()){
-        //     careNote.openCareNoteDialog();
-        // }
-        
+    it('Verify clicking \'Add care note\' after entering text saves the CareNote and audit information', async () => {         
         var t = moment();
-        console.log(t);
         var careNoteText='this is new careNote text '+t;
         careNote.enterCareNoteText(careNoteText);
         // browser.sleep(3500);
@@ -175,5 +168,12 @@ describe('Verify user can create a CareNote', () => {
 
         await expect(careNote.getTextOfFirstCareNote).toEqual(careNoteText);
     });    
+
+    it(' - user can close the Care Note dialog', async () => {
+        careNote.closeCareNoteDialog();
+        browser.sleep(2000);
+        
+        // await expect(careNote.careNoteHeader).toEqual('Add Care Note');
+    });       
 
 });    

@@ -11,15 +11,21 @@ export class AddOptionalTaskDialog {
 
     // these will need to be replaced with more generic/better locators later
     // because hardcoding is bad
-    bodyWeightListItem = element(by.xpath("//wj-popup[@id='addtask']//*[@id='patientcare']//div[contains(text(),'Body weight')]"));
+    // bodyWeightListItem = element(by.xpath("//wj-popup[@id='addtask']//*[@id='patientcare']//div[contains(text(),'Body weight')]"));
+    // selectedBodyWeightListItem = element(by.xpath("//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[contains(text(),'Body weight')]"));    
     
     selectedListHeader = element(by.xpath("//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[@class='wj-cell wj-group']"));
-    selectedBodyWeightListItem = element(by.xpath("//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[contains(text(),'Body weight')]"));
 
-    // taskLocatorBase = element(by.xpath("//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[contains(text(),'Body weight')]"));
+    // Locator for user-specified task in the task list
+    taskLocatorBaseString = "//wj-popup[@id='addtask']//*[@id='patientcare']//div[contains(text(),'variable')]";
+    userDefinedLocatorXPath='';
+    userDefinedListItem = element(by.xpath(this.userDefinedLocatorXPath));
 
+    // locator for the selected user-defined task in the selected tasks list
+    selectedTaskLocatorBaseString = "//wj-popup[@id='addtask']//wj-flex-grid[@id='selected']//div[contains(text(),'variable')]"
+    userDefinedSelectedTaskLocatorXPath='';
+    userDefinedSelectedListItem = element(by.xpath(this.userDefinedSelectedTaskLocatorXPath));
     
-
     // element(by.xpath());
     //page methods
     openAddTaskDialog() {
@@ -33,7 +39,7 @@ export class AddOptionalTaskDialog {
     }
 
     selectTaskFromList(){
-        try {this.bodyWeightListItem.click();}
+        try {this.userDefinedListItem.click();}
         catch (error) {browser.logger.error(error);}        
     }
 
@@ -43,7 +49,7 @@ export class AddOptionalTaskDialog {
     }
 
     get selectedTaskName():any {
-        try { return this.selectedBodyWeightListItem.getText();}
+        try { return this.userDefinedSelectedListItem.getText();}
         catch (error) {browser.logger.error(error);}        
     }
 
@@ -56,6 +62,15 @@ export class AddOptionalTaskDialog {
     get getAddTaskHeaderTitle():any {
         try { return this.addTaskDialogHeaderTitle.getText();}
         catch (error) {browser.logger.error(error);}            
+    }
+
+    setTaskLocatorString(variable) {
+        this.userDefinedLocatorXPath = this.taskLocatorBaseString.replace('variable',variable);
+        this.userDefinedSelectedTaskLocatorXPath = this.selectedTaskLocatorBaseString.replace('variable',variable);
+        this.userDefinedListItem = element(by.xpath(this.userDefinedLocatorXPath));
+        this.userDefinedSelectedListItem = element(by.xpath(this.userDefinedSelectedTaskLocatorXPath));
+        // browser.logger.warn(this.userDefinedLocatorXPath);
+        // browser.logger.warn(this.userDefinedSelectedTaskLocatorXPath);
     }
 
 

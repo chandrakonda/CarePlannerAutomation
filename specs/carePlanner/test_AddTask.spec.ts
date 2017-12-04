@@ -25,7 +25,10 @@ describe('Verify user can add an optional task', () => {
         let appointmentController: AppointmentController = new AppointmentController();
         let visitController: VisitController = new VisitController();
         let orderController: OrderController = new OrderController();
-        //jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
+        // Set Values for Global Variables
+        browser.productDataFile='test_addTask.spec.data';
+        browser.taskName = 'Body weight';
         
         var flow = protractor.promise.controlFlow();
 
@@ -80,7 +83,6 @@ describe('Verify user can add an optional task', () => {
         });
 
         //Add Product to the Visit
-        browser.productDataFile='test_addTask.spec.data';
         flow.execute(orderController.addOrderToVisit).then(function (response) {
             browser.logger.info("Product Ordered Response...");
             browser.logger.info((response));
@@ -150,33 +152,32 @@ describe('Verify user can add an optional task', () => {
     });
 
     /// Test cases 
-    it('Should have the title VCA Charge Capture', async () => {    
+    it('- the page has the title "VCA Charge Capture"', async () => {    
         browser.logger.info("***********Verifying Page Title***********");
         await expect(cpPetDetailsPage.pageTitle).toEqual('VCA Charge Capture'); 
     });
 
-    it('Should open the AddTask dialog', async () => {    
+    it('- user can open the AddTask dialog', async () => {    
         addTask.openAddTaskDialog();
         browser.sleep(3000);
         await expect(addTask.getAddTaskHeaderTitle).toEqual('Add Task');
     });    
 
-    //currently this test is hardcoded
-    it('Should select a task from the list', async () => {    
+    it('- user can select a task from the list', async () => {    
+        addTask.setTaskLocatorString(browser.taskName); //taskName defined as global variable at start of spec
         addTask.selectTaskFromList();
         browser.sleep(1500);
-
-        await expect(addTask.selectedTaskName).toEqual('Body weight');
+        await expect(addTask.selectedTaskName).toEqual(browser.taskName);
         await expect(addTask.getSelectHeaderText).toContain('1');
     });    
 
-    it('Should add selected tasks to schedule', async () => {    
+    it('- user can add selected tasks to the schedule', async () => {    
         addTask.addSelectedTasksToScheduler();
-        browser.sleep(3000);
+        // browser.sleep(3000);
         
         schdedulerPage.productTaskList.then(function(value){
-            console.log(value);
-            expect(value).toContain['Body weight'];
+            // console.log(value);
+            expect(value).toContain[browser.taskName];
         })
 
     });        
