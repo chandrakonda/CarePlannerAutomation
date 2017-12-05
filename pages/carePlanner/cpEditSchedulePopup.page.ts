@@ -9,10 +9,24 @@ export class CarePlannerEditSchedulePopup {
     // eleDataToCollectAccordion = element(by.xpath("//taskschedule/descendant::lsu-accordionpanel/div[@class='title']"));
 
     eleFrequencyOnceToggleButton = element(by.xpath(".//input[@id='once']/following-sibling::label[text()='Once']"))
+    eleTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Time']/following-sibling::div/input[contains(@class,'custominput')]"));
+    eleDateDropDown = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/sui-select"));
+    eleDateDropDownContent = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::sui-select-option/span[2]"));
+    eleDateDropDownList = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
+    
     eleFrequencyRecurringToggleButton = element(by.xpath(".//input[@id='recurring']/following-sibling::label[text()='Recurring']"));
 
     eleStartTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start time']/following-sibling::div/input[contains(@class,'custominput')]"));
     eleStartTimeTextBoxScheduleOnce = element(by.xpath(".//input[@class='custominput ng-untouched ng-pristine ng-valid']"));
+    
+    eleStartDateDropDown = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/sui-select"));
+    eleStartDateDropDownContent = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::sui-select-option/span[2]"));
+    eleStartDateDropDownList = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
+    
+    eleEndDateDropDown = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/sui-select"));
+    eleEndDateDropDownContent = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::sui-select-option/span[2]"));
+    eleEndDateDropDownList = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
+
     eleEndTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End time']/following-sibling::div/input[contains(@class,'custominput')]"));
     eleRepeatEveryTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Repeat every']/following-sibling::div/input[contains(@class,'custominput')]"));
 
@@ -28,21 +42,38 @@ export class CarePlannerEditSchedulePopup {
 
     
 
-    get isPopupDisplayed():Boolean {
+    get isPopupDisplayed() {
         try {
-           
-           // browser.logger.info(this.elePopup.isDisplayed());
-            let x:boolean;
-            this.elePopup.isDisplayed().then((value)=>{
-                x = value;
+            return this.elePopup.isDisplayed().then((value)=>{
+                browser.logger.info("display status value is : " + value);
+                return value;
             });
-            return x;
         } catch (error) {
             browser.logger.info(error);
         }
     }
 
-    ToggleFrequencyOnce() {
+
+    toggleFrequency(frequency:string){
+        try {
+            switch (frequency) {
+                case 'Once':
+                    browser.logger.info("clicking on frequency toggle button : " + frequency);
+                    this.eleFrequencyOnceToggleButton.click();
+                    break;
+                case 'Recurring':
+                    browser.logger.info("clicking on frequency toggle button : " + frequency);
+                    this.eleFrequencyRecurringToggleButton.click();
+                    break;
+                default:
+                    break;
+            }
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    toggleFrequencyOnce() {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.visibilityOf(this.eleFrequencyOnceToggleButton), 5000);
@@ -52,7 +83,7 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    ToggleFrequencyRecurring() {
+    toggleFrequencyRecurring() {
         try {
             this.eleFrequencyRecurringToggleButton.click();
         } catch (error) {
@@ -60,7 +91,7 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    ToggleRepeatEveryHours() {
+    toggleRepeatEveryHours() {
         try {
             this.eleHrsToggleButton.click();
         } catch (error) {
@@ -68,7 +99,7 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    ToggleRepeatEveryMinutes() {
+    toggleRepeatEveryMinutes() {
         try {
             this.eleMinutesToggleButton.click();
         } catch (error) {
@@ -76,15 +107,16 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    EnterStartTime(startTime: number) {
+    enterStartTime(startTime: number) {
         try {
-            this.eleStartTimeTextBox.sendKeys(startTime);
+            this.eleStartTimeTextBox.clear().then(() => {
+                this.eleStartTimeTextBox.sendKeys(startTime);
+                browser.logger.info("time entered as : " + startTime);
+            });
         } catch (error) {
             browser.logger.error(error);
         }
     }
-
-    
 
     get getStartTimeScheduleOnce(): any {
         try {
@@ -107,14 +139,14 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    EnterEndTime(endTime: number) {
+    enterEndTime(endTime: number) {
         try {
             this.eleEndTimeTextBox.sendKeys(endTime);
         } catch (error) {
             browser.logger.error(error);
         }
     }
-    get EndTime(): any {
+    get endTime(): any {
         try {
             return this.eleEndTimeTextBox.getText().then((endTime) => {
                 return endTime;
@@ -124,7 +156,7 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    EnterRepeatEveryHour(numberOfHours: number) {
+    enterRepeatEveryHour(numberOfHours: number) {
         try {
             browser.logger.info("Input hours in the field" + numberOfHours);
             //this.ToggleRepeatEveryHours();
@@ -137,9 +169,9 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    EnterRepeatEveryMinutes(minutes: number) {
+    enterRepeatEveryMinutes(minutes: number) {
         try {
-            this.ToggleRepeatEveryMinutes();
+            this.toggleRepeatEveryMinutes();
             this.eleRepeatEveryTextBox.sendKeys(minutes);
         } catch (error) {
             browser.logger.error(error);
@@ -155,7 +187,58 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    EnterInstructions(instructions: string) {
+    enterTimeForSingleOccurrence(time:string){
+        try {
+            this.eleTimeTextBox.clear().then(() => {
+                this.eleTimeTextBox.sendKeys(time);
+                browser.logger.info("time entered as : " + time);
+            });
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    selectDateForSingleOccurrence(){
+        try {
+            
+            var EC = protractor.ExpectedConditions;
+            browser.wait(EC.elementToBeClickable(this.eleDateDropDown));
+            this.eleDateDropDown.click();
+            browser.wait(EC.visibilityOf(this.eleDateDropDownList), 5000);
+            this.eleDateDropDownContent.click();
+            
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    selectStartDate(){
+        try {
+            var EC = protractor.ExpectedConditions;
+            browser.wait(EC.elementToBeClickable(this.eleStartDateDropDown), 2000);
+            this.eleStartDateDropDown.click();
+            browser.wait(EC.visibilityOf(this.eleStartDateDropDownList), 5000);
+            this.eleStartDateDropDownContent.click();
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    selectEndDate(){
+        try {
+            
+            var EC = protractor.ExpectedConditions;
+            browser.wait(EC.elementToBeClickable(this.eleEndDateDropDown), 2000);
+            this.eleEndDateDropDown.click();
+            browser.wait(EC.visibilityOf(this.eleEndDateDropDownList), 5000);
+            this.eleEndDateDropDownContent.click();
+            
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    enterInstructions(instructions: string) {
 
         try {
             var EC = protractor.ExpectedConditions;
@@ -168,19 +251,15 @@ export class CarePlannerEditSchedulePopup {
     }
 
 
-    ClickScheduleButton() {
-
+    clickScheduleButton() {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.visibilityOf(this.eleScheduleButton), 5000);
             this.eleScheduleButton.click();
-
         } catch (error) {
             browser.logger.error(error);
         }
-
-
     }
 
-
-    }
+  
+}
