@@ -9,6 +9,8 @@ import { OrderController } from '../../lib/apiControllers/orderController';
 import { CarePlannerEditSchedulePopup } from '../../pages/carePlanner/cpEditSchedulePopup.page';
 import { CarePlannerEditOccuranceSeriesPopup } from '../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
 
+// Variables
+
 let cpSchedulerPage, cpPetDetailsPage,cpEditSchedulePopupPage, cpEditOccuranceSeriesPopup;
 let startPosition:number, endPosition:number, taskOccurrenceCount:number;
 let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
