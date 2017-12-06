@@ -135,60 +135,60 @@ export class CarePlannerSchedulerPage {
     }
   }
 
-  isTaskScheduled1(elementXpath: string) {
-    try {
-      return element(by.xpath(elementXpath))
-        .isDisplayed()
-        .then(value => {
-          browser.logger.info("Task is scheduled.. : " + value);
-          return value;
-        });
-    } catch (error) {
-      browser.logger.error(error);
-    }
-  }
+  // isTaskScheduled1(elementXpath: string) {
+  //   try {
+  //     return element(by.xpath(elementXpath))
+  //       .isDisplayed()
+  //       .then(value => {
+  //         browser.logger.info("Task is scheduled.. : " + value);
+  //         return value;
+  //       });
+  //   } catch (error) {
+  //     browser.logger.error(error);
+  //   }
+  // }
 
-  clickScheduledTaskItem() {
-    try {
-      let item = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/descendant::li"));
-      item.click();
-    } catch (error) {
-      browser.logger.error(error);
-    }
-  }
+  // clickScheduledTaskItem() {
+  //   try {
+  //     let item = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/descendant::li"));
+  //     item.click();
+  //   } catch (error) {
+  //     browser.logger.error(error);
+  //   }
+  // }
 
-  clickScheduledTaskItem1(elementXpath: string) {
-    try {
-      let item = element(by.xpath(elementXpath));
-      item.click();
-    } catch (error) {
-      browser.logger.error(error);
-    }
-  }
+  // clickScheduledTaskItem1(elementXpath: string) {
+  //   try {
+  //     let item = element(by.xpath(elementXpath));
+  //     item.click();
+  //   } catch (error) {
+  //     browser.logger.error(error);
+  //   }
+  // }
 
-  taskOccurenceStatus() {
-    try {
-      let item = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/descendant::li"));
-      return item.getAttribute("class").then((status: string) => {
-        browser.logger.info("Task Occurence Status is: " + status);
-        return status;
-      });
-    } catch (error) {
-      browser.logger.error(error);
-    }
-  }
+  // taskOccurenceStatus() {
+  //   try {
+  //     let item = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/descendant::li"));
+  //     return item.getAttribute("class").then((status: string) => {
+  //       browser.logger.info("Task occurence Status is: " + status);
+  //       return status;
+  //     });
+  //   } catch (error) {
+  //     browser.logger.error(error);
+  //   }
+  // }
 
-  taskOccurenceStatus1(elementXpath: string) {
-    try {
-      let item = element(by.xpath(elementXpath));
-      return item.getAttribute("class").then((status: string) => {
-        browser.logger.info("Task Occurence Status is: " + status);
-        return status;
-      });
-    } catch (error) {
-      browser.logger.error(error);
-    }
-  }
+  // taskOccurenceStatus1(elementXpath: string) {
+  //   try {
+  //     let item = element(by.xpath(elementXpath));
+  //     return item.getAttribute("class").then((status: string) => {
+  //       browser.logger.info("Task Occurence Status is: " + status);
+  //       return status;
+  //     });
+  //   } catch (error) {
+  //     browser.logger.error(error);
+  //   }
+  // }
 
   getNumberOfTaskOccurrence(startPosition, endPosition) {
     try {
@@ -205,9 +205,8 @@ export class CarePlannerSchedulerPage {
   clickOnOccurrenceByIndex(startPosition, endPosition, index) {
     try {
       let occurrences = element.all(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li"))
-      .get(index);
+      .get(index).getWebElement();
       browser.actions().mouseMove(occurrences).click().perform();
-      //.click();
     } catch (error) {
       browser.logger.error(error);
     }
@@ -216,8 +215,9 @@ export class CarePlannerSchedulerPage {
   getTaskOccurrenceStatus(startPosition, endPosition) {
     try {
       let occurrence = element.all(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" + startPosition + "and not(position() >=" + endPosition + ")]/descendant::li"));
-      return occurrence.getAttribute("class").then(className => {
-        return className;
+      return occurrence.getAttribute("class")
+        .then((className) => {
+          return className;
       });
     } catch (error) {
       browser.logger.error(error);
@@ -257,11 +257,28 @@ export class CarePlannerSchedulerPage {
     }
   }
 
-  scrollToElement(elementToBeScrolled){
+  async scrollToElement(){
     try {
-      browser.controlFlow().execute(function() {
-        browser.executeScript('arguments[0].scrollIntoView(true)', elementToBeScrolled.getWebElement());
+      let scrollElement = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=0][1]"));
+      let divScrollElement = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cells') and @wj-part='cells']"));
+     
+      await browser.controlFlow().execute(function() {
+        browser.executeScript('arguments[0].scrollIntoView()', scrollElement);
       });
+     
+      await browser.controlFlow().execute(function() {
+        scrollElement.getLocation().then((location) => {
+            console.log(location.x + ',' + location.y);
+            //return browser.executeScript('window.scrollTo('+location.x+ ','+ location.y+');');
+            return browser.executeScript('arguments[0].scrollIntoView()',scrollElement.getWebElement());
+        });
+      });
+      
+      // browser.logger.info(browser.executeScript('arguments[0].offsetWidth',scrollElement.getWebElement()));
+
+      // browser.executeScript('arguments[1].scrollLeft = arguments[0].offsetWidth;',scrollElement.getWebElement(),divScrollElement.getWebElement());
+
+      browser.logger.info("Scroll Performed");
       browser.sleep(2000);
     } catch (error) {
       browser.logger.error(error);

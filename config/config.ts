@@ -37,7 +37,7 @@ export const config: Config = {
     //highlightDelay : 1000,
     framework: "jasmine",
 
-    specs: ["../specs/carePlanner/testPetDetails.spec.js"],
+    specs: ["../specs/carePlanner/testScheduleSingleTaskSingleOccurrence.spec.js"],
 
     jasmineNodeOpts: {
         showColors: true,

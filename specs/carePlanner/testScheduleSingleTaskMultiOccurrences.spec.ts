@@ -15,6 +15,16 @@ let cpSchedulerPage, cpPetDetailsPage,cpEditSchedulePopupPage, cpEditOccuranceSe
 let startPosition:number, endPosition:number, taskOccurrenceCount:number;
 let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
 
+let scheduleStartTime = 9;
+let scheduleEndTime = 17;
+let repeatEveryHour =3;
+let scheduleInstructions = "Test instructions";
+let expectedNumberOfTaskOccurrences = 3;
+let actualOccurrenceStatus = ['Overdue', 'Overdue', 'Overdue'];
+let occurrenceIndex = 1;
+let expectedOcurrenceStatus = ['Overdue', 'Complete', 'Overdue'];
+let taskOccurrenceNotes = 'Test notes for completing task occurrence';
+
 describe('Scheduling a Single Task Occurrence for a Product in Care Planner Page', () =>{
 
     beforeAll(() => {
@@ -143,15 +153,9 @@ describe('Scheduling a Single Task Occurrence for a Product in Care Planner Page
                 '&accessToken=' + browser.token;
             browser.logger.info('URL: ', url);
             browser.get(url);
-            
-            //  browser.executeScript("document.body.style.zoom='80%'");
             browser.sleep(5000);
             browser.logger.info("*********** Starting Test Execution ***********");
         });
-    //    let url="https://hcorpqa-ns02.vcaantech.com/VCAChargeCapture?hospitalId=153&patientId=314760514&orderId=472963166&userName=Josh.Chezum&userId=246200262&accessToken=ud57O2wN7TqTdxrWCokDH74GbPqr6snnJbfUvJ4bG-hj0DHArmV80y9rrQxztn1KMC1fTewyeFGM6KBBdqVnrCZKwpKgdVzLX0BLHNhFrl8lHE7WKLlxs6fXNaCM9-3wIh_GwQZbrVaEKq35iAnuQu5Zy5N97jWdAkeauQ9Cn63_3tXaQSN6YXkxsB6YI2dJM56MUY3jXC4iEl2iIkSTEzoo_QFHTs3LcUW8XxSuFaF0q9bQHBmWG4c-pr9ahI9ZChExUA";
-    //    browser.get(url);
-    //    browser.sleep(5000);
-
     });
 
     it('should have the title as VCA Charge Capture', async () => {
@@ -188,62 +192,61 @@ describe('Scheduling a Single Task Occurrence for a Product in Care Planner Page
         browser.taskSeriesName = taskSeriesName[0];
         browser.logger.info('Product Task List : ' + browser.taskSeriesName);
         await cpSchedulerPage.clickOnTaskByName(browser.taskSeriesName);
-        //await cpSchedulerPage.clickOnTaskName(taskSeriesName[0]);
     });
 
 
     it('should display the popup to schedule the task occurrences', async () => {
         //Verify the Popup is displayed
         let displayStatus:boolean = await cpEditSchedulePopupPage.isPopupDisplayed;
-        browser.logger.info("Popup displayed status : "+ displayStatus );
+        browser.logger.info("Scheduler popup displayed status : "+ displayStatus );
         await expect(displayStatus).toBe(true);
-    });
-
-
-    it('should be the frequency selected as recurring', async () => {
-        //By Default Recurring mode has been selected
-
     });
 
 
     it('should able to set the start date & time for the schedule', async () => {
 
-        browser.logger.info("Entering Start Time");
-        await cpEditSchedulePopupPage.enterStartTime(0);
-        browser.logger.info("Selecting Start Date");
+        //Entering Start Time
+        browser.logger.info("Entering task scheduler start time as : " + scheduleStartTime);
+        await cpEditSchedulePopupPage.enterStartTime(scheduleStartTime);
+
+        //Selectign Start Date
+        browser.logger.info("Selecting task scheduler start date");
         await cpEditSchedulePopupPage.selectStartDate();
      });
 
 
      it('should able to set the recurring hours and end date & time for the schedule', async () => {
         
-        browser.logger.info("Entering Repeat Hours");
-        await cpEditSchedulePopupPage.enterRepeatEveryHour(4);
-        browser.logger.info("Entering End Time");
-        await cpEditSchedulePopupPage.enterEndTime(11);
-        browser.logger.info("Selecting End Date");
+        //Entering Repeat Hours
+        browser.logger.info("Entering task scheduler repeat hours as : " + repeatEveryHour);
+        await cpEditSchedulePopupPage.enterRepeatEveryHour(repeatEveryHour);
+        
+        //Entering End Time
+        browser.logger.info("Entering task scheduler end time as : " + scheduleEndTime);
+        await cpEditSchedulePopupPage.enterEndTime(scheduleEndTime);
+
+        //Selecting End Date
+        browser.logger.info("Selecting task scheduler end date");
         await cpEditSchedulePopupPage.selectEndDate();
      });
 
 
      it('should able to enter instruction and click on save to complete the schedule task', async () => {
-        //Enter the instructions
-        await cpEditSchedulePopupPage.enterInstructions('Test instructions');
-        browser.logger.info("Instructions entered");
-    
-        //Click on Save button
-        await cpEditSchedulePopupPage.clickScheduleButton();
-        browser.logger.info("Schedule button clicked");
-    
-        let displayStatus:boolean = await cpEditSchedulePopupPage.isPopupDisplayed;
-        browser.logger.info("Popup displayed status : "+ displayStatus );
-        await expect(displayStatus).toBe(false);
         
-        browser.sleep(7000);
+        //Enter Instructions
+        browser.logger.info("Entering task scheduler instructions as : " + scheduleInstructions);
+        await cpEditSchedulePopupPage.enterInstructions(scheduleInstructions);
+    
+        //Click Schedule button
+        browser.logger.info("Clicking on the schedule button of task scheduler popup");
+        await cpEditSchedulePopupPage.clickScheduleButton();
+        
+        browser.sleep(3000);
     });
 
 
     it('should have a multiple task occurrences for the scheduled task series', async() => {
+     
         //Get the Product List
         var _productList = await cpSchedulerPage.productTaskList;
         
@@ -261,80 +264,86 @@ describe('Scheduling a Single Task Occurrence for a Product in Care Planner Page
 
         //Get the task occurrence count for a single task series
         taskOccurrenceCount = await cpSchedulerPage.getNumberOfTaskOccurrence(startPosition, endPosition);
-        browser.logger.info("Task occurrence count is : " + taskOccurrenceCount);
-        expect(taskOccurrenceCount).toEqual(3);
+        browser.logger.info("Number of task occurrences displayed in the scheduler as : " + taskOccurrenceCount);
+        expect(taskOccurrenceCount).toEqual(expectedNumberOfTaskOccurrences);
     });
 
-
-    // it('should zoom out for all occurrence visibility', async () => {
-    //     //browser.waitForAngularEnabled(true);
-    //     browser.logger.info("Waiting for page zoom out action");
-    //     await browser.executeScript("document.body.style.zoom='80%'");
-    //     browser.sleep(10000);
-    //     await cpSchedulerPage.waitForZoomOut();
-    //     browser.logger.info("Zoom out action performed");
-    //     //browser.waitForAngularEnabled(false);        
-    // });
 
     it('should match the status with the task occurrence status', async () => {
+      
         //Get the status of the single occurrence of the task series
-        let taskOccurrenceStatus;
-        taskOccurrenceStatus = await cpSchedulerPage.getTaskOccurrenceStatus(startPosition, endPosition);
-        browser.logger.info("Occurrence 1 status is : " + taskOccurrenceStatus);
-        expect(taskOccurrenceStatus[0].split(' ')[0]).toEqual('Overdue');
-        expect(taskOccurrenceStatus[1].split(' ')[0]).toEqual('Overdue');
-        expect(taskOccurrenceStatus[2].split(' ')[0]).toEqual('Overdue');
+        let taskOccurrenceStatus = await cpSchedulerPage.getTaskOccurrenceStatus(startPosition, endPosition);
+        
+        for (let index = 0; index < taskOccurrenceStatus.length; index++) {
+            browser.logger.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
+            expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(actualOccurrenceStatus[index]);
+        }
     });
 
-  
+
     it('Complete 1st Occurrence and verify the updated status', async() => {
-        let taskOccurrenceNumber = 0; // 0 for 1st index
+        // let taskOccurrenceNumber = 0; // 0 for 1st index
 
         //Click on the task occurrence based on the index
-        browser.logger.info("Click on the task occurrence by index : " + taskOccurrenceNumber);
-        await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, taskOccurrenceNumber);
+        browser.logger.info("Click on the task occurrence by index : " + occurrenceIndex);
+        await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, occurrenceIndex);
         browser.sleep(2000);
-        expect(cpEditOccuranceSeriesPopup.isPopupDisplayed).toBe(true);
+
+        //Verify the Occurrence Popup display status
+        let popupDisplayStatus = await cpEditOccuranceSeriesPopup.isPopupDisplayed;
+        browser.logger.info("Occurrence series popup display status : " + popupDisplayStatus)
+        expect(popupDisplayStatus).toBe(true);
     });
+
 
     it('should successfully update the status of the occurrence', async () => {
-        let taskOccurrenceNotes = 'Test notes for completing task occurrence';
-
+        
+        //Entering Task Notes in Occurrence Popup
+        browser.logger.info("Entering task notes as : " + taskOccurrenceNotes);
         await cpEditOccuranceSeriesPopup.enterTaskNotes(taskOccurrenceNotes);
-        browser.logger.info("Entering task notes");
+        
 
-        await cpEditOccuranceSeriesPopup.selectStatusInToggleButton(taskUpdateStatus[1]);
+        //Select the Task occurrence status
         browser.logger.info("Status Completed selected");
-
+        await cpEditOccuranceSeriesPopup.selectStatusInToggleButton(taskUpdateStatus[1]);
     });
+
 
     it('Should able to save and complete the occurrence', async () => {
         
-        let occurrenceCompletedTime  = 6;
-        // await cpEditOccuranceSeriesPopup.ClickOnCompleteAndSave();
-        // browser.logger.info("Click on complete and save button");
+        //Getting Scheduled Time from Occurrence popup
+        let occurrenceCompletedTime  = await cpEditOccuranceSeriesPopup.getScheduledTime;
+        browser.logger.info("Scheduled time displayed as : " + occurrenceCompletedTime);
 
+        //Entering Occurrence Complete time
         await cpEditOccuranceSeriesPopup.enterCompletedTime(occurrenceCompletedTime);
-        browser.logger.info("Occurrence completed time entered");
+        browser.logger.info("Entering task occurrence completed time as : " + occurrenceCompletedTime);
 
         browser.sleep(2000);
-
+        
+        //Selecting Occurrence Completed Date
         await cpEditOccuranceSeriesPopup.selectCompletedDate();
-        browser.logger.info("Occurrence completed date selected");
+        browser.logger.info("Slecting task occurrence completed date");
     });
     
+
     it('Save the occurrence', async() => {
         
+        // Click on the Save button at Task Occurrence Popup
         await cpEditOccuranceSeriesPopup.clickOnSave();
+        browser.logger.info("Save task occurrence details entered by click on save button");
         browser.sleep(4000);    
-    })
+    });
+
 
     it('should reflect the update status of the task', async () => {
-        let taskOccurrenceStatus;
-        taskOccurrenceStatus = await cpSchedulerPage.getTaskOccurrenceStatus(startPosition, endPosition);
-        browser.logger.info("Occurrence 1 status is : " + taskOccurrenceStatus[0]);
-        expect(taskOccurrenceStatus[0].split(' ')[0]).toEqual('Overdue');
-        expect(taskOccurrenceStatus[1].split(' ')[0]).toEqual('Complete');
-        expect(taskOccurrenceStatus[2].split(' ')[0]).toEqual('Overdue');
+        
+        //Verify the task occurrence status after completing
+        let taskOccurrenceStatus = await cpSchedulerPage.getTaskOccurrenceStatus(startPosition, endPosition);
+        
+        for (let index = 0; index < taskOccurrenceStatus.length; index++) {
+            browser.logger.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
+            expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedOcurrenceStatus[index]);
+        }
     });
 });    

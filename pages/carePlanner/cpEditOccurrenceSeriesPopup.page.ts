@@ -33,13 +33,13 @@ export class CarePlannerEditOccuranceSeriesPopup {
         }
     }
 
-    enterTaskNotes(notes: string){
+    enterTaskNotes(taskNotes: string){
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.presenceOf(this.eleTaskNotes), 3000);
             this.eleTaskNotes.isPresent().then(() => {
-                browser.logger.info("Task notes is present and entering notes");
-                this.eleTaskNotes.sendKeys(notes);
+                browser.logger.info("Task notes entered as : " + taskNotes);
+                this.eleTaskNotes.sendKeys(taskNotes);
             }); 
         } catch (error) {
             browser.logger.error(error);
@@ -48,7 +48,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
 
     clickOnClose(){
         try {
-            browser.logger.info("Click on close button");
+            browser.logger.info("Click on 'Close' button");
             this.eleCloseButton.click();
         } catch (error) {
             browser.logger.error(error);
@@ -57,7 +57,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
 
     clickOnSave(){
         try {
-            browser.logger.info("Click on save button");
+            browser.logger.info("Click on 'Save' button");
             this.eleSaveButton.click();
         } catch (error) {
             browser.logger.error(error);
@@ -66,7 +66,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
 
     clickOnCompleteAndSave(){
         try {
-            browser.logger.info("Click on Complete and Save button");
+            browser.logger.info("Click on 'Complete and Save' button");
             this.eleCompleteAndSaveButton.click();
         } catch (error) {
             browser.logger.error(error);
@@ -100,18 +100,17 @@ export class CarePlannerEditOccuranceSeriesPopup {
         try {
             this.eleScheduleTime.clear().then(() => {
                 this.eleScheduleTime.sendKeys(time);
-                browser.logger.info("time entered as : " + time);
+                browser.logger.info("Occurrence scheduled time entered as : " + time);
             });
         } catch (error) {
             browser.logger.error(error);
         }
     }
 
-    get scheduledTime(){
+    get getScheduledTime(){
         try {
-            return this.eleScheduleTime.getText().then((value)=> {
-                return value
-            });
+            let scheduledTime =  this.eleScheduleTime.getAttribute('value').then((value)=> {return value;});
+            return scheduledTime;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -133,7 +132,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
             browser.wait(EC.elementToBeClickable(this.eleCompletedTime), 3000);
             this.eleCompletedTime.clear().then(() => {
                 this.eleCompletedTime.sendKeys(time);
-                browser.logger.info("time entered as : " + time);
+                browser.logger.info("Occurrence completed time entered as : " + time);
             });
         } catch (error) {
             browser.logger.error(error);
@@ -148,7 +147,6 @@ export class CarePlannerEditOccuranceSeriesPopup {
             browser.wait(EC.visibilityOf(this.eleCompleteDateDropDownList), 5000);
             browser.sleep(2000);
             var date = this.eleCompletedDateDropDownContent.getText().then((value) => {return value});
-            browser.logger.info("Date selecting as : " + date);
             this.eleCompletedDateDropDownContent.click();
         } catch (error) {
             browser.logger.error(error);
