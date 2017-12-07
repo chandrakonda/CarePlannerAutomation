@@ -145,7 +145,6 @@ export class CarePlannerEditOccuranceSeriesPopup {
             browser.wait(EC.elementToBeClickable(this.eleCompletedDateDropDown));
             this.eleCompletedDateDropDown.click();
             browser.wait(EC.visibilityOf(this.eleCompleteDateDropDownList), 5000);
-            browser.sleep(2000);
             var date = this.eleCompletedDateDropDownContent.getText().then((value) => {return value});
             this.eleCompletedDateDropDownContent.click();
         } catch (error) {
