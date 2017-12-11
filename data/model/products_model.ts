@@ -13,7 +13,7 @@ export namespace AddingProductsModel {
         Code: string;
     }
 
-    class RootObject {
+    export class RootObject {
         products: ProductCollection[];
         constructor(productFileName?: string) {
             // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values

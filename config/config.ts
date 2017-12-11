@@ -39,7 +39,7 @@ export const config: Config = {
 
     specs: [
         //"../specs/carePlanner/testScheduleSingleTaskSingleOccurrence.spec.js",
-          "../specs/carePlanner/testScheduleSingleTaskMultiOccurrences.spec.js"
+          "../specs/carePlanner/logtest.spec.js"
     ],
 
     jasmineNodeOpts: {
