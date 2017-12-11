@@ -48,7 +48,7 @@ export class CarePlannerApiCalls {
                await __appointmentController.checkinAppointment1(browser.apiToken);  // checkin appointment
                await __appointmentController.getCheckedInPatientDetail1(browser.apiToken);  // checkin appointment
                await __orderController.addOrderToVisit1(browser.apiToken);
-               await browser.sleep(10000);
+               await browser.sleep(10000);  /// Wait to get details
                await __visitController.getVisitDetailsByVisitId1(browser.apiToken);
                await __orderController.getTaskSeriesByOrderId1(browser.apiToken);
                await __visitController.getVisitDetailsByVisitId1(browser.apiToken);
@@ -59,8 +59,8 @@ export class CarePlannerApiCalls {
                    '?hospitalId=' + browser.appenvdetails.hospitalid +
                    '&patientId=' + browser.patientID +
                    '&orderId=' + browser.visitId +
-                   '&userName=' + browser.appenvdetails.username +
-                   '&userId=' + browser.userId +
+                   '&userName=chandrasekhar.konda'+ //' //+ browser.appenvdetails.username +
+                   '&userId=0'+ //+ browser.userId +
                    '&accessToken=' + browser.apiToken;
                browser.logger.info('URL: ', __url);
                browser.get(__url);

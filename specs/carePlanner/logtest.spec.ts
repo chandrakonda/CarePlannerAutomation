@@ -1,12 +1,7 @@
-import { AppointmentController } from '../../lib/apiControllers/appointmentController';
-import { AuthController } from '../../lib/apiControllers/authController';
-import { ClientAndPatientController } from '../../lib/apiControllers/clientAndPatientController';
-import { VisitController } from '../../lib/apiControllers/visitController';
+
 //import { browser, protractor } from 'protractor';
 import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
-import { OrderController } from '../../lib/apiControllers/orderController';
 import { CarePlannerSchedulerPage } from '../../pages/carePlanner/cpScheduler.page';
-
 import { $, browser, element, by, By, ExpectedConditions } from "protractor";
 import { CarePlannerApiCalls } from '../../lib/apiServices/carePlannerApiCalls';
 let cpSchedulerPage, cpPetDetailsPage;

@@ -10,26 +10,6 @@ export class OrderController {
         browser.logger.info("*********** Order Controller ***********")
     }
 
-    addOrderToVisit() {
-        if (browser.productDataFile != undefined) { return AddingProductsModel.submitProductToVisit(browser.productDataFile); }
-        else { return AddingProductsModel.submitProductToVisit(); }
-    }
-
-    getTaskSeriesByOrderId() {
-
-        browser.logger.info("*********** Get Task Series By Order Id ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getTaskSeriesByOrderId.json'));
-        //Set URL
-        options.url = browser.appenvdetails.wwapiendpoint + "Orders/" + browser.visitId + "/TaskSeries";
-
-        //Set header values
-        options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
-        options.headers.authorization = browser.bearerToken;
-
-        var api = new CarePlannerApiServices();
-        return api.makeGetRequest(options);
-    }
-
     async addOrderToVisit1(token: any, productFileName?: string) {
         browser.logger.info("******************* Get Order To Visit ******************************");
         let __responseList = [];
@@ -95,6 +75,26 @@ export class OrderController {
 
     }
 
+    
+    // addOrderToVisit() {
+    //     if (browser.productDataFile != undefined) { return AddingProductsModel.submitProductToVisit(browser.productDataFile); }
+    //     else { return AddingProductsModel.submitProductToVisit(); }
+    // }
+
+    // getTaskSeriesByOrderId() {
+
+    //     browser.logger.info("*********** Get Task Series By Order Id ***********");
+    //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getTaskSeriesByOrderId.json'));
+    //     //Set URL
+    //     options.url = browser.appenvdetails.wwapiendpoint + "Orders/" + browser.visitId + "/TaskSeries";
+
+    //     //Set header values
+    //     options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
+    //     options.headers.authorization = browser.bearerToken;
+
+    //     var api = new CarePlannerApiServices();
+    //     return api.makeGetRequest(options);
+    // }
 }
 
 

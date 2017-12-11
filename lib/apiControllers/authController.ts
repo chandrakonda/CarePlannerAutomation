@@ -25,13 +25,13 @@ export class AuthController {
     //     return this.apiServices.authRequest(this.options);
     // }
 
-    getAuthToken() {
-        browser.logger.info("*********** Getting Auth Token ***********");
-        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//authToken.json'));
-        options.url = browser.appenvdetails.authorizationurl;
-        let __apiServices = new CarePlannerApiServices();
-        return __apiServices.makePostAuthRequest(options);
-    }
+    // getAuthToken() {
+    //     browser.logger.info("*********** Getting Auth Token ***********");
+    //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//authToken.json'));
+    //     options.url = browser.appenvdetails.authorizationurl;
+    //     let __apiServices = new CarePlannerApiServices();
+    //     return __apiServices.makePostAuthRequest(options);
+    // }
 
     async getAuthToken1() {
         try {

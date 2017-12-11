@@ -9,40 +9,40 @@ export class VisitController {
         browser.logger.info("*********** Visit Controller ***********")
     }
 
-    getVisitResources() {
-        browser.logger.info('*********** Getting User details ***********');
-        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getVisitResources.json'));
+    // getVisitResources() {
+    //     browser.logger.info('*********** Getting User details ***********');
+    //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getVisitResources.json'));
 
-        //Set URL
-        options.url = browser.appenvdetails.wwapiendpoint + 'VisitResources';
+    //     //Set URL
+    //     options.url = browser.appenvdetails.wwapiendpoint + 'VisitResources';
 
-        //Set header values
-        options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
-        options.headers.authorization = browser.bearerToken;
+    //     //Set header values
+    //     options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
+    //     options.headers.authorization = browser.bearerToken;
 
-        var api = new CarePlannerApiServices();
-        return api.makePostRequest(options);
-    }
+    //     var api = new CarePlannerApiServices();
+    //     return api.makePostRequest(options);
+    // }
 
-    getVisitDetailsByVisitId() {
+    // getVisitDetailsByVisitId() {
 
-        browser.logger.info('*********** Gettting Visit Details and Invoice Items by Visit Id ***********');
+    //     browser.logger.info('*********** Gettting Visit Details and Invoice Items by Visit Id ***********');
 
-        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getOrders.json'));
+    //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getOrders.json'));
 
-        //Set URL
-        options.url = browser.appenvdetails.wwapiendpoint + 'Orders';
+    //     //Set URL
+    //     options.url = browser.appenvdetails.wwapiendpoint + 'Orders';
 
-        //Set header values
-        options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
-        options.headers.authorization = browser.bearerToken;
+    //     //Set header values
+    //     options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
+    //     options.headers.authorization = browser.bearerToken;
 
-        //Add visit Id to query
-        options.qs.visitIds = browser.visitId;
+    //     //Add visit Id to query
+    //     options.qs.visitIds = browser.visitId;
 
-        var api = new CarePlannerApiServices();
-        return api.makeGetRequest(options);
-    }
+    //     var api = new CarePlannerApiServices();
+    //     return api.makeGetRequest(options);
+    // }
 
     async getVisitDetailsByVisitId1(token: any) {
 
