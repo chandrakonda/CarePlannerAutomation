@@ -4,6 +4,7 @@ import { ReportHelper } from '../support/reportHelper';
 import { ReadAppConfig } from "./appconfig";
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
+import { AuthController } from '../lib/apiControllers/authController';
 
 let path = require('path');
 var log4js = require('log4js');
@@ -76,7 +77,8 @@ export const config: Config = {
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(50000);
         browser.baseUrl = browser.appenvdetails.applicationurl;
-       
+        let __authController = new AuthController();
+        __authController.getAuthToken1();
 
     },
 

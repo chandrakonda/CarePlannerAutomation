@@ -58,11 +58,10 @@ export class ClientAndPatientController {
         let options = await this.setCreatePatientOptions(token);
         browser.logger.info(options);
         let __apiServices = new CarePlannerApiServices();
-        // Create client 
+        // Create patient 
         let __response = await __apiServices.makeApiCall(options).then((response) => {
             return response;
-        })
-
+        });
         // parse response
         let __patientResponse = __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
             browser.patientID = response;
@@ -70,7 +69,7 @@ export class ClientAndPatientController {
            return response;
         });
 
-        browser.logger.info(__patientResponse);
+      // browser.logger.info(__patientResponse);
     }
 
     setCreatePatientOptions(token: any){

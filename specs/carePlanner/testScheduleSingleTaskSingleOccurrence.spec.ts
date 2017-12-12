@@ -7,8 +7,8 @@ import { CarePlannerApiCalls } from '../../lib/apiServices/carePlannerApiCalls';
 
 let cpSchedulerPage, cpPetDetailsPage,cpEditSchedulePopupPage, cpEditOccuranceSeriesPopup;
 let startPosition:number, endPosition:number, taskOccurrenceCount:number;
-let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
 
+let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
 let scheduleStartTime = 9;
 let scheduleEndTime = '';
 let repeatEveryHour = '';
@@ -20,6 +20,7 @@ let expectedOcurrenceStatus = ['Complete'];
 let taskOccurrenceNotes = 'Test notes for completing task occurrence';
 
 describe('Scheduling a Single Task Occurrence for a Product in Care Planner Page', () =>{
+
 
     beforeAll(() => {
         cpPetDetailsPage = new CarePlannerPetDetails();
