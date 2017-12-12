@@ -52,7 +52,7 @@ export class CarePlannerPetDetails {
   get clientName(): any {
     try {
       return this.eleclientName.getText().then(function(clientname){
-        console.log("client name is "+clientname);
+        browser.logger.info("client name is "+clientname);
         return clientname;
       })
     } catch (error) {
@@ -63,7 +63,7 @@ export class CarePlannerPetDetails {
   get petName(): any {
     try {
         return this.elepetName.getText().then(function(petname){
-        console.log("pet name is "+petname);
+          browser.logger.info("pet name is "+petname);
         return petname; });
       } catch (error) {
         browser.logger.error(error);
@@ -83,7 +83,7 @@ export class CarePlannerPetDetails {
   get speciesName(): any {
     try {
       return this.eleSpecies.getText().then(function(species1){
-        console.log("species name is "+species1);
+        browser.logger.info("species name is "+species1);
         return species1;
       })
     } catch (error) {
@@ -108,7 +108,7 @@ export class CarePlannerPetDetails {
   get drShift(): any {
     try {
       return this.eledrshift.getText().then(function(drshift){
-        console.log("Dr shift is "+drshift);
+        browser.logger.info("Dr shift is "+drshift);
         return drshift;
       })
     } catch (error) {
@@ -120,7 +120,7 @@ export class CarePlannerPetDetails {
   get wellness(): any {
     try {
       return this.eleWellness.getText().then(function(welness){
-        console.log("wellness is "+welness);
+        browser.logger.info("wellness is "+welness);
         return welness;
       })
     } catch (error) {

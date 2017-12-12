@@ -41,6 +41,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
                 browser.logger.info("Task notes entered as : " + taskNotes);
                 this.eleTaskNotes.sendKeys(taskNotes);
             }); 
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -91,6 +92,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
                 default:
                     break;
             }
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -126,7 +128,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
         }
     }
 
-    enterCompletedTime(time:string){
+    enterCompletedTime(time){
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleCompletedTime), 3000);
@@ -134,6 +136,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
                 this.eleCompletedTime.sendKeys(time);
                 browser.logger.info("Occurrence completed time entered as : " + time);
             });
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -147,20 +150,29 @@ export class CarePlannerEditOccuranceSeriesPopup {
             browser.wait(EC.visibilityOf(this.eleCompleteDateDropDownList), 5000);
             var date = this.eleCompletedDateDropDownContent.getText().then((value) => {return value});
             this.eleCompletedDateDropDownContent.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
     }
 
-    async updateOccurrence(status:string, taskNotes:string, completedTime?:string){
+    updateOccurrenceDetails(status:string, taskNotes:string, completedTime?:string){
         try {
-            this.enterTaskNotes(taskNotes);
-            this.selectStatusInToggleButton(status);
-            if(status= 'Completed'){
-                this.enterCompletedTime(completedTime);
+            if(this.isPopupDisplayed){
+            switch (status.toLowerCase()) {
+                case "completed":
+                    this.enterTaskNotes(taskNotes)
+                        .selectStatusInToggleButton(status)
+                        .enterCompletedTime(this.getScheduledTime)
+                        .selectCompletedDate()
+                        .clickOnSave();
+                    break;
+                case "skipped":
+                    break;
+                default:
+                    break;
+             }   
             }
-
-            this.clickOnSave();
         } catch (error) {
             browser.logger.error(error);
         }

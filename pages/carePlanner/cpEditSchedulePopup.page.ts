@@ -68,6 +68,7 @@ export class CarePlannerEditSchedulePopup {
                 default:
                     break;
             }
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -78,6 +79,7 @@ export class CarePlannerEditSchedulePopup {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.visibilityOf(this.eleFrequencyOnceToggleButton), 5000);
             this.eleFrequencyOnceToggleButton.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -86,6 +88,7 @@ export class CarePlannerEditSchedulePopup {
     toggleFrequencyRecurring() {
         try {
             this.eleFrequencyRecurringToggleButton.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -94,6 +97,7 @@ export class CarePlannerEditSchedulePopup {
     toggleRepeatEveryHours() {
         try {
             this.eleHrsToggleButton.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -102,6 +106,7 @@ export class CarePlannerEditSchedulePopup {
     toggleRepeatEveryMinutes() {
         try {
             this.eleMinutesToggleButton.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -113,6 +118,7 @@ export class CarePlannerEditSchedulePopup {
                 this.eleStartTimeTextBox.sendKeys(startTime);
                 browser.logger.info("time entered as : " + startTime);
             });
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -123,7 +129,7 @@ export class CarePlannerEditSchedulePopup {
             return this.eleStartTimeTextBoxScheduleOnce.getAttribute('value').then((startTime) => {
                 console.log("Start time is        "+startTime);
                 return startTime;
-            });
+            });            
         } catch (error) {
             browser.logger.error(error);
         }
@@ -142,6 +148,7 @@ export class CarePlannerEditSchedulePopup {
     enterEndTime(endTime: number) {
         try {
             this.eleEndTimeTextBox.sendKeys(endTime);
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -164,6 +171,7 @@ export class CarePlannerEditSchedulePopup {
             browser.wait(EC.visibilityOf(this.eleRepeatEveryTextBox), 5000);
             this.eleRepeatEveryTextBox.sendKeys(numberOfHours);
             browser.sleep(1000);
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -173,6 +181,7 @@ export class CarePlannerEditSchedulePopup {
         try {
             this.toggleRepeatEveryMinutes();
             this.eleRepeatEveryTextBox.sendKeys(minutes);
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -187,12 +196,13 @@ export class CarePlannerEditSchedulePopup {
         }
     }
 
-    enterTimeForSingleOccurrence(time:string){
+    enterTimeForSingleOccurrence(time:number){
         try {
             this.eleTimeTextBox.clear().then(() => {
                 this.eleTimeTextBox.sendKeys(time);
                 browser.logger.info("time entered as : " + time);
             });
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -200,13 +210,12 @@ export class CarePlannerEditSchedulePopup {
 
     selectDateForSingleOccurrence(){
         try {
-            
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleDateDropDown));
             this.eleDateDropDown.click();
             browser.wait(EC.visibilityOf(this.eleDateDropDownList), 5000);
             this.eleDateDropDownContent.click();
-            
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -219,6 +228,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleStartDateDropDown.click();
             browser.wait(EC.visibilityOf(this.eleStartDateDropDownList), 5000);
             this.eleStartDateDropDownContent.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -226,25 +236,24 @@ export class CarePlannerEditSchedulePopup {
 
     selectEndDate(){
         try {
-            
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleEndDateDropDown), 2000);
             this.eleEndDateDropDown.click();
             browser.wait(EC.visibilityOf(this.eleEndDateDropDownList), 5000);
             this.eleEndDateDropDownContent.click();
-            
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
     }
 
     enterInstructions(instructions: string) {
-
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.visibilityOf(this.eleInstructionsTextArea), 5000);
             this.eleInstructionsTextArea.sendKeys(instructions);
-
+            browser.sleep(1000)
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -256,10 +265,42 @@ export class CarePlannerEditSchedulePopup {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.visibilityOf(this.eleScheduleButton), 5000);
             this.eleScheduleButton.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
     }
 
-  
+
+    scheduleTaskOccurrence(occurrenceInfo:TaskOccurreceDetails){
+        try {
+            if(this.isPopupDisplayed){
+                switch(occurrenceInfo.frequency.toLowerCase()){
+                    case "once":
+                        this.toggleFrequencyOnce()
+                            .enterTimeForSingleOccurrence(occurrenceInfo.scheduleStartTime)
+                            .selectDateForSingleOccurrence()
+                            .enterInstructions(occurrenceInfo.taskInstructions)
+                            .clickScheduleButton();
+                    break;
+                    case "recurring":
+                        this.toggleFrequencyRecurring()
+                            .enterStartTime(occurrenceInfo.scheduleStartTime)
+                            .selectStartDate()
+                            .enterRepeatEveryHour(occurrenceInfo.repeatHours)
+                            .enterEndTime(occurrenceInfo.scheduleEndTime)
+                            .selectEndDate()
+                            .enterInstructions(occurrenceInfo.taskInstructions)
+                            .clickScheduleButton();
+                    break;
+                    default:
+                    break;
+                }                
+            }else{
+                browser.logger.error("Schedule Task Occurrence Popup not displayed");
+            }
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
 }

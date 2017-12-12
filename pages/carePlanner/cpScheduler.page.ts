@@ -18,9 +18,10 @@ export class CarePlannerSchedulerPage {
 
   get categoryCount() {
     try {
-      return this.eleCategoryList.count().then((catCount: number) => {
+      let categoryCount = this.eleCategoryList.count().then((catCount: number) => {
         return catCount;
       });
+      return categoryCount;
     } catch (error) {
       browser.logger.error(error);
     }
@@ -28,9 +29,10 @@ export class CarePlannerSchedulerPage {
 
   get productTaskListCount() {
     try {
-      return this.elePrdTaskList.count().then((taskCount: number) => {
+      let productTaskListCount = this.elePrdTaskList.count().then((taskCount: number) => {
         return taskCount;
       });
+      return productTaskListCount;
     } catch (error) {
       browser.logger.error(error);
     }
@@ -70,9 +72,11 @@ export class CarePlannerSchedulerPage {
 
   get productTaskList() {
     try {
-      return this.elePrdTaskList.getText().then(prdList => {
+      let prdTaskList = this.elePrdTaskList.getText().then(prdList => {
         return prdList;
       });
+      
+      return prdTaskList;
     } catch (error) {
       browser.logger.error(error);
     }
@@ -195,6 +199,7 @@ export class CarePlannerSchedulerPage {
       return element.all(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li"))
         .count()
         .then(count => {
+          browser.logger.info("Task occurrence count is : " + count);
           return count;
         });
     } catch (error) {
@@ -282,8 +287,34 @@ export class CarePlannerSchedulerPage {
       browser.sleep(2000);
     } catch (error) {
       browser.logger.error(error);
-    }    
+    }
   }
+
+  verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, expectedNumberOfTaskOccurrences){
+    try {
+      let taskOccurrenceCount = this.getNumberOfTaskOccurrence(startPosition, endPosition).then((count) => {return count});
+      expect(taskOccurrenceCount).toBe(expectedNumberOfTaskOccurrences);
+      browser.sleep(1000);      
+    } catch (error) {
+      browser.logger.error(error);
+    }
+  }
+
+  verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, expectedStatus){
+    try {
+      let taskOccurrenceStatus:any = this.getTaskOccurrenceStatus(startPosition, endPosition);
+      for (let index = 0; index < taskOccurrenceStatus.length; index++) {
+        browser.logger.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
+        expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
+      }
+    } catch (error) {
+      browser.logger.error(error);
+    }
+  }
+
+  
+
+
 
   //***************** Attempt to get the product list index and xpath of the row occurrence*************/
   // get productTaskList1(){
