@@ -7,6 +7,7 @@ var request = require('request');
 export class AuthController {
  
     static authTokenValue : string;
+    static tokenValue : string;
     constructor() {
         browser.logger.info("*********** Auth Controller ***********");
     }
@@ -22,6 +23,7 @@ export class AuthController {
             browser.logger.info("bearer "+__response1.access_token);
             browser.logger.info("*******************************************************");
             AuthController.authTokenValue = "bearer "+__response1.access_token;
+            AuthController.tokenValue=__response1.access_token;
         } catch (e){throw e;}
     }
 

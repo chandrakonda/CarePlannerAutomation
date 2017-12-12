@@ -56,7 +56,7 @@ export class CarePlannerApiCalls {
                 '&orderId=' + browser.visitId +
                 '&userName='+ browser.appenvdetails.username +
                 '&userId=' + browser.userId +  // chandrasekhar.konda .. need to implement
-                '&accessToken=' + AuthController.authTokenValue;
+                '&accessToken=' + AuthController.tokenValue;
             browser.logger.info('URL: ', __url);
             browser.get(__url);
             browser.sleep(5000);
