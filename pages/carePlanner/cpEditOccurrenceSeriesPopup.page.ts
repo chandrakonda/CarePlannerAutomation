@@ -60,6 +60,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
         try {
             browser.logger.info("Click on 'Save' button");
             this.eleSaveButton.click();
+            browser.sleep(2000);
         } catch (error) {
             browser.logger.error(error);
         }
@@ -76,22 +77,23 @@ export class CarePlannerEditOccuranceSeriesPopup {
 
     selectStatusInToggleButton(statusName:string){
         try {
-            switch (statusName) {
-                case 'Planned':
+            switch (statusName.toLowerCase()) {
+                case 'planned':
                     this.eleToggleStatusPlanned.click();
                     break;
-                case 'Completed':
+                case 'completed':
                     this.eleToggleStatusCompleted.click();
                     break;
-                case 'Skipped':
+                case 'skipped':
                     this.eleToggleStatusSkipped.click();
                     break;
-                case 'Canceled':
+                case 'canceled':
                     this.eleToggleStatusCanceled.click();
                     break;
                 default:
                     break;
             }
+            browser.sleep(1500);
             return this;
         } catch (error) {
             browser.logger.error(error);
@@ -159,19 +161,29 @@ export class CarePlannerEditOccuranceSeriesPopup {
     updateOccurrenceDetails(status:string, taskNotes:string, completedTime?:string){
         try {
             if(this.isPopupDisplayed){
-            switch (status.toLowerCase()) {
-                case "completed":
-                    this.enterTaskNotes(taskNotes)
-                        .selectStatusInToggleButton(status)
-                        .enterCompletedTime(this.getScheduledTime)
-                        .selectCompletedDate()
-                        .clickOnSave();
-                    break;
-                case "skipped":
-                    break;
-                default:
-                    break;
-             }   
+                browser.sleep(2000);
+                switch (status.toLowerCase()) {
+                    case "completed":
+                        this.enterTaskNotes(taskNotes)
+                            .selectStatusInToggleButton(status)
+                            .enterCompletedTime(this.getScheduledTime)
+                            .selectCompletedDate()
+                            .clickOnSave();
+                        
+                        break;
+                    case "skipped":
+                        this.enterTaskNotes(taskNotes)
+                            .selectStatusInToggleButton(status)
+                            .clickOnSave();
+                        break;
+                    case "canceled":
+                        this.enterTaskNotes(taskNotes)
+                            .selectStatusInToggleButton(status)
+                            .clickOnSave();
+                    default:
+                        break;
+                }
+                browser.sleep(1000);
             }
         } catch (error) {
             browser.logger.error(error);

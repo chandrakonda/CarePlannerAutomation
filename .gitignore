@@ -4,6 +4,6 @@ reports/
 support/log/
 log/
 *.js
-.vscode
+.vscode/symbols.json
 results/
 debug.log

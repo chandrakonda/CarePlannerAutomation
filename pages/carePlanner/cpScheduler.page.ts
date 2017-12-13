@@ -290,30 +290,54 @@ export class CarePlannerSchedulerPage {
     }
   }
 
-  verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, expectedNumberOfTaskOccurrences){
+  async verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, expectedNumberOfTaskOccurrences){
     try {
-      let taskOccurrenceCount = this.getNumberOfTaskOccurrence(startPosition, endPosition).then((count) => {return count});
-      expect(taskOccurrenceCount).toBe(expectedNumberOfTaskOccurrences);
-      browser.sleep(1000);      
+      browser.sleep(3000);
+      let taskOccurrenceCount = await this.getNumberOfTaskOccurrence(startPosition, endPosition).then((count) => {return count});
+      await expect(taskOccurrenceCount).toBe(expectedNumberOfTaskOccurrences);
     } catch (error) {
       browser.logger.error(error);
     }
   }
 
-  verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, expectedStatus){
+  async verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, expectedStatus){
     try {
-      let taskOccurrenceStatus:any = this.getTaskOccurrenceStatus(startPosition, endPosition);
+      let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
       for (let index = 0; index < taskOccurrenceStatus.length; index++) {
         browser.logger.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
-        expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
+        await expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
       }
     } catch (error) {
       browser.logger.error(error);
     }
   }
 
-  
+  async verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, occurrenceIndex, expectedStatus){
+    try {
+      let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
+      browser.logger.info("Status of the occurrence " + occurrenceIndex + " is : " + taskOccurrenceStatus[occurrenceIndex].split(' ')[0]);
+      expect(taskOccurrenceStatus[occurrenceIndex].split(' ')[0]).toEqual(expectedStatus);      
+    } catch (error) {
+      browser.logger.error(error);
+    }
+  }
 
+  async verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, canceledIndex, expectedStatus){
+    try {
+      let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
+      for (let index = 0; index < taskOccurrenceStatus.length; index++) {
+        if(index == canceledIndex && expectedStatus[index] == 'Canceled'){
+         expectedStatus.splice(canceledIndex, 1);
+         index = index-1;
+        } else {
+          browser.logger.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
+          await expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
+        }
+      }
+    } catch (error) {
+      browser.logger.error(error);
+    }
+  }
 
 
   //***************** Attempt to get the product list index and xpath of the row occurrence*************/
