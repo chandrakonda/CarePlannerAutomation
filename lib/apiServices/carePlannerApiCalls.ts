@@ -38,8 +38,8 @@ export class CarePlannerApiCalls {
           //  browser.apiToken = AuthController.authTokenValue;
             browser.clientID = 304006797;
             browser.logger.info(AuthController.authTokenValue);
-            await __clientAndPatientController.createPatient1(AuthController.authTokenValue);  // create patient
-            await __appointmentController.createNewAppointment1(AuthController.authTokenValue);  // create appointment
+            await __clientAndPatientController.createPatient(AuthController.authTokenValue);  // create patient
+            await __appointmentController.createNewAppointment(AuthController.authTokenValue);  // create appointment
             await __appointmentController.checkinAppointment1(AuthController.authTokenValue);  // checkin appointment
             await __appointmentController.getCheckedInPatientDetail1(AuthController.authTokenValue);  // checkin appointment
             await __orderController.addOrderToVisit1(AuthController.authTokenValue);

@@ -54,22 +54,28 @@ export class ClientAndPatientController {
         return options;
     }
 
-    async createPatient1(token : any) {
-        let options = await this.setCreatePatientOptions(token);
+    async createPatient(token : any) {
+        let options = this.setCreatePatientOptions(token);
         browser.logger.info(options);
         let __apiServices = new CarePlannerApiServices();
         // Create patient 
         let __response = await __apiServices.makeApiCall(options).then((response) => {
-            return response;
+            //return response;
+             __apiServices.parseResultOfMakePostRequest(response).then((responseValue) => {
+                    browser.patientID = responseValue;
+                    browser.logger.info("PatientId: " + browser.patientID);
+                   return responseValue;
+                });
         });
         // parse response
-        let __patientResponse = __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
-            browser.patientID = response;
-            browser.logger.info("PatientId: " + browser.patientID);
-           return response;
-        });
+        // let __patientResponse = __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
+        //     browser.patientID = response;
+        //     browser.logger.info("PatientId: " + browser.patientID);
+        //    return response;
+        // });
 
       // browser.logger.info(__patientResponse);
+      return __response;
     }
 
     setCreatePatientOptions(token: any){

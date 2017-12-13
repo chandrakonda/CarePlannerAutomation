@@ -11,23 +11,27 @@ export class AppointmentController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    async createNewAppointment1(token: any) {
+    async createNewAppointment(token: any) {
         try {
-            let options = await this.createNewAppointmentOptions(token);
+            let options = this.createNewAppointmentOptions(token);
 
             browser.logger.info(options);
             let __apiServices = new CarePlannerApiServices();
             // Create client 
-            let __response = await __apiServices.makeApiCall(options).then((response) => {
-                return response;
+            await __apiServices.makeApiCall(options).then((response) => {
+                  __apiServices.parseResultOfMakePostRequest(response).then((responseValue) => {
+                    browser.appointmentID = responseValue.AppointmentId;
+                    browser.logger.info("Appointment ID: " + browser.appointmentID);
+                    browser.logger.info(responseValue);
+                });
             })
 
             // parse response
-            let __appointmentResponse = await __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
-                browser.appointmentID = response.AppointmentId;
-                browser.logger.info("Appointment ID: " + browser.appointmentID);
-                browser.logger.info(response);
-            });
+            // let __appointmentResponse = await __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
+            //     browser.appointmentID = response.AppointmentId;
+            //     browser.logger.info("Appointment ID: " + browser.appointmentID);
+            //     browser.logger.info(response);
+            // });
 
             browser.logger.info("__appointmentresponse" + browser.appointmentID);
         } catch (e) {
