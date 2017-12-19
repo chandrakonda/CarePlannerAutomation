@@ -1,24 +1,25 @@
 import { browser } from 'protractor';
 import { CarePlannerApiServices } from '../apiServices/carePlannerApiServices';
 const path = require('path');
+let __timestamp;
 
 export class ClientAndPatientController {
 
     //private apiServices;
     //private options; 
-    static __timestamp = new Date().getTime();
     constructor() {
         browser.logger.info("*********** ClientAndPatientController ***********");
         //this.__timestamp = new Date().getTime();
         //this.apiServices = new CarePlannerApiServices();
+        __timestamp = new Date().getTime();
     }
 
  
 
-    async createClient1(token: any) {
+    async createClient(token: any) {
         try {
             browser.logger.info("*********** Creating Client ***********");
-            let options = await this.setCreateClientOptions(token);
+            let options = this.setCreateClientOptions(token);
             browser.logger.info(options);
             let __apiServices = new CarePlannerApiServices();
             // Create client 
@@ -48,8 +49,8 @@ export class ClientAndPatientController {
         options.headers.authorization = token;
         //Set body data
         options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//postClients.json'));
-        options.body.FirstName = options.body.FirstName + ClientAndPatientController.__timestamp;
-        options.body.LastName = options.body.LastName + ClientAndPatientController.__timestamp;
+        options.body.FirstName = options.body.FirstName + __timestamp;
+        options.body.LastName = options.body.LastName + __timestamp;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         return options;
     }
@@ -94,7 +95,7 @@ export class ClientAndPatientController {
         //Set body data
         options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//postPatients.json'));
         options.body.ClientId = browser.clientID;
-        browser.patientName = options.body.PatientName + ClientAndPatientController.__timestamp;
+        browser.patientName = options.body.PatientName + __timestamp;
         options.body.PatientName = browser.patientName;
         options.body.HospitalId = browser.appenvdetails.hospitalid;
         return options;

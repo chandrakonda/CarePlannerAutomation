@@ -1,6 +1,7 @@
 import { element, by, browser, protractor, ExpectedConditions } from 'protractor';
 
 export class CarePlannerEditOccuranceSeriesPopup {
+
     elePopupHeader = element(by.xpath("//*[@id='Occurrencesries']/descendant::h4"));
     
     eleScheduleTime = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'Scheduled time')]]/following-sibling::div/descendant::input[1]"));
@@ -16,11 +17,18 @@ export class CarePlannerEditOccuranceSeriesPopup {
     eleCompletedDateDropDownContent = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'Completed time')]]/following-sibling::div/descendant::sui-select-option/span[2]"));
     eleCompleteDateDropDownList = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'Completed time')]]/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"));
 
+    eleInstructions = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[preceding-sibling::div/div[text()='Instructions']]/div"));
+    eleProduct = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[preceding-sibling::div/div[text()='Product']]/div"));
+    eleDose = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[preceding-sibling::div/div[text()='Dose']]/div/span"));
+    eleAmountToAdminister = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[preceding-sibling::div/div[text()='Amount to administer']]/div/span"));
+    eleAmountToConfirm = element(by.xpath("//*[@id='Occurrencesries']/descendant::div/input[@placeholder='Amount to administer']"));
+
     eleTaskNotes = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[preceding-sibling::div/div[text()='Task notes']]/textarea"));
     eleCompleteAndSaveButton = element(by.xpath("//*[@id='Occurrencesries']/descendant::button[text()='Complete & Save']"));
     eleSaveButton = element(by.xpath("//*[@id='Occurrencesries']/descendant::button[text()='Save']"));
     eleCloseButton = element(by.xpath("//*[@id='Occurrencesries']/descendant::button[text()='Close']"))
 
+    eleCloseIcon = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[contains(@class,'closeButton')]"));
 
     get isPopupDisplayed() {
         try {
@@ -30,6 +38,73 @@ export class CarePlannerEditOccuranceSeriesPopup {
             });
         } catch (error) {
             browser.logger.info(error);
+        }
+    }
+
+    enterAmountToConfirm(amountToAdministerValue){
+        try {
+            var EC = protractor.ExpectedConditions;
+            browser.wait(EC.presenceOf(this.eleAmountToConfirm), 3000);
+            this.eleAmountToConfirm.isPresent().then(() => {
+                browser.logger.info("Task notes entered as : " + amountToAdministerValue);
+                this.eleAmountToConfirm.sendKeys(amountToAdministerValue);
+            }); 
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    fillAmountToConfirm(){
+        try {
+            let amountFieldStatus = this.eleAmountToConfirm.isEnabled;
+            browser.logger.info("Amout to Administer text field is : " + amountFieldStatus);
+            if(amountFieldStatus){
+                let amount = this.amountToAdminister.then((value) => {return value});
+                this.enterAmountToConfirm(amount);
+            }
+            return this;
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    get instructions(){
+        try {
+            let occurrenceInstruction = this.eleInstructions.getText().then((value) => { return value;})
+            browser.logger.info("Occurrence Instructions Displayed as : '" + occurrenceInstruction + "'");
+            return occurrenceInstruction;
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    get productFullName(){
+        try {
+            let productName = this.eleProduct.getText().then((value) => { return value;})
+            browser.logger.info("Product Full Name Displayed as : '" + productName + "'");
+            return productName;
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    get doseValue(){
+        try {
+            let doseValue = this.eleDose.getText().then((value) => { return value;})
+            browser.logger.info("Dose Value Displayed as : '" + doseValue + "'");
+            return doseValue;
+        } catch (error) {
+            browser.logger.error(error);
+        }
+    }
+
+    get amountToAdminister(){
+        try {
+            let amountToAdminister = this.eleAmountToAdminister.getText().then((value) => { return value;})
+            browser.logger.info("Amount TO Administer Value Displayed as : '" + amountToAdminister + "'");
+            return amountToAdminister;
+        } catch (error) {
+            browser.logger.error(error);
         }
     }
 
@@ -80,15 +155,19 @@ export class CarePlannerEditOccuranceSeriesPopup {
             switch (statusName.toLowerCase()) {
                 case 'planned':
                     this.eleToggleStatusPlanned.click();
+                    browser.logger.info("'Planned' tab has been selected for the task occurrence");
                     break;
                 case 'completed':
                     this.eleToggleStatusCompleted.click();
+                    browser.logger.info("'Completed' tab has been selected for the task occurrence");
                     break;
                 case 'skipped':
                     this.eleToggleStatusSkipped.click();
+                    browser.logger.info("'Skipped' tab has been selected for the task occurrence");
                     break;
                 case 'canceled':
                     this.eleToggleStatusCanceled.click();
+                    browser.logger.info("'Canceled' tab has been selected for the task occurrence");
                     break;
                 default:
                     break;
@@ -161,15 +240,14 @@ export class CarePlannerEditOccuranceSeriesPopup {
     updateOccurrenceDetails(status:string, taskNotes:string, completedTime?:string){
         try {
             if(this.isPopupDisplayed){
-                browser.sleep(2000);
+                browser.sleep(1000);
                 switch (status.toLowerCase()) {
                     case "completed":
                         this.enterTaskNotes(taskNotes)
                             .selectStatusInToggleButton(status)
                             .enterCompletedTime(this.getScheduledTime)
                             .selectCompletedDate()
-                            .clickOnSave();
-                        
+                            .clickOnSave();                        
                         break;
                     case "skipped":
                         this.enterTaskNotes(taskNotes)
@@ -177,7 +255,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
                             .clickOnSave();
                         break;
                     case "canceled":
-                        this.enterTaskNotes(taskNotes)
+                            this.enterTaskNotes(taskNotes)
                             .selectStatusInToggleButton(status)
                             .clickOnSave();
                     default:

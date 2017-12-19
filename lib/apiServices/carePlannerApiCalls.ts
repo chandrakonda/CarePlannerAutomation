@@ -8,7 +8,7 @@ import { OrderController } from "../apiControllers/orderController";
 
 export class CarePlannerApiCalls {
 
-    static apiTokenValue: string;
+    //static apiTokenValue: string;
 
     // GetAuthToken() {
     //     try {
@@ -34,10 +34,12 @@ export class CarePlannerApiCalls {
             //        __clientAndPatientController.createClient1(browser.apiToken).then(() => {__clientAndPatientController.createPatient1(browser.apiToken);}) });
 
             // await __authController.getAuthToken1();
-            //await __clientAndPatientController.createClient1(browser.apiToken);  // create client
-          //  browser.apiToken = AuthController.authTokenValue;
-            browser.clientID = 304006797;
+            //browser.apiToken = AuthController.authTokenValue;
+            //browser.clientID = 304006797;
+
+            await browser.sleep(10000);
             browser.logger.info(AuthController.authTokenValue);
+            await __clientAndPatientController.createClient(AuthController.authTokenValue);  // create client
             await __clientAndPatientController.createPatient(AuthController.authTokenValue);  // create patient
             await __appointmentController.createNewAppointment(AuthController.authTokenValue);  // create appointment
             await __appointmentController.checkinAppointment1(AuthController.authTokenValue);  // checkin appointment

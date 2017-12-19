@@ -39,8 +39,9 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        //"../specs/carePlanner/testScheduleSingleTaskSingleOccurrence.spec.js",
-          "../specs/carePlanner/testScheduleSingleTaskMultiOccurrences.spec.js"
+        "../specs/carePlanner/testScheduleAndCompleteTaskOccurrence.spec.js",
+        // "../specs/carePlanner/testScheduleAndCancelTaskOccurrence.spec.js",
+        // "../specs/carePlanner/testScheduleAndSkipTaskOccurrence.spec.js"
     ],
 
     jasmineNodeOpts: {
@@ -78,7 +79,7 @@ export const config: Config = {
         browser.manage().timeouts().implicitlyWait(50000);
         browser.baseUrl = browser.appenvdetails.applicationurl;
         let __authController = new AuthController();
-        __authController.getAuthToken1();
+         __authController.getAuthToken1();
 
     },
 
