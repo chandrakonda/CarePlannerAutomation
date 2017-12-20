@@ -179,12 +179,13 @@ export class CarePlannerEditOccuranceSeriesPopup {
         }
     }
 
-    enterScheduledTime(time:string){
+    enterScheduledTime(time){
         try {
             this.eleScheduleTime.clear().then(() => {
                 this.eleScheduleTime.sendKeys(time);
                 browser.logger.info("Occurrence scheduled time entered as : " + time);
             });
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -204,6 +205,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleScheduledDateDropDown));
             this.eleScheduledDateDropDown.click();
+            return this;
         } catch (error) {
             browser.logger.error(error);
         }
@@ -237,7 +239,7 @@ export class CarePlannerEditOccuranceSeriesPopup {
         }
     }
 
-    updateOccurrenceDetails(status:string, taskNotes:string, completedTime?:string){
+    updateOccurrenceDetails(status:string, taskNotes:string, time?){
         try {
             if(this.isPopupDisplayed){
                 browser.sleep(1000);
@@ -258,6 +260,15 @@ export class CarePlannerEditOccuranceSeriesPopup {
                             this.enterTaskNotes(taskNotes)
                             .selectStatusInToggleButton(status)
                             .clickOnSave();
+                        break;
+                    case "planned":
+                    case "rescheduled":
+                        this.enterTaskNotes(taskNotes)
+                            .selectStatusInToggleButton(status)
+                            .enterScheduledTime(time)
+                            .selectScheduledDate()
+                            .clickOnSave(); 
+                        break;
                     default:
                         break;
                 }
@@ -267,4 +278,6 @@ export class CarePlannerEditOccuranceSeriesPopup {
             browser.logger.error(error);
         }
     }
+
+    
 }

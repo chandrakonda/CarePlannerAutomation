@@ -210,6 +210,30 @@ export class CarePlannerSchedulerPage {
     }
   }
 
+  clickOnOccurrenceByScheduledTime(scheduledTime) {
+    try {
+      let startPosition = scheduledTime+1;
+      let endPosition = scheduledTime + 2;
+      let occurrences = element(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" + startPosition +"and not(position() >=" + endPosition +")]/descendant::li"))
+      .getWebElement();
+      browser.actions().mouseMove(occurrences).click().perform();
+    } catch (error) {
+      browser.logger.error(error);
+    }
+  }
+
+  async verifyTheStatusOfTaskOccurrenceByTime(time, expectedStatus){
+    try {
+      let startPosition = time + 1;
+      let endPosition = time + 2;
+      browser.sleep(2000);
+      let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
+      browser.logger.info("Status of the occurrence time '" + time + "' hour is : " + taskOccurrenceStatus[0].split(' ')[0]);
+      expect(taskOccurrenceStatus[0].split(' ')[0]).toEqual(expectedStatus);      
+    } catch (error) {
+      browser.logger.error(error);
+    }
+  }
 
   // async clickOnTaskName(taskSeriesName: string) {
   //   try {

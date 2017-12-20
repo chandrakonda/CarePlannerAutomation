@@ -39,9 +39,10 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../specs/carePlanner/testScheduleAndCompleteTaskOccurrence.spec.js",
-        // "../specs/carePlanner/testScheduleAndCancelTaskOccurrence.spec.js",
-        // "../specs/carePlanner/testScheduleAndSkipTaskOccurrence.spec.js"
+        //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec.js",
+        // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
+        // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
+        "../specs/carePlanner/demoSpecs/testRescheduleTheScheduledTaskOccurrences.spec.js"
     ],
 
     jasmineNodeOpts: {

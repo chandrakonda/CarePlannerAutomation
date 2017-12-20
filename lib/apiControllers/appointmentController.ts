@@ -9,8 +9,6 @@ export class AppointmentController {
         browser.logger.info("*********** AppointmentController ***********");
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     async createNewAppointment(token: any) {
         try {
             let options = this.createNewAppointmentOptions(token);
@@ -25,49 +23,42 @@ export class AppointmentController {
                     browser.logger.info(responseValue);
                 });
             })
-
-            // parse response
-            // let __appointmentResponse = await __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
-            //     browser.appointmentID = response.AppointmentId;
-            //     browser.logger.info("Appointment ID: " + browser.appointmentID);
-            //     browser.logger.info(response);
-            // });
-
             browser.logger.info("__appointmentresponse" + browser.appointmentID);
-        } catch (e) {
-            throw e;
+        } catch (error) {
+            browser.logger.error(error);
         }
-
     }
 
     createNewAppointmentOptions(token: any) {
-
-        browser.logger.info("*********** Create New Appointment ***********");
-        // Load Template
-        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postBookAppointment.json'));
-
-        var startTime = moment().subtract(6, 'hours').toISOString();
-        var endtime = moment().subtract(4, 'hours').toISOString();
-
-        //Set URL
-        options.url = browser.appenvdetails.wwapiendpoint + 'Appointments';
-
-        //Set header values
-        options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
-        options.headers.authorization = token;
-
-        //Set body data using default values
-        options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//bookAppointment.json'));
-        options.body.ClientId = browser.clientID;
-        options.body.HospitalId = browser.appenvdetails.hospitalid;
-        options.body.PetAppointments[0].PatientId = browser.patientID;
-        options.body.PetAppointments[0].StartTime = startTime;
-        options.body.PetAppointments[0].EndTime = endtime;
-        return options;
-
+        try {
+            browser.logger.info("*********** Create New Appointment ***********");
+            // Load Template
+            let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postBookAppointment.json'));
+    
+            var startTime = moment().subtract(6, 'hours').toISOString();
+            var endtime = moment().subtract(4, 'hours').toISOString();
+    
+            //Set URL
+            options.url = browser.appenvdetails.wwapiendpoint + 'Appointments';
+    
+            //Set header values
+            options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
+            options.headers.authorization = token;
+    
+            //Set body data using default values
+            options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//bookAppointment.json'));
+            options.body.ClientId = browser.clientID;
+            options.body.HospitalId = browser.appenvdetails.hospitalid;
+            options.body.PetAppointments[0].PatientId = browser.patientID;
+            options.body.PetAppointments[0].StartTime = startTime;
+            options.body.PetAppointments[0].EndTime = endtime;
+            return options;
+        } catch (error) {
+            browser.logger.error(error);
+        }
     }
 
-    async checkinAppointment1(token: any) {
+    async checkinAppointment(token: any) {
         try {
             let options = await this.checkinAppointmentOptions(token);
             browser.logger.info(options);
@@ -83,38 +74,38 @@ export class AppointmentController {
             });
 
             browser.logger.info("__checkinAppointment" + __checkinAppointment);
-        } catch (e) {
-            throw e;
+        } catch (error) {
+            browser.logger.error(error);
         }
-
-
     }
 
     checkinAppointmentOptions(token: any) {
-
-        browser.logger.info("*********** Check In Appointment ***********");
-        // Load Template
-        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postCheckInAppointment.json'));
-
-        //Set URL
-        options.url = browser.appenvdetails.wwapiendpoint + 'CheckInAppointment';
-
-        //Set qs values
-        options.qs.appointmentId = browser.appointmentID.toString();
-        options.qs.isMergeMedicalNote = "false";
-
-        //Set header values
-        options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
-        options.headers.authorization = token;
-
-        browser.logger.info("Options: " + options.qs.appointmentId);
-        //browser.logger.info(options);
-
-        return options;
-
+        try {
+            browser.logger.info("*********** Check In Appointment ***********");
+            // Load Template
+            let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postCheckInAppointment.json'));
+    
+            //Set URL
+            options.url = browser.appenvdetails.wwapiendpoint + 'CheckInAppointment';
+    
+            //Set qs values
+            options.qs.appointmentId = browser.appointmentID.toString();
+            options.qs.isMergeMedicalNote = "false";
+    
+            //Set header values
+            options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
+            options.headers.authorization = token;
+    
+            browser.logger.info("Options: " + options.qs.appointmentId);
+            //browser.logger.info(options);
+    
+            return options;
+        } catch (error) {
+            browser.logger.error(error);
+        }
     }
 
-    async getCheckedInPatientDetail1(token: any) {
+    async getCheckedInPatientDetail(token: any) {
         try {
             let __options = await this.getCheckedInPatientDetailsOptions(token);
             browser.logger.info(__options);
@@ -130,8 +121,6 @@ export class AppointmentController {
                 browser.logger.info("Visit Id is :" + browser.visitId);
                 return response;
             });
-
-           // browser.logger.info("getcheckedinpatientdetails" + __result);
         } catch (e) {
             throw e;
         }
@@ -139,24 +128,27 @@ export class AppointmentController {
     }
 
     getCheckedInPatientDetailsOptions(token: any) {
-
-        browser.logger.info('*********** Getting visit details ***********');
-
-        // Load Template
-        let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getCheckedInPatientDetails.json'));
-
-        //Set URL
-        options.url = browser.appenvdetails.wwapiendpoint + 'CheckedInPatients';
-
-        //Set qs values
-        options.qs.patientId = browser.patientID.toString();
-        options.qs.IncludeOrderItemList = 'true';
-
-        //Set header values
-        options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
-        options.headers.authorization = token;
-        //browser.logger.info(options);
-        return options;
+        try {
+            browser.logger.info('*********** Getting visit details ***********');
+            
+            // Load Template
+            let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getCheckedInPatientDetails.json'));
+    
+            //Set URL
+            options.url = browser.appenvdetails.wwapiendpoint + 'CheckedInPatients';
+    
+            //Set qs values
+            options.qs.patientId = browser.patientID.toString();
+            options.qs.IncludeOrderItemList = 'true';
+    
+            //Set header values
+            options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
+            options.headers.authorization = token;
+            //browser.logger.info(options);
+            return options;
+        } catch (error) {
+            browser.logger.error(error);
+        }       
     }
 
 }

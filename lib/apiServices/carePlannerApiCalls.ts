@@ -23,33 +23,25 @@ export class CarePlannerApiCalls {
 
     async CreateClientPetAddProduct() {
         try {
+            await browser.sleep(10000);
+            browser.logger.info(AuthController.authTokenValue);
+
             let __clientAndPatientController = new ClientAndPatientController();
             let __appointmentController = new AppointmentController();
             let __orderController = new OrderController();
             let __visitController: VisitController = new VisitController();
-            //    await __clientAndPatientController.createClient1();
-
-            //     await __authController.getAuthToken1()
-            //    .then( ()  => {
-            //        __clientAndPatientController.createClient1(browser.apiToken).then(() => {__clientAndPatientController.createPatient1(browser.apiToken);}) });
-
-            // await __authController.getAuthToken1();
-            //browser.apiToken = AuthController.authTokenValue;
-            //browser.clientID = 304006797;
-
-            await browser.sleep(10000);
-            browser.logger.info(AuthController.authTokenValue);
+            
             await __clientAndPatientController.createClient(AuthController.authTokenValue);  // create client
             await __clientAndPatientController.createPatient(AuthController.authTokenValue);  // create patient
             await __appointmentController.createNewAppointment(AuthController.authTokenValue);  // create appointment
-            await __appointmentController.checkinAppointment1(AuthController.authTokenValue);  // checkin appointment
-            await __appointmentController.getCheckedInPatientDetail1(AuthController.authTokenValue);  // checkin appointment
-            await __orderController.addOrderToVisit1(AuthController.authTokenValue);
+            await __appointmentController.checkinAppointment(AuthController.authTokenValue);  // checkin appointment
+            await __appointmentController.getCheckedInPatientDetail(AuthController.authTokenValue);  // checkin appointment
+            await __orderController.addOrderToVisit(AuthController.authTokenValue);
             await browser.sleep(10000);  /// Wait to get details
-            await __visitController.getVisitDetailsByVisitId1(AuthController.authTokenValue);
-            await __orderController.getTaskSeriesByOrderId1(AuthController.authTokenValue);
-            await __visitController.getVisitDetailsByVisitId1(AuthController.authTokenValue);
-            await __visitController.getVisitResources1(AuthController.authTokenValue);
+            await __visitController.getVisitDetailsByVisitId(AuthController.authTokenValue);
+            await __orderController.getTaskSeriesByOrderId(AuthController.authTokenValue);
+            await __visitController.getVisitDetailsByVisitId(AuthController.authTokenValue);
+            await __visitController.getVisitResources(AuthController.authTokenValue);
 
             browser.logger.info("Creating URL and launching browser...");
             let __url = browser.baseUrl +

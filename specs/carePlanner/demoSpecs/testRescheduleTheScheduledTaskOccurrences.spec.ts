@@ -1,9 +1,9 @@
-import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
-import { CarePlannerSchedulerPage } from '../../pages/carePlanner/cpScheduler.page';
-import { CarePlannerEditSchedulePopup } from '../../pages/carePlanner/cpEditSchedulePopup.page';
-import { CarePlannerEditOccuranceSeriesPopup } from '../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
+import { CarePlannerPetDetails } from '../../../pages/carePlanner/cpPetdetails.page';
+import { CarePlannerSchedulerPage } from '../../../pages/carePlanner/cpScheduler.page';
+import { CarePlannerEditSchedulePopup } from '../../../pages/carePlanner/cpEditSchedulePopup.page';
+import { CarePlannerEditOccuranceSeriesPopup } from '../../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
 import { browser, protractor } from 'protractor';
-import { CarePlannerApiCalls } from '../../lib/apiServices/carePlannerApiCalls';
+import { CarePlannerApiCalls } from '../../../lib/apiServices/carePlannerApiCalls';
 
 let cpSchedulerPage:CarePlannerSchedulerPage;
 let cpPetDetailsPage:CarePlannerPetDetails;
@@ -18,26 +18,28 @@ let singleOccurrence = {
     repeatEveryHour : 0,
     scheduleInstructions : 'Test Instructions for the Single Occurrence',
     expectedNumberOfTaskOccurrences : 1,
-    actualOccurrenceStatus : ['Overdue'],
-    occurrenceIndex : 0,
-    expectedOcurrenceStatus : ['Canceled'],
-    taskOccurrenceNotes : 'Test notes for cancel task occurrence'
+    expectedOccurrenceStatus : ['Overdue'],
+    timeToReschedule : 9,
+    rescheduledTime : 10,
+    rescheduledOccurrenceStatus : ['Overdue'],
+    rescheduledOccurrenceCount : 1,
+    rescheduledOccurrenceNotes : 'Test Instructions for the Single Occurrence Rescheduled'
 }
 
 let multiOccurrence = {
     scheduleStartTime : 9,
     scheduleEndTime : 11,
     repeatEveryHour : 1,
-    scheduleInstructions : 'Test Instructions for the Multi Occurrences',
+    scheduleInstructions : 'Test Instructions for the Multi Occurrence',
     expectedNumberOfTaskOccurrences : 3,
-    actualOccurrenceStatus : ['Overdue', 'Overdue', 'Overdue'],
-    occurrenceIndex : 1,
-    expectedOcurrenceStatus : ['Overdue', 'Canceled', 'Overdue'],
-    taskOccurrenceNotes : 'Test notes for cancel a task occurrence'
+    expectedOccurrenceStatus : ['Overdue', 'Overdue', 'Overdue'],
+    timeToReschedule : 11,
+    rescheduledTime : 12,
+    rescheduledOccurrenceStatus : ['Overdue'],
+    rescheduledOccurrenceNotes : 'Test Instructions for the Multi Occurrence Rescheduled'
 }
 
-let occurrenceDetails:TaskOccurreceDetails;
-
+let scheduleOccurrenceDetails:TaskOccurreceDetails;
 
 describe('schedule task occurrence and cancel the task occurrence scheduled', async () => {
     
@@ -70,7 +72,10 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             await expect(pageTitle).toEqual('VCA Charge Capture');
             
             //Verify the Client Last Name
-            await expect(cpPetDetailsPage.clientName).toEqual(_clientLastName);
+            let clientName = await cpPetDetailsPage.clientName;
+            browser.logger.info("Client Name displayed as : " + clientName );
+            browser.logger.info("Client Name Should displayed as : " + _clientLastName );
+            await expect(clientName).toEqual(_clientLastName);
         
             //Veify the Patient Name 
             await expect(cpPetDetailsPage.petName).toEqual(_patientName);
@@ -101,7 +106,7 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             await cpSchedulerPage.clickOnTaskByName(browser.taskSeriesName);
             await browser.sleep(1000);
     
-            occurrenceDetails = {
+            scheduleOccurrenceDetails = {
                 frequency : "once",
                 scheduleStartTime : singleOccurrence.scheduleStartTime,
                 scheduleStartDate : '',
@@ -112,7 +117,7 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             } as TaskOccurreceDetails;
     
             //Schedule the Task Occurrence with the Occurrence Details
-            await cpEditSchedulePopupPage.scheduleTaskOccurrence(occurrenceDetails);
+            await cpEditSchedulePopupPage.scheduleTaskOccurrence(scheduleOccurrenceDetails);
             await browser.sleep(5000);
         });
     
@@ -128,38 +133,40 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             await cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedNumberOfTaskOccurrences)
     
             //Verify the status of the created Occurrences
-            await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.actualOccurrenceStatus);
+            await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedOccurrenceStatus);
 
         });
-    
-        it('should able to successfully cancel a single occurrence based on the index and the schedled occurrence should get canceled', async () => {
+
+        it('should display the edit task occurrence popup by click on the single task occurrence', async () => {
             
             //Click on the task occurrence to bring up the edit task occurrence popup
-            browser.logger.info("Click on the task occurrence by index : " + singleOccurrence.occurrenceIndex);
-            await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex);
-            await browser.sleep(1000);
-    
-            //Edit & Update the status of the task occurrence
-            await cpEditOccuranceSeriesPopup.updateOccurrenceDetails(taskUpdateStatus[3], singleOccurrence.taskOccurrenceNotes);
-            await browser.sleep(7000);
-
-            //Verify the number of task occurrences after cancel
-            await cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedNumberOfTaskOccurrences-1);
+            browser.logger.info("Click on the task occurrence by time : " + singleOccurrence.timeToReschedule);
+            // await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex);
+            // await browser.sleep(1000);
             
-            // //Verify the task occurrence status after cancel
-            // await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, singleOccurrence.occurrenceIndex, singleOccurrence.expectedOcurrenceStatus);
+            await cpSchedulerPage.clickOnOccurrenceByScheduledTime(singleOccurrence.timeToReschedule);
+            await browser.sleep(1000);
+
+            //Edit & Update the status of the task occurrence
+            await cpEditOccuranceSeriesPopup.updateOccurrenceDetails(taskUpdateStatus[0],singleOccurrence.rescheduledOccurrenceNotes,singleOccurrence.rescheduledTime);
+            await browser.sleep(7000);
+            
+            //Verify the task occurrence status after completing
+            // await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex, singleOccurrence.rescheduledOccurrenceStatus[singleOccurrence.occurrenceIndex]);
+
+            await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceByTime(singleOccurrence.rescheduledTime, singleOccurrence.rescheduledOccurrenceStatus[0]);
         });
     });
 
-    describe('schedule multiple occurrence for a task and cancel a single occurrence scheduled', async () => {
+    describe('schedule multiple occurrence for a task and complete a single occurrence scheduled', async () => {
         
-         beforeAll( () => {
-
-            createPageObjectInstance();
+        beforeAll( () => {    
+            
+            createPageObjectInstance();           
         });
 
         afterAll( () => {
-            
+
             clearBrowserValues();
         });
 
@@ -211,7 +218,7 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             await cpSchedulerPage.clickOnTaskByName(browser.taskSeriesName);
             await browser.sleep(1000);
     
-            occurrenceDetails = {
+            scheduleOccurrenceDetails = {
                 frequency : "recurring",
                 scheduleStartTime : multiOccurrence.scheduleStartTime,
                 scheduleStartDate : '',
@@ -222,7 +229,7 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             } as TaskOccurreceDetails;
     
             //Schedule the Task Occurrence with the Occurrence Details
-            await cpEditSchedulePopupPage.scheduleTaskOccurrence(occurrenceDetails);
+            await cpEditSchedulePopupPage.scheduleTaskOccurrence(scheduleOccurrenceDetails);
             await browser.sleep(5000);
         });
     
@@ -231,35 +238,38 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             //Get the task index to set the row index
             let _taskIndex = productTaskList.indexOf(browser.taskSeriesName);
             
-            //Get the Row Index Details based on the Task Details
-            setPosition(_taskIndex);
+             //Get the Row Index Details based on the Task Details
+             setPosition(_taskIndex);
     
             //Verify the number of task occurrences created
             await cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences);
             
             //Verify the status of the created Occurrences
-            await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.actualOccurrenceStatus);
+            await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedOccurrenceStatus);
             
         });
+
     
-        it('should able to successfully cancel a single occurrence based on the index and the schedled occurrence should get canceled', async () => {
+       it('should able to successfully skip a single occurrence based on the index and match with occurrence status as skipped', async () => {
             
             //Click on the task occurrence to bring up the edit task occurrence popup
-            browser.logger.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
-            await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
+            browser.logger.info("Click on the task occurrence by time : " + multiOccurrence.timeToReschedule);
+            // await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
+            // await browser.sleep(1000);
+
+            await cpSchedulerPage.clickOnOccurrenceByScheduledTime(multiOccurrence.timeToReschedule);
             await browser.sleep(1000);
     
             //Edit & Update the status of the task occurrence
-            await cpEditOccuranceSeriesPopup.updateOccurrenceDetails(taskUpdateStatus[3], multiOccurrence.taskOccurrenceNotes);
+            await cpEditOccuranceSeriesPopup.updateOccurrenceDetails(taskUpdateStatus[0], multiOccurrence.rescheduledOccurrenceNotes, multiOccurrence.rescheduledTime);
             await browser.sleep(7000);
-
-            //Verify the number of task occurrences after cancel
-            await cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences-1);
             
-            //Verify the task occurrence status after cancel
-            await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus);
+            //Verify the task occurrence status after completing
+            // await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus[multiOccurrence.occurrenceIndex]);
+            await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceByTime(multiOccurrence.rescheduledTime, multiOccurrence.rescheduledOccurrenceStatus[0]);
         });
     });
+
 
     function clearBrowserValues(){
         browser.logger.info("*********************************************************")
@@ -325,4 +335,6 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
             //fail test as product list not identified
         }
     }
+
+    
 });

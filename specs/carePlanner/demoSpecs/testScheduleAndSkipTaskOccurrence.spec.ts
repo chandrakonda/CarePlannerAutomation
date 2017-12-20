@@ -1,9 +1,9 @@
-import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
-import { CarePlannerSchedulerPage } from '../../pages/carePlanner/cpScheduler.page';
-import { CarePlannerEditSchedulePopup } from '../../pages/carePlanner/cpEditSchedulePopup.page';
-import { CarePlannerEditOccuranceSeriesPopup } from '../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
+import { CarePlannerPetDetails } from '../../../pages/carePlanner/cpPetdetails.page';
+import { CarePlannerSchedulerPage } from '../../../pages/carePlanner/cpScheduler.page';
+import { CarePlannerEditSchedulePopup } from '../../../pages/carePlanner/cpEditSchedulePopup.page';
+import { CarePlannerEditOccuranceSeriesPopup } from '../../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
 import { browser, protractor } from 'protractor';
-import { CarePlannerApiCalls } from '../../lib/apiServices/carePlannerApiCalls';
+import { CarePlannerApiCalls } from '../../../lib/apiServices/carePlannerApiCalls';
 
 let cpSchedulerPage:CarePlannerSchedulerPage;
 let cpPetDetailsPage:CarePlannerPetDetails;

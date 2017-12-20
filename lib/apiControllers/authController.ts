@@ -28,12 +28,16 @@ export class AuthController {
     }
 
     authTokenOptions(){
+       try {
         browser.logger.info("*********** Getting Auth Token value ***********");
         let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//authToken.json'));
         __options.url = browser.appenvdetails.authorizationurl;
         // Assign token to global value 
         browser.logger.info(__options);
         return __options;
+       } catch (error) {
+           browser.logger.error(error);
+       }
     }
 
 
