@@ -1,13 +1,18 @@
-import { LogHelper } from '../support/logHelper';
+
 import { Config, browser, protractor } from "protractor";
-import { ReportHelper } from '../support/reportHelper';
-import { ReadAppConfig } from "./appconfig";
+let path = require('path');
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import { AuthController } from '../lib/apiControllers/authController';
+// Framework
 
-let path = require('path');
-var log4js = require('log4js');
+import {TestBase} from '../testbase/TestBase';
+import { LogHelper } from '../support/logHelper';
+import { GlobalValues } from '../support/globalDataModel';
+
+//var log4js = require('log4js');
+//import { ReportHelper } from '../support/reportHelper';
+//import { ReadAppConfig } from "./appconfig";
 
 export const config: Config = {
 
@@ -42,7 +47,7 @@ export const config: Config = {
         //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
-        "../specs/carePlanner/demoSpecs/testRescheduleTheScheduledTaskOccurrences.spec.js"
+        "../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
     ],
 
     jasmineNodeOpts: {
@@ -64,23 +69,19 @@ export const config: Config = {
 
 
     onPrepare: () => {
-        browser.logger = LogHelper.getLogger();
-        browser.logger.info('**************On Prepare Started**************');
-        
-        //Adding Reporters to the execution
-        ReportHelper.pettyHtmlReporter();
-        
-        // we are filtering config options based on environment and we are taking only filtered environment details
-        let appenvdetails: ReadAppConfig.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
-        browser.appenvdetails = appenvdetails;
+        //browser.logger = LogHelper.getLogger();
+        console.log('**************On Prepare Started**************');
+
+        let __testBase = new TestBase();
+
+        __testBase.beforeExecution();  // set up reporters , loggers 
+
         browser.allScriptsTimeout = 99999;
         browser.ignoreSynchronization = false;
         browser.waitForAngularEnabled(false);
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(50000);
-        browser.baseUrl = browser.appenvdetails.applicationurl;
-        let __authController = new AuthController();
-         __authController.getAuthToken1();
+        browser.baseUrl = TestBase.globalValues.EnvironmentDetails.applicationurl;
 
     },
 

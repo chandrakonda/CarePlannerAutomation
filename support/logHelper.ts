@@ -6,14 +6,13 @@ const path = require('path');
 
 export class LogHelper{
 
-    private logPath:any;
+   
+    static Logger : any;
 
     constructor(){
         //this.logPath = '../support/log/Execution.log';
         //Utilities.createDirectory(this.logPath);
     }
-
-    
     
     public static loggerConfiguration(){
         var currentDate = new Date(),
@@ -39,18 +38,10 @@ export class LogHelper{
           });
 
 
-        // log4js.configure({
-        //     appenders:{
-        //         'log4js-protractor-appender':{ type:'log4js-protractor-appender', filename:'../support/log/ExecutionLog.log' }
-        //     },
-        //     categories:{
-        //         default: { appenders: ['log4js-protractor-appender'], level: 'info' },
-        //     }
-        // });
     }
 
     public static getLogger(){
         //return log4js.getLogger('protractorLog4js');
-        return log4js.getLogger("LOG");
+        LogHelper.Logger=  log4js.getLogger("LOG");
     }
 }

@@ -3,35 +3,40 @@ import { CarePlannerApiServices } from '../apiServices/carePlannerApiServices';
 const path = require('path');
 import * as moment from 'moment';
 
+// Framework components //////
+
+import { LogHelper } from '../../support/logHelper';
+import { TestBase } from '../../testbase/TestBase';
+
 export class AppointmentController {
 
     constructor() {
-        browser.logger.info("*********** AppointmentController ***********");
+        LogHelper.Logger.info("*********** AppointmentController ***********");
     }
 
     async createNewAppointment(token: any) {
         try {
             let options = this.createNewAppointmentOptions(token);
 
-            browser.logger.info(options);
+            LogHelper.Logger.info(options);
             let __apiServices = new CarePlannerApiServices();
             // Create client 
             await __apiServices.makeApiCall(options).then((response) => {
                   __apiServices.parseResultOfMakePostRequest(response).then((responseValue) => {
                     browser.appointmentID = responseValue.AppointmentId;
-                    browser.logger.info("Appointment ID: " + browser.appointmentID);
-                    browser.logger.info(responseValue);
+                    LogHelper.Logger.info("Appointment ID: " + browser.appointmentID);
+                    LogHelper.Logger.info(responseValue);
                 });
             })
-            browser.logger.info("__appointmentresponse" + browser.appointmentID);
+            LogHelper.Logger.info("__appointmentresponse" + browser.appointmentID);
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
     createNewAppointmentOptions(token: any) {
         try {
-            browser.logger.info("*********** Create New Appointment ***********");
+            LogHelper.Logger.info("*********** Create New Appointment ***********");
             // Load Template
             let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postBookAppointment.json'));
     
@@ -54,14 +59,14 @@ export class AppointmentController {
             options.body.PetAppointments[0].EndTime = endtime;
             return options;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
     async checkinAppointment(token: any) {
         try {
             let options = await this.checkinAppointmentOptions(token);
-            browser.logger.info(options);
+            LogHelper.Logger.info(options);
             let __apiServices = new CarePlannerApiServices();
             // Create client 
             let __response = await __apiServices.makeApiCall(options).then((response) => {
@@ -73,15 +78,15 @@ export class AppointmentController {
                 return response;
             });
 
-            browser.logger.info("__checkinAppointment" + __checkinAppointment);
+            LogHelper.Logger.info("__checkinAppointment" + __checkinAppointment);
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
     checkinAppointmentOptions(token: any) {
         try {
-            browser.logger.info("*********** Check In Appointment ***********");
+            LogHelper.Logger.info("*********** Check In Appointment ***********");
             // Load Template
             let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postCheckInAppointment.json'));
     
@@ -96,19 +101,19 @@ export class AppointmentController {
             options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
             options.headers.authorization = token;
     
-            browser.logger.info("Options: " + options.qs.appointmentId);
-            //browser.logger.info(options);
+            LogHelper.Logger.info("Options: " + options.qs.appointmentId);
+            //LogHelper.Logger.info(options);
     
             return options;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
     async getCheckedInPatientDetail(token: any) {
         try {
             let __options = await this.getCheckedInPatientDetailsOptions(token);
-            browser.logger.info(__options);
+            LogHelper.Logger.info(__options);
             let __apiServices = new CarePlannerApiServices();
             // Create client 
             let __response = await __apiServices.makeApiCall(__options).then((response) => {
@@ -118,7 +123,7 @@ export class AppointmentController {
             // parse response
             let __result = await __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
                 browser.visitId = response[0].VisitId;
-                browser.logger.info("Visit Id is :" + browser.visitId);
+                LogHelper.Logger.info("Visit Id is :" + browser.visitId);
                 return response;
             });
         } catch (e) {
@@ -129,7 +134,7 @@ export class AppointmentController {
 
     getCheckedInPatientDetailsOptions(token: any) {
         try {
-            browser.logger.info('*********** Getting visit details ***********');
+            LogHelper.Logger.info('*********** Getting visit details ***********');
             
             // Load Template
             let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getCheckedInPatientDetails.json'));
@@ -144,10 +149,10 @@ export class AppointmentController {
             //Set header values
             options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
             options.headers.authorization = token;
-            //browser.logger.info(options);
+            //LogHelper.Logger.info(options);
             return options;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }       
     }
 
@@ -155,7 +160,7 @@ export class AppointmentController {
 
 
     // createNewAppointment() {
-    //     browser.logger.info("*********** Create New Appointment ***********");
+    //     LogHelper.Logger.info("*********** Create New Appointment ***********");
     //     // Load Template
     //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postBookAppointment.json'));
 
@@ -185,7 +190,7 @@ export class AppointmentController {
 
 
     // checkInAppointment() {
-    //     browser.logger.info("*********** Check In Appointment ***********");
+    //     LogHelper.Logger.info("*********** Check In Appointment ***********");
     //     // Load Template
     //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postCheckInAppointment.json'));
 
@@ -200,15 +205,15 @@ export class AppointmentController {
     //     options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
     //     options.headers.authorization = browser.bearerToken;
 
-    //     browser.logger.info("Options: " + options.qs.appointmentId);
-    //     //browser.logger.info(options);
+    //     LogHelper.Logger.info("Options: " + options.qs.appointmentId);
+    //     //LogHelper.Logger.info(options);
 
     //     let apiServices = new CarePlannerApiServices();
     //     return apiServices.makePostRequest(options);
     // }
 
     // getCheckedInPatientDetails() {
-    //     browser.logger.info('*********** Getting visit details ***********');
+    //     LogHelper.Logger.info('*********** Getting visit details ***********');
 
     //     // Load Template
     //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getCheckedInPatientDetails.json'));
@@ -223,7 +228,7 @@ export class AppointmentController {
     //     //Set header values
     //     options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
     //     options.headers.authorization = browser.bearerToken;
-    //     //browser.logger.info(options);
+    //     //LogHelper.Logger.info(options);
 
     //     let apiServices = new CarePlannerApiServices();
     //     return apiServices.makePostRequest(options);
