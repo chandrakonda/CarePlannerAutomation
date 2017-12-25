@@ -1,6 +1,7 @@
 import { Utilities } from './utils';
 
 import * as mkdirp from 'mkdirp';
+import { TestBase } from '../testbase/TestBase';
 var log4js = require('log4js');
 const path = require('path');
 
@@ -25,7 +26,8 @@ export class LogHelper{
         let __fileName = "ExecutionLog"+ day + "-" + month + "-" + year + hours + min + sec;
         let __folderName = path.join(__dirname,'../../log/'+day + "-" + month + "-" + year);
         Utilities.createDirectory(__folderName);
-        var pathname = path.join(__folderName,__fileName+'.log');
+        
+        let pathname = path.join(__folderName,__fileName+'.log');
         
         log4js.configure({
             appenders: {

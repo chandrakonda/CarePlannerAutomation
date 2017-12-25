@@ -1,4 +1,5 @@
 import { $, browser, element, by, By, ExpectedConditions } from "protractor";
+import { LogHelper } from "../../support/logHelper";
 
 export class AddOptionalTaskDialog {
     //Page Objects
@@ -30,38 +31,38 @@ export class AddOptionalTaskDialog {
     //page methods
     openAddTaskDialog() {
         try {this.addTaskDialogButton.click();}
-        catch (error) {browser.logger.error(error);}
+        catch (error) {LogHelper.Logger.error(error);}
     }
 
     closeAddTaskDialog() {
         try {this.addTaskHeaderClose.click();}
-        catch (error) {browser.logger.error(error);}
+        catch (error) {LogHelper.Logger.error(error);}
     }
 
     selectTaskFromList(){
         try {this.userDefinedListItem.click();}
-        catch (error) {browser.logger.error(error);}        
+        catch (error) {LogHelper.Logger.error(error);}        
     }
 
     addSelectedTasksToScheduler(){
         try {this.addTasksToScheduleButton.click();}
-        catch (error) {browser.logger.error(error);}                
+        catch (error) {LogHelper.Logger.error(error);}                
     }
 
     get selectedTaskName():any {
         try { return this.userDefinedSelectedListItem.getText();}
-        catch (error) {browser.logger.error(error);}        
+        catch (error) {LogHelper.Logger.error(error);}        
     }
 
     get getSelectHeaderText():any {
         //to get the count, slice (-3) in the calling method
         try {return this.selectedListHeader.getText();} 
-        catch (error) {browser.logger.error(error);}                
+        catch (error) {LogHelper.Logger.error(error);}                
     }
 
     get getAddTaskHeaderTitle():any {
         try { return this.addTaskDialogHeaderTitle.getText();}
-        catch (error) {browser.logger.error(error);}            
+        catch (error) {LogHelper.Logger.error(error);}            
     }
 
     setTaskLocatorString(variable) {
@@ -69,8 +70,8 @@ export class AddOptionalTaskDialog {
         this.userDefinedSelectedTaskLocatorXPath = this.selectedTaskLocatorBaseString.replace('variable',variable);
         this.userDefinedListItem = element(by.xpath(this.userDefinedLocatorXPath));
         this.userDefinedSelectedListItem = element(by.xpath(this.userDefinedSelectedTaskLocatorXPath));
-        // browser.logger.warn(this.userDefinedLocatorXPath);
-        // browser.logger.warn(this.userDefinedSelectedTaskLocatorXPath);
+        // LogHelper.Logger.warn(this.userDefinedLocatorXPath);
+        // LogHelper.Logger.warn(this.userDefinedSelectedTaskLocatorXPath);
     }
 
 

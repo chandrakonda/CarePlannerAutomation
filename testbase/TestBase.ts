@@ -3,7 +3,7 @@ import * as mkdirp from 'mkdirp';
 import { ReadAppConfig } from '../config/appconfig';
 import { LogHelper } from '../support/logHelper';
 import { ReportHelper } from '../support/reportHelper';
-import { GlobalValues } from '../support/globalDataModel';
+import { GlobalValues, SpecFile } from '../support/globalDataModel';
 import { AuthController } from '../lib/apiControllers/authController';
 
 
@@ -29,7 +29,8 @@ export class TestBase {
 
         // We are filtering config options based on environment and we are taking only filtered environment details
         TestBase.globalValues.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
-
+        
+        TestBase.globalValues.SpecFiles = new Array<SpecFile>();
         // Set token value 
         let __authController = new AuthController();
         __authController.getAuthToken();
@@ -41,6 +42,9 @@ export class TestBase {
         // set global object as null 
 
         // close anything that is open
+
+        ReportHelper.JsonReporter();
+        
 
     }
 

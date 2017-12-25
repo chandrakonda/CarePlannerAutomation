@@ -4,6 +4,8 @@ import { CarePlannerEditSchedulePopup } from '../../../pages/carePlanner/cpEditS
 import { CarePlannerEditOccuranceSeriesPopup } from '../../../pages/carePlanner/cpEditOccurrenceSeriesPopup.page';
 import { browser, protractor } from 'protractor';
 import { CarePlannerApiCalls } from '../../../lib/apiServices/carePlannerApiCalls';
+import { SpecFile, Data, TestCase } from '../../../support/globalDataModel';
+import { TestBase } from '../../../testbase/TestBase';
 
 let cpSchedulerPage:CarePlannerSchedulerPage;
 let cpPetDetailsPage:CarePlannerPetDetails;
@@ -42,10 +44,15 @@ let occurrenceDetails:TaskOccurreceDetails;
 describe('schedule task occurrence and complete the task occurrence scheduled', async () => {
     
     describe('schedule a single occurrence for a task and complete the occurrence scheduled', async () => {
-    
+        let __specFileData: SpecFile;
+        let __data: Data;
         beforeAll( () => {    
             
-            createPageObjectInstance();           
+            createPageObjectInstance();
+            __specFileData = new SpecFile();
+            __data = new Data();
+            __specFileData.Data = __data;
+            __specFileData.TestCases = new Array<TestCase>();           
         });
 
         afterAll( () => {
@@ -56,13 +63,18 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
         it('Data set up and client pet details' , async () => {
 
             let __apiCalls = new CarePlannerApiCalls();
-            await __apiCalls.CreateClientPetAddProduct();
+            await __apiCalls.CreateClientPetAddProduct(__specFileData);
+            await __apiCalls.BuildURLLauchApplication(__specFileData);
+            // launch application url
         });
 
         it('should display the client & pet details matched', async () => {
-            
-            let _clientLastName = browser.clientLastName.length >= 12 ? browser.clientLastName.slice(0, 12) + '…' : browser.clientLastName;
-            let _patientName = browser.patientName.length >= 12 ? browser.patientName.slice(0, 12) + '…' : browser.patientName;
+            let _testcase = new TestCase();
+            _testcase.TestName = 'should display the client & pet details matched';
+          //  let _clientLastName = browser.clientLastName.length >= 12 ? browser.clientLastName.slice(0, 12) + '…' : browser.clientLastName;
+            let _clientLastName = __specFileData.Data.Client.LastName.length >= 12 ? __specFileData.Data.Client.LastName.slice(0, 12) + '…' : __specFileData.Data.Client.LastName;
+
+            let _patientName = __specFileData.Data.Client.Patient.Name.length >= 12 ? __specFileData.Data.Client.Patient.Name.slice(0, 12) + '…' : __specFileData.Data.Client.Patient.Name;
             let speciesName = 'Canine';
 
             //Verify the page Title
@@ -81,7 +93,8 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
     
     
         it('should validate the product category and list of tasks for the category', async () => {
-            
+            let _testcase = new TestCase();
+            _testcase.TestName = 'should validate the product category and list of tasks for the category';
             //Verify the Category Count
             await expect(cpSchedulerPage.categoryCount).toEqual(1);
     
@@ -91,7 +104,8 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
     
     
         it('should successfuly click on a task name toschedule for single occurrence', async () => {
-            
+            let _testcase = new TestCase();
+            _testcase.TestName = 'should successfuly click on a task name toschedule for single occurrence';
             //Click on a task name under a category
             productTaskList = await cpSchedulerPage.productTaskList; 
             browser.logger.info('Product Task List : ' + productTaskList);

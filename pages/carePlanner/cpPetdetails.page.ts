@@ -1,4 +1,5 @@
 import { $, browser, element, by, By, ExpectedConditions } from "protractor";
+import { LogHelper } from '../../support/logHelper';
 
 export class CarePlannerPetDetails {
 
@@ -41,32 +42,32 @@ export class CarePlannerPetDetails {
     try {
 
       return browser.getTitle().then(function (title) {
-        browser.logger.info("Page title is "+title);
+        LogHelper.Logger.info("Page title is "+title);
         return title;
       });
     }catch (error) {
-      browser.logger.error(error);
+      LogHelper.Logger.error(error);
     }
   }
 
   get clientName(): any {
     try {
       return this.eleclientName.getText().then(function(clientname){
-        browser.logger.info("client name is "+clientname);
+        LogHelper.Logger.info("client name is "+clientname);
         return clientname;
       })
     } catch (error) {
-      browser.logger.error(error);
+      LogHelper.Logger.error(error);
     }
   }
 
   get petName(): any {
     try {
         return this.elepetName.getText().then(function(petname){
-          browser.logger.info("pet name is "+petname);
+          LogHelper.Logger.info("pet name is "+petname);
         return petname; });
       } catch (error) {
-        browser.logger.error(error);
+        LogHelper.Logger.error(error);
       }
   }
 
@@ -76,18 +77,18 @@ export class CarePlannerPetDetails {
         return gender.toLowerCase();
       });
     } catch (error) {
-      browser.logger.error(error);
+      LogHelper.Logger.error(error);
     }
   }
 
   get speciesName(): any {
     try {
       return this.eleSpecies.getText().then(function(species1){
-        browser.logger.info("species name is "+species1);
+        LogHelper.Logger.info("species name is "+species1);
         return species1;
       })
     } catch (error) {
-      browser.logger.error(error);
+      LogHelper.Logger.error(error);
     }
   }
 
@@ -101,18 +102,18 @@ export class CarePlannerPetDetails {
         });
       return doctorName;
     } catch (error) {
-      browser.logger.error(error);
+      LogHelper.Logger.error(error);
     }
   }
 
   get drShift(): any {
     try {
       return this.eledrshift.getText().then(function(drshift){
-        browser.logger.info("Dr shift is "+drshift);
+        LogHelper.Logger.info("Dr shift is "+drshift);
         return drshift;
       })
     } catch (error) {
-      browser.logger.error(error);
+      LogHelper.Logger.error(error);
     }
   }
 
@@ -120,11 +121,11 @@ export class CarePlannerPetDetails {
   get wellness(): any {
     try {
       return this.eleWellness.getText().then(function(welness){
-        browser.logger.info("wellness is "+welness);
+        LogHelper.Logger.info("wellness is "+welness);
         return welness;
       })
     } catch (error) {
-      browser.logger.error(error);
+      LogHelper.Logger.error(error);
     }
   }
 

@@ -4,83 +4,94 @@ import { AddingProductsModel } from '../../data/model/products_model';
 
 const path = require('path');
 
+// Framework components 
+import { LogHelper } from '../../support/logHelper';
+import {SpecFile, TaskSeries, TaskOccurrence} from '../../support/globalDataModel';
+import { TestBase } from '../../testbase/TestBase';
+
 export class OrderController {
 
     constructor() {
-        browser.logger.info("*********** Order Controller ***********")
+        LogHelper.Logger.info("*********** Order Controller ***********")
     }
 
-    async addOrderToVisit(token: any, productFileName?: string) {
+    async addOrderToVisit(token: any, specData: SpecFile, productFileName?:string ) {
         try {
-            browser.logger.info("******************* Get Order To Visit ******************************");
+            LogHelper.Logger.info("******************* Get Order To Visit ******************************");
             let __responseList = [];
             let __rootObject: AddingProductsModel.RootObject;
-            let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//putVisitInvoiceItems.json'));
+            let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//putVisitInvoiceItems.json'));
     
             if (productFileName == null) { __rootObject = new AddingProductsModel.RootObject(); }
             else { __rootObject = new AddingProductsModel.RootObject(productFileName); }
             let __apiServices = new CarePlannerApiServices();
             browser.visitId = browser.visitId;
             __rootObject.products.forEach(async product => {
-                browser.logger.log("*************** Adding Product to Order **************");
+                LogHelper.Logger.log("*************** Adding Product to Order **************");
                 //Set URL
-                options.url = browser.appenvdetails.wwapiendpoint + "Visits/" + browser.visitId + "/VisitInvoiceItems";
+                __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint + "Visits/" + browser.visitId + "/VisitInvoiceItems";
                 //Set header values
-                options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
-                options.headers.authorization = token;
-                options.body = product
-                browser.logger.info("************product options **********")
-                browser.logger.info(options)
-                browser.logger.info("************product options **********")
-                let __response = await __apiServices.makeApiCall(options);
+                __options.headers['x-hospital-id'] =TestBase.globalValues.EnvironmentDetails.hospitalid;
+                __options.headers.authorization = token;
+                __options.body = product;
+                LogHelper.Logger.info("************product options **********");
+                LogHelper.Logger.info(__options);
+                
+                let __response = await __apiServices.makeApiCall(__options);
                 let __resultValue = await __apiServices.parseResultOfMakePostRequest(__response).then((result) => {
                     return result;
                 })
                 __responseList.push(__resultValue);
             });
     
-            browser.logger.info(__responseList);
+            LogHelper.Logger.info(__responseList);
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
+// This is written to handle only one task series and occurrence. Need to look into 
 
-    async getTaskSeriesByOrderId(token: any) {
+    async getTaskSeriesByOrderId(token: any,specData: SpecFile) {
         try {
             let __options = await this.getTaskSeriesByOrderIdOptions(token);
-            browser.logger.info(__options);
+            let __taskSeries = new TaskSeries();
+            let __taskoccurrence = new TaskOccurrence();
+            LogHelper.Logger.info(__options);
             var __apiServices = new CarePlannerApiServices();
-            let __response = await __apiServices.makeApiCall(__options).then((response)=>{
-                return response;
-            })
-            await __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
-                browser.taskOccurances = response[0].TaskOccurences;
+            await __apiServices.makeApiCall(__options).then((response)=>{
+                __apiServices.parseResultOfMakePostRequest(response).then((responseData) => {
+                    //browser.taskOccurances = response[0].TaskOccurences;
+
                 for (let items of browser.taskOccurances) {
-                    browser.taskSeriesId = items.TaskSeriesId;
-                    browser.taskOccurrenceId = items.TaskOccurrenceId;
-                    browser.logger.info("Task Series Id :'" + browser.taskSeriesId + "' for OrderId : '" + browser.visitId + "'");
-                    browser.logger.info("Task Occurance Id :'" + browser.taskOccurrenceId + "' for OrderId : '" + browser.visitId + "'");
+                    //browser.taskSeriesId = items.TaskSeriesId;
+                    __taskSeries.TaskSeriesId = items.TaskSeriesId;
+                    __taskoccurrence.TaskOccurrenceId =  items.TaskOccurrenceId;
+                    //browser.taskOccurrenceId = items.TaskOccurrenceId;
+                    LogHelper.Logger.info("Task Series Id :'" +  __taskSeries.TaskSeriesId + "' for OrderId : '"+specData.Data.Client.Patient.Visit.VisitId + "'");
+                    LogHelper.Logger.info("Task Occurance Id :'" + __taskoccurrence.TaskOccurrenceId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId + "'");
                 }
+                });
             });
+
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }       
     }
 
     getTaskSeriesByOrderIdOptions(token: any) {
         try {
-            browser.logger.info('*********** Get Task Series By Order Id ***********');
-            let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getTaskSeriesByOrderId.json'));
+            LogHelper.Logger.info('*********** Get Task Series By Order Id ***********');
+            let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getTaskSeriesByOrderId.json'));
             //Set URL
-            options.url = browser.appenvdetails.wwapiendpoint + "Orders/" + browser.visitId + "/TaskSeries";
+            __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint  + "Orders/" + browser.visitId + "/TaskSeries";
     
             //Set header values
-            options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
-            options.headers.authorization = token;
-            return options;
+            __options.headers['x-hospital-id'] = TestBase.globalValues.EnvironmentDetails.hospitalid;
+            __options.headers.authorization = token;
+            return __options;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 

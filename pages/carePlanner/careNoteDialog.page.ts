@@ -1,4 +1,5 @@
 import { $, browser, element, by, By, ExpectedConditions } from "protractor";
+import { LogHelper } from "../../support/logHelper";
 
 export class CareNoteDialog {
     //Page Elements
@@ -23,7 +24,7 @@ export class CareNoteDialog {
         try {
             this.careNotetextArea.sendKeys(text);
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -39,7 +40,7 @@ export class CareNoteDialog {
         try {
             return this.careNotetextArea.getText();
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }        
     }
 
@@ -47,7 +48,7 @@ export class CareNoteDialog {
         try {
             return this.careNoteDialogHeader.getText();
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -55,7 +56,7 @@ export class CareNoteDialog {
         try {
             return this.firstCareNote.getText();
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }        
     }
     

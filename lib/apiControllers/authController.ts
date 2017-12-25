@@ -31,6 +31,7 @@ export class AuthController {
             LogHelper.Logger.info("*******************************************************");
             AuthController.authTokenValue = "bearer " + __response1.access_token;
             AuthController.tokenValue = __response1.access_token;
+            TestBase.globalValues.GlobalAuthToken = "bearer " + __response1.access_token;
         } catch (e) { throw e; }
     }
 

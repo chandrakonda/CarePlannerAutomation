@@ -6,7 +6,8 @@ import { VisitController } from "../apiControllers/visitController";
 import { OrderController } from "../apiControllers/orderController";
 // Framework logger
 import { LogHelper } from '../../support/logHelper';
-import { SpecFile } from '../../support/globalDataModel';
+import { SpecFile, GlobalValues } from '../../support/globalDataModel';
+import { TestBase } from '../../testbase/TestBase';
 export class CarePlannerApiCalls {
 
     //static apiTokenValue: string;
@@ -34,15 +35,15 @@ export class CarePlannerApiCalls {
             
             await __clientAndPatientController.createClient(AuthController.authTokenValue,specData);  // create client
             await __clientAndPatientController.createPatient(AuthController.authTokenValue,specData);  // create patient
-            await __appointmentController.createNewAppointment(AuthController.authTokenValue);  // create appointment
-            await __appointmentController.checkinAppointment(AuthController.authTokenValue);  // checkin appointment
-            await __appointmentController.getCheckedInPatientDetail(AuthController.authTokenValue);  // checkin appointment
-            await __orderController.addOrderToVisit(AuthController.authTokenValue);
+            await __appointmentController.createNewAppointment(AuthController.authTokenValue,specData);  // create appointment
+            await __appointmentController.checkinAppointment(AuthController.authTokenValue,specData);  // checkin appointment
+            await __appointmentController.getCheckedInPatientDetail(AuthController.authTokenValue,specData);  // checkin appointment
+            await __orderController.addOrderToVisit(AuthController.authTokenValue,specData);
             await browser.sleep(10000);  /// Wait to get details
-            await __visitController.getVisitDetailsByVisitId(AuthController.authTokenValue);
-            await __orderController.getTaskSeriesByOrderId(AuthController.authTokenValue);
-            await __visitController.getVisitDetailsByVisitId(AuthController.authTokenValue);
-            await __visitController.getVisitResources(AuthController.authTokenValue);
+            await __visitController.getVisitDetailsByVisitId(AuthController.authTokenValue,specData);
+            await __orderController.getTaskSeriesByOrderId(AuthController.authTokenValue,specData);
+          //  await __visitController.getVisitDetailsByVisitId(AuthController.authTokenValue,specData);
+            await __visitController.getVisitResources(AuthController.authTokenValue,specData);
 
             LogHelper.Logger.info("Creating URL and launching browser...");
             let __url = browser.baseUrl +
@@ -61,6 +62,26 @@ export class CarePlannerApiCalls {
         }
     }
 
+
+    async CreateClientPetAddProduct1(specData : SpecFile) {
+        try {
+            await browser.sleep(10000);
+            LogHelper.Logger.info(AuthController.authTokenValue);
+
+            let __clientAndPatientController = new ClientAndPatientController();
+            let __appointmentController = new AppointmentController();
+            let __orderController = new OrderController();
+            let __visitController: VisitController = new VisitController();
+            
+            await __clientAndPatientController.createClient(AuthController.authTokenValue,specData);  // create client
+            await __clientAndPatientController.createPatient(AuthController.authTokenValue,specData);  // create patient
+
+           
+        } catch (e) {
+            LogHelper.Logger.error(e);
+        }
+    }
+
     AddMultipleProducts() {
 
 
@@ -68,6 +89,20 @@ export class CarePlannerApiCalls {
     }
 
 
+    BuildURLLauchApplication(specData : SpecFile){
+        LogHelper.Logger.info("Creating URL and launching browser...");
+        let __url = browser.baseUrl +
+            '?hospitalId=' + TestBase.globalValues.EnvironmentDetails.hospitalid +
+            '&patientId=' + specData.Data.Client.Patient.Id +  //browser.patientID +
+            '&orderId=' + specData.Data.Client.Patient.Id +
+            '&userName='+ TestBase.globalValues.EnvironmentDetails.username+
+            '&userId=' + specData.UserId +  // chandrasekhar.konda .. need to implement
+            '&accessToken=' + AuthController.tokenValue;
+            LogHelper.Logger.info('URL: ', __url);
+        browser.get(__url);
+        browser.sleep(5000);
+
+    }
 
 
 }

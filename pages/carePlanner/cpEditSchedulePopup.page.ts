@@ -1,4 +1,5 @@
 import { element, by, browser, protractor } from 'protractor';
+import { LogHelper } from '../../support/logHelper';
 
 export class CarePlannerEditSchedulePopup {
 
@@ -45,11 +46,11 @@ export class CarePlannerEditSchedulePopup {
     get isPopupDisplayed() {
         try {
             return this.elePopup.isDisplayed().then((value)=>{
-                browser.logger.info("display status value is : " + value);
+                LogHelper.Logger.info("display status value is : " + value);
                 return value;
             });
         } catch (error) {
-            browser.logger.info(error);
+            LogHelper.Logger.info(error);
         }
     }
 
@@ -58,11 +59,11 @@ export class CarePlannerEditSchedulePopup {
         try {
             switch (frequency) {
                 case 'Once':
-                    browser.logger.info("clicking on frequency toggle button : " + frequency);
+                    LogHelper.Logger.info("clicking on frequency toggle button : " + frequency);
                     this.eleFrequencyOnceToggleButton.click();
                     break;
                 case 'Recurring':
-                    browser.logger.info("clicking on frequency toggle button : " + frequency);
+                    LogHelper.Logger.info("clicking on frequency toggle button : " + frequency);
                     this.eleFrequencyRecurringToggleButton.click();
                     break;
                 default:
@@ -70,7 +71,7 @@ export class CarePlannerEditSchedulePopup {
             }
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -81,7 +82,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleFrequencyOnceToggleButton.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -90,7 +91,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleFrequencyRecurringToggleButton.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -99,7 +100,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleHrsToggleButton.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -108,7 +109,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleMinutesToggleButton.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -116,11 +117,11 @@ export class CarePlannerEditSchedulePopup {
         try {
             this.eleStartTimeTextBox.clear().then(() => {
                 this.eleStartTimeTextBox.sendKeys(startTime);
-                browser.logger.info("time entered as : " + startTime);
+                LogHelper.Logger.info("time entered as : " + startTime);
             });
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -131,7 +132,7 @@ export class CarePlannerEditSchedulePopup {
                 return startTime;
             });            
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -141,7 +142,7 @@ export class CarePlannerEditSchedulePopup {
                 return startTime;
             });
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -150,7 +151,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleEndTimeTextBox.sendKeys(endTime);
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
     get endTime(): any {
@@ -159,13 +160,13 @@ export class CarePlannerEditSchedulePopup {
                 return endTime;
             });
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
     enterRepeatEveryHour(numberOfHours: number) {
         try {
-            browser.logger.info("Input hours in the field" + numberOfHours);
+            LogHelper.Logger.info("Input hours in the field" + numberOfHours);
             //this.ToggleRepeatEveryHours();
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.visibilityOf(this.eleRepeatEveryTextBox), 5000);
@@ -173,7 +174,7 @@ export class CarePlannerEditSchedulePopup {
             browser.sleep(1000);
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -183,7 +184,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleRepeatEveryTextBox.sendKeys(minutes);
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
     get repeatEvery(): any {
@@ -192,7 +193,7 @@ export class CarePlannerEditSchedulePopup {
                 return repeatEvery;
             });
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -200,11 +201,11 @@ export class CarePlannerEditSchedulePopup {
         try {
             this.eleTimeTextBox.clear().then(() => {
                 this.eleTimeTextBox.sendKeys(time);
-                browser.logger.info("time entered as : " + time);
+                LogHelper.Logger.info("time entered as : " + time);
             });
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -217,7 +218,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleDateDropDownContent.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -230,7 +231,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleStartDateDropDownContent.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -243,7 +244,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleEndDateDropDownContent.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -255,7 +256,7 @@ export class CarePlannerEditSchedulePopup {
             browser.sleep(1000)
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -267,7 +268,7 @@ export class CarePlannerEditSchedulePopup {
             this.eleScheduleButton.click();
             return this;
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 
@@ -297,10 +298,10 @@ export class CarePlannerEditSchedulePopup {
                     break;
                 }                
             }else{
-                browser.logger.error("Schedule Task Occurrence Popup not displayed");
+                LogHelper.Logger.error("Schedule Task Occurrence Popup not displayed");
             }
         } catch (error) {
-            browser.logger.error(error);
+            LogHelper.Logger.error(error);
         }
     }
 }
