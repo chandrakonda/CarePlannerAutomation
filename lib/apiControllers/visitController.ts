@@ -11,7 +11,7 @@ import { TestBase } from '../../testbase/TestBase';
 export class VisitController {
 
     constructor() {
-        LogHelper.Logger.info("*********** Visit Controller ***********")
+        LogHelper.Logger.info("*********** Visit Controller ***********");
     }
 
     // getVisitResources() {

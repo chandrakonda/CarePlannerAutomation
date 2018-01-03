@@ -32,8 +32,8 @@ export class TestBase {
         
         TestBase.globalValues.SpecFiles = new Array<SpecFile>();
         // Set token value 
-        let __authController = new AuthController();
-        __authController.getAuthToken();
+        // let __authController = new AuthController();
+        // __authController.getAuthToken();
 
     }
 

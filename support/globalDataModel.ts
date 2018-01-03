@@ -37,7 +37,7 @@ export class TestCase {
 export class Data {
 
     Client: Client;
-    Patient: Patient;
+    //Patient: Patient;
     AppointmentId: string;
     VisitId: string;
     VisitInvoiceItemId: string;

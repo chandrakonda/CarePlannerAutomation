@@ -10,7 +10,7 @@ import { TestBase } from '../testbase/TestBase';
 import { LogHelper } from '../support/logHelper';
 import { GlobalValues, SpecFile } from '../support/globalDataModel';
 import { ReportHelper } from "../support/reportHelper";
-
+//import {customeReporter} from "../support/customeReporter";
 //var log4js = require('log4js');
 //import { ReportHelper } from '../support/reportHelper';
 //import { ReadAppConfig } from "./appconfig";
@@ -28,7 +28,7 @@ export const config: Config = {
     //elementExplorer : 
     chromeDriver: path.join(__dirname, '../../support/drivers/chromedriver.exe'),
     // SELENIUM_PROMISE_MANAGER:false,
-
+    
     capabilities: {
         browserName: 'chrome',
         loggingPrefs: {
@@ -49,6 +49,7 @@ export const config: Config = {
         // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
         "../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
+        
     ],
 
     jasmineNodeOpts: {
@@ -56,6 +57,7 @@ export const config: Config = {
         defaultTimeoutInterval: 99999,
         isVerbose: true,
         includeStackTrace: true
+        
     },
 
     allScriptsTimeOut: 99999,
@@ -76,7 +78,7 @@ export const config: Config = {
         let __testBase = new TestBase();
 
         __testBase.beforeExecution();  // set up reporters , loggers 
-
+       
         browser.allScriptsTimeout = 99999;
         browser.ignoreSynchronization = false;
         browser.waitForAngularEnabled(false);

@@ -64,7 +64,7 @@ export class ReportHelper{
 
     public static JsonReporter(){
         let __filePath = __path.join(ReportHelper.FolderName,"JsonReport.json");
-        LogHelper.Logger.info(TestBase.globalValues);
+       // LogHelper.Logger.info(TestBase.globalValues);
         fs.writeFile(__filePath, JSON.stringify(TestBase.globalValues), (err) => {
             if (err) {
                 console.error(err);
@@ -74,6 +74,7 @@ export class ReportHelper{
         });
 
     }
+
 
 
  

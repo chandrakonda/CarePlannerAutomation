@@ -8,12 +8,12 @@ import { CarePlannerApiCalls } from '../../../lib/apiServices/carePlannerApiCall
 const fs = require("fs");
 
 
-let cpSchedulerPage: CarePlannerSchedulerPage;
-let cpPetDetailsPage: CarePlannerPetDetails;
-let cpEditSchedulePopupPage: CarePlannerEditSchedulePopup;
-let cpEditOccuranceSeriesPopup: CarePlannerEditOccuranceSeriesPopup;
-let productTaskList, startPosition: number, endPosition: number, taskOccurrenceCount: number;
-let taskUpdateStatus: string[] = ["Planned", "Completed", "Skipped", "Canceled"];
+// let cpSchedulerPage: CarePlannerSchedulerPage;
+// let cpPetDetailsPage: CarePlannerPetDetails;
+// let cpEditSchedulePopupPage: CarePlannerEditSchedulePopup;
+// let cpEditOccuranceSeriesPopup: CarePlannerEditOccuranceSeriesPopup;
+// let productTaskList, startPosition: number, endPosition: number, taskOccurrenceCount: number;
+// let taskUpdateStatus: string[] = ["Planned", "Completed", "Skipped", "Canceled"];
 
 // Framework components
 
@@ -25,9 +25,9 @@ import { SpecFile, Data, TestCase } from '../../../support/globalDataModel';
 let occurrenceDetails: TaskOccurreceDetails;
 
 
-describe('schedule task occurrence and complete the task occurrence scheduled', async () => {
+describe('Parent: schedule task occurrence and complete the task occurrence scheduled', async () => {
 
-    describe('schedule a single occurrence for a task and complete the occurrence scheduled', async () => {
+   // describe('Child : Testing logging and reporting', async () => {
 
         let specFileData: SpecFile;
         let __data: Data;
@@ -47,7 +47,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             TestBase.globalValues.SpecFiles.push(specFileData);
         });
 
-        it('Data set up and client pet details', async () => {
+        it('TesCase1 : Data set up and client pet details', async () => {
             let _testcase = new TestCase();
             try{
            let __apiCalls = new CarePlannerApiCalls();
@@ -60,68 +60,86 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
                 _testcase.ExceptionDetails = e;
             }
             specFileData.TestCases.push(_testcase);
+            expect(true).toBe(true);
         });
 
-        it('Data set up and client pet details', async () => {
+        it('TestCase2 : Data set up and client pet details', async () => {
             let _testcase = new TestCase();
             
             _testcase.TestName = 'Data set up and client pet details1';
             _testcase.TestResult = 'Fail';
             specFileData.TestCases.push(_testcase);
+            expect(true).toBe(true);
+            LogHelper.Logger.info("Click on the task occurrence by index ");
 
         });
 
-        it('Data set up and client pet details', async () => {
+        it('TestCase3 : Data set up and client pet details', async () => {
             let _testcase = new TestCase();
             
             _testcase.TestName = 'Data set up and client pet details2';
             _testcase.TestResult = 'Fail';
             specFileData.TestCases.push(_testcase);
-        });
-    });
-
-    describe('schedule a single occurrence for a task and complete the occurrence scheduled', async () => {
-
-        let specFileData: SpecFile;
-       let __data: Data;
-        beforeAll(() => {
-
-            createPageObjectInstance();
-            specFileData = new SpecFile();
-            specFileData.SpecName = 'schedule a single occurrence for a task and complete the occurrence scheduled';
-            
-           __data = new Data();
-           specFileData.Data = __data;
-            specFileData.TestCases = new Array<TestCase>();
+            expect(true).toBe(true);
+            LogHelper.Logger.info("Test case 3");
         });
 
-        afterAll(() => {
-
-            clearBrowserValues();
-            TestBase.globalValues.SpecFiles.push(specFileData);
-          //  LogHelper.Logger.info(TestBase.globalValues);
-           
-        });
-
-        it('Data set up and client pet details', async () => {
-            let _testcase = new TestCase();
-          //  let __apiCalls = new CarePlannerApiCalls();
-           // await __apiCalls.CreateClientPetAddProduct1(specFileData);
-            _testcase.TestName = 'Data set up and client pet details1';
-            _testcase.TestResult = 'Pass';
-            specFileData.TestCases.push(_testcase);
-            
-        });
-
-        it('Data set up and client pet details', async () => {
+        it('TestCase4 : Data set up and client pet details', async () => {
             let _testcase = new TestCase();
             
-            _testcase.TestName = 'Data set up and client pet details';
+            _testcase.TestName = 'Data set up and client pet details2';
             _testcase.TestResult = 'Fail';
             specFileData.TestCases.push(_testcase);
+            expect(true).toBe(false);
+            LogHelper.Logger.info("Test case 4");
         });
-    
+
+        it('TestCase5 : Data set up and client pet details', async () => {
+            let _testcase = new TestCase();
+            
+            _testcase.TestName = 'Data set up and client pet details2';
+            _testcase.TestResult = 'Fail';
+            specFileData.TestCases.push(_testcase);
+            expect(true).toBe(false);
+            LogHelper.Logger.info("Test case 5");
+        });
+
+        it('TestCase6 : Data set up and client pet details', async () => {
+            let _testcase = new TestCase();
+            
+            _testcase.TestName = 'Data set up and client pet details2';
+            _testcase.TestResult = 'Fail';
+            specFileData.TestCases.push(_testcase);
+            expect(true).toBe(false);
+            LogHelper.Logger.info("Test case 5");
+        });
+
+
+        
+        it('TestCase7 : Data set up and client pet details', async () => {
+            let _testcase = new TestCase();
+            
+            _testcase.TestName = 'Data set up and client pet details2';
+            _testcase.TestResult = 'Fail';
+            specFileData.TestCases.push(_testcase);
+            expect(true).toBe(false);
+            LogHelper.Logger.info("Test case 5");
+        });
+
+        it('TestCase8 : Data set up and client pet details', async () => {
+            let _testcase = new TestCase();
+            
+            _testcase.TestName = 'Data set up and client pet details2';
+            _testcase.TestResult = 'Fail';
+            specFileData.TestCases.push(_testcase);
+            expect(true).toBe(false);
+            LogHelper.Logger.info("Test case 5");
+        });
+
+
     });
+
+ 
 
     // describe('schedule a single occurrence for a task and complete the occurrence scheduled1', async () => {
 
@@ -146,7 +164,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
     // });
 
 
-});
+//});
 
 // it('should display the client & pet details matched', async () => {
 
@@ -346,67 +364,67 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
 // });
 
 function clearBrowserValues() {
-    LogHelper.Logger.info("*********************************************************")
-    LogHelper.Logger.info('************** Browser values Cleanup - Started **************');
+    // LogHelper.Logger.info("*********************************************************")
+    // LogHelper.Logger.info('************** Browser values Cleanup - Started **************');
 
-    browser.token = '';
-    browser.bearerToken = '';
-    browser.clientID = '';
-    browser.clientName = '';
-    browser.clientLastName = '';
-    browser.patientID = '';
-    browser.patientName = '';
-    browser.appointmentID = '';
-    browser.visitId = '';
-    browser.visitInvoiceItems = '';
-    browser.taskOccurances = '';
-    browser.taskSeriesId = '';
-    browser.taskOccurrenceId = '';
-    browser.userId = '';
-    browser.petName = '';
-    browser.speciesName = '';
-    browser.taskSeriesName = '';
+    // browser.token = '';
+    // browser.bearerToken = '';
+    // browser.clientID = '';
+    // browser.clientName = '';
+    // browser.clientLastName = '';
+    // browser.patientID = '';
+    // browser.patientName = '';
+    // browser.appointmentID = '';
+    // browser.visitId = '';
+    // browser.visitInvoiceItems = '';
+    // browser.taskOccurances = '';
+    // browser.taskSeriesId = '';
+    // browser.taskOccurrenceId = '';
+    // browser.userId = '';
+    // browser.petName = '';
+    // browser.speciesName = '';
+    // browser.taskSeriesName = '';
 
-    startPosition = 0;
-    endPosition = 0;
-    taskOccurrenceCount = 0;
-    productTaskList = '';
+    // startPosition = 0;
+    // endPosition = 0;
+    // taskOccurrenceCount = 0;
+    // productTaskList = '';
 
-    LogHelper.Logger.info('************** Browser values Cleanup - Finished **************');
-    LogHelper.Logger.info("*********************************************************")
+    // LogHelper.Logger.info('************** Browser values Cleanup - Finished **************');
+    // LogHelper.Logger.info("*********************************************************")
 }
 
 function createPageObjectInstance() {
-    LogHelper.Logger.info("*********************************************************");
-    LogHelper.Logger.info("************** Single Occurrence Test *******************");
-    LogHelper.Logger.info("*********************************************************");
-    LogHelper.Logger.info("*********************************************************");
-    LogHelper.Logger.info('************** Prerequsite Steps - Started **************');
-    LogHelper.Logger.info("*********************************************************");
-    cpSchedulerPage = new CarePlannerSchedulerPage();
-    cpPetDetailsPage = new CarePlannerPetDetails();
-    cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
-    cpEditOccuranceSeriesPopup = new CarePlannerEditOccuranceSeriesPopup();
-    LogHelper.Logger.info("*********************************************************");
-    LogHelper.Logger.info('************** Prerequsite Steps - Completed **************');
-    LogHelper.Logger.info("*********************************************************");
-    LogHelper.Logger.info("*********************************************************");
-    LogHelper.Logger.info('*************** Test Execution - Started *****************');
-    LogHelper.Logger.info("*********************************************************");
+    // LogHelper.Logger.info("*********************************************************");
+    // LogHelper.Logger.info("************** Single Occurrence Test *******************");
+    // LogHelper.Logger.info("*********************************************************");
+    // LogHelper.Logger.info("*********************************************************");
+    // LogHelper.Logger.info('************** Prerequsite Steps - Started **************');
+    // LogHelper.Logger.info("*********************************************************");
+    // cpSchedulerPage = new CarePlannerSchedulerPage();
+    // cpPetDetailsPage = new CarePlannerPetDetails();
+    // cpEditSchedulePopupPage = new CarePlannerEditSchedulePopup();
+    // cpEditOccuranceSeriesPopup = new CarePlannerEditOccuranceSeriesPopup();
+    // LogHelper.Logger.info("*********************************************************");
+    // LogHelper.Logger.info('************** Prerequsite Steps - Completed **************');
+    // LogHelper.Logger.info("*********************************************************");
+    // LogHelper.Logger.info("*********************************************************");
+    // LogHelper.Logger.info('*************** Test Execution - Started *****************');
+    // LogHelper.Logger.info("*********************************************************");
 }
 
 function setPosition(_taskIndex) {
 
     //Get the order index of the task name from the product list independent of category
     //Set the Start & End Position for the task series (row range) per task
-    if (_taskIndex >= 0) {
-        startPosition = 1;
-        endPosition = 24;
-    } else if (_taskIndex >= 1) {
-        startPosition = _taskIndex * 24 + 1;
-        endPosition = startPosition + 23;
-    } else {
-        //fail test as product list not identified
-    }
+    // if (_taskIndex >= 0) {
+    //     startPosition = 1;
+    //     endPosition = 24;
+    // } else if (_taskIndex >= 1) {
+    //     startPosition = _taskIndex * 24 + 1;
+    //     endPosition = startPosition + 23;
+    // } else {
+    //     //fail test as product list not identified
+    // }
 }
 //});
