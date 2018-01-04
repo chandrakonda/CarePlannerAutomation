@@ -1,4 +1,5 @@
 import { browser } from 'protractor';
+import { TestBase } from '../../testbase/TestBase';
 
 export namespace SetClient {
 
@@ -44,14 +45,14 @@ export namespace SetClient {
             //     element.HospitalId = browser.appenvdetails.hospitalid;
             // });
             this.ClientId = defaultClientValues.ClientId
-            this.HospitalId = browser.appenvdetails.hospitalid;
+            this.HospitalId = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             this.FirstName = defaultClientValues.FirstName + '-' + new Date().getTime().toString();
             this.LastName = defaultClientValues.LastName + '-' + new Date().getTime().toString();
             this.IsCorporateClient = defaultClientValues.IsCorporateClient;
             this.StatusId = defaultClientValues.StatusId;
             this.ClientPhones = defaultClientValues.ClientPhones;
             this.ClientPhones.forEach(element => {
-                element.HospitalId = browser.appenvdetails.hospitalid;
+                element.HospitalId = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             });
         }
     }
@@ -69,7 +70,7 @@ export namespace SetClient {
             this.url = browser.appenvdetails.wwapiendpoint + 'Clients';
             this.qs = apiTemplateValues.qs;
             this.headers = apiTemplateValues.headers;
-            this.headers["x-hospital-id"] = browser.appenvdetails.hospitalid;
+            this.headers["x-hospital-id"] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             this.body = new Body(defaultClientValues)
 
         }

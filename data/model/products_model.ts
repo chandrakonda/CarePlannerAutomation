@@ -1,6 +1,8 @@
 
 import { browser } from 'protractor';
 import { CarePlannerApiServices } from '../../lib/apiServices/carePlannerApiServices';
+import { TestBase } from '../../testbase/TestBase';
+
 export namespace AddingProductsModel {
     const path = require('path');
 
@@ -22,9 +24,9 @@ export namespace AddingProductsModel {
                 this.products = __productToBeAdded.products;
             }
             else {
-                let __productToBeAdded = require(path.join(__dirname, '..//..//..//data//defaultValues//visitInvoiceItems.json'));
+                let __productToBeAdded =  TestBase.GlobalData.ApiDefaultValues.VisitInvoiceItemsBillOnceValues.products ; //require(path.join(__dirname, '..//..//..//data//defaultValues//visitInvoiceItems.json'));
                 
-                this.products = __productToBeAdded.products;
+                this.products =__productToBeAdded;  //__productToBeAdded.products;
             }
         }
     }

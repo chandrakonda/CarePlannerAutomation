@@ -24,18 +24,21 @@ export class AppointmentController {
             // Create client 
             await __apiServices.makeApiCall(options).then((response) => {
                 __apiServices.parseResultOfMakePostRequest(response).then((responseValue) => {
-                    browser.appointmentID = responseValue.AppointmentId;
+
+                    specData.Data.Client.Patient.AppointmentId = responseValue.AppointmentId;
                     //specData.Data.Client.Patient.Visit
-                    LogHelper.Logger.info("Appointment ID: " + browser.appointmentID);
+                    //LogHelper.Logger.info("Appointment ID: " + browser.appointmentID);
+                    LogHelper.Logger.info("Appointment ID: " + specData.Data.Client.Patient.AppointmentId);
                     LogHelper.Logger.info(responseValue);
                 });
             })
-            LogHelper.Logger.info("__appointmentresponse" + browser.appointmentID);
+            LogHelper.Logger.info("__appointmentresponse" + specData.Data.Client.Patient.AppointmentId);
         } catch (error) {
             LogHelper.Logger.error(error);
         }
     }
 
+    // we need patient id here, appointment will be created for a patient. 
     createNewAppointmentOptions(token: any, specData: SpecFile) {
         try {
             LogHelper.Logger.info("*********** Create New Appointment ***********");
@@ -46,17 +49,17 @@ export class AppointmentController {
             var endtime = moment().subtract(4, 'hours').toISOString();
 
             //Set URL
-            __options.url = browser.appenvdetails.wwapiendpoint + 'Appointments';
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'Appointments';
 
             //Set header values
-            __options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid;
+            __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.headers.authorization = token;
 
             //Set body data using default values
             __options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//bookAppointment.json'));
-            __options.body.ClientId = browser.clientID;
-            __options.body.HospitalId = browser.appenvdetails.hospitalid;
-            __options.body.PetAppointments[0].PatientId = browser.patientID;
+            __options.body.ClientId = specData.Data.Client.Id;
+            __options.body.HospitalId = TestBase.GlobalData.EnvironmentDetails.hospitalid;
+            __options.body.PetAppointments[0].PatientId = specData.Data.Client.Patient.Id;
             __options.body.PetAppointments[0].StartTime = startTime;
             __options.body.PetAppointments[0].EndTime = endtime;
             return __options;
@@ -69,18 +72,15 @@ export class AppointmentController {
         try {
             let __options = await this.checkinAppointmentOptions(token, specData);
             LogHelper.Logger.info(__options);
-            let __apiServices = new CarePlannerApiServices();
+            const __apiServices = new CarePlannerApiServices();
             // Create client 
             let __response = await __apiServices.makeApiCall(__options).then((response) => {
-                return response;
-            })
-
-            // parse response
-            let __checkinAppointment = await __apiServices.parseResultOfMakePostRequest(__response).then((response) => {
-                return response;
+                __apiServices.parseResultOfMakePostRequest(response).then((responseValue) => {
+                    return responseValue;
+                });
             });
 
-            LogHelper.Logger.info("__checkinAppointment" + __checkinAppointment);
+            LogHelper.Logger.info("__checkinAppointment" + __response);
         } catch (error) {
             LogHelper.Logger.error(error);
         }
@@ -93,14 +93,15 @@ export class AppointmentController {
             let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postCheckInAppointment.json'));
 
             //Set URL
-            __options.url = browser.appenvdetails.wwapiendpoint + 'CheckInAppointment';
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'CheckInAppointment';
 
             //Set qs values
-            __options.qs.appointmentId = browser.appointmentID.toString();
+            //__options.qs.appointmentId = browser.appointmentID.toString();
+            __options.qs.appointmentId = specData.Data.Client.Patient.AppointmentId;
             __options.qs.isMergeMedicalNote = "false";
 
             //Set header values
-            __options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
+            __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.headers.authorization = token;
 
             LogHelper.Logger.info("Options: " + __options.qs.appointmentId);
@@ -128,37 +129,38 @@ export class AppointmentController {
                 });
             });
             specData.Data.Client.Patient.Visit = __visit;
-            } catch (e) {
-                throw e;
-            }
-
-        }
-
-    getCheckedInPatientDetailsOptions(token: any, specData: SpecFile) {
-            try {
-                LogHelper.Logger.info('*********** Getting visit details ***********');
-
-                // Load Template
-                let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getCheckedInPatientDetails.json'));
-
-                //Set URL
-                __options.url = browser.appenvdetails.wwapiendpoint + 'CheckedInPatients';
-
-                //Set qs values
-                __options.qs.patientId = browser.patientID.toString();
-                __options.qs.IncludeOrderItemList = 'true';
-
-                //Set header values
-                __options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
-                __options.headers.authorization = token;
-                //LogHelper.Logger.info(__options);
-                return __options;
-            } catch (error) {
-                LogHelper.Logger.error(error);
-            }
+        } catch (e) {
+            throw e;
         }
 
     }
+
+
+    getCheckedInPatientDetailsOptions(token: any, specData: SpecFile) {
+        try {
+            LogHelper.Logger.info('*********** Getting visit details ***********');
+
+            // Load Template
+            let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getCheckedInPatientDetails.json'));
+
+            //Set URL
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'CheckedInPatients';
+
+            //Set qs values
+            __options.qs.patientId = specData.Data.Client.Patient.Id; //browser.patientID.toString();
+            __options.qs.IncludeOrderItemList = 'true';
+
+            //Set header values
+            __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
+            __options.headers.authorization = token;
+            //LogHelper.Logger.info(__options);
+            return __options;
+        } catch (error) {
+            LogHelper.Logger.error(error);
+        }
+    }
+
+}
 
 
     // createNewAppointment() {
@@ -204,7 +206,7 @@ export class AppointmentController {
     //     options.qs.isMergeMedicalNote = "false";
 
     //     //Set header values
-    //     options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
+    //     options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
     //     options.headers.authorization = browser.bearerToken;
 
     //     LogHelper.Logger.info("Options: " + options.qs.appointmentId);
@@ -228,7 +230,7 @@ export class AppointmentController {
     //     options.qs.IncludeOrderItemList = 'true';
 
     //     //Set header values
-    //     options.headers['x-hospital-id'] = browser.appenvdetails.hospitalid.toString();
+    //     options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
     //     options.headers.authorization = browser.bearerToken;
     //     //LogHelper.Logger.info(options);
 

@@ -1,4 +1,4 @@
-import { browser, protractor } from 'protractor';
+import { protractor } from 'protractor';
 import { CarePlannerApiServices } from '../apiServices/carePlannerApiServices';
 import { AddingProductsModel } from '../../data/model/products_model';
 
@@ -25,11 +25,12 @@ export class OrderController {
             if (productFileName == null) { __rootObject = new AddingProductsModel.RootObject(); }
             else { __rootObject = new AddingProductsModel.RootObject(productFileName); }
             let __apiServices = new CarePlannerApiServices();
-            browser.visitId = browser.visitId;
+            //specData.Data.Client.Patient.Visit.VisitId
+            //browser.visitId = browser.visitId;
             __rootObject.products.forEach(async product => {
                 LogHelper.Logger.log("*************** Adding Product to Order **************");
                 //Set URL
-                __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Visits/" + browser.visitId + "/VisitInvoiceItems";
+                __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Visits/" + specData.Data.Client.Patient.Visit.VisitId + "/VisitInvoiceItems";
                 //Set header values
                 __options.headers['x-hospital-id'] =TestBase.GlobalData.EnvironmentDetails.hospitalid;
                 __options.headers.authorization = token;

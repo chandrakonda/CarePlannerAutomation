@@ -47,7 +47,7 @@ export class CarePlannerApiCalls {
 
             LogHelper.Logger.info("Creating URL and launching browser...");
             let __url = browser.baseUrl +
-                '?hospitalId=' + browser.appenvdetails.hospitalid +
+                '?hospitalId=' + TestBase.GlobalData.EnvironmentDetails.hospitalid +
                 '&patientId=' + browser.patientID +
                 '&orderId=' + browser.visitId +
                 '&userName='+ browser.appenvdetails.username +

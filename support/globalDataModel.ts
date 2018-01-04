@@ -91,6 +91,7 @@ export class Patient {
     Species: string;
     Age: string;
     Sex: string;
+    AppointmentId : string;
 }
 
 export class Visit {
