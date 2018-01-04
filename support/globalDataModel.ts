@@ -1,9 +1,15 @@
 
 import { ReadAppConfig } from '../config/appconfig';
+const path = require('path');
 
+//import data  from    '..//data/defaultValues//postClients';
 
 
 export class GlobalValues {
+    ApiDefaultValues : any;
+    constructor(){
+        this.ApiDefaultValues = new DefaultValues();
+    }
     StartTime: string;
     GlobalAuthToken: string;
     EnvironmentDetails: ReadAppConfig.EnvironmentDetails;
@@ -13,6 +19,28 @@ export class GlobalValues {
     ResultFolder : string;
     
     //Logger : any;
+}
+
+class DefaultValues{
+
+    PostClientsDefaultValues :any;
+    PostPatientsDefaultValues : any;
+    BookAppointmentValues : any;
+    VisitInvoiceItemsBillOnceValues : any;
+
+    constructor(){
+        this.PostClientsDefaultValues = require(path.join(__dirname, '..//..//data/defaultValues//postClients.json'));
+        this.PostPatientsDefaultValues = require(path.join(__dirname, '..//..//data/defaultValues//postPatients.json'));
+        this.BookAppointmentValues = require(path.join(__dirname, '..//..//data/defaultValues//bookAppointment.json'));
+        this.VisitInvoiceItemsBillOnceValues =  require(path.join(__dirname, '..//..//data/defaultValues//visitInvoiceItems.json'));
+    }
+
+    ///PostClientsDefaultValues : any = this.__postclient;
+    //PostPatientsDefaultValues : any = this.__postpet;
+    //BookAppointmentValues : any = this.__bookappointment;
+    //VisitInvoiceItemsBillOnceValues : any =  this.__billonceproduct;
+    VisitInvoiceItemsBillEveryValues : any;
+
 }
 
 export class SpecFile {

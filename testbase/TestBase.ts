@@ -9,31 +9,35 @@ import { AuthController } from '../lib/apiControllers/authController';
 
 export class TestBase {
 
-    static globalValues : GlobalValues ;
+    public static GlobalData;
     constructor() {
 
         // create global object for the framework
-
-        TestBase.globalValues = new GlobalValues();
+        TestBase.GlobalData = new GlobalValues();
 
     }
 
-
     beforeExecution() {
-
+        try{
         LogHelper.getLogger(); // Set logger
         //browser.logger.info('**************On Prepare Started**************');
-        LogHelper.Logger.info("print this for testing");
+       // LogHelper.Logger.info("print this for testing");
         //Adding Reporters to the execution
         ReportHelper.pettyHtmlReporter();
 
         // We are filtering config options based on environment and we are taking only filtered environment details
-        TestBase.globalValues.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
+        TestBase.GlobalData.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
         
-        TestBase.globalValues.SpecFiles = new Array<SpecFile>();
+        TestBase.GlobalData.SpecFiles = new Array<SpecFile>();
+        //LogHelper.Logger.info(TestBase.GlobalData.ApiDefaultValues);
         // Set token value 
-        // let __authController = new AuthController();
-        // __authController.getAuthToken();
+        let __authController = new AuthController();
+        __authController.getAuthToken();
+        }catch (error)
+        {
+           LogHelper.Logger.info(error);           
+            throw error;
+        }
 
     }
 

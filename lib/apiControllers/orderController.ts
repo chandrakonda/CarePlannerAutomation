@@ -29,9 +29,9 @@ export class OrderController {
             __rootObject.products.forEach(async product => {
                 LogHelper.Logger.log("*************** Adding Product to Order **************");
                 //Set URL
-                __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint + "Visits/" + browser.visitId + "/VisitInvoiceItems";
+                __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Visits/" + browser.visitId + "/VisitInvoiceItems";
                 //Set header values
-                __options.headers['x-hospital-id'] =TestBase.globalValues.EnvironmentDetails.hospitalid;
+                __options.headers['x-hospital-id'] =TestBase.GlobalData.EnvironmentDetails.hospitalid;
                 __options.headers.authorization = token;
                 __options.body = product;
                 LogHelper.Logger.info("************product options **********");
@@ -84,10 +84,10 @@ export class OrderController {
             LogHelper.Logger.info('*********** Get Task Series By Order Id ***********');
             let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getTaskSeriesByOrderId.json'));
             //Set URL
-            __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint  + "Orders/" + browser.visitId + "/TaskSeries";
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint  + "Orders/" + browser.visitId + "/TaskSeries";
     
             //Set header values
-            __options.headers['x-hospital-id'] = TestBase.globalValues.EnvironmentDetails.hospitalid;
+            __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.headers.authorization = token;
             return __options;
         } catch (error) {

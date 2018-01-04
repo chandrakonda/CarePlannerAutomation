@@ -40,12 +40,12 @@ export class ClientAndPatientController {
                     __client.Id =  responseValue.ClientId
                     specData.Data.Client = __client;
                     LogHelper.Logger.info(specData.Data.Client);
-                    // specData.Data.Client.Id = responseValue.ClientId;
+                    specData.Data.Client.Id = responseValue.ClientId;
                     
                 });
             });
 
-           // LogHelper.Logger.info("__clientResponse" + specData.Data.Client.LastName + "       " + specData.Data.Client.Id);
+            LogHelper.Logger.info("__clientResponse" + specData.Data.Client.LastName + "       " + specData.Data.Client.Id);
             } catch (e) {
                 throw e;
             }
@@ -55,16 +55,16 @@ export class ClientAndPatientController {
             try {
                 let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postClients.json'));
                 //Set URL
-                __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint + 'Clients';
+                __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'Clients';
                 //Set header values
-                __options.headers['x-hospital-id'] = TestBase.globalValues.EnvironmentDetails.hospitalid;
+                __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
                 __options.headers.authorization = token;
                 //Set body data
-                __options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//postClients.json'));
+                __options.body = TestBase.GlobalData.ApiDefaultValues.PostClientsDefaultValues; //require(path.join(__dirname, '..//..//..//data//defaultValues//postClients.json'));
                 __options.body.FirstName = __options.body.FirstName + __timestamp;
                 __options.body.LastName = __options.body.LastName + __timestamp;
                 //options.body.HospitalId = browser.appenvdetails.hospitalid;
-                __options.body.HospitalId = TestBase.globalValues.EnvironmentDetails.hospitalid;
+                __options.body.HospitalId = TestBase.GlobalData.EnvironmentDetails.hospitalid;
                 return __options;
             } catch (error) {
                 LogHelper.Logger.error(error);
@@ -101,18 +101,18 @@ export class ClientAndPatientController {
                 LogHelper.Logger.info("*********** Creating Patient ***********");
                 let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//postPatients.json'));
                 //Set URL
-                __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint  + 'Patients'
+                __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint  + 'Patients'
 
                 //Set header values
-                __options.headers['x-hospital-id'] = TestBase.globalValues.EnvironmentDetails.hospitalid;
+                __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
                 __options.headers.authorization = token;
 
                 //Set body data
-                __options.body = require(path.join(__dirname, '..//..//..//data//defaultValues//postPatients.json'));
+                __options.body = TestBase.GlobalData.ApiDefaultValues.PostPatientsDefaultValues;//require(path.join(__dirname, '..//..//..//data//defaultValues//postPatients.json'));
                 //__options.body.ClientId = browser.clientID;
                 __options.body.ClientId = specData.Data.Client.Id;                
                 //__options.body.PatientName = patientObj.Name ;
-                __options.body.HospitalId =TestBase.globalValues.EnvironmentDetails.hospitalid;
+                __options.body.HospitalId =TestBase.GlobalData.EnvironmentDetails.hospitalid;
                 return __options;
             } catch (error) {
                 LogHelper.Logger.error(error);

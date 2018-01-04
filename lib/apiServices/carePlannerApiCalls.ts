@@ -66,7 +66,7 @@ export class CarePlannerApiCalls {
     async CreateClientPetAddProduct1(specData : SpecFile) {
         try {
             await browser.sleep(10000);
-            LogHelper.Logger.info(AuthController.authTokenValue);
+            LogHelper.Logger.info("token value  "+AuthController.authTokenValue);
 
             let __clientAndPatientController = new ClientAndPatientController();
             let __appointmentController = new AppointmentController();
@@ -92,10 +92,10 @@ export class CarePlannerApiCalls {
     BuildURLLauchApplication(specData : SpecFile){
         LogHelper.Logger.info("Creating URL and launching browser...");
         let __url = browser.baseUrl +
-            '?hospitalId=' + TestBase.globalValues.EnvironmentDetails.hospitalid +
+            '?hospitalId=' + TestBase.GlobalData.EnvironmentDetails.hospitalid +
             '&patientId=' + specData.Data.Client.Patient.Id +  //browser.patientID +
             '&orderId=' + specData.Data.Client.Patient.Id +
-            '&userName='+ TestBase.globalValues.EnvironmentDetails.username+
+            '&userName='+ TestBase.GlobalData.EnvironmentDetails.username+
             '&userId=' + specData.UserId +  // chandrasekhar.konda .. need to implement
             '&accessToken=' + AuthController.tokenValue;
             LogHelper.Logger.info('URL: ', __url);

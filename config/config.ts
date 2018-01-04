@@ -73,8 +73,8 @@ export const config: Config = {
 
     onPrepare: () => {
         //browser.logger = LogHelper.getLogger();
-        console.log('**************On Prepare Started**************');
-
+       // console.log('**************On Prepare Started**************');
+        //LogHelper.Logger.info('**************On Prepare Started**************');
         let __testBase = new TestBase();
 
         __testBase.beforeExecution();  // set up reporters , loggers 
@@ -84,7 +84,9 @@ export const config: Config = {
         browser.waitForAngularEnabled(false);
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(50000);
-        browser.baseUrl = TestBase.globalValues.EnvironmentDetails.applicationurl;
+        browser.baseUrl = TestBase.GlobalData.EnvironmentDetails.applicationurl;
+
+        console.log('**************On Prepare Exit**************');
 
     },
 
@@ -98,7 +100,7 @@ export const config: Config = {
     //     __testBase.afterExecution();  // set up reporters , loggers 
         ReportHelper.JsonReporter();
         // let __filePath = path.join(ReportHelper.FolderName,"JsonReport.json");
-        // fs.writeFile(__filePath, JSON.stringify(TestBase.globalValues), (err) => {
+        // fs.writeFile(__filePath, JSON.stringify(TestBase.GlobalData), (err) => {
         //     if (err) {
         //         console.error(err);
         //         return;

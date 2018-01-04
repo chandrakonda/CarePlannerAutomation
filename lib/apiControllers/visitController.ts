@@ -83,10 +83,10 @@ export class VisitController {
             let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getOrders.json'));
 
             //Set URL
-            __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint + 'Orders';
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'Orders';
 
             //Set header values
-            __options.headers['x-hospital-id'] = TestBase.globalValues.EnvironmentDetails.hospitalid;
+            __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.headers.authorization = token;
 
             //Add visit Id to query
@@ -110,7 +110,7 @@ export class VisitController {
                         // LogHelper.Logger(response[i]);
                         let __user = responseValue[i];
                         let __userValue: string = __user['ADusername'];
-                        if (__userValue.toUpperCase() == TestBase.globalValues.EnvironmentDetails.username.toUpperCase()) {
+                        if (__userValue.toUpperCase() == TestBase.GlobalData.EnvironmentDetails.username.toUpperCase()) {
                             LogHelper.Logger.info('UserId: ', __user['ResourceId']);
                             specData.UserId = __user['ResourceId'];
                         }
@@ -128,10 +128,10 @@ export class VisitController {
             let __options = require(path.join(__dirname, '..//..//..//data//apiTemplates//getVisitResources.json'));
 
             //Set URL
-            __options.url = TestBase.globalValues.EnvironmentDetails.wwapiendpoint + 'VisitResources';
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'VisitResources';
 
             //Set header values
-            __options.headers['x-hospital-id'] = TestBase.globalValues.EnvironmentDetails.hospitalid;
+            __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.headers.authorization = token;
             return __options;
         } catch (error) {
