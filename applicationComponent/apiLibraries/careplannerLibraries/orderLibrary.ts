@@ -69,8 +69,8 @@ export class OrderLibrary {
                     LogHelper.Logger.info("Task Series Id :'" + __taskSeries.TaskSeriesId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId + "'");
                     LogHelper.Logger.info("Task Occurance Id :'" + __taskOccurrences.TaskOccurrenceId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId+ "'");
                 }
-                specData.Data.Client.Patient.Visit.Product.TaskSeries.fill(__taskSeries);
-                specData.Data.Client.Patient.Visit.Product.TaskSeries[0].TaskOccurrence.fill(__taskOccurrences);
+                specData.Data.Client.Patient.Visit.Product.TaskSeries.push(__taskSeries);
+                specData.Data.Client.Patient.Visit.Product.TaskSeries[0].TaskOccurrence.push(__taskOccurrences);
             });
         } catch (error) {
             LogHelper.Logger.error(error);

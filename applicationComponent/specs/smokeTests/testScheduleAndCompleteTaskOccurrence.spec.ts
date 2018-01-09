@@ -60,6 +60,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             endPosition = 0;
             taskOccurrenceCount = 0;
             productTaskList = '';
+            browser.Taskseriesname = '';
         });
 
         beforeEach(()=> {
@@ -101,7 +102,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             await expect(Pages.cpClientAndPetDetailsPage.petName).toEqual(_patientName);
     
             //Veify the Species Name
-            await expect(Pages.cpClientAndPetDetailsPage.speciesName).toEqual(speciesName);
+            await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(speciesName);
         });
     
     
@@ -180,116 +181,147 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
         });
     });
 
-    // describe('schedule multiple occurrence for a task and complete a single occurrence scheduled', async () => {
+    describe('schedule multiple occurrence for a task and complete a single occurrence scheduled', async () => {
         
-    //     beforeAll( () => {    
-            
-    //         createPageObjectInstance();           
-    //     });
+        let specFileData: SpecFile;
+        let __data: Data;
+        let __testCase: TestCase;
+        beforeAll( () => {    
+            specFileData = new SpecFile();
+            __data = new Data();
+            specFileData.Data = __data;
+            specFileData.TestCases = new Array<TestCase>();            
+        });
 
-    //     afterAll( () => {
+        afterAll( () => {
+            TestBase.GlobalData.SpecFiles.push(specFileData);
+            startPosition = 0;
+            endPosition = 0;
+            taskOccurrenceCount = 0;
+            productTaskList = '';
+            browser.Taskseriesname = '';
+        });
 
-    //         startPosition = 0;
-    //         endPosition = 0;
-    //         taskOccurrenceCount = 0;
-    //         productTaskList = '';
-    //     });
+        beforeEach(()=> {
+            __testCase = new TestCase();          
+        });
 
-    //     it('Data set up and client pet details' , async () => {
-            
-    //         let __apiCalls = new CarePlannerApiCalls();
-    //         await __apiCalls.CreateClientPetAddProduct();
-    //     });
-    
-    //     it('should display the client & pet details matched', async () => {
-            
-    //         let _clientLastName = browser.clientLastName.length >= 12 ? browser.clientLastName.slice(0, 12) + '…' : browser.clientLastName;
-    //         let _patientName = browser.patientName.length >= 12 ? browser.patientName.slice(0, 12) + '…' : browser.patientName;
-    //         let speciesName = 'Canine';
+        afterEach(()=> {
+            LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            specFileData.TestCases.push(__testCase);
+        });
 
-    //         //Verify the page Title
-    //         let pageTitle = await cpPetDetailsPage.pageTitle;
-    //         await expect(pageTitle).toEqual('VCA Charge Capture');
+
+        it('Data set up and client pet details' , async () => {
+            try {
+                __testCase.TestName = 'API Calls for scheduling a task in careplanner';
+                await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
+                LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            } catch (error) {
+                __testCase.TestResult = 'Fail';
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('should display the client & pet details matched', async () => {
+            __testCase.TestName = "Verify the Client and Patient Details from UI";
+
+            let _clientLastName = specFileData.Data.Client.LastName.length >= 12 ? specFileData.Data.Client.LastName.slice(0,12) + '…' : specFileData.Data.Client.LastName;
+            let _patientName = specFileData.Data.Client.Patient.Name.length >=12 ? specFileData.Data.Client.Patient.Name.slice(0,12) + '…' : specFileData.Data.Client.Patient.Name;            
+            let speciesName = specFileData.Data.Client.Patient.Species;
+            //let speciesName = 'Canine';
+
+            //Verify the page Title
+            let pageTitle = await Pages.cpClientAndPetDetailsPage.pageTitle;
+            await expect(pageTitle).toEqual('VCA Charge Capture');
             
-    //         //Verify the Client Last Name
-    //         await expect(cpPetDetailsPage.clientName).toEqual(_clientLastName);
+            //Verify the Client Last Name
+            await expect(Pages.cpClientAndPetDetailsPage.clientName).toEqual(_clientLastName);
         
-    //         //Veify the Patient Name 
-    //         await expect(cpPetDetailsPage.petName).toEqual(_patientName);
+            //Veify the Patient Name 
+            await expect(Pages.cpClientAndPetDetailsPage.petName).toEqual(_patientName);
     
-    //         //Veify the Species Name
-    //         await expect(cpPetDetailsPage.speciesName).toEqual(speciesName);
-    //     });
+            //Veify the Species Name
+            await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(speciesName);
+        });
     
     
-    //     it('should validate the product category and list of tasks for the category', async () => {
+        it('should validate the product category and list of tasks for the category', async () => {
             
-    //         //Verify the Category Count
-    //         await expect(cpSchedulerPage.categoryCount).toEqual(1);
+            __testCase.TestName = "Verifying the Category count and product task list";
+
+            //Verify the Category Count
+            await expect(Pages.cpSchedulerPage.categoryCount).toEqual(1);
     
-    //         //Verify the Task Count
-    //         await expect(cpSchedulerPage.productTaskListCount).toEqual(1);
-    //     });
+            //Verify the Task Count
+            await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(1);
+        });
     
     
-    //     it('should successfuly click on a task name toschedule for single occurrence', async () => {
+        it('should successfuly click on a task name toschedule for single occurrence', async () => {
             
-    //         //Click on a task name under a category
-    //         productTaskList = await cpSchedulerPage.productTaskList; 
-    //         browser.logger.info('Product Task List : ' + productTaskList);
-    //         browser.taskSeriesName = productTaskList[0];
+            __testCase.TestName = "Schedule the task for the product task series";
+
+            //Click on a task name under a category
+            productTaskList = await Pages.cpSchedulerPage.productTaskList; 
+            LogHelper.Logger.info('Product Task List : ' + productTaskList);
+            browser.Taskseriesname = productTaskList[0];
             
     
-    //         await cpSchedulerPage.clickOnTaskByName(browser.taskSeriesName);
-    //         await browser.sleep(1000);
+            await Pages.cpSchedulerPage.clickOnTaskByName(browser.Taskseriesname);
+            await browser.sleep(1000);
     
-    //         occurrenceDetails = {
-    //             frequency : "recurring",
-    //             scheduleStartTime : multiOccurrence.scheduleStartTime,
-    //             scheduleStartDate : '',
-    //             scheduleEndTime : multiOccurrence.scheduleEndTime,
-    //             scheduleEndDate : '',
-    //             repeatHours: multiOccurrence.repeatEveryHour,
-    //             taskInstructions : multiOccurrence.scheduleInstructions
-    //         } as TaskOccurreceDetails;
+            occurrenceDetails = {
+                frequency : "recurring",
+                scheduleStartTime : multiOccurrence.scheduleStartTime,
+                scheduleStartDate : '',
+                scheduleEndTime : multiOccurrence.scheduleEndTime,
+                scheduleEndDate : '',
+                repeatHours: multiOccurrence.repeatEveryHour,
+                taskInstructions : multiOccurrence.scheduleInstructions
+            } as TaskOccurreceDetails;
     
-    //         //Schedule the Task Occurrence with the Occurrence Details
-    //         await cpEditSchedulePopupPage.scheduleTaskOccurrence(occurrenceDetails);
-    //         await browser.sleep(5000);
-    //     });
+            //Schedule the Task Occurrence with the Occurrence Details
+            await Pages.cpTaskSchedulerPopup.scheduleTaskOccurrence(occurrenceDetails);
+            await browser.sleep(5000);
+        });
     
-    //     it('should match with the expected occurrence status', async () => {
+        it('should match with the expected occurrence status', async () => {
     
-    //         //Get the task index to set the row index
-    //         let _taskIndex = productTaskList.indexOf(browser.taskSeriesName);
+            __testCase.TestName =  "Verify the Occurrence created and scheduled";
+
+            //Get the task index to set the row index
+            let _taskIndex = productTaskList.indexOf(browser.Taskseriesname);
             
-    //          //Get the Row Index Details based on the Task Details
-    //          setPosition(_taskIndex);
+             //Get the Row Index Details based on the Task Details
+             setPosition(_taskIndex);
     
-    //         //Verify the number of task occurrences created
-    //         await cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences);
+            //Verify the number of task occurrences created
+            await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences);
             
-    //         //Verify the status of the created Occurrences
-    //         await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.actualOccurrenceStatus);
+            //Verify the status of the created Occurrences
+            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.actualOccurrenceStatus);
             
-    //     });
+        });
     
-    //    it('should able to successfully skip a single occurrence based on the index and match with occurrence status as skipped', async () => {
+       it('should able to successfully skip a single occurrence based on the index and match with occurrence status as skipped', async () => {
             
-    //         //Click on the task occurrence to bring up the edit task occurrence popup
-    //         browser.logger.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
-    //         await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
-    //         await browser.sleep(1000);
+            __testCase.TestName = "Edit and update the task occurrence";
+
+            //Click on the task occurrence to bring up the edit task occurrence popup
+            LogHelper.Logger.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
+            await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
+            await browser.sleep(1000);
     
-    //         //Edit & Update the status of the task occurrence
-    //         await cpEditOccuranceSeriesPopup.updateOccurrenceDetails(taskUpdateStatus[1], multiOccurrence.taskOccurrenceNotes);
-    //         await browser.sleep(7000);
+            //Edit & Update the status of the task occurrence
+            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1], multiOccurrence.taskOccurrenceNotes);
+            await browser.sleep(7000);
             
-    //         //Verify the task occurrence status after completing
-    //         await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus[multiOccurrence.occurrenceIndex]);
+            //Verify the task occurrence status after completing
+            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus[multiOccurrence.occurrenceIndex]);
             
-    //     });
-    // });
+        });
+    });
 
     function setPosition(_taskIndex){
         
