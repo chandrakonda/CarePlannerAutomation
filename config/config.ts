@@ -1,22 +1,14 @@
+import { LogHelper, ReportHelper } from '../frameworkComponent';
+import { TestBase, GlobalValues, SpecFile } from '../applicationComponent';
 
 import { Config, browser, protractor } from "protractor";
 let path = require('path');
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
-import { AuthController } from '../lib/apiControllers/authController';
-// Framework
 
-import { TestBase } from '../testbase/TestBase';
-import { LogHelper } from '../support/logHelper';
-import { GlobalValues, SpecFile } from '../support/globalDataModel';
-import { ReportHelper } from "../support/reportHelper";
-//import {customeReporter} from "../support/customeReporter";
-//var log4js = require('log4js');
-//import { ReportHelper } from '../support/reportHelper';
-//import { ReadAppConfig } from "./appconfig";
+
 
 export const config: Config = {
-
 
     // seleniumAddress: 'http://localhost:4444/wd/hub',
     // Starting selenium server
@@ -26,7 +18,7 @@ export const config: Config = {
     // seleniumPort: 4444,
     directConnect: true,
     //elementExplorer : 
-    chromeDriver: path.join(__dirname, '../../support/drivers/chromedriver.exe'),
+    chromeDriver: path.join(__dirname, '../../frameworkComponent/support/drivers/chromedriver.exe'),
     // SELENIUM_PROMISE_MANAGER:false,
     
     capabilities: {
@@ -45,11 +37,11 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec.js",
+        "../applicationComponent/specs/smokeTests/testScheduleAndCompleteTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
-        "../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
-        
+        //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
+        //"../applicationComponent/specs/smokeTests/sampletest.spec.js"
     ],
 
     jasmineNodeOpts: {
@@ -73,8 +65,8 @@ export const config: Config = {
 
     onPrepare: () => {
         //browser.logger = LogHelper.getLogger();
-        console.log('**************On Prepare Started**************');
-
+       // console.log('**************On Prepare Started**************');
+        //LogHelper.Logger.info('**************On Prepare Started**************');
         let __testBase = new TestBase();
 
         __testBase.beforeExecution();  // set up reporters , loggers 
@@ -84,7 +76,9 @@ export const config: Config = {
         browser.waitForAngularEnabled(false);
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(50000);
-        browser.baseUrl = TestBase.globalValues.EnvironmentDetails.applicationurl;
+        browser.baseUrl = TestBase.GlobalData.EnvironmentDetails.applicationurl;
+
+        console.log('**************On Prepare Exit**************');
 
     },
 
@@ -98,7 +92,7 @@ export const config: Config = {
     //     __testBase.afterExecution();  // set up reporters , loggers 
         ReportHelper.JsonReporter();
         // let __filePath = path.join(ReportHelper.FolderName,"JsonReport.json");
-        // fs.writeFile(__filePath, JSON.stringify(TestBase.globalValues), (err) => {
+        // fs.writeFile(__filePath, JSON.stringify(TestBase.GlobalData), (err) => {
         //     if (err) {
         //         console.error(err);
         //         return;

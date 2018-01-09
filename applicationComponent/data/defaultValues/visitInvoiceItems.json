@@ -1,0 +1,15 @@
+{
+    "products": [
+        {
+            "InvoiceItemId": 94062,
+            "InvoiceItemTypeId": 1,
+            "PLNo": 101,
+            "SeqNo": 21,
+            "Code": "101.21",
+            "MinimumQty": 1,
+            "DefaultQty": 1,
+            "MaximumQty": 1
+        }
+
+    ]
+}
