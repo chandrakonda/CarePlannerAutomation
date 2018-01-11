@@ -13,6 +13,7 @@ export class APIServiceHelper {
         LogHelper.Logger.info("####Parse result of the response####");
         try {
             LogHelper.Logger.info(result);
+            response = (response instanceof Object) ? response : JSON.parse(response);
             if (response.StatusCode >= 400) {
                 LogHelper.Logger.info("Status code 400");
                 __result = Promise.reject({ message: result });

@@ -11,30 +11,33 @@ let singleOccurrence = {
     repeatEveryHour : 0,
     scheduleInstructions : 'Test Instructions for the Single Occurrence',
     expectedNumberOfTaskOccurrences : 1,
-    actualOccurrenceStatus : ['Overdue'],
-    occurrenceIndex : 0,
-    expectedOcurrenceStatus : ['Complete'],
-    taskOccurrenceNotes : 'Test notes for complete task occurrence'
+    expectedOccurrenceStatus : ['Overdue'],
+    timeToReschedule : 9,
+    rescheduledTime : 10,
+    rescheduledOccurrenceStatus : ['Overdue'],
+    rescheduledOccurrenceCount : 1,
+    rescheduledOccurrenceNotes : 'Test Instructions for the Single Occurrence Rescheduled'
 }
 
 let multiOccurrence = {
     scheduleStartTime : 9,
     scheduleEndTime : 11,
     repeatEveryHour : 1,
-    scheduleInstructions : 'Test Instructions for the Multiple Occurrence',
+    scheduleInstructions : 'Test Instructions for the Multi Occurrence',
     expectedNumberOfTaskOccurrences : 3,
-    actualOccurrenceStatus : ['Overdue', 'Overdue', 'Overdue'],
-    occurrenceIndex : 1,
-    expectedOcurrenceStatus : ['Overdue', 'Complete', 'Overdue'],
-    taskOccurrenceNotes : 'Test notes for complete task occurrence'
+    expectedOccurrenceStatus : ['Overdue', 'Overdue', 'Overdue'],
+    timeToReschedule : 11,
+    rescheduledTime : 12,
+    rescheduledOccurrenceStatus : ['Overdue'],
+    rescheduledOccurrenceNotes : 'Test Instructions for the Multi Occurrence Rescheduled'
 }
 
 let occurrenceDetails:TaskOccurreceDetails;
 
 
-describe('schedule task occurrence and complete the task occurrence scheduled', async () => {
+describe('schedule task occurrence and reschedule the task occurrence scheduled', async () => {
     
-    describe('schedule a single occurrence for a task and complete the occurrence scheduled', async () => {
+    describe('schedule a single occurrence for a task and reschedule the occurrence scheduled', async () => {
     
         let specFileData: SpecFile;
         let __data: Data;
@@ -151,7 +154,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedNumberOfTaskOccurrences)
     
             //Verify the status of the created Occurrences
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.actualOccurrenceStatus);
+            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedOccurrenceStatus);
 
         });
     
@@ -159,21 +162,26 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             
             __testCase.TestName = "Edit and update the task occurrence";
 
-            //Click on the task occurrence to bring up the edit task occurrence popup
-            LogHelper.Logger.info("Click on the task occurrence by index : " + singleOccurrence.occurrenceIndex);
-            await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex);
-            await browser.sleep(1000);
-    
-            //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1],singleOccurrence.taskOccurrenceNotes);
-            await browser.sleep(7000);
-            
-            //Verify the task occurrence status after completing
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex, singleOccurrence.expectedOcurrenceStatus[singleOccurrence.occurrenceIndex]);
+             //Click on the task occurrence to bring up the edit task occurrence popup
+             browser.logger.info("Click on the task occurrence by time : " + singleOccurrence.timeToReschedule);
+             // await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex);
+             // await browser.sleep(1000);
+
+             await Pages.cpSchedulerPage.clickOnOccurrenceByScheduledTime(singleOccurrence.timeToReschedule);
+             await browser.sleep(1000);
+ 
+             //Edit & Update the status of the task occurrence
+             await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[0],singleOccurrence.rescheduledOccurrenceNotes,singleOccurrence.rescheduledTime);
+             await browser.sleep(7000);
+             
+             //Verify the task occurrence status after completing
+             // await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex, singleOccurrence.rescheduledOccurrenceStatus[singleOccurrence.occurrenceIndex]);
+ 
+             await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceByTime(singleOccurrence.rescheduledTime, singleOccurrence.rescheduledOccurrenceStatus[0]);
         });
     });
 
-    describe('schedule multiple occurrence for a task and complete a single occurrence scheduled', async () => {
+    describe('schedule multiple occurrence for a task and reschedule a single occurrence scheduled', async () => {
         
         let specFileData: SpecFile;
         let __data: Data;
@@ -292,7 +300,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences);
             
             //Verify the status of the created Occurrences
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.actualOccurrenceStatus);
+            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedOccurrenceStatus);
             
         });
     
@@ -300,17 +308,21 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             
             __testCase.TestName = "Edit and update the task occurrence";
 
-            //Click on the task occurrence to bring up the edit task occurrence popup
-            LogHelper.Logger.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
-            await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
-            await browser.sleep(1000);
-    
-            //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1], multiOccurrence.taskOccurrenceNotes);
-            await browser.sleep(7000);
-            
-            //Verify the task occurrence status after completing
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus[multiOccurrence.occurrenceIndex]);
+           //Click on the task occurrence to bring up the edit task occurrence popup
+           browser.logger.info("Click on the task occurrence by time : " + multiOccurrence.timeToReschedule);
+           // await cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
+           // await browser.sleep(1000);
+
+           await Pages.cpSchedulerPage.clickOnOccurrenceByScheduledTime(multiOccurrence.timeToReschedule);
+           await browser.sleep(1000);
+   
+           //Edit & Update the status of the task occurrence
+           await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[0], multiOccurrence.rescheduledOccurrenceNotes, multiOccurrence.rescheduledTime);
+           await browser.sleep(7000);
+           
+           //Verify the task occurrence status after completing
+           // await cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus[multiOccurrence.occurrenceIndex]);
+           await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceByTime(multiOccurrence.rescheduledTime, multiOccurrence.rescheduledOccurrenceStatus[0]);
             
         });
     });

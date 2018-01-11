@@ -13,8 +13,8 @@ let singleOccurrence = {
     expectedNumberOfTaskOccurrences : 1,
     actualOccurrenceStatus : ['Overdue'],
     occurrenceIndex : 0,
-    expectedOcurrenceStatus : ['Complete'],
-    taskOccurrenceNotes : 'Test notes for complete task occurrence'
+    expectedOcurrenceStatus : ['Skipped'],
+    taskOccurrenceNotes : 'Test notes for skip task occurrence'
 }
 
 let multiOccurrence = {
@@ -24,18 +24,18 @@ let multiOccurrence = {
     scheduleInstructions : 'Test Instructions for the Multiple Occurrence',
     expectedNumberOfTaskOccurrences : 3,
     actualOccurrenceStatus : ['Overdue', 'Overdue', 'Overdue'],
-    occurrenceIndex : 1,
-    expectedOcurrenceStatus : ['Overdue', 'Complete', 'Overdue'],
-    taskOccurrenceNotes : 'Test notes for complete task occurrence'
+    occurrenceIndex : 0,
+    expectedOcurrenceStatus : ['Skipped', 'Overdue', 'Overdue'],
+    taskOccurrenceNotes : 'Test notes for skip task occurrence'
 }
 
 let occurrenceDetails:TaskOccurreceDetails;
 
 
-describe('schedule task occurrence and complete the task occurrence scheduled', async () => {
+describe('schedule task occurrence and skip the task occurrence scheduled', async () => {
     
-    describe('schedule a single occurrence for a task and complete the occurrence scheduled', async () => {
-    
+    describe('schedule a single occurrence for a task and skip the occurrence scheduled', async () => {
+
         let specFileData: SpecFile;
         let __data: Data;
         let __testCase: TestCase;
@@ -165,7 +165,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             await browser.sleep(1000);
     
             //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1],singleOccurrence.taskOccurrenceNotes);
+            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[2],singleOccurrence.taskOccurrenceNotes);
             await browser.sleep(7000);
             
             //Verify the task occurrence status after completing
@@ -173,7 +173,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
         });
     });
 
-    describe('schedule multiple occurrence for a task and complete a single occurrence scheduled', async () => {
+    describe('schedule multiple occurrence for a task and skip a single occurrence scheduled', async () => {
         
         let specFileData: SpecFile;
         let __data: Data;
@@ -296,7 +296,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             
         });
     
-       it('should able to successfully complete a single occurrence based on the index and match with occurrence status as complete', async () => {
+        it('should able to successfully skip a single occurrence based on the index and match with occurrence status as skipped', async () => {
             
             __testCase.TestName = "Edit and update the task occurrence";
 
@@ -306,7 +306,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             await browser.sleep(1000);
     
             //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1], multiOccurrence.taskOccurrenceNotes);
+            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[2], multiOccurrence.taskOccurrenceNotes);
             await browser.sleep(7000);
             
             //Verify the task occurrence status after completing

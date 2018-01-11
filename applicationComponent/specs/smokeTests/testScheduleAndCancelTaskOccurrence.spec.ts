@@ -13,28 +13,28 @@ let singleOccurrence = {
     expectedNumberOfTaskOccurrences : 1,
     actualOccurrenceStatus : ['Overdue'],
     occurrenceIndex : 0,
-    expectedOcurrenceStatus : ['Complete'],
-    taskOccurrenceNotes : 'Test notes for complete task occurrence'
+    expectedOcurrenceStatus : ['Canceled'],
+    taskOccurrenceNotes : 'Test notes for cancel task occurrence'
 }
 
 let multiOccurrence = {
     scheduleStartTime : 9,
     scheduleEndTime : 11,
     repeatEveryHour : 1,
-    scheduleInstructions : 'Test Instructions for the Multiple Occurrence',
+    scheduleInstructions : 'Test Instructions for the Multi Occurrences',
     expectedNumberOfTaskOccurrences : 3,
     actualOccurrenceStatus : ['Overdue', 'Overdue', 'Overdue'],
     occurrenceIndex : 1,
-    expectedOcurrenceStatus : ['Overdue', 'Complete', 'Overdue'],
-    taskOccurrenceNotes : 'Test notes for complete task occurrence'
+    expectedOcurrenceStatus : ['Overdue', 'Canceled', 'Overdue'],
+    taskOccurrenceNotes : 'Test notes for cancel a task occurrence'
 }
 
 let occurrenceDetails:TaskOccurreceDetails;
 
 
-describe('schedule task occurrence and complete the task occurrence scheduled', async () => {
+describe('schedule task occurrence and cancel the task occurrence scheduled', async () => {
     
-    describe('schedule a single occurrence for a task and complete the occurrence scheduled', async () => {
+    describe('schedule a single occurrence for a task and cancel the occurrence scheduled', async () => {
     
         let specFileData: SpecFile;
         let __data: Data;
@@ -155,7 +155,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
 
         });
     
-        it('should display the edit task occurrence popup by click on the single task occurrence', async () => {
+        it('should able to successfully cancel a single occurrence based on the index and the schedled occurrence should get canceled', async () => {
             
             __testCase.TestName = "Edit and update the task occurrence";
 
@@ -165,15 +165,15 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             await browser.sleep(1000);
     
             //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1],singleOccurrence.taskOccurrenceNotes);
+            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[3],singleOccurrence.taskOccurrenceNotes);
             await browser.sleep(7000);
             
             //Verify the task occurrence status after completing
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex, singleOccurrence.expectedOcurrenceStatus[singleOccurrence.occurrenceIndex]);
+            await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedNumberOfTaskOccurrences-1);
         });
     });
 
-    describe('schedule multiple occurrence for a task and complete a single occurrence scheduled', async () => {
+    describe('schedule multiple occurrence for a task and cancel a single occurrence scheduled', async () => {
         
         let specFileData: SpecFile;
         let __data: Data;
@@ -250,7 +250,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
         });
     
     
-        it('should successfuly click on a task name toschedule for single occurrence', async () => {
+        it('should successfuly click on a task name toschedule for multiple occurrence', async () => {
             
             __testCase.TestName = "Schedule the task for the product task series";
 
@@ -296,7 +296,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             
         });
     
-       it('should able to successfully complete a single occurrence based on the index and match with occurrence status as complete', async () => {
+        it('should able to successfully cancel a single occurrence based on the index and the schedled occurrence should get canceled', async () => {
             
             __testCase.TestName = "Edit and update the task occurrence";
 
@@ -306,11 +306,14 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             await browser.sleep(1000);
     
             //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1], multiOccurrence.taskOccurrenceNotes);
+            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[3], multiOccurrence.taskOccurrenceNotes);
             await browser.sleep(7000);
             
-            //Verify the task occurrence status after completing
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus[multiOccurrence.occurrenceIndex]);
+            //Verify the number of task occurrences after cancel
+            await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences-1);
+            
+            //Verify the task occurrence status after cancel
+            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus);
             
         });
     });

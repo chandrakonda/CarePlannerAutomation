@@ -78,7 +78,7 @@ export class AppointmentLibrary {
                 return response;
             });
 
-            LogHelper.Logger.info("__checkinAppointment" + __checkinAppointment);
+            LogHelper.Logger.info("__checkinAppointment " + __checkinAppointment);
         } catch (error) {
             LogHelper.Logger.error(error);
             throw error;
