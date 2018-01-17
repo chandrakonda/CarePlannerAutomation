@@ -1,5 +1,5 @@
 import { CareplannerSchedulerPage, CareplannerClientAndPetDetailsPage, CareplannerTaskSchedulerPopup,
-    CareplannerTaskOcurrencePopup } from '../../applicationComponent';
+    CareplannerTaskOcurrencePopup,CareNoteDialog,AddOptionalTaskDialog } from '../../applicationComponent';
 
 
 export class Pages{
@@ -20,6 +20,13 @@ export class Pages{
         return new CareplannerTaskSchedulerPopup();
     }
 
+    public static get cpCareNoteDialog(): CareNoteDialog {
+        return new CareNoteDialog();
+    }
+
+    public static get cpAddOptionalTaskDialog(): AddOptionalTaskDialog {
+        return new AddOptionalTaskDialog();
+    }
         
 
 }

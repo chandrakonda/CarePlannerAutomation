@@ -6,6 +6,8 @@ export * from './applicationComponent/pageObjects/careplanner/cpScheduler.page'
 export * from './applicationComponent/pageObjects/careplanner/cpClientAndPetDetails.page'
 export * from './applicationComponent/pageObjects/careplanner/cpTaskOccurrencePopup.page'
 export * from './applicationComponent/pageObjects/careplanner/cpTaskSchedulerPopup.page'
+export * from './applicationComponent/pageObjects/careplanner/cpAddTaskDialog.page'
+export * from './applicationComponent/pageObjects/careplanner/cpCareNoteDialog.page'
 
 /**
  * Utilities classes under the Application Component
