@@ -7,7 +7,7 @@ export class CareplannerSchedulerPage{
     
     eleWJGrid = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']"));
     elePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']"));
-    elePrdTaskListText = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname' and not(parent::span)]"));
+    elePrdTaskListText = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']/text()[not(descendant::span)]"));
     eleScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[contains(@class,'wj-frozen-col')]/descendant::div[contains(@class,'unscheduled-cell') and not(*)]"));
     eleOverduePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='overduecount-cell']"));
     eleNonScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='occurrence-text']"));
@@ -77,14 +77,6 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    get productTaskListText() {
-        try {
-            return this.elePrdTaskListText;
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-        }
-    }
-
     async clickOnTaskByName(taskSeriesName: string) {
         try {
             let _taskSeriesName = taskSeriesName.slice(0, 23);
@@ -127,7 +119,8 @@ export class CareplannerSchedulerPage{
 
     getNumberOfTaskOccurrence(startPosition, endPosition) {
         try {
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
+            //let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
+            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >=" +startPosition +"and not(position() >" +endPosition +")]/descendant::li";
             return element.all(by.xpath(__elementXpath)).count()
             .then(count => {
                 FrameworkComponent.logHelper.info("Task occurrence count is : " + count);
@@ -140,7 +133,8 @@ export class CareplannerSchedulerPage{
 
     clickOnOccurrenceByIndex(startPosition, endPosition, index) {
         try {
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
+            //let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
+            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >=" +startPosition +"and not(position() >" +endPosition +")]/descendant::li";
             let occurrences = element.all(by.xpath(__elementXpath)).get(index).getWebElement();
             browser.actions().mouseMove(occurrences).click().perform();
         } catch (error) {
@@ -150,7 +144,8 @@ export class CareplannerSchedulerPage{
 
     getTaskOccurrenceStatus(startPosition, endPosition) {
         try {
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" + startPosition + "and not(position() >=" + endPosition + ")]/descendant::li";
+            //let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" + startPosition + "and not(position() >=" + endPosition + ")]/descendant::li";
+            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >=" + startPosition + "and not(position() >" + endPosition + ")]/descendant::li";
             let occurrence = element.all(by.xpath(__elementXpath));
             return occurrence.getAttribute("class").then((className) => {
                 return className;
