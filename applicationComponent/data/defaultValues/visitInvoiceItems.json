@@ -1,11 +1,11 @@
 {
     "products": [
         {
-            "InvoiceItemId": 94062,
+            "InvoiceItemId": 85037,
             "InvoiceItemTypeId": 1,
-            "PLNo": 101,
-            "SeqNo": 21,
-            "Code": "101.21",
+            "PLNo": 49,
+            "SeqNo": 270,
+            "Code": "49.270",
             "MinimumQty": 1,
             "DefaultQty": 1,
             "MaximumQty": 1

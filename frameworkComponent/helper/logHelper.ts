@@ -37,6 +37,6 @@ export class LogHelper {
     }
 
     public static getLogger() {
-        LogHelper.Logger=  log4js.getLogger("LOG");
+        LogHelper.Logger =  log4js.getLogger("LOG");        
     }
 }

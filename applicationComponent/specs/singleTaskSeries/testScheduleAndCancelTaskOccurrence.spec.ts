@@ -1,4 +1,4 @@
-import { LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from  '../../../applicationcomponent'
 import { browser } from 'protractor';
 
@@ -13,29 +13,29 @@ let singleOccurrence = {
     expectedNumberOfTaskOccurrences : 1,
     actualOccurrenceStatus : ['Overdue'],
     occurrenceIndex : 0,
-    expectedOcurrenceStatus : ['Skipped'],
-    taskOccurrenceNotes : 'Test notes for skip task occurrence'
+    expectedOcurrenceStatus : ['Canceled'],
+    taskOccurrenceNotes : 'Test notes for cancel task occurrence'
 }
 
 let multiOccurrence = {
     scheduleStartTime : 9,
     scheduleEndTime : 11,
     repeatEveryHour : 1,
-    scheduleInstructions : 'Test Instructions for the Multiple Occurrence',
+    scheduleInstructions : 'Test Instructions for the Multi Occurrences',
     expectedNumberOfTaskOccurrences : 3,
     actualOccurrenceStatus : ['Overdue', 'Overdue', 'Overdue'],
-    occurrenceIndex : 0,
-    expectedOcurrenceStatus : ['Skipped', 'Overdue', 'Overdue'],
-    taskOccurrenceNotes : 'Test notes for skip task occurrence'
+    occurrenceIndex : 1,
+    expectedOcurrenceStatus : ['Overdue', 'Canceled', 'Overdue'],
+    taskOccurrenceNotes : 'Test notes for cancel a task occurrence'
 }
 
 let occurrenceDetails:TaskOccurreceDetails;
 
 
-describe('schedule task occurrence and skip the task occurrence scheduled', async () => {
+describe('schedule task occurrence and cancel the task occurrence scheduled', async () => {
     
-    describe('schedule a single occurrence for a task and skip the occurrence scheduled', async () => {
-
+    describe('schedule a single occurrence for a task and cancel the occurrence scheduled', async () => {
+    
         let specFileData: SpecFile;
         let __data: Data;
         let __testCase: TestCase;
@@ -60,7 +60,7 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
         });
 
         afterEach(()=> {
-            LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             specFileData.TestCases.push(__testCase);
         });
 
@@ -68,7 +68,7 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
                 await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
-                LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+                FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';
                 __testCase.ExceptionDetails = error;
@@ -116,7 +116,7 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
 
             //Click on a task name under a category
             productTaskList = await Pages.cpSchedulerPage.productTaskList; 
-            LogHelper.Logger.info('Product Task List : ' + productTaskList);    
+            FrameworkComponent.logHelper.info('Product Task List : ' + productTaskList);    
             browser.Taskseriesname  = productTaskList[0];
 
             await Pages.cpSchedulerPage.clickOnTaskByName(browser.Taskseriesname.split('-')[0]);
@@ -155,25 +155,25 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
 
         });
     
-        it('should display the edit task occurrence popup by click on the single task occurrence', async () => {
+        it('should able to successfully cancel a single occurrence based on the index and the schedled occurrence should get canceled', async () => {
             
             __testCase.TestName = "Edit and update the task occurrence";
 
             //Click on the task occurrence to bring up the edit task occurrence popup
-            LogHelper.Logger.info("Click on the task occurrence by index : " + singleOccurrence.occurrenceIndex);
+            FrameworkComponent.logHelper.info("Click on the task occurrence by index : " + singleOccurrence.occurrenceIndex);
             await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex);
             await browser.sleep(1000);
     
             //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[2],singleOccurrence.taskOccurrenceNotes);
+            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[3],singleOccurrence.taskOccurrenceNotes);
             await browser.sleep(7000);
             
             //Verify the task occurrence status after completing
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex, singleOccurrence.expectedOcurrenceStatus[singleOccurrence.occurrenceIndex]);
+            await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedNumberOfTaskOccurrences-1);
         });
     });
 
-    describe('schedule multiple occurrence for a task and skip a single occurrence scheduled', async () => {
+    describe('schedule multiple occurrence for a task and cancel a single occurrence scheduled', async () => {
         
         let specFileData: SpecFile;
         let __data: Data;
@@ -199,7 +199,7 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
         });
 
         afterEach(()=> {
-            LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             specFileData.TestCases.push(__testCase);
         });
 
@@ -208,7 +208,7 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
                 await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
-                LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+                FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';
                 __testCase.ExceptionDetails = error;
@@ -250,13 +250,13 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
         });
     
     
-        it('should successfuly click on a task name toschedule for single occurrence', async () => {
+        it('should successfuly click on a task name toschedule for multiple occurrence', async () => {
             
             __testCase.TestName = "Schedule the task for the product task series";
 
             //Click on a task name under a category
             productTaskList = await Pages.cpSchedulerPage.productTaskList; 
-            LogHelper.Logger.info('Product Task List : ' + productTaskList);
+            FrameworkComponent.logHelper.info('Product Task List : ' + productTaskList);
             browser.Taskseriesname = productTaskList[0];
             
     
@@ -296,21 +296,24 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
             
         });
     
-        it('should able to successfully skip a single occurrence based on the index and match with occurrence status as skipped', async () => {
+        it('should able to successfully cancel a single occurrence based on the index and the schedled occurrence should get canceled', async () => {
             
             __testCase.TestName = "Edit and update the task occurrence";
 
             //Click on the task occurrence to bring up the edit task occurrence popup
-            LogHelper.Logger.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
+            FrameworkComponent.logHelper.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
             await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
             await browser.sleep(1000);
     
             //Edit & Update the status of the task occurrence
-            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[2], multiOccurrence.taskOccurrenceNotes);
+            await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[3], multiOccurrence.taskOccurrenceNotes);
             await browser.sleep(7000);
             
-            //Verify the task occurrence status after completing
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus[multiOccurrence.occurrenceIndex]);
+            //Verify the number of task occurrences after cancel
+            await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences-1);
+            
+            //Verify the task occurrence status after cancel
+            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus);
             
         });
     });

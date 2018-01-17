@@ -1,4 +1,4 @@
-import { LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from  '../../../applicationcomponent'
 import { browser } from 'protractor';
 
@@ -63,7 +63,7 @@ describe('schedule task occurrence and reschedule the task occurrence scheduled'
         });
 
         afterEach(()=> {
-            LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             specFileData.TestCases.push(__testCase);
         });
 
@@ -71,7 +71,7 @@ describe('schedule task occurrence and reschedule the task occurrence scheduled'
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
                 await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
-                LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+                FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';
                 __testCase.ExceptionDetails = error;
@@ -119,7 +119,7 @@ describe('schedule task occurrence and reschedule the task occurrence scheduled'
 
             //Click on a task name under a category
             productTaskList = await Pages.cpSchedulerPage.productTaskList; 
-            LogHelper.Logger.info('Product Task List : ' + productTaskList);    
+            FrameworkComponent.logHelper.info('Product Task List : ' + productTaskList);    
             browser.Taskseriesname  = productTaskList[0];
 
             await Pages.cpSchedulerPage.clickOnTaskByName(browser.Taskseriesname.split('-')[0]);
@@ -207,7 +207,7 @@ describe('schedule task occurrence and reschedule the task occurrence scheduled'
         });
 
         afterEach(()=> {
-            LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             specFileData.TestCases.push(__testCase);
         });
 
@@ -216,7 +216,7 @@ describe('schedule task occurrence and reschedule the task occurrence scheduled'
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
                 await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
-                LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+                FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';
                 __testCase.ExceptionDetails = error;
@@ -264,7 +264,7 @@ describe('schedule task occurrence and reschedule the task occurrence scheduled'
 
             //Click on a task name under a category
             productTaskList = await Pages.cpSchedulerPage.productTaskList; 
-            LogHelper.Logger.info('Product Task List : ' + productTaskList);
+            FrameworkComponent.logHelper.info('Product Task List : ' + productTaskList);
             browser.Taskseriesname = productTaskList[0];
             
     

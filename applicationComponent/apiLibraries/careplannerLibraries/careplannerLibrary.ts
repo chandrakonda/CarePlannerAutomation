@@ -1,4 +1,4 @@
-import { LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { GlobalValues, SpecFile, AuthorizationLibrary, ClientAndPatientLibrary, AppointmentLibrary, OrderLibrary, VisitLibrary, TestBase} from '../../../applicationComponent';
 import { browser } from 'protractor';
 
@@ -13,7 +13,7 @@ export class CarePlannerLibrary{
             __authLib = new AuthorizationLibrary();
             await __authLib.getAuthToken();
         } catch (error) {
-            LogHelper.Logger.info(error);
+            FrameworkComponent.logHelper.info(error);
             throw error;
         }
     }
@@ -21,7 +21,7 @@ export class CarePlannerLibrary{
     async createClientPetAddProduct(specData:SpecFile) {
         try {
             await browser.sleep(10000);
-            LogHelper.Logger.info(TestBase.GlobalData.GlobalAuthToken);
+            FrameworkComponent.logHelper.info(TestBase.GlobalData.GlobalAuthToken);
 
             __clientAndPatientLib = new ClientAndPatientLibrary();
             __appointmentLib = new AppointmentLibrary();  
@@ -40,7 +40,7 @@ export class CarePlannerLibrary{
             await __visitLib.getVisitDetailsByVisitId(specData);
             await __visitLib.getVisitResources(specData);
 
-            LogHelper.Logger.info("Creating URL and launching browser...");
+            FrameworkComponent.logHelper.info("Creating URL and launching browser...");
             let __url = TestBase.GlobalData.EnvironmentDetails.applicationurl +
                 '?hospitalId=' + TestBase.GlobalData.EnvironmentDetails.hospitalid +
                 '&patientId=' + specData.Data.Client.Patient.Id +
@@ -48,12 +48,12 @@ export class CarePlannerLibrary{
                 '&userName='+ TestBase.GlobalData.EnvironmentDetails.username +
                 '&userId=' + specData.UserId +  // chandrasekhar.konda .. need to implement
                 '&accessToken=' + AuthorizationLibrary.authTokenValue
-            LogHelper.Logger.info('URL: ', __url);
+            FrameworkComponent.logHelper.info('URL: ', __url);
             browser.get(__url);
             browser.sleep(5000);
 
         } catch (error) {
-            LogHelper.Logger.info(error);
+            FrameworkComponent.logHelper.info(error);
             throw error;
         }
     }
@@ -61,13 +61,13 @@ export class CarePlannerLibrary{
     // static async createClientPet(specData: SpecFile) {
     //     try {
     //         await browser.sleep(10000);
-    //         LogHelper.Logger.info(AuthorizationLibrary.authTokenValue);
+    //         FrameworkComponent.logHelper.info(AuthorizationLibrary.authTokenValue);
     //         __clientAndPatientController = new ClientAndPatientLibrary();
     //         await __clientAndPatientController.createClient(AuthorizationLibrary.authTokenValue,specData);  // create client
     //         // await __clientAndPatientController.createPatient(AuthController.authTokenValue,specData);  // create patient            
 
     //     } catch (error) {
-    //         LogHelper.Logger.info(error);
+    //         FrameworkComponent.logHelper.info(error);
     //         throw error;
     //     }
     // }
@@ -75,7 +75,7 @@ export class CarePlannerLibrary{
     // static async createClientPetAddProduct1(specData : SpecFile) {
     //     try {
     //         await browser.sleep(10000);
-    //         LogHelper.Logger.info("token value  "+ AuthorizationLibrary.authTokenValue);
+    //         FrameworkComponent.logHelper.info("token value  "+ AuthorizationLibrary.authTokenValue);
 
     //         let __clientAndPatientController = new ClientAndPatientLibrary();
     //         // let __appointmentController = new AppointmentController();
@@ -86,7 +86,7 @@ export class CarePlannerLibrary{
     //         await __clientAndPatientController.createPatient(AuthorizationLibrary.authTokenValue,specData);  // create patient
 
     //     } catch (error) {
-    //         LogHelper.Logger.info(error);
+    //         FrameworkComponent.logHelper.info(error);
     //         throw error;
 
     //     }

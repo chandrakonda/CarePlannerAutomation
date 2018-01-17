@@ -1,4 +1,4 @@
-import { LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { $, browser, element, by, By, ExpectedConditions } from "protractor";
 
 export class CareplannerClientAndPetDetailsPage{
@@ -35,33 +35,33 @@ export class CareplannerClientAndPetDetailsPage{
         try {
 
             return browser.getTitle().then(function (title) {
-            LogHelper.Logger.info("Page title is "+title);
+            FrameworkComponent.logHelper.info("Page title is "+title);
             return title;
             });
         }catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
     get clientName(): any {
         try {
             return this.eleclientName.getText().then(function(clientname) {
-                LogHelper.Logger.info("client name is "+clientname);
+                FrameworkComponent.logHelper.info("client name is "+clientname);
                 return clientname;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
     get petName(): any {
         try {
             return this.elepetName.getText().then(function(petname) {
-                LogHelper.Logger.info("pet name is "+petname);
+                FrameworkComponent.logHelper.info("pet name is "+petname);
                 return petname; 
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -71,18 +71,18 @@ export class CareplannerClientAndPetDetailsPage{
                 return gender.toLowerCase();
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
     get speciesName(): any {
         try {
             return this.eleSpecies.getText().then(function(species1) {
-                LogHelper.Logger.info("species name is "+species1);
+                FrameworkComponent.logHelper.info("species name is "+species1);
                 return species1;
             })
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -95,18 +95,18 @@ export class CareplannerClientAndPetDetailsPage{
             });
             return doctorName;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
     get drShift(): any {
         try {
             return this.eledrshift.getText().then(function(drshift) {
-                LogHelper.Logger.info("Dr shift is "+drshift);
+                FrameworkComponent.logHelper.info("Dr shift is "+drshift);
                 return drshift;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -114,11 +114,11 @@ export class CareplannerClientAndPetDetailsPage{
     get wellness(): any {
         try {
             return this.eleWellness.getText().then(function(welness) {
-                LogHelper.Logger.info("wellness is "+welness);
+                FrameworkComponent.logHelper.info("wellness is "+welness);
                 return welness;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 

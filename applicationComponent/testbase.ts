@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
-import { LogHelper, ReportHelper } from '../frameworkComponent'
+import { FrameworkComponent } from '../frameworkComponent'
 import { ReadAppConfig, GlobalValues, SpecFile, APILibraryController } from "../applicationComponent";
 
 export class TestBase {
@@ -14,10 +14,10 @@ export class TestBase {
 
     beforeExecution() {
         try{
-            LogHelper.getLogger(); // Set logger
+            FrameworkComponent.getLogger; // Set logger
             //browser.logger.info('**************On Prepare Started**************');
             //Adding Reporters to the execution
-            ReportHelper.pettyHtmlReporter();
+            FrameworkComponent.pettyHtmlReporter();
 
             // We are filtering config options based on environment and we are taking only filtered environment details
             TestBase.GlobalData.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
@@ -25,8 +25,8 @@ export class TestBase {
             TestBase.GlobalData.SpecFiles = new Array<SpecFile>();
             // Set token value 
             APILibraryController.careplannerLibrary.getAuthToken();
-        }catch (error){
-            LogHelper.Logger.info(error);           
+        } catch (error){
+            FrameworkComponent.logHelper.info(error);           
             throw error;
         }
     }
@@ -35,9 +35,9 @@ export class TestBase {
         try {
             // set global object as null 
             // close anything that is open
-            ReportHelper.JsonReporter();
+            FrameworkComponent.JsonReporter();
         } catch (error) {
-            LogHelper.Logger.info(error);           
+            FrameworkComponent.logHelper.info(error);           
             throw error;
         }
     }

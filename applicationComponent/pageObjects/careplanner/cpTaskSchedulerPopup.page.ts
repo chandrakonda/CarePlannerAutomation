@@ -1,4 +1,4 @@
-import { LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { element, by, browser, protractor } from 'protractor';
 
 
@@ -47,11 +47,11 @@ export class CareplannerTaskSchedulerPopup{
     get isPopupDisplayed() {
         try {
             return this.elePopup.isDisplayed().then((value)=>{
-                LogHelper.Logger.info("display status value is : " + value);
+                FrameworkComponent.logHelper.info("display status value is : " + value);
                 return value;
             });
         } catch (error) {
-            LogHelper.Logger.info(error);
+            FrameworkComponent.logHelper.info(error);
         }
     }
 
@@ -60,11 +60,11 @@ export class CareplannerTaskSchedulerPopup{
         try {
             switch (frequency) {
                 case 'Once':
-                    LogHelper.Logger.info("clicking on frequency toggle button : " + frequency);
+                    FrameworkComponent.logHelper.info("clicking on frequency toggle button : " + frequency);
                     this.eleFrequencyOnceToggleButton.click();
                     break;
                 case 'Recurring':
-                    LogHelper.Logger.info("clicking on frequency toggle button : " + frequency);
+                    FrameworkComponent.logHelper.info("clicking on frequency toggle button : " + frequency);
                     this.eleFrequencyRecurringToggleButton.click();
                     break;
                 default:
@@ -72,7 +72,7 @@ export class CareplannerTaskSchedulerPopup{
             }
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -83,7 +83,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleFrequencyOnceToggleButton.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -92,7 +92,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleFrequencyRecurringToggleButton.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -101,7 +101,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleHrsToggleButton.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -110,7 +110,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleMinutesToggleButton.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -118,11 +118,11 @@ export class CareplannerTaskSchedulerPopup{
         try {
             this.eleStartTimeTextBox.clear().then(() => {
                 this.eleStartTimeTextBox.sendKeys(startTime);
-                LogHelper.Logger.info("time entered as : " + startTime);
+                FrameworkComponent.logHelper.info("time entered as : " + startTime);
             });
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -133,7 +133,7 @@ export class CareplannerTaskSchedulerPopup{
                 return startTime;
             });            
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -143,7 +143,7 @@ export class CareplannerTaskSchedulerPopup{
                 return startTime;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -152,7 +152,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleEndTimeTextBox.sendKeys(endTime);
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
     get endTime(): any {
@@ -161,13 +161,13 @@ export class CareplannerTaskSchedulerPopup{
                 return endTime;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
     enterRepeatEveryHour(numberOfHours: number) {
         try {
-            LogHelper.Logger.info("Input hours in the field" + numberOfHours);
+            FrameworkComponent.logHelper.info("Input hours in the field" + numberOfHours);
             //this.ToggleRepeatEveryHours();
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.visibilityOf(this.eleRepeatEveryTextBox), 5000);
@@ -175,7 +175,7 @@ export class CareplannerTaskSchedulerPopup{
             browser.sleep(1000);
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -185,7 +185,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleRepeatEveryTextBox.sendKeys(minutes);
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
     get repeatEvery(): any {
@@ -194,7 +194,7 @@ export class CareplannerTaskSchedulerPopup{
                 return repeatEvery;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -202,11 +202,11 @@ export class CareplannerTaskSchedulerPopup{
         try {
             this.eleTimeTextBox.clear().then(() => {
                 this.eleTimeTextBox.sendKeys(time);
-                LogHelper.Logger.info("time entered as : " + time);
+                FrameworkComponent.logHelper.info("time entered as : " + time);
             });
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -219,7 +219,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleDateDropDownContent.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -232,7 +232,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleStartDateDropDownContent.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -245,7 +245,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleEndDateDropDownContent.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -257,7 +257,7 @@ export class CareplannerTaskSchedulerPopup{
             browser.sleep(1000)
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -269,7 +269,7 @@ export class CareplannerTaskSchedulerPopup{
             this.eleScheduleButton.click();
             return this;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -299,10 +299,10 @@ export class CareplannerTaskSchedulerPopup{
                     break;
                 }                
             }else{
-                LogHelper.Logger.error("Schedule Task Occurrence Popup not displayed");
+                FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
             }
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 }

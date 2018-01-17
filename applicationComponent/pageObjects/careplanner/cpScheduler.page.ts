@@ -1,4 +1,4 @@
-import { LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { ElementArrayFinder, ElementFinder } from "protractor/built/element";
 import { $, browser, element, by, By, ExpectedConditions, protractor } from "protractor";
 
@@ -7,6 +7,7 @@ export class CareplannerSchedulerPage{
     
     eleWJGrid = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']"));
     elePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']"));
+    elePrdTaskListText = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname' and not(parent::span)]"));
     eleScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[contains(@class,'wj-frozen-col')]/descendant::div[contains(@class,'unscheduled-cell') and not(*)]"));
     eleOverduePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='overduecount-cell']"));
     eleNonScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='occurrence-text']"));
@@ -19,8 +20,8 @@ export class CareplannerSchedulerPage{
                 return catCount;
             });
             return categoryCount;
-        } catch (error) {
-            LogHelper.Logger.error(error);
+        } catch (error) {        
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -31,7 +32,7 @@ export class CareplannerSchedulerPage{
             });
             return productTaskListCount;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -41,7 +42,7 @@ export class CareplannerSchedulerPage{
                 return taskCount;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -51,7 +52,7 @@ export class CareplannerSchedulerPage{
                 return taskCount;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -61,7 +62,7 @@ export class CareplannerSchedulerPage{
                 return catName;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -72,7 +73,15 @@ export class CareplannerSchedulerPage{
             });            
             return prdTaskList;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    get productTaskListText() {
+        try {
+            return this.elePrdTaskListText;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -84,7 +93,7 @@ export class CareplannerSchedulerPage{
             ele1.click();
             browser.sleep(3000);
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -99,7 +108,7 @@ export class CareplannerSchedulerPage{
                 }
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -107,12 +116,12 @@ export class CareplannerSchedulerPage{
         try {
             let __elementXpath: string = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/div/descendant::li/div[contains(@class,'occurance-icon')]";
             return element(by.xpath(__elementXpath)).isDisplayed().then(value => {
-                LogHelper.Logger.info("Tasks is scheduled " + value);
+                FrameworkComponent.logHelper.info("Tasks is scheduled " + value);
                 return value;
             });
         } catch (error) {
-            LogHelper.Logger.info("Unable to find scheduled task in grid. Please check exception details");
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.info("Unable to find scheduled task in grid. Please check exception details");
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -121,11 +130,11 @@ export class CareplannerSchedulerPage{
             let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
             return element.all(by.xpath(__elementXpath)).count()
             .then(count => {
-                LogHelper.Logger.info("Task occurrence count is : " + count);
+                FrameworkComponent.logHelper.info("Task occurrence count is : " + count);
                 return count;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -135,7 +144,7 @@ export class CareplannerSchedulerPage{
             let occurrences = element.all(by.xpath(__elementXpath)).get(index).getWebElement();
             browser.actions().mouseMove(occurrences).click().perform();
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -147,7 +156,7 @@ export class CareplannerSchedulerPage{
                 return className;
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -157,7 +166,7 @@ export class CareplannerSchedulerPage{
             let taskOccurrenceCount = await this.getNumberOfTaskOccurrence(startPosition, endPosition).then((count) => {return count});
             await expect(taskOccurrenceCount).toBe(expectedNumberOfTaskOccurrences);
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -165,11 +174,11 @@ export class CareplannerSchedulerPage{
         try {
             let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
             for (let index = 0; index < taskOccurrenceStatus.length; index++) {
-                LogHelper.Logger.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
+                FrameworkComponent.logHelper.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
                 await expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
             }
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -177,10 +186,10 @@ export class CareplannerSchedulerPage{
         try {
             browser.sleep(2000);
             let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
-            LogHelper.Logger.info("Status of the occurrence " + occurrenceIndex + " is : " + taskOccurrenceStatus[occurrenceIndex].split(' ')[0]);
+            FrameworkComponent.logHelper.info("Status of the occurrence " + occurrenceIndex + " is : " + taskOccurrenceStatus[occurrenceIndex].split(' ')[0]);
             expect(taskOccurrenceStatus[occurrenceIndex].split(' ')[0]).toEqual(expectedStatus);      
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -192,12 +201,12 @@ export class CareplannerSchedulerPage{
             } else if ( canceledIndex == 0 && expectedStatus[canceledIndex] == 'Canceled') {
                 expectedStatus.splice(canceledIndex, 1);
                 for (let index = 0; index < taskOccurrenceStatus.length; index++) {
-                    LogHelper.Logger.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
+                    FrameworkComponent.logHelper.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
                     expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
                 }
             }     
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -209,7 +218,7 @@ export class CareplannerSchedulerPage{
             let occurrences = element(by.xpath("")).getWebElement();
             browser.actions().mouseMove(occurrences).click().perform();
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 
@@ -219,10 +228,10 @@ export class CareplannerSchedulerPage{
             let endPosition = time + 2;
             browser.sleep(2000);
             let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
-            LogHelper.Logger.info("Status of the occurrence time '" + time + "' hour is : " + taskOccurrenceStatus[0].split(' ')[0]);
+            FrameworkComponent.logHelper.info("Status of the occurrence time '" + time + "' hour is : " + taskOccurrenceStatus[0].split(' ')[0]);
             expect(taskOccurrenceStatus[0].split(' ')[0]).toEqual(expectedStatus);      
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 

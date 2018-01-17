@@ -1,5 +1,5 @@
-import { Helper, LogHelper } from '../../../frameworkComponent';
-import { TestBase, SpecFile, TaskOccurrence, TaskSeries } from '../../../applicationComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
+import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product } from '../../../applicationComponent';
 import { AddingProductsModel } from '../../data/model/products_model';
 
 const path = require('path');
@@ -7,12 +7,12 @@ const path = require('path');
 export class OrderLibrary {
 
     constructor() {
-        LogHelper.Logger.info("*********** Order Controller ***********")
+        FrameworkComponent.logHelper.info("*********** Order Controller ***********")
     }
 
     async addOrderToVisit(specData:SpecFile, productFileName?: string) {
         try {
-            LogHelper.Logger.info("******************* Get Order To Visit ******************************");
+            FrameworkComponent.logHelper.info("******************* Get Order To Visit ******************************");
             let __responseList = [];
             let __rootObject: AddingProductsModel.RootObject;
             let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/putVisitInvoiceItems.json'));
@@ -21,7 +21,7 @@ export class OrderLibrary {
             else { __rootObject = new AddingProductsModel.RootObject(productFileName); }
             
             __rootObject.products.forEach(async product => {
-                LogHelper.Logger.log("*************** Adding Product to Order **************");
+                FrameworkComponent.logHelper.log("*************** Adding Product to Order **************");
                 //Set URL
                 __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Visits/" + specData.Data.Client.Patient.Visit.VisitId + "/VisitInvoiceItems";
                 //Set header values
@@ -29,19 +29,30 @@ export class OrderLibrary {
                 __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
 
                 __options.body = product
-                LogHelper.Logger.info("************product options **********")
-                LogHelper.Logger.info(__options);
-                LogHelper.Logger.info("************product options **********")
-                let __response = await Helper.apiServiceHelper.makeApiCall(__options);
-                let __resultValue = await Helper.apiServiceHelper.parseResultOfMakePostRequest(__response).then((result) => {
+                FrameworkComponent.logHelper.info("************product options **********")
+                FrameworkComponent.logHelper.info(__options);
+                FrameworkComponent.logHelper.info("************product options **********")
+                let __response = await FrameworkComponent.apiServiceHelper.makeApiCall(__options);
+                let __resultValue = await FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(__response).then((result) => {
                     return result;
                 });
                 __responseList.push(__resultValue);
+
+                let __product:Product = new Product();
+                __product.Code = product.Code;
+                __product.InvoiceItemId = product.InvoiceItemId;
+                __product.InvoiceItemTypeId = product.InvoiceItemTypeId;
+                __product.PLNo = product.PLNo;
+                __product.SeqNo = product.SeqNo;                
+                
+                specData.Data.Client.Patient.Visit.Product = __product;
+
+                FrameworkComponent.logHelper.info(specData.Data.Client.Patient.Visit.Product);
             });
     
-            LogHelper.Logger.info(__responseList);
+            FrameworkComponent.logHelper.info(__responseList);
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
@@ -49,15 +60,15 @@ export class OrderLibrary {
 
     async getTaskSeriesByOrderId(specData:SpecFile) {
         try {
-            LogHelper.Logger.info("*********** Get Task Series Details of Patient By Order ID  ***********");
+            FrameworkComponent.logHelper.info("*********** Get Task Series Details of Patient By Order ID  ***********");
             let __options = await this.getTaskSeriesByOrderIdOptions(specData);
-            LogHelper.Logger.info(__options);
+            FrameworkComponent.logHelper.info(__options);
             
-            let __response = await Helper.apiServiceHelper.makeApiCall(__options).then((response)=>{
+            let __response = await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response)=>{
                 return response;
             });
             
-            await Helper.apiServiceHelper.parseResultOfMakePostRequest(__response).then((response) => {
+            await FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(__response).then((response) => {
                 let __taskSeries:TaskSeries = new TaskSeries();
                 let __taskOccurrences:TaskOccurrence = new TaskOccurrence();
                 
@@ -66,20 +77,20 @@ export class OrderLibrary {
                     __taskSeries.TaskSeriesId = items.TaskSeriesId;
                     __taskOccurrences.TaskOccurrenceId =  items.TaskOccurrenceId;    
                     
-                    LogHelper.Logger.info("Task Series Id :'" + __taskSeries.TaskSeriesId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId + "'");
-                    LogHelper.Logger.info("Task Occurance Id :'" + __taskOccurrences.TaskOccurrenceId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId+ "'");
+                    FrameworkComponent.logHelper.info("Task Series Id :'" + __taskSeries.TaskSeriesId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId + "'");
+                    FrameworkComponent.logHelper.info("Task Occurance Id :'" + __taskOccurrences.TaskOccurrenceId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId+ "'");
                 }
-                specData.Data.Client.Patient.Visit.Product.TaskSeries.push(__taskSeries);
+                specData.Data.Client.Patient.Visit.Product.TaskSeries[0] = __taskSeries;
                 specData.Data.Client.Patient.Visit.Product.TaskSeries[0].TaskOccurrence.push(__taskOccurrences);
             });
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }       
     }
 
     getTaskSeriesByOrderIdOptions(specData:SpecFile) {
         try {
-            LogHelper.Logger.info('*********** Get Task Series By Order Id ***********');
+            FrameworkComponent.logHelper.info('*********** Get Task Series By Order Id ***********');
             let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getTaskSeriesByOrderId.json'));
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Orders/" + specData.Data.Client.Patient.Visit.VisitId + "/TaskSeries";
@@ -89,7 +100,7 @@ export class OrderLibrary {
             __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
             return __options;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }

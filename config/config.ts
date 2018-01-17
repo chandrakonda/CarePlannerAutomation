@@ -1,4 +1,4 @@
-import { LogHelper, ReportHelper } from '../frameworkComponent';
+import { FrameworkComponent } from '../frameworkComponent';
 import { TestBase, GlobalValues, SpecFile } from '../applicationComponent';
 
 import { Config, browser, protractor } from "protractor";
@@ -37,7 +37,7 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/smokeTests/testScheduleAndCompleteTaskOccurrence.spec.js",
+        "../applicationComponent/specs/multipleTaskSeries/testScheduleAndCompleteTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
         //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
@@ -57,7 +57,7 @@ export const config: Config = {
     beforeLaunch: () => {
         console.log('************Before Launch Started*******************');
 
-        LogHelper.loggerConfiguration();
+        FrameworkComponent.loggerConfiguration;
 
         console.log('************Before Launch Finished*******************');
     },
@@ -90,7 +90,7 @@ export const config: Config = {
     //    let __testBase = new TestBase();
 
     //     __testBase.afterExecution();  // set up reporters , loggers 
-        ReportHelper.JsonReporter();
+        FrameworkComponent.JsonReporter();
         // let __filePath = path.join(ReportHelper.FolderName,"JsonReport.json");
         // fs.writeFile(__filePath, JSON.stringify(TestBase.GlobalData), (err) => {
         //     if (err) {

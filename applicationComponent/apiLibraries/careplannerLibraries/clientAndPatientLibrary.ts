@@ -1,4 +1,4 @@
-import { Helper, LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { TestBase, SpecFile,Client,Patient } from '../../../applicationComponent';
 
 const path = require('path');
@@ -7,33 +7,33 @@ let __timestamp;
 export class ClientAndPatientLibrary {
 
     constructor() {
-        LogHelper.Logger.info("*********** ClientAndPatientController ***********");
+        FrameworkComponent.logHelper.info("*********** ClientAndPatientController ***********");
         __timestamp = new Date().getMinutes();
     }
     
     async createClient(specData: SpecFile) {
         try {
             let __client = new Client();
-            LogHelper.Logger.info("*********** Creating Client ***********");
+            FrameworkComponent.logHelper.info("*********** Creating Client ***********");
             let __options = this.setCreateClientOptions(specData);
-            LogHelper.Logger.info(__options);
+            FrameworkComponent.logHelper.info(__options);
             
             // Create client 
-            await Helper.apiServiceHelper.makeApiCall(__options).then((response) => {
+            await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response) => {
                 // parse response
-                Helper.apiServiceHelper.parseResultOfMakePostRequest(response).then((responseValue) => {
-                    //LogHelper.Logger.info(responseValue);
+                FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(response).then((responseValue) => {
+                    //FrameworkComponent.logHelper.info(responseValue);
                     __client.LastName = responseValue.LastName;
                     __client.Id =  responseValue.ClientId
                     specData.Data.Client = __client;
-                    LogHelper.Logger.info(specData.Data.Client);
+                    FrameworkComponent.logHelper.info(specData.Data.Client);
                     specData.Data.Client.Id = responseValue.ClientId;                    
                 });
             });
 
-            LogHelper.Logger.info("__clientResponse" + specData.Data.Client.LastName + "       " + specData.Data.Client.Id);
+            FrameworkComponent.logHelper.info("__clientResponse" + specData.Data.Client.LastName + "       " + specData.Data.Client.Id);
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
@@ -55,7 +55,7 @@ export class ClientAndPatientLibrary {
             __options.body.HospitalId = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             return __options;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
@@ -63,25 +63,25 @@ export class ClientAndPatientLibrary {
     async createPatient(specData: SpecFile) {
         try {
             let __patient = new Patient();
-            LogHelper.Logger.info("*********** Creating Patient ***********");
+            FrameworkComponent.logHelper.info("*********** Creating Patient ***********");
             let __options = this.setCreatePatientOptions(specData );
-            LogHelper.Logger.info(__options);
+            FrameworkComponent.logHelper.info(__options);
             __patient.Name  = __options.body.PatientName;
             
             // Create patient 
-            await Helper.apiServiceHelper.makeApiCall(__options).then((response) => {
+            await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response) => {
                 //return response;
-                Helper.apiServiceHelper.parseResultOfMakePostRequest(response).then((responseValue) => {
+                FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(response).then((responseValue) => {
                     //browser.patientID = responseValue;
                     __patient.Id = responseValue;
                     specData.Data.Client.Patient = __patient;
-                    LogHelper.Logger.info("PatientId: " + specData.Data.Client.Patient.Id);
+                    FrameworkComponent.logHelper.info("PatientId: " + specData.Data.Client.Patient.Id);
                     return responseValue;
                 });
             });
             
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
@@ -89,7 +89,7 @@ export class ClientAndPatientLibrary {
     setCreatePatientOptions(specData: SpecFile){
         try {
 
-            LogHelper.Logger.info("*********** Creating Patient ***********");
+            FrameworkComponent.logHelper.info("*********** Creating Patient ***********");
             let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postPatients.json'));
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint  + 'Patients'
@@ -106,7 +106,7 @@ export class ClientAndPatientLibrary {
             __options.body.HospitalId =TestBase.GlobalData.EnvironmentDetails.hospitalid;
             return __options;
         } catch (error) {
-            LogHelper.Logger.error(error);
+            FrameworkComponent.logHelper.error(error);
         }
     }
 }

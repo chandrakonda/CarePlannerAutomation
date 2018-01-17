@@ -1,4 +1,4 @@
-import { LogHelper } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../../frameworkComponent';
 import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from  '../../../applicationcomponent'
 import { browser } from 'protractor';
 
@@ -60,7 +60,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
         });
 
         afterEach(()=> {
-            LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             specFileData.TestCases.push(__testCase);
         });
 
@@ -68,7 +68,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
                 await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
-                LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+                FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';
                 __testCase.ExceptionDetails = error;
@@ -116,7 +116,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
 
             //Click on a task name under a category
             productTaskList = await Pages.cpSchedulerPage.productTaskList; 
-            LogHelper.Logger.info('Product Task List : ' + productTaskList);    
+            FrameworkComponent.logHelper.info('Product Task List : ' + productTaskList);    
             browser.Taskseriesname  = productTaskList[0];
 
             await Pages.cpSchedulerPage.clickOnTaskByName(browser.Taskseriesname.split('-')[0]);
@@ -160,7 +160,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             __testCase.TestName = "Edit and update the task occurrence";
 
             //Click on the task occurrence to bring up the edit task occurrence popup
-            LogHelper.Logger.info("Click on the task occurrence by index : " + singleOccurrence.occurrenceIndex);
+            FrameworkComponent.logHelper.info("Click on the task occurrence by index : " + singleOccurrence.occurrenceIndex);
             await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, singleOccurrence.occurrenceIndex);
             await browser.sleep(1000);
     
@@ -199,7 +199,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
         });
 
         afterEach(()=> {
-            LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+            FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             specFileData.TestCases.push(__testCase);
         });
 
@@ -208,7 +208,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
                 await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
-                LogHelper.Logger.info("TestCase Data " + __testCase.TestName);
+                FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';
                 __testCase.ExceptionDetails = error;
@@ -256,7 +256,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
 
             //Click on a task name under a category
             productTaskList = await Pages.cpSchedulerPage.productTaskList; 
-            LogHelper.Logger.info('Product Task List : ' + productTaskList);
+            FrameworkComponent.logHelper.info('Product Task List : ' + productTaskList);
             browser.Taskseriesname = productTaskList[0];
             
     
@@ -301,7 +301,7 @@ describe('schedule task occurrence and complete the task occurrence scheduled', 
             __testCase.TestName = "Edit and update the task occurrence";
 
             //Click on the task occurrence to bring up the edit task occurrence popup
-            LogHelper.Logger.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
+            FrameworkComponent.logHelper.info("Click on the task occurrence by index : " + multiOccurrence.occurrenceIndex);
             await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multiOccurrence.occurrenceIndex);
             await browser.sleep(1000);
     
