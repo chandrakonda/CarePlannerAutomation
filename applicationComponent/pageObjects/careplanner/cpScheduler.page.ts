@@ -79,8 +79,8 @@ export class CareplannerSchedulerPage{
 
     async clickOnTaskByName(taskSeriesName: string) {
         try {
-            let _taskSeriesName = taskSeriesName.slice(0, 23);
-            let _xpathValue: string = "//div[contains(@class,'wj-cell') and contains(@class,'wj-frozen') and not(contains(@class,'wj-group'))]/descendant::div[contains(@class,'itemname') and contains(text(),'" + _taskSeriesName + "')]";
+            let _taskSeriesName = taskSeriesName.slice(0, 23);            
+            let _xpathValue: string = "//div[contains(@class,'wj-cell') and contains(@class,'wj-frozen') and not(contains(@class,'wj-group'))]/descendant::div[contains(@class,'itemname') and normalize-space(text()) = '" + _taskSeriesName +"']";
             let ele1 = element(by.xpath(_xpathValue));
             ele1.click();
             browser.sleep(3000);
@@ -148,6 +148,7 @@ export class CareplannerSchedulerPage{
             let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >=" + startPosition + "and not(position() >" + endPosition + ")]/descendant::li";
             let occurrence = element.all(by.xpath(__elementXpath));
             return occurrence.getAttribute("class").then((className) => {
+                FrameworkComponent.logHelper.info("Status of all the task occurrence : " + className);
                 return className;
             });
         } catch (error) {
@@ -169,7 +170,7 @@ export class CareplannerSchedulerPage{
         try {
             let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
             for (let index = 0; index < taskOccurrenceStatus.length; index++) {
-                FrameworkComponent.logHelper.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
+                await FrameworkComponent.logHelper.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
                 await expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
             }
         } catch (error) {
@@ -210,7 +211,7 @@ export class CareplannerSchedulerPage{
             let startPosition = scheduledTime+1;
             let endPosition = scheduledTime + 2;
             let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" + startPosition +"and not(position() >=" + endPosition +")]/descendant::li";
-            let occurrences = element(by.xpath("")).getWebElement();
+            let occurrences = element(by.xpath(__elementXpath)).getWebElement();
             browser.actions().mouseMove(occurrences).click().perform();
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

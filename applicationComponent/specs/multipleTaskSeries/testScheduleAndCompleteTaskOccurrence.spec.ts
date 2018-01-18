@@ -4,69 +4,62 @@ import { browser } from 'protractor';
 
 let productTaskList, productTaskList1, startPosition:number, endPosition:number, taskOccurrenceCount:number;
 let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
-let singleOccurrence = {
-    taskNameToSchedule : 'Vitals_clonetest01',
-    scheduleStartTime : 9,
-    scheduleEndTime : 0,
-    repeatEveryHour : 0,
-    scheduleInstructions : 'Test Instructions for the Single Occurrence',
-    expectedNumberOfTaskOccurrences : 1,
-    actualOccurrenceStatus : ['Overdue'],
-    occurrenceIndex : 0,
-    expectedOcurrenceStatus : ['Complete'],
-    taskOccurrenceNotes : 'Test notes for complete task occurrence'
-}
 
-//New User input data Plan to implement the multiple task series 
-let single ={
+let multipleOccurrence ={
     taskSeriesList :[{
         taskSeriesName: 'Vitals',
+        occurrenceFrequency : 'recurring',
         scheduleStartTime : 9,
-        scheduleEndTime : 0,
-        repeatEveryHour : 0,
-        scheduleInstructions : 'Test Instructions for the Single Occurrence',
-        expectedNumberOfTaskOccurrences : 1,
-        actualOccurrenceStatus : ['Overdue'],
-        occurrenceIndex : 0,
-        expectedOcurrenceStatus : ['Complete'],
+        scheduleEndTime : 11,
+        repeatEveryHour : 1,
+        scheduleInstructions : 'Test Instructions for vitals',
+        expectedNumberOfTaskOccurrences : 3,
+        actualOccurrenceStatus : ['Overdue', 'Overdue','Overdue'],
+        occurrenceIndex : 1,
+        expectedOcurrenceStatus : ['Overdue','Complete', 'Overdue'],
         taskOccurrenceNotes : 'Test notes for complete task occurrence',
-        dataCollect : [{
-            temp : '',
-            respRate : '',
-            heartRate : '',            
-        }, {
-            temp : '',
-            respRate : '',
-            heartRate : '',            
-        }]
-    },
-    {
-        taskSeriesName: 'Vitals',
-        scheduleStartTime : 9,
-        scheduleEndTime : 0,
-        repeatEveryHour : 0,
-        scheduleInstructions : 'Test Instructions for the Single Occurrence',
-        expectedNumberOfTaskOccurrences : 1,
-        actualOccurrenceStatus : ['Overdue'],
-        occurrenceIndex : 0,
-        expectedOcurrenceStatus : ['Complete'],
+        dataCollect : [
+            {
+                temp : '',
+                respRate : '',
+                heartRate : ''
+            }, { 
+                temp : '',
+                respRate : '',
+                heartRate : ''
+            }, {
+
+            }]
+    },{
+        taskSeriesName: 'Offer food',
+        occurrenceFrequency : 'recurring',
+        scheduleStartTime : 12,
+        scheduleEndTime : 16,
+        repeatEveryHour : 2,
+        scheduleInstructions : 'Test Instructions for offer food',
+        expectedNumberOfTaskOccurrences : 3,
+        actualOccurrenceStatus : ['Overdue', 'Overdue','Overdue'],
+        occurrenceIndex : 2,
+        expectedOcurrenceStatus : ['Overdue','Overdue', 'Complete'],
         taskOccurrenceNotes : 'Test notes for complete task occurrence',
-        dataCollect : [{
-            temp : '',
-            respRate : '',
-            heartRate : '',            
-        }, {
-            temp : '',
-            respRate : '',
-            heartRate : '',            
-        }]
-    }
-]
+        dataCollect : [
+            {
+                temp : '',
+                respRate : '',
+                heartRate : ''
+            }, { 
+                temp : '',
+                respRate : '',
+                heartRate : ''
+            }, {
+
+            }]
+    }]
 }
 
 let occurrenceDetails:TaskOccurreceDetails;
 
-describe('add a multi series product and schedule a task for a specific series', async () => {
+describe('add a multi series product and schedule a task for a specific series', () => {
 
     describe('single occurrence', async() => {
         let specFileData: SpecFile;
@@ -140,59 +133,69 @@ describe('add a multi series product and schedule a task for a specific series',
             //Verify the Task Count
             await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(7);
 
-            
+            productTaskList = getProductTaskList(await Pages.cpSchedulerPage.productTaskList); 
         });
         
-        it('should successfuly click on a task name toschedule for single occurrence', async () => {
-            
-            __testCase.TestName = "Schedule the task for the product task series";
+        it('should successfuly schedule a task and verify the status', () => {
+            try
+            {                
+                //Click on a task name under a category
+                multipleOccurrence.taskSeriesList.forEach(taskSeries => {
+                    occurrenceDetails = {
+                        frequency : taskSeries.occurrenceFrequency,
+                        scheduleStartTime : taskSeries.scheduleStartTime,
+                        scheduleStartDate : '',
+                        scheduleEndTime : taskSeries.scheduleEndTime,
+                        scheduleEndDate : '',
+                        repeatHours: taskSeries.repeatEveryHour,
+                        taskInstructions : taskSeries.scheduleInstructions
+                    } as TaskOccurreceDetails;
+                    
+                    __testCase.TestName = 'Schedule the task for the task series "'+ taskSeries.taskSeriesName +'"';
 
-            //Click on a task name under a category
-            productTaskList = await Pages.cpSchedulerPage.productTaskList; 
-            
-            getProductTaskList(productTaskList);
+                    Pages.cpSchedulerPage.clickOnTaskByName(taskSeries.taskSeriesName);
+                    browser.sleep(1000);                    
+                    
+                    //Schedule the Task Occurrence with the Occurrence Details
+                    Pages.cpTaskSchedulerPopup.scheduleTaskOccurrence(occurrenceDetails);
+                    browser.sleep(5000);
 
-            FrameworkComponent.logHelper.info('Product Task List : ' + productTaskList);    
+                    //Get the task index to set the row index
+                    let _taskIndex = productTaskList.indexOf(taskSeries.taskSeriesName);
+                    
+                    //Get the Row Index Details based on the Task Details
+                    setPosition(_taskIndex);
             
-            await Pages.cpSchedulerPage.clickOnTaskByName(singleOccurrence.taskNameToSchedule);
-            await browser.sleep(1000);
+                    //Verify the number of task occurrences created
+                    Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, taskSeries.expectedNumberOfTaskOccurrences)
             
-            
-
-            occurrenceDetails = {
-                frequency : "once",
-                scheduleStartTime : singleOccurrence.scheduleStartTime,
-                scheduleStartDate : '',
-                scheduleEndTime : singleOccurrence.scheduleEndTime,
-                scheduleEndDate : '',
-                repeatHours: singleOccurrence.repeatEveryHour,
-                taskInstructions : singleOccurrence.scheduleInstructions
-            } as TaskOccurreceDetails;
-    
-            //Schedule the Task Occurrence with the Occurrence Details
-            await Pages.cpTaskSchedulerPopup.scheduleTaskOccurrence(occurrenceDetails);
-            await browser.sleep(5000);
+                    //Verify the status of the created Occurrences
+                    Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, taskSeries.actualOccurrenceStatus);
+                });
+            } catch (error){
+                FrameworkComponent.logHelper.error(error);
+            }
         });
 
-        it('should match with the expected occurrence status', async () => {
-    
-            __testCase.TestName =  "Verify the Occurrence created and scheduled";
+        it('complete the occurrence', async () => {
 
-            //Get the task index to set the row index
-            let _taskIndex = productTaskList.indexOf(singleOccurrence.taskNameToSchedule);
+            for (let index = 1; index < multipleOccurrence.taskSeriesList.length; index++) {
+                
+                __testCase.TestName = "Edit and update the task occurrence";
 
-            
-           // let __occurrenceStatus = Pages.cpSchedulerPage.getOccurrenceStatusByCurrentTime(singleOccurrence.scheduleStartTime);
-            
-            //Get the Row Index Details based on the Task Details
-            setPosition(_taskIndex);
-    
-            //Verify the number of task occurrences created
-            await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, singleOccurrence.expectedNumberOfTaskOccurrences)
-    
-            //Verify the status of the created Occurrences
-           // await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, __occurrenceStatus);
-
+                //Click on the task occurrence to bring up the edit task occurrence popup
+                FrameworkComponent.logHelper.info("Click on the task occurrence by index : " + multipleOccurrence.taskSeriesList[index].occurrenceIndex);
+                await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, multipleOccurrence.taskSeriesList[index].occurrenceIndex);
+                await browser.sleep(1000);
+        
+                //Edit & Update the status of the task occurrence
+                await Pages.cpTaskOccurrencePopup.updateOccurrenceDetails(taskUpdateStatus[1], multipleOccurrence.taskSeriesList[index].taskOccurrenceNotes);
+                await browser.sleep(7000);
+                
+                //Verify the task occurrence status after completing
+                await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, multipleOccurrence.taskSeriesList[index].occurrenceIndex, multipleOccurrence.taskSeriesList[index].expectedOcurrenceStatus[multipleOccurrence.taskSeriesList[index].occurrenceIndex]);
+            }
+           
         });
     });
 
@@ -211,11 +214,10 @@ describe('add a multi series product and schedule a task for a specific series',
         }
     }
 
-    function getProductTaskList(__prdTaskList:string[]) {
-        
+    function getProductTaskList(__prdTaskList:any):any  {    
         for (let index = 0; index < __prdTaskList.length; index++) {
             __prdTaskList[index] = __prdTaskList[index].split('-')[0].trim(); 
         }
-        productTaskList = __prdTaskList;
+        return __prdTaskList;
     }
 });

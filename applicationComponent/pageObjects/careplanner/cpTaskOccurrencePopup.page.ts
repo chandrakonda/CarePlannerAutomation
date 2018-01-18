@@ -32,6 +32,8 @@ export class CareplannerTaskOcurrencePopup {
 
     eleCloseIcon = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[contains(@class,'closeButton')]"));
 
+    eleTaskObservationList = element.all(by.xpath("//*[contains(@id,'taskSeriesObservations')]/parent::div/descendant::label"));
+
     get isPopupDisplayed() {
         try {
             FrameworkComponent.logHelper.info("Check the Popup is displayed");
@@ -276,6 +278,59 @@ export class CareplannerTaskOcurrencePopup {
                 }
                 browser.sleep(1000);
             }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    getTaskObservartionListAvailable(){
+        try {
+            let taskObservationList = this.eleTaskObservationList.getText().then((observationList) => {
+                return observationList;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    getTaskObservationEnabledStatus(__observationName) : any {
+        try {
+            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ __observationName +"']]";
+            let __observationStatus =element(by.xpath(__elementXpath)).getAttribute('value').then((status) => {
+                return status;
+            });
+            
+            return __observationStatus;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    selectTaskObservationByName(__observationName){
+        try {
+            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ __observationName +"']]";
+            let __observationStatus = this.getTaskObservationEnabledStatus(__observationName);
+
+            if(__observationStatus === false){
+                let __observation = element.all(by.xpath(__elementXpath)).getWebElement();
+                browser.actions().mouseMove(__observation).click().perform();
+            }
+            
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    unselectTaskObservationByName(__observationName){
+        try {
+            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ __observationName +"']]";
+            let __observationStatus = this.getTaskObservationEnabledStatus(__observationName);
+
+            if(__observationStatus === true){
+                let __observation = element.all(by.xpath(__elementXpath)).getWebElement();
+                browser.actions().mouseMove(__observation).click().perform();
+            }
+            
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
         }
