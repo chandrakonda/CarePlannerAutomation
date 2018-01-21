@@ -65,7 +65,8 @@ export class ClientAndPatientLibrary {
             let __patient = new Patient();
             FrameworkComponent.logHelper.info("*********** Creating Patient ***********");
             let __options = this.setCreatePatientOptions(specData );
-            FrameworkComponent.logHelper.info(__options);
+            FrameworkComponent.logHelper.info(__options);     
+            __patient.Species  = __options.body.BreedNames;       
             __patient.Name  = __options.body.PatientName;
             
             // Create patient 
