@@ -37,7 +37,7 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/multipleTaskSeries/testScheduleAndCompleteTaskOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence.spec - Copy.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
         //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
@@ -76,7 +76,7 @@ export const config: Config = {
         browser.waitForAngularEnabled(false);
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(50000);
-        browser.baseUrl = TestBase.GlobalData.EnvironmentDetails.applicationurl;
+    //    browser.baseUrl = TestBase.GlobalData.EnvironmentDetails.applicationurl;
 
         console.log('**************On Prepare Exit**************');
 

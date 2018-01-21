@@ -14,6 +14,7 @@ export class GlobalValues {
     LogFileLocation: string;
     SpecFiles: SpecFile[];
     ResultFolder : string;
+
     
     //Logger : any;
 }
@@ -49,6 +50,7 @@ export class SpecFile {
     Data: Data;
     ApplicationUrl : string;
     UserId : string;
+    UserData : any;
 
 }
 
