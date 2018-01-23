@@ -1,6 +1,7 @@
 import { FrameworkComponent } from '../frameworkComponent';
 import { TestBase, GlobalValues, SpecFile } from '../applicationComponent';
 import { Config, browser, protractor } from "protractor";
+import {JSONReporter} from '../customReport';
 let path = require('path');
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
@@ -36,7 +37,9 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/multipleTaskSeries/taskObservationSample.spec.js",
+        "../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence.spec - Copy.js",
+        "../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence2.spec.js",
+        
         // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
         //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
@@ -79,7 +82,8 @@ export const config: Config = {
             browser.waitForAngularEnabled(false);
             browser.manage().window().maximize();
             browser.manage().timeouts().implicitlyWait(50000);
-
+            let __jsonreport = new JSONReporter();
+            jasmine.getEnv().addReporter(__jsonreport);
             console.log('**************On Prepare Exit**************');
         } catch (error) {
             console.log('Error in OnPrepare ' + error);

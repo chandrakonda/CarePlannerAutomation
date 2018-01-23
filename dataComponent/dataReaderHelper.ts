@@ -11,14 +11,14 @@ export class DataReader {
 
     // Idea is to have single data file for each spec.
     // All data related to spec will be loaded into that
-    loadSchedulerSpecData(specData: SpecFile, fiileName: string, folderName?: string) {
-        // import json file file 
-        try {
-            specData.UserData = this.loadJsonData(fiileName, folderName);            
-        } catch (error) {
-            throw error;
-        }
-    }
+    // loadSchedulerSpecData(specData: SpecFile, fiileName: string, folderName?: string) {
+    //     // import json file file 
+    //     try {
+    //         specData.UserData = this.loadJsonData(fiileName, folderName);            
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
 
     loadJsonData(fiileName: string, folderName?: string): any {
         let __userData: any;
@@ -32,23 +32,12 @@ export class DataReader {
             }
         }
         catch (error) {
-
+            throw error;
         }
-
         return __userData;
     }
 
-    
-    static loadAPIUserData(fiileName: string, folderName?: string): any {
-        try {
-            // Load specific data 
-            let __datareader = new DataReader();
-            return __datareader.loadJsonData(fiileName, folderName);
 
-        } catch (error) {
-            throw error;
-        }
-    }
 
     static loadAPITemplates(fileName: string): any {
         try {
@@ -75,3 +64,14 @@ export class DataReader {
 
 
 }
+    
+    // static loadAPIUserData(fiileName: string, folderName?: string): any {
+    //     try {
+    //         // Load specific data 
+    //         let __datareader = new DataReader();
+    //         return __datareader.loadJsonData(fiileName, folderName);
+
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }

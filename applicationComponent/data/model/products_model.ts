@@ -22,7 +22,8 @@ export namespace AddingProductsModel {
             try {
                 // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values
                 if (productFileName != null) {
-                    let __productToBeAdded = DataReader.loadAPIUserData(productFileName)///require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
+                    let __datareader = new DataReader();
+                    let __productToBeAdded = __datareader.loadJsonData(productFileName)///require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
                     this.products = __productToBeAdded.products;
                 }
                 else {

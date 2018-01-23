@@ -15,7 +15,7 @@ export class GlobalValues {
     LogFileLocation: string;
     SpecFiles: SpecFile[];
     ResultFolder : string;
-
+    LoadedSpecFileCount : any;
     
     //Logger : any;
 }

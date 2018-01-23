@@ -19,7 +19,7 @@ describe('add a multi series product and schedule a task for a specific series',
             __dataReader = new DataReader();
             __data = new Data();
             specFileData.Data = __data;
-            __dataReader.loadSchedulerSpecData(specFileData,'optionalProduct.data');
+            specFileData.UserData  = __dataReader.loadJsonData('optionalProduct.data');
             FrameworkComponent.logHelper.info(specFileData.UserData);
             specFileData.TestCases = new Array<TestCase>();
             
