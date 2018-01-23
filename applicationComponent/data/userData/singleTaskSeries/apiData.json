@@ -1,0 +1,106 @@
+{
+    "apidata": [
+        {
+            "AppointmentId": 0,
+            "HospitalId": 153,
+            "AppointmentTypeId": 1,
+            "ClientId": 304006080,
+            "StatusId": 9,
+            "IsDraftAppointment": false,
+            "IsWalkInAppointment": true,
+            "PetAppointments": [
+                {
+                    "PetAppointmentId": 0,
+                    "PatientId": 314760073,
+                    "StatusId": 14,
+                    "StartTime": "2017-11-07T17:03:05.424Z",
+                    "EndTime": "2017-11-7T23:59:00.00Z",
+                    "AppointmentTypeId": 1,
+                    "HospitalId": 153,
+                    "ProviderTypeId": 100,
+                    "DepartmentAppointmentTypeId": 201,
+                    "ReasonIds": "9",
+                    "Resource": {
+                        "UserId": "232800233",
+                        "ResourceId": "233000253"
+                    }
+                }
+            ]
+        },
+        {
+            "ClientId": 0,
+            "HospitalId": 153,
+            "FirstName": "Steve",
+            "LastName": "Rogers",
+            "IsCorporateClient": false,
+            "StatusId": 1,
+            "ClientPhones": [
+                {
+                    "PhoneId": 0,
+                    "PhoneLabel": "Home",
+                    "ClientId": 0,
+                    "PhoneNumber": "6758909090",
+                    "IsPrimaryContact": true,
+                    "HospitalId": 153,
+                    "PhoneTypeId": 1,
+                    "OptInStatusId": 1,
+                    "OptInStatusChangedDate": "2017-04-08T00:08:42.703Z",
+                    "IsMobileNumber": true
+                }
+            ]
+        },
+        {
+            "ClientId": "",
+            "HospitalId": 153,
+            "PatientId": 0,
+            "PatientName": "Lilly",
+            "GenderId": 2,
+            "SpeciesId": 1,
+            "SpeciesName": "Canine",
+            "DateOfBirth": "2015-06-16T00:00:00",
+            "Breeds": [
+                {
+                    "BreedId": 10,
+                    "BreedName": "Canaan Dog",
+                    "BreedRank": 1,
+                    "Description": "Canaan Dog",
+                    "GeriatricAge": null,
+                    "SpeciesId": 1,
+                    "ZoasisBreed": "CANA"
+                }
+            ],
+            "Appearances": [
+                {
+                    "AppearanceId": 163,
+                    "AppearanceName": "Black And Beige",
+                    "AppearanceTypeId": 1,
+                    "AppearanceValue": "Black And Beige",
+                    "IsActive": true
+                }
+            ],
+            "Weight": 3.5,
+            "WeightUnit": "lb",
+            "EnteredDate": "2017-10-30T00:00:00",
+            "HasModifiedWeight": false,
+            "Photo": null,
+            "Neutered": "Neutered",
+            "Sex": {
+                "SexId": 1,
+                "Name": "Male"
+            },
+            "HasWellnessMembership": false,
+            "DOBAgeAsEntered": "6/16/2015",
+            "PetAge": "2y 4m",
+            "IsPatientCareClubMember": false,
+            "BreedNames": "Canaan Dog",
+            "IsNewPatient": true,
+            "Notes": "This dog will bite you ",
+            "IsModified": null,
+            "NumberOfActiveMemberships": 0,
+            "EarliestMembershipStartDate": null,
+            "HasPhoto": false,
+            "EnteredWeight": "3.5 lb",
+            "EnteredWeightUnitId": 3
+        }
+    ]
+}

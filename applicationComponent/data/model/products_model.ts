@@ -1,6 +1,8 @@
 // import { APIServiceHelper } from '../../../frameworkComponent';
 import { TestBase } from '../../../applicationComponent';
 import { browser } from 'protractor';
+import { DataReader } from '../../../dataComponent/dataReaderHelper';
+
 
 const path = require('path');
 
@@ -17,15 +19,19 @@ export namespace AddingProductsModel {
     export class RootObject {
         products: ProductCollection[];
         constructor(productFileName?: string) {
-            // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values
-            if (productFileName != null) {
-                let __productToBeAdded = require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
-                this.products = __productToBeAdded.products;
-            }
-            else {
-                let __productToBeAdded =  TestBase.GlobalData.ApiDefaultValues.VisitInvoiceItemsBillOnceValues.products ; //require(path.join(__dirname, '..//..//..//data//defaultValues//visitInvoiceItems.json'));
-                
-                this.products =__productToBeAdded;  //__productToBeAdded.products;
+            try {
+                // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values
+                if (productFileName != null) {
+                    let __productToBeAdded = DataReader.loadAPIUserData(productFileName)///require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
+                    this.products = __productToBeAdded.products;
+                }
+                else {
+                    let __productToBeAdded = TestBase.GlobalData.ApiDefaultValues.VisitInvoiceItemsBillOnceValues.products; //require(path.join(__dirname, '..//..//..//data//defaultValues//visitInvoiceItems.json'));
+
+                    this.products = __productToBeAdded;  //__productToBeAdded.products;
+                }
+            } catch (error) {
+                throw error;
             }
         }
     }
@@ -35,7 +41,7 @@ export namespace AddingProductsModel {
     //     let response1 = [];
     //     let rootObject: RootObject;
     //     let options = require(path.join(__dirname, '..//..//..//data//apiTemplates//putVisitInvoiceItems.json'));
-        
+
     //     if (productFileName == null) { rootObject = new RootObject(); }
     //     else { rootObject = new RootObject(productFileName); }
 

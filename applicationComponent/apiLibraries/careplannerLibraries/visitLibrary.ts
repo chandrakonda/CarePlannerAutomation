@@ -1,6 +1,7 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
 import { TestBase, SpecFile, TaskOccurrence, TaskSeries } from '../../../applicationComponent';
 const path = require('path');
+import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 export class VisitLibrary {
 
@@ -39,7 +40,7 @@ export class VisitLibrary {
         try {
             FrameworkComponent.logHelper.info('*********** Gettting Visit Details and Invoice Items by Visit Id ***********');
             
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getOrders.json'));
+            let __options =  DataReader.loadAPITemplates("getOrders"); // require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getOrders.json'));
     
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'Orders';
@@ -88,7 +89,7 @@ export class VisitLibrary {
     getVisitResourcesOptions(specData:SpecFile){
         try {
             FrameworkComponent.logHelper.info('**************************** Getting User Details *************************************');
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getVisitResources.json'));
+            let __options = DataReader.loadAPITemplates("getVisitResources"); //require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getVisitResources.json'));
     
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'VisitResources';

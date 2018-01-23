@@ -1,5 +1,6 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
 import { TestBase, SpecFile, Visit } from '../../../applicationComponent';
+import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 const path = require('path');
 import * as moment from 'moment';
@@ -36,7 +37,9 @@ export class AppointmentLibrary {
         try {
             FrameworkComponent.logHelper.info("*********** Create New Appointment ***********");
             // Load Template
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postBookAppointment.json'));
+           // let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postBookAppointment.json'));
+           // load API Templates
+            let __options = DataReader.loadAPITemplates("postBookAppointment");//require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postBookAppointment.json'));
     
             var startTime = moment().subtract(6, 'hours').toISOString();
             var endtime = moment().subtract(4, 'hours').toISOString();
@@ -89,7 +92,7 @@ export class AppointmentLibrary {
         try {
             FrameworkComponent.logHelper.info("*********** Check In Appointment ***********");
             // Load Template
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postCheckInAppointment.json'));
+            let __options = DataReader.loadAPITemplates("postCheckInAppointment"); //require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postCheckInAppointment.json'));
     
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'CheckInAppointment';
@@ -145,7 +148,7 @@ export class AppointmentLibrary {
             FrameworkComponent.logHelper.info('*********** Getting visit details ***********');
             
             // Load Template
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getCheckedInPatientDetails.json'));
+            let __options = DataReader.loadAPITemplates("getCheckedInPatientDetails"); // require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getCheckedInPatientDetails.json'));
     
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'CheckedInPatients';

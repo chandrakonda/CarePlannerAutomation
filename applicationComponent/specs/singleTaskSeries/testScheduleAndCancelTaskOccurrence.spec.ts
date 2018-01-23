@@ -67,7 +67,7 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
         it('Data set up and client pet details' , async () => {
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
-                await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
+                await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);   
                 FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';
@@ -207,7 +207,7 @@ describe('schedule task occurrence and cancel the task occurrence scheduled', as
         it('Data set up and client pet details' , async () => {
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
-                await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
+                await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);   
                 FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';

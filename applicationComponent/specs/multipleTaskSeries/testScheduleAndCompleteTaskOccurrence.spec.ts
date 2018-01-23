@@ -93,7 +93,7 @@ describe('add a multi series product and schedule a task for a specific series',
         it('Data set up and client pet details' , async () => {
             try {
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
-                await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
+                await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);   
                 FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
             } catch (error) {
                 __testCase.TestResult = 'Fail';

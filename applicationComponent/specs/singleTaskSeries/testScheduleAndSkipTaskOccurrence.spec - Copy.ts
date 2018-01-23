@@ -1,7 +1,7 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
 import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from  '../../../applicationcomponent'
 import { browser } from 'protractor';
-import {DataReader} from '../../../dataComponent/dataReader'
+import {DataReader} from '../../../dataComponent/dataReaderHelper';
 
 let productTaskList, startPosition:number, endPosition:number, taskOccurrenceCount:number;
 let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
@@ -65,34 +65,34 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
             specFileData.TestCases.push(__testCase);
         });
 
-        it('Data set up and client pet details' , async () => {
-            let specDataReader = new DataReader();
-            specDataReader.loadSpecData(specFileData,"scheduleSkipTask","singleTaskSeries");
-            console.log("Test this ");
-            
-            // occurrenceDetails = {
-            //     frequency : "once",
-            //     scheduleStartTime : singleOccurrence.scheduleStartTime,
-            //     scheduleStartDate : '',
-            //     scheduleEndTime : singleOccurrence.scheduleEndTime,
-            //     scheduleEndDate : '',
-            //     repeatHours: singleOccurrence.repeatEveryHour,
-            //     taskInstructions : singleOccurrence.scheduleInstructions
-            // } as TaskOccurreceDetails;
-    
-        });
-
-
         // it('Data set up and client pet details' , async () => {
-        //     try {
-        //         __testCase.TestName = 'API Calls for scheduling a task in careplanner';
-        //         await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
-        //         FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
-        //     } catch (error) {
-        //         __testCase.TestResult = 'Fail';
-        //         __testCase.ExceptionDetails = error;
-        //     }
+        //     let specDataReader = new DataReader();
+        //     specDataReader.loadSpecData(specFileData,"scheduleSkipTask","singleTaskSeries");
+        //     console.log("Test this ");
+            
+        //     // occurrenceDetails = {
+        //     //     frequency : "once",
+        //     //     scheduleStartTime : singleOccurrence.scheduleStartTime,
+        //     //     scheduleStartDate : '',
+        //     //     scheduleEndTime : singleOccurrence.scheduleEndTime,
+        //     //     scheduleEndDate : '',
+        //     //     repeatHours: singleOccurrence.repeatEveryHour,
+        //     //     taskInstructions : singleOccurrence.scheduleInstructions
+        //     // } as TaskOccurreceDetails;
+    
         // });
+
+
+        it('Data set up and client pet details' , async () => {
+            try {
+                __testCase.TestName = 'API Calls for scheduling a task in careplanner';
+                await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);   
+                FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
+            } catch (error) {
+                __testCase.TestResult = 'Fail';
+                __testCase.ExceptionDetails = error;
+            }
+        });
 
         // it('should display the client & pet details matched', async () => {
         //     __testCase.TestName = "Verify the Client and Patient Details from UI";
@@ -226,7 +226,7 @@ describe('schedule task occurrence and skip the task occurrence scheduled', asyn
         // it('Data set up and client pet details' , async () => {
         //     try {
         //         __testCase.TestName = 'API Calls for scheduling a task in careplanner';
-        //         await APILibraryController.careplannerLibrary.createClientPetAddProduct(specFileData);   
+        //         await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);   
         //         FrameworkComponent.logHelper.info("TestCase Data " + __testCase.TestName);
         //     } catch (error) {
         //         __testCase.TestResult = 'Fail';

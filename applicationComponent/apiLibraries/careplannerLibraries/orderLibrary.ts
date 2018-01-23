@@ -1,6 +1,7 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
 import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product } from '../../../applicationComponent';
 import { AddingProductsModel } from '../../data/model/products_model';
+import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 const path = require('path');
 
@@ -15,7 +16,7 @@ export class OrderLibrary {
             FrameworkComponent.logHelper.info("******************* Get Order To Visit ******************************");
             let __responseList = [];
             let __rootObject: AddingProductsModel.RootObject;
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/putVisitInvoiceItems.json'));
+            let __options = DataReader.loadAPITemplates("putVisitInvoiceItems"); // require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/putVisitInvoiceItems.json'));
     
             if (productFileName == null) { __rootObject = new AddingProductsModel.RootObject(); }
             else { __rootObject = new AddingProductsModel.RootObject(productFileName); }
@@ -91,7 +92,7 @@ export class OrderLibrary {
     getTaskSeriesByOrderIdOptions(specData:SpecFile) {
         try {
             FrameworkComponent.logHelper.info('*********** Get Task Series By Order Id ***********');
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getTaskSeriesByOrderId.json'));
+            let __options =  DataReader.loadAPITemplates("getTaskSeriesByOrderId"); // require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getTaskSeriesByOrderId.json'));
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Orders/" + specData.Data.Client.Patient.Visit.VisitId + "/TaskSeries";
     

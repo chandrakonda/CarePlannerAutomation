@@ -1,5 +1,6 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
 import { TestBase } from '../../../applicationComponent';
+import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 const path = require('path');
 const requestPromise = require('request-promise');
@@ -31,7 +32,7 @@ export class AuthorizationLibrary{
     authTokenOptions() {
         try {
             FrameworkComponent.logHelper.info("*********** Getting Auth Token value ***********");
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/authToken.json'));
+            let __options = DataReader.loadAPITemplates("authToken"); //require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/authToken.json'));
             __options.url = TestBase.GlobalData.EnvironmentDetails.authorizationurl;           
             return __options;
         } catch (error) {

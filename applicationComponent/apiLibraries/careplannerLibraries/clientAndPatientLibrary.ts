@@ -1,6 +1,6 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
 import { TestBase, SpecFile,Client,Patient } from '../../../applicationComponent';
-
+import { DataReader } from '../../../dataComponent/dataReaderHelper';
 const path = require('path');
 let __timestamp;
 
@@ -37,11 +37,10 @@ export class ClientAndPatientLibrary {
             throw error;
         }
     }
-    
 
     setCreateClientOptions(specData: SpecFile) {
         try {
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postClients.json'));
+            let __options = DataReader.loadAPITemplates("postClients"); //require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postClients.json'));
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'Clients';
             //Set header values
@@ -91,9 +90,10 @@ export class ClientAndPatientLibrary {
         try {
 
             FrameworkComponent.logHelper.info("*********** Creating Patient ***********");
-            let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postPatients.json'));
+            let __options = DataReader.loadAPITemplates("postPatients");
+            //require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postPatients.json'));
             //Set URL
-            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint  + 'Patients'
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint  + 'Patients';
 
             //Set header values
             __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;

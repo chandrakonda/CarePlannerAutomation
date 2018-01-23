@@ -1,5 +1,6 @@
 
 import { ReadAppConfig } from '../../applicationComponent';
+import {DataReader} from '../../dataComponent/dataReaderHelper';
 const path = require('path');
 
 export class GlobalValues {
@@ -27,10 +28,11 @@ class DefaultValues{
     VisitInvoiceItemsBillOnceValues : any;
 
     constructor(){
-        this.PostClientsDefaultValues = require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/postClients.json'));
-        this.PostPatientsDefaultValues = require(path.join(__dirname, '../../../applicationComponent/data/defaultValues//postPatients.json'));
-        this.BookAppointmentValues = require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/bookAppointment.json'));
-        this.VisitInvoiceItemsBillOnceValues =  require(path.join(__dirname, '../../../applicationComponent/data/defaultValues//visitInvoiceItems.json'));
+        //this.PostClientsDefaultValues = require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/postClients.json'));
+        this.PostClientsDefaultValues = DataReader.loadAPIDefaultValues('postClients');// require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/postClients.json'));
+        this.PostPatientsDefaultValues = DataReader.loadAPIDefaultValues('postPatients'); //require(path.join(__dirname, '../../../applicationComponent/data/defaultValues//postPatients.json'));
+        this.BookAppointmentValues = DataReader.loadAPIDefaultValues('bookAppointment'); //require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/bookAppointment.json'));
+        this.VisitInvoiceItemsBillOnceValues =   DataReader.loadAPIDefaultValues('visitInvoiceItems'); //require(path.join(__dirname, '../../../applicationComponent/data/defaultValues//visitInvoiceItems.json'));
     }
 
     ///PostClientsDefaultValues : any = this.__postclient;
@@ -51,8 +53,9 @@ export class SpecFile {
     ApplicationUrl : string;
     UserId : string;
     UserData : any;
-
+    ApiData: any;
 }
+
 
 export class TestCase {
     TestName: string;
