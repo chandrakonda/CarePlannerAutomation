@@ -1,6 +1,6 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { TestBase } from '../../../applicationComponent';
-import { DataReader } from '../../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../frameworkComponent';
+import { TestBase } from '../../applicationComponent';
+import { DataReader } from '../../dataComponent/dataReaderHelper';
 
 const path = require('path');
 const requestPromise = require('request-promise');
@@ -26,13 +26,17 @@ export class AuthorizationLibrary{
             FrameworkComponent.logHelper.info("*******************************************************");
             AuthorizationLibrary.authTokenValue = __response1.access_token;
             TestBase.GlobalData.GlobalAuthToken = "bearer " + __response1.access_token;
-        } catch (e) { throw e; }
+        } catch (error) { 
+            FrameworkComponent.logHelper.error(error);
+            throw error; 
+        }
     }
 
     authTokenOptions() {
         try {
             FrameworkComponent.logHelper.info("*********** Getting Auth Token value ***********");
-            let __options = DataReader.loadAPITemplates("authToken"); //require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/authToken.json'));
+            //let __options = require(path.join(__dirname, '../../../applicationComponent/data/apiTemplates/authToken.json'));
+            let __options = DataReader.loadAPITemplates('authToken');
             __options.url = TestBase.GlobalData.EnvironmentDetails.authorizationurl;           
             return __options;
         } catch (error) {

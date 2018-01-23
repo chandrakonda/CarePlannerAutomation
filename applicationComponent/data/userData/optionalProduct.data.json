@@ -2,26 +2,27 @@
     "TaskSeries" :[
         {
         "taskSeriesName": "Vitals",
+        "occurrenceFrequency" : "recurring",
         "scheduleStartTime" : 9,
-        "scheduleEndTime" : 0,
-        "repeatEveryHour" : 0,
-        "scheduleInstructions" : "Test Instructions for the Single Occurrence",
-        "expectedNumberOfTaskOccurrences" : 1,
-        "actualOccurrenceStatus" : ["Overdue"],
-        "occurrenceIndex" : 0,
-        "expectedOcurrenceStatus" : ["Complete"],
+        "scheduleEndTime" : 11,
+        "repeatEveryHour" : 1,
+        "scheduleInstructions" : "Test Instructions for vitals",
+        "expectedNumberOfTaskOccurrences" : 3,
+        "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
+        "occurrenceIndex" : 1,
+        "expectedOcurrenceStatus" : ["Overdue","Complete", "Overdue"],
         "taskOccurrenceNotes" : "Test notes for complete task occurrence",
-        "dataCollect" : [
+        "observationList" : ["Temp", "Resp rate", "Heart rate"],
+        "observationValues" : [
             {
-            "temp" : "",
-            "respRate" : "",
-            "heartRate" : ""           
-        }, {
-            "temp" : "",
-            "respRate" : "",
-            "heartRate" : ""          
-        }
-    ]
+            "Temp" : "100",
+            "Resp rate" : "123",
+            "Heart rate" : "76"           
+        },{
+            "Temp" : "102",
+            "Resp rate" : "124",
+            "Heart rate" : "89"           
+        }]
     }
     
 ]

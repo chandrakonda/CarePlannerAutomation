@@ -1,6 +1,6 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { ElementArrayFinder, ElementFinder } from "protractor/built/element";
+import { FrameworkComponent } from '../../frameworkComponent';
 import { $, browser, element, by, By, ExpectedConditions, protractor } from "protractor";
+import { Pages } from './pages';
 
 
 export class CareplannerSchedulerPage{
@@ -231,4 +231,18 @@ export class CareplannerSchedulerPage{
         }
     }
 
+    ScheduleTaskWithObservations(taskSeriesInfo){
+        try {
+           
+            this.clickOnTaskByName(taskSeriesInfo.taskSeriesName);
+
+            browser.sleep(1000);  
+
+            Pages.cpTaskSchedulerPopup.scheduleTaskWithObservationDetails(taskSeriesInfo);
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    
 }

@@ -1,6 +1,6 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { TestBase, SpecFile, Visit } from '../../../applicationComponent';
-import { DataReader } from '../../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../frameworkComponent';
+import { TestBase, SpecFile, Visit } from '../../applicationComponent';
+import { DataReader } from '../../dataComponent/dataReaderHelper';
 
 const path = require('path');
 import * as moment from 'moment';

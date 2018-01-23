@@ -1,5 +1,5 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { GlobalValues, SpecFile, AuthorizationLibrary, ClientAndPatientLibrary, AppointmentLibrary, OrderLibrary, VisitLibrary, TestBase} from '../../../applicationComponent';
+import { FrameworkComponent } from '../../frameworkComponent';
+import { GlobalValues, SpecFile, AuthorizationLibrary, ClientAndPatientLibrary, AppointmentLibrary, OrderLibrary, VisitLibrary, TestBase} from '../../applicationComponent';
 import { browser } from 'protractor';
 
 let __authLib:AuthorizationLibrary, __clientAndPatientLib:ClientAndPatientLibrary, __appointmentLib:AppointmentLibrary, __orderLib:OrderLibrary, __visitLib:VisitLibrary;

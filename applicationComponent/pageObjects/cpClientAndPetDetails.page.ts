@@ -1,4 +1,4 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../frameworkComponent';
 import { $, browser, element, by, By, ExpectedConditions } from "protractor";
 
 export class CareplannerClientAndPetDetailsPage{

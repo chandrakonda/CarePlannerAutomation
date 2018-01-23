@@ -1,4 +1,5 @@
 import { SpecFile, Data, TestCase, TestBase } from '../applicationcomponent'
+import { FrameworkComponent } from '../frameworkComponent/helper/frameworkHelper';
 
 // there can be multiple files for each json for API
 // there can be run time data
@@ -13,7 +14,7 @@ export class DataReader {
     loadSchedulerSpecData(specData: SpecFile, fiileName: string, folderName?: string) {
         // import json file file 
         try {
-            specData.UserData = this.loadJsonData(fiileName, folderName);
+            specData.UserData = this.loadJsonData(fiileName, folderName);            
         } catch (error) {
             throw error;
         }

@@ -1,6 +1,5 @@
 import { FrameworkComponent } from '../frameworkComponent';
 import { TestBase, GlobalValues, SpecFile } from '../applicationComponent';
-
 import { Config, browser, protractor } from "protractor";
 let path = require('path');
 import * as fs from 'fs';
@@ -37,7 +36,7 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence.spec - Copy.js",
+        "../applicationComponent/specs/multipleTaskSeries/taskObservationSample.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
         //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
@@ -55,53 +54,51 @@ export const config: Config = {
     allScriptsTimeOut: 99999,
 
     beforeLaunch: () => {
+       try {
         console.log('************Before Launch Started*******************');
 
         FrameworkComponent.loggerConfiguration;
 
         console.log('************Before Launch Finished*******************');
+       } catch (error) {
+           console.log('Unable to configure logger ' + error);
+           throw error;
+       }
     },
 
 
     onPrepare: () => {
-        //browser.logger = LogHelper.getLogger();
-       // console.log('**************On Prepare Started**************');
-        //LogHelper.Logger.info('**************On Prepare Started**************');
-        let __testBase = new TestBase();
+        try {
+            console.log('**************On Prepare Started**************');
+            let __testBase = new TestBase();
 
-        __testBase.beforeExecution();  // set up reporters , loggers 
-       
-        browser.allScriptsTimeout = 99999;
-        browser.ignoreSynchronization = false;
-        browser.waitForAngularEnabled(false);
-        browser.manage().window().maximize();
-        browser.manage().timeouts().implicitlyWait(50000);
-    //    browser.baseUrl = TestBase.GlobalData.EnvironmentDetails.applicationurl;
+            __testBase.beforeExecution();  // set up reporters , loggers 
+        
+            browser.allScriptsTimeout = 99999;
+            browser.ignoreSynchronization = false;
+            browser.waitForAngularEnabled(false);
+            browser.manage().window().maximize();
+            browser.manage().timeouts().implicitlyWait(50000);
 
-        console.log('**************On Prepare Exit**************');
-
+            console.log('**************On Prepare Exit**************');
+        } catch (error) {
+            console.log('Error in OnPrepare ' + error);
+            throw error;
+        }
     },
 
     onComplete: () => {
-        console.log('*************onComplete- Place holder ******************');
+        try {
+            FrameworkComponent.logHelper.info('*************onComplete- Place holder ******************');
 
-        // Write data to JSON file
-
-    //    let __testBase = new TestBase();
-
-    //     __testBase.afterExecution();  // set up reporters , loggers 
-        FrameworkComponent.JsonReporter();
-        // let __filePath = path.join(ReportHelper.FolderName,"JsonReport.json");
-        // fs.writeFile(__filePath, JSON.stringify(TestBase.GlobalData), (err) => {
-        //     if (err) {
-        //         console.error(err);
-        //         return;
-        //     };
-        //     console.log("File has been created");
-        // });
-
-        browser.driver.quit();
-
+            // Write data to JSON file    
+            FrameworkComponent.JsonReporter();
+    
+            browser.driver.quit();
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
     },
 
     onCleanUp: () => {

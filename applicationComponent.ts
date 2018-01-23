@@ -2,12 +2,12 @@
  * Page Object Classes under the Application Component
  */
 export * from './applicationComponent/pageObjects/pages'
-export * from './applicationComponent/pageObjects/careplanner/cpScheduler.page'
-export * from './applicationComponent/pageObjects/careplanner/cpClientAndPetDetails.page'
-export * from './applicationComponent/pageObjects/careplanner/cpTaskOccurrencePopup.page'
-export * from './applicationComponent/pageObjects/careplanner/cpTaskSchedulerPopup.page'
-export * from './applicationComponent/pageObjects/careplanner/cpAddTaskDialog.page'
-export * from './applicationComponent/pageObjects/careplanner/cpCareNoteDialog.page'
+export * from './applicationComponent/pageObjects/cpScheduler.page'
+export * from './applicationComponent/pageObjects/cpClientAndPetDetails.page'
+export * from './applicationComponent/pageObjects/cpTaskOccurrencePopup.page'
+export * from './applicationComponent/pageObjects/cpTaskSchedulerPopup.page'
+export * from './applicationComponent/pageObjects/cpAddTaskDialog.page'
+export * from './applicationComponent/pageObjects/cpCareNoteDialog.page'
 
 /**
  * Utilities classes under the Application Component
@@ -20,12 +20,12 @@ export * from './applicationComponent/testbase'
  * API Controllers classes under the Application Component --> API Libraries
  */
 export * from './applicationComponent/apiLibraries/APILibraryController'
-export * from './applicationComponent/apiLibraries/careplannerLibraries/careplannerLibrary'
-export * from './applicationComponent/apiLibraries/careplannerLibraries/authLibrary'
-export * from './applicationComponent/apiLibraries/careplannerLibraries/ClientAndPatientLibrary'
-export * from './applicationComponent/apiLibraries/careplannerLibraries/AppointmentLibrary'
-export * from './applicationComponent/apiLibraries/careplannerLibraries/OrderLibrary'
-export * from './applicationComponent/apiLibraries/careplannerLibraries/VisitLibrary'
+export * from './applicationComponent/apiLibraries/careplannerLibrary'
+export * from './applicationComponent/apiLibraries/authLibrary'
+export * from './applicationComponent/apiLibraries/ClientAndPatientLibrary'
+export * from './applicationComponent/apiLibraries/AppointmentLibrary'
+export * from './applicationComponent/apiLibraries/OrderLibrary'
+export * from './applicationComponent/apiLibraries/VisitLibrary'
 // /**
 //  * API Service classes under the Application Component  --> API Libraries
 //  */

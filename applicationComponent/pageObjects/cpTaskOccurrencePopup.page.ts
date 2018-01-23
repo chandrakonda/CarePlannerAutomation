@@ -1,4 +1,4 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../frameworkComponent';
 import { element, by, browser, protractor, ExpectedConditions } from 'protractor';
 
 
@@ -32,7 +32,6 @@ export class CareplannerTaskOcurrencePopup {
 
     eleCloseIcon = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[contains(@class,'closeButton')]"));
 
-    eleTaskObservationList = element.all(by.xpath("//*[contains(@id,'taskSeriesObservations')]/parent::div/descendant::label"));
 
     get isPopupDisplayed() {
         try {
@@ -283,57 +282,57 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    getTaskObservartionListAvailable(){
+    updateOccurrenceDetailsWithObservations(status, taskSeriesInfo, time?){
         try {
-            let taskObservationList = this.eleTaskObservationList.getText().then((observationList) => {
-                return observationList;
+            
+            if(this.isPopupDisplayed){
+                browser.sleep(1000);
+                switch (status.toLowerCase()) {
+                    case "completed":
+                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
+                            .selectStatusInToggleButton(status)
+                            .enterCompletedTime(this.getScheduledTime)
+                            .selectCompletedDate()
+                        break;
+                    case "skipped":
+                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
+                            .selectStatusInToggleButton(status)
+                        break;
+                    case "canceled":
+                            this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
+                            .selectStatusInToggleButton(status)
+                        break;
+                    case "planned":
+                    case "rescheduled":
+                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
+                            .selectStatusInToggleButton(status)
+                            .enterScheduledTime(time)
+                            .selectScheduledDate()
+                        break;
+                    default:
+                        break;
+                }
+                browser.sleep(1000);
+
+                this.enterObservationDetails(taskSeriesInfo);
+                this.clickOnSave();
+            }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    enterObservationDetails(taskSeriesInfo){
+        try {
+            taskSeriesInfo.observationList.forEach(observationName => {
+                let observationXpath = "//*[@id='Occurrencesries']/descendant::input[ancestor::div[contains(@class,'finding-observation')]/descendant::div[contains(text(),'"+ observationName +"')]]";
+                let observationField = element(by.xpath(observationXpath));
+                observationField.clear().then(() => {
+                    observationField.sendKeys(taskSeriesInfo.observationValues[taskSeriesInfo.occurrenceIndex].observationName);
+                });
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
         }
     }
-
-    getTaskObservationEnabledStatus(__observationName) : any {
-        try {
-            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ __observationName +"']]";
-            let __observationStatus =element(by.xpath(__elementXpath)).getAttribute('value').then((status) => {
-                return status;
-            });
-            
-            return __observationStatus;
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-        }
-    }
-
-    selectTaskObservationByName(__observationName){
-        try {
-            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ __observationName +"']]";
-            let __observationStatus = this.getTaskObservationEnabledStatus(__observationName);
-
-            if(__observationStatus === false){
-                let __observation = element.all(by.xpath(__elementXpath)).getWebElement();
-                browser.actions().mouseMove(__observation).click().perform();
-            }
-            
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-        }
-    }
-
-    unselectTaskObservationByName(__observationName){
-        try {
-            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ __observationName +"']]";
-            let __observationStatus = this.getTaskObservationEnabledStatus(__observationName);
-
-            if(__observationStatus === true){
-                let __observation = element.all(by.xpath(__elementXpath)).getWebElement();
-                browser.actions().mouseMove(__observation).click().perform();
-            }
-            
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-        }
-    }
-   
 }

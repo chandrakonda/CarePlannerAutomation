@@ -1,4 +1,4 @@
-import { CarePlannerLibrary } from "../../applicationComponent";
+import { CarePlannerLibrary } from "./careplannerLibrary";
 
 export class APILibraryController {
 

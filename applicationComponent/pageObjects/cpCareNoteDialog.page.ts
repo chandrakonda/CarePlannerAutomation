@@ -1,5 +1,5 @@
 import { $, browser, element, by, By, ExpectedConditions } from "protractor";
-import { FrameworkComponent } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../frameworkComponent';
 
 export class CareNoteDialog {
     //Page Elements

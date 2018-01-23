@@ -1,6 +1,6 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { TestBase, SpecFile,Client,Patient } from '../../../applicationComponent';
-import { DataReader } from '../../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../frameworkComponent';
+import { TestBase, SpecFile,Client,Patient } from '../../applicationComponent';
+import { DataReader } from '../../dataComponent/dataReaderHelper';
 const path = require('path');
 let __timestamp;
 

@@ -1,7 +1,7 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product } from '../../../applicationComponent';
-import { AddingProductsModel } from '../../data/model/products_model';
-import { DataReader } from '../../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../frameworkComponent';
+import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product } from '../../applicationComponent';
+import { AddingProductsModel } from '../data/model/products_model';
+import { DataReader } from '../../dataComponent/dataReaderHelper';
 
 const path = require('path');
 

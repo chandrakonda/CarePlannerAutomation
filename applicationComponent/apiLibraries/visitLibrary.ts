@@ -1,7 +1,7 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { TestBase, SpecFile, TaskOccurrence, TaskSeries } from '../../../applicationComponent';
+import { FrameworkComponent } from '../../frameworkComponent';
+import { TestBase, SpecFile, TaskOccurrence, TaskSeries } from '../../applicationComponent';
 const path = require('path');
-import { DataReader } from '../../../dataComponent/dataReaderHelper';
+import { DataReader } from '../../dataComponent/dataReaderHelper';
 
 export class VisitLibrary {
 

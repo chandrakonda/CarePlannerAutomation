@@ -1,4 +1,4 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
+import { FrameworkComponent } from '../../frameworkComponent';
 import { element, by, browser, protractor } from 'protractor';
 
 
@@ -42,6 +42,13 @@ export class CareplannerTaskSchedulerPopup{
     eleTimeSensitiveCheckBox = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='Overdue']"));
     eleScheduleButton = element(by.xpath(".//button[text()='Cancel']/following-sibling::button"));
 
+    eleCancelButton = element(by.xpath(".//button[text()='Cancel']"));
+
+    eleTaskObservationList = element.all(by.xpath("//*[contains(@id,'taskSeriesObservations')]/parent::div/descendant::label"));
+    eleTaskObservationSelectedList = element.all(by.xpath("//*[contains(@id,'taskSeriesObservations')]/parent::div/descendant::label[preceding-sibling::input[@type='checkbox' and @value='true']]"));
+    eleTaskObservationUnSelectedList = element.all(by.xpath("//*[contains(@id,'taskSeriesObservations')]/parent::div/descendant::label[preceding-sibling::input[@type='checkbox' and @value='false']]"));
+    eleAccordionIcon = element.all(by.xpath("//*[@id='accordion_title']/div[contains(@class,'title')]"));
+    eleActiveAccordionIcon = element.all(by.xpath("//*[@id='accordion_title']/div[contains(@class,'title active')]"));
     
 
     get isPopupDisplayed() {
@@ -297,12 +304,229 @@ export class CareplannerTaskSchedulerPopup{
                     break;
                     default:
                     break;
-                }                
+                }         
             }else{
                 FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
             }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    getTaskObservartionListAvailable(){
+        try {
+            let taskObservationList = this.eleTaskObservationList.getText().then((observationList) => {
+                return observationList;
+            });
+            return taskObservationList;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    getSelectedTaskObservationList(){
+        try {
+            let selectedObservationList = this.eleTaskObservationSelectedList.getText().then((selectedList) => {                
+                return selectedList;
+            });
+            return selectedObservationList;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    getUnSelectedTaskObservationList(){
+        try {
+            let unselectedObservationList =this.eleTaskObservationUnSelectedList.getText().then((unselectedList) => {
+                return unselectedList;
+            });
+            return unselectedObservationList;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    getTaskObservationEnabledStatus(observationName) {
+        try {
+            let __val;
+            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ observationName +"']]";
+            __val = element(by.xpath(__elementXpath)).getAttribute('value');
+            return __val;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    selectTaskObservationByName(observationName){
+        try {
+            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[text()='"+ observationName +"']";
+            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
+            this.getTaskObservationEnabledStatus(observationName).then((status) => {
+                if(status === 'false'){
+                    element(by.xpath(__elementXpath)).click();
+                    browser.sleep(1000);
+                }
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    unselectTaskObservationByName(observationName){
+        try {
+            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[text()='"+ observationName +"']";
+            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
+            this.getTaskObservationEnabledStatus(observationName).then((status) => {
+                FrameworkComponent.logHelper.info("Check box Status is : " + status);
+                if(status === 'true'){
+                    // let observationElement = element(by.xpath(__elementXpath1)).getWebElement();
+                    // browser.actions().mouseMove(observationElement).click().perform();
+                    element(by.xpath(__elementXpath)).click();                    
+                }
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    selectListOfTaskObservationsByName(taskObservationList){
+        try {
+            taskObservationList.forEach(taskObservation => {
+                this.selectTaskObservationByName(taskObservation);
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    unselectListOfTaskObservationsByName(taskObservationList){
+        try {
+            taskObservationList.forEach(taskObservation => {
+                FrameworkComponent.logHelper.info('Task Observation Name need to be unselected' + taskObservation);
+                this.unselectTaskObservationByName(taskObservation);
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+   
+
+    expandScheduler(){
+        try {
+           if(this.isPopupDisplayed){
+               let __schedulerIcon = this.eleAccordionIcon.get(0).getWebElement();
+               __schedulerIcon.click();
+               browser.sleep(2000);
+           }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    IsSchedulerExpanded(){
+        try {
+            let __taskObservationIcon = this.eleAccordionIcon.get(0).getAttribute('class');
+            expect(__taskObservationIcon).toContain('active');
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    expandTaskObservation(){
+        try {
+            if(this.isPopupDisplayed){
+                let __taskObservationIcon = this.eleAccordionIcon.get(1).getWebElement();
+                __taskObservationIcon.click();
+                browser.sleep(2000);
+            }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    IsTaskObservationExpanded(){
+        try {
+            let __taskObservationIcon = this.eleAccordionIcon.get(1).getAttribute('class');
+            FrameworkComponent.logHelper.info(__taskObservationIcon);
+            expect(__taskObservationIcon).toContain('active');
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    closeTaskSchedulerPopup(){
+        try {
+            this.eleCancelButton.click();
+            return this;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    scheduleTaskWithObservationDetails(taskSeries){
+        try {
+            let occurrenceDetails = {
+                frequency : taskSeries.occurrenceFrequency,
+                scheduleStartTime : taskSeries.scheduleStartTime,
+                scheduleStartDate : '',
+                scheduleEndTime : taskSeries.scheduleEndTime,
+                scheduleEndDate : '',
+                repeatHours: taskSeries.repeatEveryHour,
+                taskInstructions : taskSeries.scheduleInstructions
+            } as TaskOccurreceDetails;
+
+            if(this.isPopupDisplayed){
+                switch(occurrenceDetails.frequency.toLowerCase()){
+                    case "once":
+                        this.toggleFrequencyOnce()
+                            .enterTimeForSingleOccurrence(occurrenceDetails.scheduleStartTime)
+                            .selectDateForSingleOccurrence()
+                            .enterInstructions(occurrenceDetails.taskInstructions);
+                    break;
+                    case "recurring":
+                        this.toggleFrequencyRecurring()
+                            .enterStartTime(occurrenceDetails.scheduleStartTime)
+                            .selectStartDate()
+                            .enterRepeatEveryHour(occurrenceDetails.repeatHours)
+                            .enterEndTime(occurrenceDetails.scheduleEndTime)
+                            .selectEndDate()
+                            .enterInstructions(occurrenceDetails.taskInstructions);
+                    break;
+                    default:
+                    break;
+                }
+                this.defineObservationValues(taskSeries.observationList);
+
+                this.clickScheduleButton();
+            } else {
+                FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
+            }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
+    defineObservationValues(taskObservationList){
+        try {
+
+            this.expandTaskObservation();
+
+            this.IsTaskObservationExpanded();
+
+            this.eleTaskObservationList.getText().then((observationList) => {
+                for (let index = 0; index < observationList.length; index++) {                    
+                    if(taskObservationList.includes(observationList[index])) {
+                        this.selectTaskObservationByName(observationList[index]);
+                    }
+                    else {
+                        this.unselectTaskObservationByName(observationList[index]);
+                    }
+                }
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 }
