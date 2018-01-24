@@ -24,7 +24,7 @@ export class TestBase {
             
             TestBase.GlobalData.SpecFiles = new Array<SpecFile>();
             // Set token value 
-           // APILibraryController.careplannerLibrary.getAuthToken();
+           APILibraryController.careplannerLibrary.getAuthToken();
         } catch (error){
             FrameworkComponent.logHelper.info(error);           
             throw error;

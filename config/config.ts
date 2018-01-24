@@ -37,10 +37,10 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence.spec - Copy.js",
-        "../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence2.spec.js",
+        "../applicationComponent/specs/singleTaskSeries/testScheduleAndCompleteTaskOccurrence.spec.js",
+        //"../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence2.spec.js",
         
-        // "../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
+        //"../specs/carePlanner/demoSpecs/testScheduleAndCancelTaskOccurrence.spec.js",
         // "../specs/carePlanner/demoSpecs/testScheduleAndSkipTaskOccurrence.spec.js",
         //"../specs/carePlanner/demoSpecs/testScheduleAndCompleteTaskOccurrence.spec - Copy.js"
         //"../applicationComponent/specs/smokeTests/sampletest.spec.js"
