@@ -2,27 +2,30 @@
     "TaskSeries" :[
         {
         "taskSeriesName": "Vitals",
+        "occurrenceFrequency" : "recurring",
         "scheduleStartTime" : 9,
-        "scheduleEndTime" : 0,
-        "repeatEveryHour" : 0,
-        "scheduleInstructions" : "Test Instructions for the Single Occurrence",
-        "expectedNumberOfTaskOccurrences" : 1,
-        "actualOccurrenceStatus" : ["Overdue"],
-        "occurrenceIndex" : 0,
-        "expectedOcurrenceStatus" : ["Complete"],
+        "scheduleEndTime" : 11,
+        "repeatEveryHour" : 1,
+        "scheduleInstructions" : "Test Instructions for vitals",
+        "expectedNumberOfTaskOccurrences" : 3,
+        "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
+        "occurrenceIndex" : 1,
+        "expectedOcurrenceStatus" : ["Overdue","Complete", "Overdue"],
         "taskOccurrenceNotes" : "Test notes for complete task occurrence",
-        "dataCollect" : [
+        "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
+        "observationValues" : [
             {
-            "temp" : "",
-            "respRate" : "",
-            "heartRate" : ""           
-        }, {
-            "temp" : "",
-            "respRate" : "",
-            "heartRate" : ""          
-        }
-    ]
-    }
-    
-]
+            "Temp" : "text ~ 100",
+            "Resp rate" : "text ~ 123",
+            "Heart rate" : "text ~ 76"
+        },{
+            "Temp" : "text ~ 102",
+            "Resp rate" : "text ~ 124",
+            "Heart rate" : "text ~ 89",
+            "Pain" : "select ~ Increased",
+            "CRT" : "radio ~ >= 2",
+            "Hydration status" : "select ~ 5-6%"
+
+        }]
+    }]
 }

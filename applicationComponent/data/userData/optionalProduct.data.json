@@ -15,15 +15,13 @@
         "observationList" : ["Temp", "Resp rate", "Heart rate"],
         "observationValues" : [
             {
-            "Temp" : "100",
-            "Resp rate" : "123",
-            "Heart rate" : "76"           
+            "Temp" : "text-100",
+            "Resp rate" : "text-123",
+            "Heart rate" : "text-76"           
         },{
-            "Temp" : "102",
-            "Resp rate" : "124",
-            "Heart rate" : "89"           
+            "Temp" : "text-102",
+            "Resp rate" : "text-124",
+            "Heart rate" : "text-89"           
         }]
-    }
-    
-]
+    }]
 }

@@ -19,7 +19,7 @@ describe('add a multi series product and schedule a task for a specific series',
             __dataReader = new DataReader();
             __data = new Data();
             specFileData.Data = __data;
-            specFileData.UserData  = __dataReader.loadJsonData('optionalProduct.data');
+            specFileData.UserData  = __dataReader.loadJsonData('scheduleCompleteTask','multipleTaskSeries');
             FrameworkComponent.logHelper.info(specFileData.UserData);
             specFileData.TestCases = new Array<TestCase>();
             
@@ -142,38 +142,5 @@ describe('add a multi series product and schedule a task for a specific series',
         return __prdTaskList;
     }
 
-    function sampleTaskObservation(){
-        it('task observation details',async ()=>{
-            await Pages.cpTaskSchedulerPopup.expandTaskObservation();
-
-            await Pages.cpTaskSchedulerPopup.IsTaskObservationExpanded();
-
-            await Pages.cpTaskSchedulerPopup.unselectTaskObservationByName('Temp');
-
-            await Pages.cpTaskSchedulerPopup.unselectTaskObservationByName('CRT');
-
-            await Pages.cpTaskSchedulerPopup.closeTaskSchedulerPopup();
-        })
-    }
-
-    function scheduleTask(taskSeries){
-       
-        it('Schedule task ',async () =>{
-             //Schedule the Task Occurrence with the Occurrence Details
-            await Pages.cpTaskSchedulerPopup.scheduleTaskOccurrence(occurrenceDetails);
-            await browser.sleep(5000);
-
-            //Get the task index to set the row index
-            let _taskIndex = productTaskList.indexOf(taskSeries.taskSeriesName);
-            
-            //Get the Row Index Details based on the Task Details
-            await setPosition(_taskIndex);
-
-            //Verify the number of task occurrences created
-            await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, taskSeries.expectedNumberOfTaskOccurrences)
-
-            //Verify the status of the created Occurrences
-            await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, taskSeries.actualOccurrenceStatus);
-        })
-    }
+    
 });

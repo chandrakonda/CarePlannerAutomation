@@ -11,35 +11,35 @@ export class CareplannerTaskSchedulerPopup{
     // eleDataToCollectAccordion = element(by.xpath("//taskschedule/descendant::lsu-accordionpanel/div[@class='title']"));
 
     eleFrequencyOnceToggleButton = element(by.xpath(".//input[@id='once']/following-sibling::label[text()='Once']"))
-    eleTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Time']/following-sibling::div/input[contains(@class,'custominput')]"));
-    eleDateDropDown = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/sui-select"));
-    eleDateDropDownContent = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::sui-select-option/span[2]"));
-    eleDateDropDownList = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
+    eleTimeTextBox = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Time']/following-sibling::div/input[contains(@class,'custominput')]"));
+    eleDateDropDown = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/sui-select"));
+    eleDateDropDownContent = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::sui-select-option/span[2]"));
+    eleDateDropDownList = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
     
     eleFrequencyRecurringToggleButton = element(by.xpath(".//input[@id='recurring']/following-sibling::label[text()='Recurring']"));
 
-    eleStartTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start time']/following-sibling::div/input[contains(@class,'custominput')]"));
+    eleStartTimeTextBox = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start time']/following-sibling::div/input[contains(@class,'custominput')]"));
     eleStartTimeTextBoxScheduleOnce = element(by.xpath(".//input[@class='custominput ng-untouched ng-pristine ng-valid']"));
     
-    eleStartDateDropDown = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/sui-select"));
-    eleStartDateDropDownContent = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::sui-select-option/span[2]"));
-    eleStartDateDropDownList = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
+    eleStartDateDropDown = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/sui-select"));
+    eleStartDateDropDownContent = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::sui-select-option/span[2]"));
+    eleStartDateDropDownList = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
     
-    eleEndDateDropDown = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/sui-select"));
-    eleEndDateDropDownContent = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::sui-select-option/span[2]"));
-    eleEndDateDropDownList = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
+    eleEndDateDropDown = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/sui-select"));
+    eleEndDateDropDownContent = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::sui-select-option/span[2]"));
+    eleEndDateDropDownList = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
 
-    eleEndTimeTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='End time']/following-sibling::div/input[contains(@class,'custominput')]"));
-    eleRepeatEveryTextBox = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Repeat every']/following-sibling::div/input[contains(@class,'custominput')]"));
+    eleEndTimeTextBox = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='End time']/following-sibling::div/input[contains(@class,'custominput')]"));
+    eleRepeatEveryTextBox = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Repeat every']/following-sibling::div/input[contains(@class,'custominput')]"));
 
-    // eleHrsToggleButton = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='hrs']"));
-    eleHrsToggleButton = element(by.xpath("//lsu-accordionpanel/descendant::label[@for='hrs']"));
-    //eleMinutesToggleButton = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='min']"));
-    eleMinutesToggleButton = element(by.xpath("//lsu-accordionpanel/descendant::label[@for='min']"));
-    eleEndTimeCheckOutCheckBox = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='checkout']"));
-    eleInstructionsTextArea = element(by.xpath("//lsu-accordionpanel/descendant::div[contains(@class,'text') and text() ='Instructions']/following-sibling::div/textarea"));
+    // eleHrsToggleButton = element(by.xpath("//*[@id='Scheduleseries']/descendant::input[@id='hrs']"));
+    eleHrsToggleButton = element(by.xpath("//*[@id='Scheduleseries']/descendant::label[@for='hrs']"));
+    //eleMinutesToggleButton = element(by.xpath("//*[@id='Scheduleseries']/descendant::input[@id='min']"));
+    eleMinutesToggleButton = element(by.xpath("//*[@id='Scheduleseries']/descendant::label[@for='min']"));
+    eleEndTimeCheckOutCheckBox = element(by.xpath("//*[@id='Scheduleseries']/descendant::input[@id='checkout']"));
+    eleInstructionsTextArea = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Instructions']/following-sibling::div/textarea"));
 
-    eleTimeSensitiveCheckBox = element(by.xpath("//lsu-accordionpanel/descendant::input[@id='Overdue']"));
+    eleTimeSensitiveCheckBox = element(by.xpath("//*[@id='Scheduleseries']/descendant::input[@id='Overdue']"));
     eleScheduleButton = element(by.xpath(".//button[text()='Cancel']/following-sibling::button"));
 
     eleCancelButton = element(by.xpath(".//button[text()='Cancel']"));
@@ -359,33 +359,39 @@ export class CareplannerTaskSchedulerPopup{
 
     selectTaskObservationByName(observationName){
         try {
-            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[text()='"+ observationName +"']";
-            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
+            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[contains(text(),'"+ observationName +"')]";
+            //let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
             this.getTaskObservationEnabledStatus(observationName).then((status) => {
                 if(status === 'false'){
-                    element(by.xpath(__elementXpath)).click();
-                    browser.sleep(1000);
+                    FrameworkComponent.logHelper.info("Selcting the '" + observationName + "' checkbox");
+                    element(by.xpath(__elementXpath1)).click();
+                    // browser.sleep(1000);
+                } else {
+                    FrameworkComponent.logHelper.info("'" + observationName + "' checkbox has been already selected");
                 }
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
     unselectTaskObservationByName(observationName){
         try {
-            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[text()='"+ observationName +"']";
-            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
+            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[contains(text(),'"+ observationName +"')]";
+            //let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
             this.getTaskObservationEnabledStatus(observationName).then((status) => {
-                FrameworkComponent.logHelper.info("Check box Status is : " + status);
                 if(status === 'true'){
-                    // let observationElement = element(by.xpath(__elementXpath1)).getWebElement();
-                    // browser.actions().mouseMove(observationElement).click().perform();
-                    element(by.xpath(__elementXpath)).click();                    
+                    FrameworkComponent.logHelper.info("Unselcting the '" + observationName + "' checkbox");
+                    element(by.xpath(__elementXpath1)).click(); 
+                    // browser.sleep(1000);
+                } else {
+                    FrameworkComponent.logHelper.info("'" + observationName + "' checkbox has been already unselected");
                 }
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -447,9 +453,14 @@ export class CareplannerTaskSchedulerPopup{
 
     IsTaskObservationExpanded(){
         try {
-            let __taskObservationIcon = this.eleAccordionIcon.get(1).getAttribute('class');
-            FrameworkComponent.logHelper.info(__taskObservationIcon);
-            expect(__taskObservationIcon).toContain('active');
+            let __taskObservationIcon = this.eleAccordionIcon.get(1).getAttribute('class').then((status)=>{
+                if(status.includes('active')){
+                    return true;
+                } else {
+                    return false;
+                }
+            });           
+            return __taskObservationIcon;           
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
         }
@@ -466,64 +477,59 @@ export class CareplannerTaskSchedulerPopup{
 
     scheduleTaskWithObservationDetails(taskSeries){
         try {
-            let occurrenceDetails = {
-                frequency : taskSeries.occurrenceFrequency,
-                scheduleStartTime : taskSeries.scheduleStartTime,
-                scheduleStartDate : '',
-                scheduleEndTime : taskSeries.scheduleEndTime,
-                scheduleEndDate : '',
-                repeatHours: taskSeries.repeatEveryHour,
-                taskInstructions : taskSeries.scheduleInstructions
-            } as TaskOccurreceDetails;
-
             if(this.isPopupDisplayed){
-                switch(occurrenceDetails.frequency.toLowerCase()){
+                switch(taskSeries.occurrenceFrequency.toLowerCase()) {
                     case "once":
                         this.toggleFrequencyOnce()
-                            .enterTimeForSingleOccurrence(occurrenceDetails.scheduleStartTime)
+                            .enterTimeForSingleOccurrence(taskSeries.scheduleStartTime)
                             .selectDateForSingleOccurrence()
-                            .enterInstructions(occurrenceDetails.taskInstructions);
+                            .enterInstructions(taskSeries.scheduleInstructions);
                     break;
                     case "recurring":
                         this.toggleFrequencyRecurring()
-                            .enterStartTime(occurrenceDetails.scheduleStartTime)
+                            .enterStartTime(taskSeries.scheduleStartTime)
                             .selectStartDate()
-                            .enterRepeatEveryHour(occurrenceDetails.repeatHours)
-                            .enterEndTime(occurrenceDetails.scheduleEndTime)
+                            .enterRepeatEveryHour(taskSeries.repeatEveryHour)
+                            .enterEndTime(taskSeries.scheduleEndTime)
                             .selectEndDate()
-                            .enterInstructions(occurrenceDetails.taskInstructions);
+                            .enterInstructions(taskSeries.scheduleInstructions);
                     break;
                     default:
                     break;
                 }
-                this.defineObservationValues(taskSeries.observationList);
 
+                if(taskSeries.observationList.length>0){
+                    this.defineTaskObservationValues(taskSeries.observationList);
+                }
                 this.clickScheduleButton();
             } else {
                 FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
             }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
-    defineObservationValues(taskObservationList){
+    defineTaskObservationValues(taskObservationList){
         try {
 
             this.expandTaskObservation();
-
-            this.IsTaskObservationExpanded();
-
-            this.eleTaskObservationList.getText().then((observationList) => {
-                for (let index = 0; index < observationList.length; index++) {                    
-                    if(taskObservationList.includes(observationList[index])) {
-                        this.selectTaskObservationByName(observationList[index]);
-                    }
-                    else {
-                        this.unselectTaskObservationByName(observationList[index]);
-                    }
-                }
-            });
+            
+            // this.IsTaskObservationExpanded().then((isExpanded) => {
+            //     if(isExpanded){
+                    this.eleTaskObservationList.getText().then((observationList) => {
+                        for (let index = 0; index < observationList.length; index++) {                    
+                            if(taskObservationList.includes(observationList[index])) {
+                                this.selectTaskObservationByName(observationList[index]);
+                            }
+                            else {
+                                this.unselectTaskObservationByName(observationList[index]);
+                            }
+                        }
+                    });
+            //     }
+            // });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

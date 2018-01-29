@@ -314,7 +314,10 @@ export class CareplannerTaskOcurrencePopup {
                 }
                 browser.sleep(1000);
 
-                this.enterObservationDetails(taskSeriesInfo);
+                if(taskSeriesInfo.observationList.length>0){
+                    //this.enterObservationDetails(taskSeriesInfo);
+                    this.fillObservationDetails(taskSeriesInfo);
+                }
                 this.clickOnSave();
             }
         } catch (error) {
@@ -325,14 +328,61 @@ export class CareplannerTaskOcurrencePopup {
     enterObservationDetails(taskSeriesInfo){
         try {
             taskSeriesInfo.observationList.forEach(observationName => {
-                let observationXpath = "//*[@id='Occurrencesries']/descendant::input[ancestor::div[contains(@class,'finding-observation')]/descendant::div[contains(text(),'"+ observationName +"')]]";
+                let observationXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input";
                 let observationField = element(by.xpath(observationXpath));
-                observationField.clear().then(() => {
-                    observationField.sendKeys(taskSeriesInfo.observationValues[taskSeriesInfo.occurrenceIndex].observationName);
-                });
+                let observationValue = taskSeriesInfo.observationValues[taskSeriesInfo.occurrenceIndex];
+                observationField.sendKeys(observationValue[observationName]);
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
+
+    fillObservationDetails(taskSeriesInfo) {
+        try {
+            taskSeriesInfo.observationList.forEach(observationName => {
+                            
+                let observationValue = taskSeriesInfo.observationValues[taskSeriesInfo.occurrenceIndex][observationName];
+
+                let observationInfo:string[] = observationValue.split('~').map((item:string) =>item.trim());
+
+                let fieldType = observationInfo[0];
+                let fieldValue = observationInfo[1];
+                
+                if(observationName === 'CRT'){
+                    observationName = 'Capillary Refill time';
+                } else if(observationName === 'MM color') {
+                    observationName = 'Mucous Membrane color';
+                } else if (observationName === 'Hydration status') {
+                    observationName = 'Hydration';
+                }
+
+                switch (fieldType.toLowerCase()) {
+                    case 'text':
+                        FrameworkComponent.logHelper.info('Textbox is the ' + fieldValue);
+                        let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input";
+                        element(by.xpath(textXpath)).sendKeys(fieldValue);
+                        break;
+                    case 'radio':
+                        FrameworkComponent.logHelper.info('radio button is the ' + fieldValue);
+                        let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
+                        element(by.xpath(radioXpath)).click();
+                        break;
+                    case 'select':
+                        FrameworkComponent.logHelper.info('select is the ' + fieldValue);
+                        let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName + "')]]/following-sibling::div/descendant::select";
+                        element(by.xpath(selectXpath)).element(by.cssContainingText('option',fieldValue)).click();
+                        break;
+                    default:
+                        break;
+                }
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+
 }
