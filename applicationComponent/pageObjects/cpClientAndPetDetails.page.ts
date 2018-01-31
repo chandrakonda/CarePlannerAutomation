@@ -30,6 +30,9 @@ export class CareplannerClientAndPetDetailsPage{
     eleEnterCareNotes = element(by.xpath(".//textarea[@placeholder='Add care note here.']"));
     eleAddCareNoteButton = element(by.xpath(".//button[text()='Add care note']"));
 
+    eleSchedulerButton = element(by.xpath("//button[contains(@class,'scheduler-view')]"));
+    eleTreatmentLogButton = element(by.xpath("//button[contains(@class,'scheduler-listview')]"));
+    eleTrendViewButton = element(by.xpath("//button[contains(@class,'scheduler-trendview')]"));
 
     get pageTitle(): any {
         try {
@@ -122,4 +125,30 @@ export class CareplannerClientAndPetDetailsPage{
         }
     }
 
+    clickOnSchedulerButton(){
+        try {
+            this.eleSchedulerButton.click();
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    clickOnTreatmentLogButton(){
+        try {
+            this.eleTreatmentLogButton.click();
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    clickOnTrendViewButton(){
+        try {
+            this.eleTrendViewButton.click();
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
 }    

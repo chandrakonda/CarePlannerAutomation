@@ -26,7 +26,7 @@ export class TestBase {
             // Set token value 
            APILibraryController.careplannerLibrary.getAuthToken();
         } catch (error){
-            FrameworkComponent.logHelper.info(error);           
+            FrameworkComponent.logHelper.error(error);           
             throw error;
         }
     }
@@ -37,7 +37,7 @@ export class TestBase {
             // close anything that is open
             FrameworkComponent.JsonReporter();
         } catch (error) {
-            FrameworkComponent.logHelper.info(error);           
+            FrameworkComponent.logHelper.error(error);           
             throw error;
         }
     }

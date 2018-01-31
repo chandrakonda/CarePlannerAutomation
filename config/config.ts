@@ -37,7 +37,7 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/multipleTaskSeries/taskObservationSample.spec.js"
+        "../applicationComponent/specs/multipleTaskSeries/testScheduleAndCompleteTaskOccurrenceWithObservations.spec.js"
         //"../applicationComponent/specs/singleTaskSeries/testScheduleAndCompleteTaskOccurrence.spec.js",
         //"../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence2.spec.js",
         

@@ -1,0 +1,32 @@
+{
+    "observationlist":[
+        {        
+        "Name":"temp",
+        "FieldType":"text",
+        "Abbrevation":"temp"
+    },{
+        "Name":"crt",
+        "FieldType":"radio",
+        "Abbrevation":"capilary refill time"
+
+    },{
+        "Name" : "resp rate",
+        "FieldType": "text",
+        "Abbrevation": "resp rate"
+    },{
+        "Name" : "heart rate",
+        "FieldType": "text",
+        "Abbrevation": "heart rate"
+    },{
+        "Name" : "pain",
+        "FieldType": "select",
+        "Abbrevation": "pain"
+    },{
+        
+    }
+
+],
+    "temp2":["CRT-capillary r:text","","",""]
+
+    
+}

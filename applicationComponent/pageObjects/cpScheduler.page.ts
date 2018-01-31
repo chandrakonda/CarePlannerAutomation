@@ -93,7 +93,7 @@ export class CareplannerSchedulerPage{
         try {
             let __elementXpath: string = ".//div[contains(@id,'lsu_modal')]";
             return element(by.xpath(__elementXpath)).isDisplayed().then(value => {
-                if ((value = true)) {
+                if (value = true) {
                     return true;
                 } else {
                     return false;
