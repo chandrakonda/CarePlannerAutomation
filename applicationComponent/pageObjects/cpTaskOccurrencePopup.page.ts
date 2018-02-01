@@ -41,6 +41,7 @@ export class CareplannerTaskOcurrencePopup {
             });
         } catch (error) {
             FrameworkComponent.logHelper.info(error);
+            throw error;
         }
     }
 
@@ -54,6 +55,7 @@ export class CareplannerTaskOcurrencePopup {
             }); 
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -68,6 +70,7 @@ export class CareplannerTaskOcurrencePopup {
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -78,6 +81,7 @@ export class CareplannerTaskOcurrencePopup {
             return occurrenceInstruction;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -88,6 +92,7 @@ export class CareplannerTaskOcurrencePopup {
             return productName;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -98,6 +103,7 @@ export class CareplannerTaskOcurrencePopup {
             return doseValue;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -108,6 +114,7 @@ export class CareplannerTaskOcurrencePopup {
             return amountToAdminister;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -122,6 +129,7 @@ export class CareplannerTaskOcurrencePopup {
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -131,6 +139,7 @@ export class CareplannerTaskOcurrencePopup {
             this.eleCloseButton.click();
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -141,6 +150,7 @@ export class CareplannerTaskOcurrencePopup {
             browser.sleep(2000);
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -150,6 +160,7 @@ export class CareplannerTaskOcurrencePopup {
             this.eleCompleteAndSaveButton.click();
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -179,6 +190,7 @@ export class CareplannerTaskOcurrencePopup {
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -191,6 +203,7 @@ export class CareplannerTaskOcurrencePopup {
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -200,6 +213,7 @@ export class CareplannerTaskOcurrencePopup {
             return scheduledTime;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -211,6 +225,7 @@ export class CareplannerTaskOcurrencePopup {
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -225,6 +240,7 @@ export class CareplannerTaskOcurrencePopup {
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -239,6 +255,7 @@ export class CareplannerTaskOcurrencePopup {
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -279,33 +296,33 @@ export class CareplannerTaskOcurrencePopup {
             }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
-    updateOccurrenceDetailsWithObservations(status, taskSeriesInfo, time?){
+    updateOccurrenceDetailsWithObservations(taskSeriesInfo, time?){
         try {
-            
             if(this.isPopupDisplayed){
                 browser.sleep(1000);
-                switch (status.toLowerCase()) {
+                switch (taskSeriesInfo.occurrenceAction.toLowerCase()) {
                     case "completed":
                         this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(status)
+                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
                             .enterCompletedTime(this.getScheduledTime)
                             .selectCompletedDate()
                         break;
                     case "skipped":
                         this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(status)
+                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
                         break;
                     case "canceled":
-                            this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(status)
+                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
+                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
                         break;
                     case "planned":
                     case "rescheduled":
                         this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(status)
+                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
                             .enterScheduledTime(time)
                             .selectScheduledDate()
                         break;
@@ -314,25 +331,11 @@ export class CareplannerTaskOcurrencePopup {
                 }
                 browser.sleep(1000);
 
-                if(taskSeriesInfo.observationList.length>0){
-                    //this.enterObservationDetails(taskSeriesInfo);
+                if(taskSeriesInfo.observationList.length>0){                    
                     this.fillObservationDetails(taskSeriesInfo);
                 }
                 this.clickOnSave();
             }
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-        }
-    }
-
-    enterObservationDetails(taskSeriesInfo){
-        try {
-            taskSeriesInfo.observationList.forEach(observationName => {
-                let observationXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input";
-                let observationField = element(by.xpath(observationXpath));
-                let observationValue = taskSeriesInfo.observationValues[taskSeriesInfo.occurrenceIndex];
-                observationField.sendKeys(observationValue[observationName]);
-            });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -347,35 +350,43 @@ export class CareplannerTaskOcurrencePopup {
 
                 let observationInfo:string[] = observationValue.split('~').map((item:string) =>item.trim());
 
-                let fieldType = observationInfo[0];
-                let fieldValue = observationInfo[1];
-                
-                if(observationName === 'CRT'){
-                    observationName = 'Capillary Refill time';
-                } else if(observationName === 'MM color') {
-                    observationName = 'Mucous Membrane color';
-                } else if (observationName === 'Hydration status') {
-                    observationName = 'Hydration';
-                }
+                if(observationValue != null) {
 
-                switch (fieldType.toLowerCase()) {
-                    case 'text':
-                        FrameworkComponent.logHelper.info('Textbox is the ' + fieldValue);
-                        let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input";
-                        element(by.xpath(textXpath)).sendKeys(fieldValue);
-                        break;
-                    case 'radio':
-                        FrameworkComponent.logHelper.info('radio button is the ' + fieldValue);
-                        let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
-                        element(by.xpath(radioXpath)).click();
-                        break;
-                    case 'select':
-                        FrameworkComponent.logHelper.info('select is the ' + fieldValue);
-                        let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName + "')]]/following-sibling::div/descendant::select";
-                        element(by.xpath(selectXpath)).element(by.cssContainingText('option',fieldValue)).click();
-                        break;
-                    default:
-                        break;
+                    let fieldType = observationInfo[0];
+                    let fieldValue = observationInfo[1];
+                    
+                    if(observationName === 'CRT'){
+                        observationName = 'Capillary Refill time';
+                    } else if(observationName === 'MM color') {
+                        observationName = 'Mucous Membrane color';
+                    } else if (observationName === 'Hydration status') {
+                        observationName = 'Hydration';
+                    }
+
+                    switch (fieldType.toLowerCase()) {
+                        case 'text':
+                            FrameworkComponent.logHelper.info('Textbox is the ' + fieldValue);
+                            let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input";
+                            element(by.xpath(textXpath)).sendKeys(fieldValue);
+                            break;
+                        case 'textarea':
+                            FrameworkComponent.logHelper.info('Textarea is the ' + fieldValue);
+                            let textAreaXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::textarea";
+                            element(by.xpath(textAreaXpath)).sendKeys(fieldValue);
+                            break;
+                        case 'radio':
+                            FrameworkComponent.logHelper.info('radio button is the ' + fieldValue);
+                            let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
+                            element(by.xpath(radioXpath)).click();
+                            break;
+                        case 'select':
+                            FrameworkComponent.logHelper.info('select is the ' + fieldValue);
+                            let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName + "')]]/following-sibling::div/descendant::select";
+                            element(by.xpath(selectXpath)).element(by.cssContainingText('option',fieldValue)).click();
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
         } catch (error) {

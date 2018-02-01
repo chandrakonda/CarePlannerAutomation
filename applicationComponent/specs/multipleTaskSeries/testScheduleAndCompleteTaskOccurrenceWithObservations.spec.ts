@@ -3,13 +3,13 @@ import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSe
 import { browser } from 'protractor';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
-let productTaskList, productTaskList1, startPosition:number, endPosition:number, taskOccurrenceCount:number;
+let productTaskList, productTaskList1, taskOccurrenceCount:number;
 let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
 let occurrenceDetails:TaskOccurreceDetails;
 
-describe('add a multi series product and schedule a task for a specific series', () => {
+describe('Add a multi series product and schedule a task for all the task series', () => {
 
-    describe('single occurrence', async() => {
+    describe('Complete a single occurrence of each task series', async() => {
         let specFileData: SpecFile;
         let __data: Data;
         let __testCase: TestCase;
@@ -27,8 +27,6 @@ describe('add a multi series product and schedule a task for a specific series',
 
         afterAll( () => {
             TestBase.GlobalData.SpecFiles.push(specFileData);
-            startPosition = 0;
-            endPosition = 0;
             taskOccurrenceCount = 0;
             productTaskList = '';
             browser.Taskseriesname = '';
@@ -40,9 +38,9 @@ describe('add a multi series product and schedule a task for a specific series',
 
         afterEach(()=> {
             if(__testCase.ExceptionDetails != null){
-                __testCase.TestResult = 'Pass';                
+                __testCase.TestResult = 'Fail';                
             } else {
-                __testCase.TestResult = 'Fail';
+                __testCase.TestResult = 'Pass';
             }
             specFileData.TestCases.push(__testCase);
         });
@@ -58,9 +56,9 @@ describe('add a multi series product and schedule a task for a specific series',
         });
 
 
-        it('should validate the product category and list of tasks for the category', async () => {
+        it('Verifying the category count and product task list', async () => {
             try {
-                __testCase.TestName = "Verifying the Category count and product task list";
+                __testCase.TestName = "Verifying the category count and product task list";
 
                 //Verify the Category Count
                 await expect(Pages.cpSchedulerPage.categoryCount).toEqual(4);
@@ -68,50 +66,38 @@ describe('add a multi series product and schedule a task for a specific series',
                 //Verify the Task Count
                 await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(7);
 
-                getProductTaskList(await Pages.cpSchedulerPage.productTaskList);
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }            
         });
         
-        it('schedule and verify the task', () => {
+        it('Schedule a specified number of tasks for a each task series', () => {
             try {
-                __testCase.TestName = 'Schedule the task for the task series for all the product task list displayed';
+                __testCase.TestName = 'Schedule a specified number of tasks for a each task series';
 
                 //Schedule a task from the user input data
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
                     browser.sleep(2000);
                     await Pages.cpSchedulerPage.ScheduleTaskWithObservations(taskSeriesInfo);
-
                 });
             } catch (error) {                
                 __testCase.ExceptionDetails = error;
             }            
         });
 
-        it('verify task occurrence count and status', ()=> {
+        it('Verify the specified count and status of the task occurrence with the scheduled task series', ()=> {
             try {
-                __testCase.TestName = 'Verifying the occurrence info of the scheduled task for the task series for all the product task list displayed ';
+                __testCase.TestName = 'Verify the specified count and status of the task occurrence with the scheduled task series';
 
-                specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
+                specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
-                    if(productTaskList == null){
-                        FrameworkComponent.logHelper.info('Getting the product list once again');
-                        getProductTaskList(await Pages.cpSchedulerPage.productTaskList);
-                    }
-
-                    let _taskIndex = productTaskList.indexOf(taskSeriesInfo.taskSeriesName);
-                        
-                    //Get the Row Index Details based on the Task Details
-                    setPosition(_taskIndex);
-    
                     //Verify the number of task occurrences created
-                    FrameworkComponent.logHelper.info("startposition "+startPosition+" , endposition "+endPosition+" , expectedNumberOfTaskOccurrences "+taskSeriesInfo.expectedNumberOfTaskOccurrences);
-                    await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, taskSeriesInfo.expectedNumberOfTaskOccurrences)
+                    let __occurrenceCount = Pages.cpSchedulerPage.getTheNumberOfTaskOccurrenceCreated(taskSeriesInfo.taskSeriesName);
+                    expect(__occurrenceCount).toEqual(taskSeriesInfo.expectedNumberOfTaskOccurrences);
                 
                     //Verify the status of the created Occurrences
-                    FrameworkComponent.logHelper.info("startposition "+startPosition+" , endposition "+endPosition+" , actualOccurrenceStatus "+taskSeriesInfo.actualOccurrenceStatus);
-                    await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, taskSeriesInfo.actualOccurrenceStatus);
+                    let __occurrencesStatus = Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(taskSeriesInfo.taskSeriesName);
+                    expect(__occurrencesStatus).toEqual(taskSeriesInfo.actualOccurrenceStatus);
                 });
             } catch (error) {
                 __testCase.ExceptionDetails = error;
@@ -119,28 +105,37 @@ describe('add a multi series product and schedule a task for a specific series',
         });
            
        
-        it('complete the occurrence', async () => {
+        it('Edit and update the task occurrence to the specified task occurrence status with observation details', async () => {
             try {
 
-                __testCase.TestName = 'Edit and update the task occurrence for the task series with the given status';
+                __testCase.TestName = 'Edit and update the task occurrence to the specified task occurrence status with observation details';
 
-                specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
-    
-                    //Click on the task occurrence to bring up the edit task occurrence popup
-                    await Pages.cpSchedulerPage.clickOnOccurrenceByIndex(startPosition, endPosition, taskSeriesInfo.occurrenceIndex);
-                    await browser.sleep(1000);
-    
+                specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
                     //Edit & Update the status of the task occurrence
-                    await Pages.cpTaskOccurrencePopup.updateOccurrenceDetailsWithObservations(taskUpdateStatus[1], taskSeriesInfo);
-                    await browser.sleep(9000);
-    
-                    //Verify the task occurrence status after completing
-                    await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, taskSeriesInfo.occurrenceIndex,taskSeriesInfo.expectedOcurrenceStatus[taskSeriesInfo.occurrenceIndex]);
-    
+                    Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(taskSeriesInfo);
+                    browser.sleep(5000);
                 });
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }            
+        });
+
+        it('Verify the specified count and status of the task occurrences with the updated task series', () => {
+            try {
+                __testCase.TestName = 'Verify the specified count and status of the task occurrences with the updated task series';
+
+                specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
+                    //Verify the number of task occurrences updated
+                    let __occurrenceCount = Pages.cpSchedulerPage.getTheNumberOfTaskOccurrenceCreated(taskSeriesInfo.taskSeriesName);
+                    expect(__occurrenceCount).toEqual(taskSeriesInfo.expectedNumberOfTaskOccurrences);
+                
+                    //Verify the status of the updated Occurrences
+                    let __occurrencesStatus = Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(taskSeriesInfo.taskSeriesName);
+                    expect(__occurrencesStatus).toEqual(taskSeriesInfo.expectedOcurrenceStatus);
+                });
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
         });
 
         // it('verify the task details in tretment log', async () => {
@@ -158,35 +153,4 @@ describe('add a multi series product and schedule a task for a specific series',
         //     }            
         // });
     });
-
-    function setPosition(_taskIndex){
-        try {
-            //Get the order index of the task name from the product list independent of category
-            //Set the Start & End Position for the task series (row range) per task
-            if(_taskIndex == 0){ 
-                startPosition = 1 ;
-                endPosition = 24;
-            } else if(_taskIndex >= 1){
-                startPosition =  _taskIndex * 24 + 1;
-                endPosition = startPosition + 23; 
-            } else {
-                //fail test as product list not identified
-            }
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }        
-    }
-
-    function getProductTaskList(__prdTaskList:any){       
-        try {
-            for (let index = 0; index < __prdTaskList.length; index++) {
-                __prdTaskList[index] = __prdTaskList[index].split('-')[0].trim(); 
-            }
-            productTaskList =  __prdTaskList;
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
 });

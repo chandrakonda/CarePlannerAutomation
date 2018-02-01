@@ -59,6 +59,7 @@ export class CareplannerTaskSchedulerPopup{
             });
         } catch (error) {
             FrameworkComponent.logHelper.info(error);
+            throw error;
         }
     }
 
@@ -80,6 +81,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -91,6 +93,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -100,6 +103,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -109,6 +113,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -118,6 +123,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -130,17 +136,19 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
     get getStartTimeScheduleOnce(): any {
         try {
             return this.eleStartTimeTextBoxScheduleOnce.getAttribute('value').then((startTime) => {
-                console.log("Start time is        "+startTime);
+                console.log("Start time is "+ startTime);
                 return startTime;
             });            
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -151,6 +159,7 @@ export class CareplannerTaskSchedulerPopup{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -160,6 +169,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
     get endTime(): any {
@@ -169,6 +179,7 @@ export class CareplannerTaskSchedulerPopup{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -183,6 +194,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -193,6 +205,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
     get repeatEvery(): any {
@@ -202,6 +215,7 @@ export class CareplannerTaskSchedulerPopup{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -214,6 +228,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -227,6 +242,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -240,6 +256,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -253,6 +270,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -265,6 +283,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -277,6 +296,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -305,11 +325,12 @@ export class CareplannerTaskSchedulerPopup{
                     default:
                     break;
                 }         
-            }else{
+            } else {
                 FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
             }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;            
         }
     }
 
@@ -321,6 +342,7 @@ export class CareplannerTaskSchedulerPopup{
             return taskObservationList;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;            
         }
     }
 
@@ -332,6 +354,7 @@ export class CareplannerTaskSchedulerPopup{
             return selectedObservationList;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;            
         }
     }
 
@@ -343,6 +366,7 @@ export class CareplannerTaskSchedulerPopup{
             return unselectedObservationList;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -354,6 +378,7 @@ export class CareplannerTaskSchedulerPopup{
             return __val;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -402,6 +427,7 @@ export class CareplannerTaskSchedulerPopup{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -413,10 +439,9 @@ export class CareplannerTaskSchedulerPopup{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
-
-   
 
     expandScheduler(){
         try {
@@ -427,6 +452,7 @@ export class CareplannerTaskSchedulerPopup{
            }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -436,6 +462,7 @@ export class CareplannerTaskSchedulerPopup{
             expect(__taskObservationIcon).toContain('active');
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -448,6 +475,7 @@ export class CareplannerTaskSchedulerPopup{
             }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -463,6 +491,7 @@ export class CareplannerTaskSchedulerPopup{
             return __taskObservationIcon;           
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -472,6 +501,7 @@ export class CareplannerTaskSchedulerPopup{
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
