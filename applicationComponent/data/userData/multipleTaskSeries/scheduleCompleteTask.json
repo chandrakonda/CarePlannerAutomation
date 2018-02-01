@@ -27,5 +27,40 @@
             "Hydration status" : "select ~ 5-6%"
 
         }]
-    }]
+    },
+    {
+        "taskSeriesName": "Offer food",
+        "occurrenceFrequency" : "recurring",
+        "scheduleStartTime" : 9,
+        "scheduleEndTime" : 11,
+        "repeatEveryHour" : 1,
+        "scheduleInstructions" : "Test Instructions for offer food",
+        "expectedNumberOfTaskOccurrences" : 3,
+        "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
+        "occurrenceIndex" : 1,
+        "expectedOcurrenceStatus" : ["Overdue","Complete", "Overdue"],
+        "taskOccurrenceNotes" : "Test notes for complete task occurrence",
+        "observationList" : ["Type of food", "Food offered"],
+        "observationValues" : [
+            {
+            "Type of food" : "text ~ 100",
+            "Food offered" : "text ~ 20"
+        }]
+    },
+    {
+        "taskSeriesName": "Water",
+        "occurrenceFrequency" : "recurring",
+        "scheduleStartTime" : 9,
+        "scheduleEndTime" : 11,
+        "repeatEveryHour" : 1,
+        "scheduleInstructions" : "Test Instructions for water",
+        "expectedNumberOfTaskOccurrences" : 3,
+        "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
+        "occurrenceIndex" : 1,
+        "expectedOcurrenceStatus" : ["Overdue","Complete", "Overdue"],
+        "taskOccurrenceNotes" : "Test notes for complete task occurrence",
+        "observationList" : []
+
+    }
+]
 }

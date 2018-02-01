@@ -34,7 +34,7 @@ export class JSONReporter {
         FrameworkComponent.logHelper.info("Test case status: '" + spec.status + "'");
 
         if (spec.passedExpectations.length !== 0) {
-            FrameworkComponent.logHelper.info(spec.passedExpectations);
+          //  FrameworkComponent.logHelper.info(spec.passedExpectations);
         }
         else {
             for (var i = 0; i < spec.failedExpectations.length; i++) {

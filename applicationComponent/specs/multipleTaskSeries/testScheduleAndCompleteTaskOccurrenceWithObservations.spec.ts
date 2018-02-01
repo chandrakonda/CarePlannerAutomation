@@ -80,7 +80,7 @@ describe('add a multi series product and schedule a task for a specific series',
 
                 //Schedule a task from the user input data
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
-                    
+                    browser.sleep(2000);
                     await Pages.cpSchedulerPage.ScheduleTaskWithObservations(taskSeriesInfo);
 
                 });
@@ -89,7 +89,7 @@ describe('add a multi series product and schedule a task for a specific series',
             }            
         });
 
-        it('verify the task occurrence count and status', ()=> {
+        it('verify task occurrence count and status', ()=> {
             try {
                 __testCase.TestName = 'Verifying the occurrence info of the scheduled task for the task series for all the product task list displayed ';
 
@@ -106,9 +106,11 @@ describe('add a multi series product and schedule a task for a specific series',
                     setPosition(_taskIndex);
     
                     //Verify the number of task occurrences created
+                    FrameworkComponent.logHelper.info("startposition "+startPosition+" , endposition "+endPosition+" , expectedNumberOfTaskOccurrences "+taskSeriesInfo.expectedNumberOfTaskOccurrences);
                     await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, taskSeriesInfo.expectedNumberOfTaskOccurrences)
                 
                     //Verify the status of the created Occurrences
+                    FrameworkComponent.logHelper.info("startposition "+startPosition+" , endposition "+endPosition+" , actualOccurrenceStatus "+taskSeriesInfo.actualOccurrenceStatus);
                     await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, taskSeriesInfo.actualOccurrenceStatus);
                 });
             } catch (error) {

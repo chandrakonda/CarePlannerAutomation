@@ -166,6 +166,16 @@ export class CareplannerSchedulerPage{
         }
     }
 
+    async getTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, expectedNumberOfTaskOccurrences){
+        try {
+            browser.sleep(1000);
+            let taskOccurrenceCount = await this.getNumberOfTaskOccurrence(startPosition, endPosition).then((count) => {return count});
+            await expect(taskOccurrenceCount).toBe(expectedNumberOfTaskOccurrences);
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+        }
+    }
+
     async verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, expectedStatus){
         try {
             let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
