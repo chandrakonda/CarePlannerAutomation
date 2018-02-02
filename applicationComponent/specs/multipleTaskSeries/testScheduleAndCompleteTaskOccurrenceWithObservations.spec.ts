@@ -4,7 +4,7 @@ import { browser } from 'protractor';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 let productTaskList, productTaskList1, taskOccurrenceCount:number;
-let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
+// let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
 let occurrenceDetails:TaskOccurreceDetails;
 
 describe('Add a multi series product and schedule a task for all the task series', () => {
@@ -113,7 +113,7 @@ describe('Add a multi series product and schedule a task for all the task series
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
                     //Edit & Update the status of the task occurrence
                     Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(taskSeriesInfo);
-                    browser.sleep(5000);
+                    browser.sleep(2000);
                 });
             } catch (error) {
                 __testCase.ExceptionDetails = error;

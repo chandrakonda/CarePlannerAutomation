@@ -1,6 +1,7 @@
 import { FrameworkComponent } from '../../frameworkComponent';
 import { $, browser, element, by, By, ExpectedConditions, protractor } from "protractor";
 import { Pages } from './pages';
+import { resolve } from 'path';
 
 
 export class CareplannerSchedulerPage{
@@ -13,6 +14,7 @@ export class CareplannerSchedulerPage{
     eleNonScheduledPrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='occurrence-text']"));
     eleCategoryList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[contains(@class,'wj-frozen-col')]/descendant::div[contains(@class,'groupheader_txt')]"));
 
+    eleNumberOfHoursDisplayed = element.all(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-colheaders')]/div[not(contains(@class, 'wj-cell wj-header wj-frozen-col wj-wrap')) and not(contains(@class, 'wj-cell wj-header wj-wrap'))]"));
 
     get categoryCount() {
         try {
@@ -127,9 +129,9 @@ export class CareplannerSchedulerPage{
     }
 
     getNumberOfTaskOccurrence(startPosition, endPosition) {
-        try {
+        try {                       
             //let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" +startPosition +"and not(position() >" +endPosition +")]/descendant::li";
+            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ +"and not(position() >" + endPosition.value_ +")]/descendant::li";
             return element.all(by.xpath(__elementXpath)).count()
             .then(count => {
                 FrameworkComponent.logHelper.info("Task occurrence count is : " + count);
@@ -154,8 +156,8 @@ export class CareplannerSchedulerPage{
 
     clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, occurrenceIndex) {
         try {            
-            this.getPositionByTaskName(taskSeriesName).then((position)=>{
-                let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition + "and not(position() >" + position.endPosition + ")]/descendant::li";
+            this.getPositionByTaskName(taskSeriesName).then((position)=>{                                
+                let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]/descendant::li";
                 element.all(by.xpath(__elementXpath)).get(occurrenceIndex).getWebElement().click();
                 // browser.actions().mouseMove(occurrences).click().perform();
             });
@@ -166,8 +168,10 @@ export class CareplannerSchedulerPage{
     }
 
     getTaskOccurrenceStatus(startPosition, endPosition) {
-        try {
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition + "and not(position() >" + endPosition + ")]/descendant::li";
+        try {            
+            let start;
+            if(startPosition != null) { start = startPosition} else {start = startPosition.value_}
+            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ + "and not(position() >" + endPosition.value_ + ")]/descendant::li";
             let occurrence = element.all(by.xpath(__elementXpath));
             return occurrence.getAttribute("class").then((className) => {
                 FrameworkComponent.logHelper.info("Status of all the task occurrence : " + className);
@@ -193,13 +197,11 @@ export class CareplannerSchedulerPage{
     async getTheNumberOfTaskOccurrenceCreated(taskSeriesName){
         try {
             browser.sleep(1000);
-
-            let __taskOccurrenceCount = await this.getPositionByTaskName(taskSeriesName).then((position)=>{
+            let __taskOccurrenceCount = await this.getPositionByTaskName(taskSeriesName).then((position)=>{                  
                 return this.getNumberOfTaskOccurrence(position.startPosition, position.endPosition).then((count) =>{
                     return count;
                 })
             })
-
             return __taskOccurrenceCount;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -348,16 +350,29 @@ export class CareplannerSchedulerPage{
 
     getPositionByTaskName(taskSeriesName){
         try {
-            let __sPos, __ePos;
+            let __sPos, __ePos, __avaHour;
             return this.productTaskList.then((list) => {
                 let __taskIndex = list.indexOf(taskSeriesName);
                 if(__taskIndex == 0){ 
-                    __sPos = 1 ;
-                    __ePos = 25;
+                    // __sPos = 1 ;
+                    // __ePos = 25;
+                    __sPos =  this.eleNumberOfHoursDisplayed.count().then((count) => {
+                        return 1;
+                    });
+                    __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => {
+                        return count + 1;
+                    });
                     return { startPosition : __sPos, endPosition : __ePos };
                 } else if(__taskIndex >= 1){
-                    __sPos =  __taskIndex * 24 + 1;
-                    __ePos = __sPos + 24; 
+                    // __sPos =  __taskIndex * 24 + 1;
+                    // __ePos = __sPos + 24; 
+                    __sPos  = this.eleNumberOfHoursDisplayed.count().then((count) => {
+                        return __taskIndex * count + 1;
+                    });
+                    
+                    __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => {
+                        return __taskIndex * count + count + 1;
+                    });
                     return { startPosition : __sPos, endPosition : __ePos };
                 } else {
                     //fail test as product list not identified
