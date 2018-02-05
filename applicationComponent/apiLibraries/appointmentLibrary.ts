@@ -42,7 +42,7 @@ export class AppointmentLibrary {
             let __options = DataReader.loadAPITemplates("postBookAppointment");//require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postBookAppointment.json'));
     
             var startTime = moment().subtract(6, 'hours').toISOString();
-            var endtime = moment().subtract(4, 'hours').toISOString();
+            var endTime = moment().subtract(4, 'hours').toISOString();
     
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'Appointments';
@@ -57,7 +57,7 @@ export class AppointmentLibrary {
             __options.body.HospitalId = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.body.PetAppointments[0].PatientId = specData.Data.Client.Patient.Id;
             __options.body.PetAppointments[0].StartTime = startTime;
-            __options.body.PetAppointments[0].EndTime = endtime;
+            __options.body.PetAppointments[0].EndTime = endTime;
             return __options;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

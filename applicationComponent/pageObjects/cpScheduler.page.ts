@@ -168,9 +168,7 @@ export class CareplannerSchedulerPage{
     }
 
     getTaskOccurrenceStatus(startPosition, endPosition) {
-        try {            
-            let start;
-            if(startPosition != null) { start = startPosition} else {start = startPosition.value_}
+        try {                      
             let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ + "and not(position() >" + endPosition.value_ + ")]/descendant::li";
             let occurrence = element.all(by.xpath(__elementXpath));
             return occurrence.getAttribute("class").then((className) => {
@@ -384,5 +382,38 @@ export class CareplannerSchedulerPage{
         }    
     }
 
-    
+    calculateExpectedOccurrenceStatus(startTime, endTime, repeatHours) {
+        try {
+            
+            let numberOfTaskOccurrence = ((endTime - startTime)/repeatHours) + 1
+            
+            let occurrences = new Array, expectedOccurrenceStatus = new Array;
+            let currentTime = new Date().getHours();
+
+            occurrences[0] = startTime;
+            for (let index = 1; index < numberOfTaskOccurrence; index++) {
+                occurrences[index] = occurrences[index-1] + repeatHours;                
+            }
+        
+            if(occurrences.length === numberOfTaskOccurrence) {
+                for(let index=0; index <= numberOfTaskOccurrence; index++){
+                    if(occurrences[index] == currentTime ){
+                        expectedOccurrenceStatus[index] = 'duenow';
+                    } else if(occurrences[index] < currentTime){
+                        expectedOccurrenceStatus[index] = 'Overdue';
+                    } else if(occurrences[index] > currentTime) {
+                        expectedOccurrenceStatus[index] = 'Scheduled';
+                    }
+                }
+            } else {
+		        FrameworkComponent.logHelper.info('Number of Task Occurrences mismatched');
+		        throw 'Number of Task Occurrences mismatched';
+            }
+            
+            return expectedOccurrenceStatus;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
 }

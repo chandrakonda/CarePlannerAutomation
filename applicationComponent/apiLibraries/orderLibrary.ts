@@ -1,9 +1,10 @@
 import { FrameworkComponent } from '../../frameworkComponent';
-import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product } from '../../applicationComponent';
+import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product, Category, TaskSeriesList } from '../../applicationComponent';
 import { AddingProductsModel } from '../data/model/products_model';
 import { DataReader } from '../../dataComponent/dataReaderHelper';
 
 const path = require('path');
+import * as moment from 'moment';
 
 export class OrderLibrary {
 
@@ -99,6 +100,68 @@ export class OrderLibrary {
             //Set header values
             __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
+            return __options;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async getAggregatedDataByOrderId(specData:SpecFile){
+        try {
+            FrameworkComponent.logHelper.info("*********** Get Aggregated Details By Order ID  ***********");
+            let __options = await this.getAggregatedDataByOrderIdOptions(specData);
+            FrameworkComponent.logHelper.info(__options);
+
+            let __response = await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response)=>{
+                return response;
+            });
+
+            
+            let __categoryList:Category[] = new Array; 
+            
+            await FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(__response).then((response) => {
+               for (let index = 0; index < response.TaskCategories.length; index++) {
+                    
+                    let __category = new Category();
+                    __category.CategoryName   = response.TaskCategories[index].CategoryName;
+
+                    let __taskSeries:TaskSeriesList[] =  new Array;
+                    for (let i = 0; i < response.TaskCategories[index].TaskSeries.length; i++) {                       
+                        __taskSeries[i] = response.TaskCategories[index].TaskSeries[i].Name;
+                    }
+
+                    __category.TaskSeriesList = __taskSeries;
+                        
+                    __categoryList[index] = __category;
+               }
+            });
+
+            specData.Data.Client.Patient.Visit.Category = __categoryList;            
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getAggregatedDataByOrderIdOptions(specData:SpecFile) {
+        try {
+            FrameworkComponent.logHelper.info('*********** Set Options for Aggregated DataBy Order Id ***********');
+            let __options =  DataReader.loadAPITemplates("getAggregatedData");
+
+            let startTime = moment().subtract(6, 'hours').toISOString();
+            let endTime = moment().subtract(4, 'hours').toISOString();
+            //Set URL
+            __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Orders/" + specData.Data.Client.Patient.Visit.VisitId + "/AggregatedData/" + startTime + "/" + endTime;
+    
+            //Set header values
+            __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
+            __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
+
+            //Query string
+            __options.qs.visitIds = specData.Data.Client.Patient.Visit.VisitId;
+            __options.qs.startTime = startTime;
+            __options.qs.endTime = endTime;
             return __options;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

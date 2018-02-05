@@ -100,6 +100,34 @@ export class CarePlannerLibrary{
     }
 
 
+    async apiGetAggregatedDataByOrderId(specData:SpecFile){
+        try {
+            __orderLib = new OrderLibrary();
+            __orderLib.getAggregatedDataByOrderId(specData);
+
+        } catch (error) {
+            FrameworkComponent.logHelper.info(error);
+            throw error;
+        }
+    }
+
+    async getCategoryListFromAggregatedDataByOrderId(specData:SpecFile){
+        try {            
+            let __categoryList = new Array;
+            let __taskList = new Array;
+
+            specData.Data.Client.Patient.Visit.Category.forEach(category => {
+                __categoryList.push(category.CategoryName);
+                category.TaskSeriesList.forEach(taskName => {
+                    __taskList.push(taskName);
+                })
+            });
+            return {categoryList : __categoryList, taskList:__taskList};
+        } catch (error) {
+            FrameworkComponent.logHelper.info(error);
+            throw error;
+        }
+    }
     // static async createClientPet(specData: SpecFile) {
     //     try {
     //         await browser.sleep(10000);

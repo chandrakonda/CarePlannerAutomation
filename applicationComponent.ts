@@ -19,13 +19,13 @@ export * from './applicationComponent/testbase'
 /**
  * API Controllers classes under the Application Component --> API Libraries
  */
-export * from './applicationComponent/apiLibraries/APILibraryController'
+export * from './applicationComponent/apiLibraries/apiLibraryController'
 export * from './applicationComponent/apiLibraries/careplannerLibrary'
 export * from './applicationComponent/apiLibraries/authLibrary'
-export * from './applicationComponent/apiLibraries/ClientAndPatientLibrary'
-export * from './applicationComponent/apiLibraries/AppointmentLibrary'
-export * from './applicationComponent/apiLibraries/OrderLibrary'
-export * from './applicationComponent/apiLibraries/VisitLibrary'
+export * from './applicationComponent/apiLibraries/clientAndPatientLibrary'
+export * from './applicationComponent/apiLibraries/appointmentLibrary'
+export * from './applicationComponent/apiLibraries/orderLibrary'
+export * from './applicationComponent/apiLibraries/visitLibrary'
 // /**
 //  * API Service classes under the Application Component  --> API Libraries
 //  */

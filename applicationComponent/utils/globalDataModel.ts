@@ -76,6 +76,9 @@ export class Data {
     TaskOccurrenceId: string;
     UserId: string;
     ClientLastName: string;
+    
+
+
 }
 
 export class Client {
@@ -83,7 +86,6 @@ export class Client {
     FirstName: string;
     LastName: string;
     Patient: Patient;
-
 }
 
 export class Patient {
@@ -100,6 +102,7 @@ export class Visit {
     VisitId: string;
     Product: Product;
     VisitInvoiceItem : VisitInvoiceItem[];
+    Category : Category[];
 }
 
 export class VisitInvoiceItem {
@@ -157,3 +160,11 @@ export class Scheduletaskseries {
 }
 
 
+export class Category {
+    CategoryName: string;
+    TaskSeriesList : TaskSeriesList[];
+}
+
+export class TaskSeriesList {
+    TaskName: string;
+}

@@ -3,10 +3,6 @@ import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSe
 import { browser } from 'protractor';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
-let productTaskList, productTaskList1, taskOccurrenceCount:number;
-// let taskUpdateStatus:string[] = ["Planned","Completed","Skipped","Canceled"];
-let occurrenceDetails:TaskOccurreceDetails;
-
 describe('Add a multi series product and schedule a task for all the task series', () => {
 
     describe('Complete a single occurrence of each task series', async() => {
@@ -26,10 +22,7 @@ describe('Add a multi series product and schedule a task for all the task series
         });
 
         afterAll( () => {
-            TestBase.GlobalData.SpecFiles.push(specFileData);
-            taskOccurrenceCount = 0;
-            productTaskList = '';
-            browser.Taskseriesname = '';
+            TestBase.GlobalData.SpecFiles.push(specFileData);            
         });
 
         beforeEach(()=> {
@@ -50,6 +43,8 @@ describe('Add a multi series product and schedule a task for all the task series
                 __testCase.TestName = 'API Calls for scheduling a task in careplanner';
                 await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);   
 
+                await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
+
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }
@@ -60,11 +55,13 @@ describe('Add a multi series product and schedule a task for all the task series
             try {
                 __testCase.TestName = "Verifying the category count and product task list";
 
+                let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
+                
                 //Verify the Category Count
-                await expect(Pages.cpSchedulerPage.categoryCount).toEqual(4);
-        
+                await expect(Pages.cpSchedulerPage.categoryCount).toEqual(__taskCategoryList.categoryList.length);
+                
                 //Verify the Task Count
-                await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(7);
+                await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(__taskCategoryList.taskList.length);
 
             } catch (error) {
                 __testCase.ExceptionDetails = error;
@@ -97,7 +94,12 @@ describe('Add a multi series product and schedule a task for all the task series
                 
                     //Verify the status of the created Occurrences
                     let __occurrencesStatus = Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(taskSeriesInfo.taskSeriesName);
-                    expect(__occurrencesStatus).toEqual(taskSeriesInfo.actualOccurrenceStatus);
+                    // expect(__occurrencesStatus).toEqual(taskSeriesInfo.actualOccurrenceStatus);
+
+                    let __expectedOccurrenceStatus = Pages.cpSchedulerPage.calculateExpectedOccurrenceStatus(taskSeriesInfo.scheduleStartTime, taskSeriesInfo.scheduleEndTime, taskSeriesInfo.repeatEveryHour);
+                    FrameworkComponent.logHelper.info(__occurrencesStatus);
+                    FrameworkComponent.logHelper.info(__expectedOccurrenceStatus);
+                    expect(__occurrencesStatus).toEqual(__expectedOccurrenceStatus);
                 });
             } catch (error) {
                 __testCase.ExceptionDetails = error;
