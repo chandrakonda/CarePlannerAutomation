@@ -11,21 +11,21 @@
         "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
         "occurrenceIndex" : 1,
         "occurrenceAction" : "Completed",
-        "expectedOcurrenceStatus" : ["Overdue","Complete", "Overdue"],
+        "expectedOcurrenceStatus" : ["Scheduled","Complete", "Scheduled"],
         "taskOccurrenceNotes" : "Test notes for complete task occurrence",
         "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
         "observationValues" : [
             {
-            "Temp" : "text ~ 100",
-            "Resp rate" : "text ~ 123",
-            "Heart rate" : "text ~ 76"
+            "Temp" : "100",
+            "Resp rate" : "123",
+            "Heart rate" : "76"
         },{
-            "Temp" : "text ~ 102",
-            "Resp rate" : "text ~ 124",
-            "Heart rate" : "text ~ 89",
-            "Pain" : "select ~ Increased",
-            "CRT" : "radio ~ >= 2",
-            "Hydration status" : "select ~ 5-6%"
+            "Temp" : "102",
+            "Resp rate" : "124",
+            "Heart rate" : "89",
+            "Pain" : "Increased",
+            "CRT" : ">= 2",
+            "Hydration status" : "5-6%"
 
         }]
     },
@@ -40,16 +40,16 @@
         "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
         "occurrenceIndex" : 1,
         "occurrenceAction" : "Completed",
-        "expectedOcurrenceStatus" : ["Overdue","Complete", "Overdue"],
+        "expectedOcurrenceStatus" : ["Scheduled","Complete", "Scheduled"],
         "taskOccurrenceNotes" : "Test notes for complete task occurrence",
         "observationList" : ["Type of food", "Food offered"],
         "observationValues" : [
             {
-                "Type of food" : "textarea ~ 100",
-                "Food offered" : "text ~ 20"
+                "Type of food" : "100",
+                "Food offered" : "20"
             }, {
-            "Type of food" : "textarea ~ 100",
-            "Food offered" : "text ~ 20"
+            "Type of food" : "100",
+            "Food offered" : "20"
         }]
     },
     {
@@ -63,7 +63,7 @@
         "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
         "occurrenceIndex" : 1,
         "occurrenceAction" : "Completed",
-        "expectedOcurrenceStatus" : ["Overdue","Complete", "Overdue"],
+        "expectedOcurrenceStatus" : ["Scheduled","Complete", "Scheduled"],
         "taskOccurrenceNotes" : "Test notes for complete task occurrence",
         "observationList" : [],
         "observationValues" : []

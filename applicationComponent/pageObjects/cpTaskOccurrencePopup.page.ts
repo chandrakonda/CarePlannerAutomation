@@ -1,5 +1,6 @@
 import { FrameworkComponent } from '../../frameworkComponent';
 import { element, by, browser, protractor, ExpectedConditions } from 'protractor';
+import { DataReader } from '../../dataComponent/dataReaderHelper';
 
 
 export class CareplannerTaskOcurrencePopup {
@@ -342,46 +343,83 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
+    updateOccurrenceDetailsWithObservations1(taskOccurrenceInfo, time?){
+        try {
+            if(this.isPopupDisplayed){
+                browser.sleep(1000);
+                switch (taskOccurrenceInfo.occurrenceAction.toLowerCase()) {
+                    case "completed":
+                        this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
+                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
+                            .enterCompletedTime(this.getScheduledTime)
+                            .selectCompletedDate()
+                        break;
+                    case "skipped":
+                        this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
+                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
+                        break;
+                    case "canceled":
+                        this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
+                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
+                        break;
+                    case "planned":
+                    case "rescheduled":
+                        this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
+                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
+                            .enterScheduledTime(time)
+                            .selectScheduledDate()
+                        break;
+                    default:
+                        break;
+                }
+                browser.sleep(1000);
+
+                if(taskOccurrenceInfo.observationList.length>0){                    
+                    this.fillObservationDetails1(taskOccurrenceInfo);
+                }
+                this.clickOnSave();
+            }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
     fillObservationDetails(taskSeriesInfo) {
         try {
             taskSeriesInfo.observationList.forEach(observationName => {
                             
                 let observationValue = taskSeriesInfo.observationValues[taskSeriesInfo.occurrenceIndex][observationName];
+                // let observationValue = taskSeriesInfo.observationValues[observationName];
 
-                let observationInfo:string[] = observationValue.split('~').map((item:string) =>item.trim());
+                let observationFieldInfo = DataReader.loadAPIDefaultValues('observationMappings');
+                observationFieldInfo = observationFieldInfo.observationlist.filter(list => list.Name.toLowerCase() === observationName.toLowerCase());
 
-                if(observationValue != null) {
+                if(observationValue != null && observationFieldInfo.length === 1) {
 
-                    let fieldType = observationInfo[0];
-                    let fieldValue = observationInfo[1];
+                    let fieldName = observationFieldInfo[0].Abbrevation;
+                    let fieldType = observationFieldInfo[0].FieldType;
+                    let fieldValue = observationValue;
                     
-                    if(observationName === 'CRT'){
-                        observationName = 'Capillary Refill time';
-                    } else if(observationName === 'MM color') {
-                        observationName = 'Mucous Membrane color';
-                    } else if (observationName === 'Hydration status') {
-                        observationName = 'Hydration';
-                    }
-
                     switch (fieldType.toLowerCase()) {
                         case 'text':
                             FrameworkComponent.logHelper.info('Textbox is the ' + fieldValue);
-                            let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input";
+                            let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input";
                             element(by.xpath(textXpath)).sendKeys(fieldValue);
                             break;
                         case 'textarea':
                             FrameworkComponent.logHelper.info('Textarea is the ' + fieldValue);
-                            let textAreaXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::textarea";
+                            let textAreaXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::textarea";
                             element(by.xpath(textAreaXpath)).sendKeys(fieldValue);
                             break;
                         case 'radio':
                             FrameworkComponent.logHelper.info('radio button is the ' + fieldValue);
-                            let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
+                            let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
                             element(by.xpath(radioXpath)).click();
                             break;
                         case 'select':
                             FrameworkComponent.logHelper.info('select is the ' + fieldValue);
-                            let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ observationName + "')]]/following-sibling::div/descendant::select";
+                            let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName + "')]]/following-sibling::div/descendant::select";
                             element(by.xpath(selectXpath)).element(by.cssContainingText('option',fieldValue)).click();
                             break;
                         default:
@@ -393,7 +431,54 @@ export class CareplannerTaskOcurrencePopup {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
-    }
+    }    
 
+    fillObservationDetails1(taskOccurrenceInfo) {
+        try {
+            taskOccurrenceInfo.observationList.forEach(observationName => {
+                                            
+                let observationValue = taskOccurrenceInfo.observationValues[observationName];
 
+                let observationFieldInfo = DataReader.loadAPIDefaultValues('observationMappings');
+                observationFieldInfo = observationFieldInfo.observationlist.filter(list => list.Name.toLowerCase() === observationName.toLowerCase());
+
+                if(observationValue != null && observationFieldInfo.length === 1) {
+
+                    let fieldName = observationFieldInfo[0].Abbrevation;
+                    let fieldType = observationFieldInfo[0].FieldType;
+                    let fieldValue = observationValue;
+                    
+                    switch (fieldType.toLowerCase()) {
+                        case 'text':
+                            FrameworkComponent.logHelper.info('Textbox is the ' + fieldValue);
+                            let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input";
+                            element(by.xpath(textXpath)).sendKeys(fieldValue);
+                            break;
+                        case 'textarea':
+                            FrameworkComponent.logHelper.info('Textarea is the ' + fieldValue);
+                            let textAreaXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::textarea";
+                            element(by.xpath(textAreaXpath)).sendKeys(fieldValue);
+                            break;
+                        case 'radio':
+                            FrameworkComponent.logHelper.info('radio button is the ' + fieldValue);
+                            let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
+                            element(by.xpath(radioXpath)).click();
+                            break;
+                        case 'select':
+                            FrameworkComponent.logHelper.info('select is the ' + fieldValue);
+                            let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName + "')]]/following-sibling::div/descendant::select";
+                            element(by.xpath(selectXpath)).element(by.cssContainingText('option',fieldValue)).click();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }   
+
+    
 }

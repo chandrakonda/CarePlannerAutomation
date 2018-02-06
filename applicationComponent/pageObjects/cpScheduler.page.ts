@@ -167,6 +167,18 @@ export class CareplannerSchedulerPage{
         }
     }
 
+    clickOnTaskSeriesOccurrenceByHour(taskSeriesName, occurrenceHour){
+        try {
+            this.getPositionByTaskName(taskSeriesName).then((position)=>{                                
+                let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]";
+                element.all(by.xpath(__elementXpath)).get(occurrenceHour + 1).getWebElement().click();
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
     getTaskOccurrenceStatus(startPosition, endPosition) {
         try {                      
             let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ + "and not(position() >" + endPosition.value_ + ")]/descendant::li";
@@ -311,6 +323,21 @@ export class CareplannerSchedulerPage{
         }
     }
 
+    ScheduleTaskWithObservations1(taskSeriesName, taskScheduleInfo){
+        try {
+           
+            this.clickOnTaskByName(taskSeriesName);
+
+            browser.sleep(1000);  
+
+            Pages.cpTaskSchedulerPopup.scheduleTaskWithObservationDetails1(taskScheduleInfo);
+
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
     updateOccurrenceDetailsWithObservations(taskSeriesInfo, time?){
         try {
 
@@ -319,6 +346,21 @@ export class CareplannerSchedulerPage{
             browser.sleep(1000);
 
             Pages.cpTaskOccurrencePopup.updateOccurrenceDetailsWithObservations(taskSeriesInfo);
+
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    updateOccurrenceDetailsWithObservations1(taskSeriesName, taskOccurrenceInfo, time?){
+        try {
+
+            this.clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, taskOccurrenceInfo.occurrenceIndex);
+
+            browser.sleep(1000);
+
+            Pages.cpTaskOccurrencePopup.updateOccurrenceDetailsWithObservations1(taskOccurrenceInfo);
 
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -411,6 +453,41 @@ export class CareplannerSchedulerPage{
             }
             
             return expectedOccurrenceStatus;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    calculateExpectedOccurrenceCountAndStatus(startTime, endTime, repeatHours) {
+        try {
+            
+            let numberOfTaskOccurrence = ((endTime - startTime)/repeatHours) + 1
+            
+            let occurrences = new Array, expectedOccurrenceStatus = new Array;
+            let currentTime = new Date().getHours();
+
+            occurrences[0] = startTime;
+            for (let index = 1; index < numberOfTaskOccurrence; index++) {
+                occurrences[index] = occurrences[index-1] + repeatHours;                
+            }
+        
+            if(occurrences.length === numberOfTaskOccurrence) {
+                for(let index=0; index <= numberOfTaskOccurrence; index++){
+                    if(occurrences[index] == currentTime ){
+                        expectedOccurrenceStatus[index] = 'duenow';
+                    } else if(occurrences[index] < currentTime){
+                        expectedOccurrenceStatus[index] = 'Overdue';
+                    } else if(occurrences[index] > currentTime) {
+                        expectedOccurrenceStatus[index] = 'Scheduled';
+                    }
+                }
+            } else {
+		        FrameworkComponent.logHelper.info('Number of Task Occurrences mismatched');
+		        throw 'Number of Task Occurrences mismatched';
+            }
+            
+            return {expectedOccurrenceCount: numberOfTaskOccurrence, expectedOccurrenceStatus };
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

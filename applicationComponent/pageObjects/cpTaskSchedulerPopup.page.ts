@@ -532,6 +532,44 @@ export class CareplannerTaskSchedulerPopup{
                     this.defineTaskObservationValues(taskSeries.observationList);
                 }
                 this.clickScheduleButton();
+                browser.sleep(2000);
+            } else {
+                FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
+            }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    scheduleTaskWithObservationDetails1(taskScheduleInfo){
+        try {
+            if(this.isPopupDisplayed){
+                switch(taskScheduleInfo.occurrenceFrequency.toLowerCase()) {
+                    case "once":
+                        this.toggleFrequencyOnce()
+                            .enterTimeForSingleOccurrence(taskScheduleInfo.scheduleStartTime)
+                            .selectDateForSingleOccurrence()
+                            .enterInstructions(taskScheduleInfo.scheduleInstructions);
+                    break;
+                    case "recurring":
+                        this.toggleFrequencyRecurring()
+                            .enterStartTime(taskScheduleInfo.scheduleStartTime)
+                            .selectStartDate()
+                            .enterRepeatEveryHour(taskScheduleInfo.repeatEveryHour)
+                            .enterEndTime(taskScheduleInfo.scheduleEndTime)
+                            .selectEndDate()
+                            .enterInstructions(taskScheduleInfo.scheduleInstructions);
+                    break;
+                    default:
+                    break;
+                }
+
+                if(taskScheduleInfo.observationList.length > 0){
+                    this.defineTaskObservationValues(taskScheduleInfo.observationList);
+                }
+                this.clickScheduleButton();
+                browser.sleep(2000);
             } else {
                 FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
             }
@@ -546,20 +584,16 @@ export class CareplannerTaskSchedulerPopup{
 
             this.expandTaskObservation();
             
-            // this.IsTaskObservationExpanded().then((isExpanded) => {
-            //     if(isExpanded){
-                    this.eleTaskObservationList.getText().then((observationList) => {
-                        for (let index = 0; index < observationList.length; index++) {                    
-                            if(taskObservationList.includes(observationList[index])) {
-                                this.selectTaskObservationByName(observationList[index]);
-                            }
-                            else {
-                                this.unselectTaskObservationByName(observationList[index]);
-                            }
-                        }
-                    });
-            //     }
-            // });
+            this.eleTaskObservationList.getText().then((observationList) => {
+                for (let index = 0; index < observationList.length; index++) {                    
+                    if(taskObservationList.includes(observationList[index])) {
+                        this.selectTaskObservationByName(observationList[index]);
+                    }
+                    else {
+                        this.unselectTaskObservationByName(observationList[index]);
+                    }
+                }
+            });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
