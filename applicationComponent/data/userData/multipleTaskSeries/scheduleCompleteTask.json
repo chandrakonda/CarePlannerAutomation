@@ -1,72 +1,79 @@
 {
-    "TaskSeries" :[
-        {
-        "taskSeriesName": "Vitals",
-        "occurrenceFrequency" : "recurring",
-        "scheduleStartTime" : 9,
-        "scheduleEndTime" : 11,
-        "repeatEveryHour" : 1,
-        "scheduleInstructions" : "Test Instructions for vitals",
-        "expectedNumberOfTaskOccurrences" : 3,
-        "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
-        "occurrenceIndex" : 1,
-        "occurrenceAction" : "Completed",
-        "expectedOcurrenceStatus" : ["Scheduled","Complete", "Scheduled"],
-        "taskOccurrenceNotes" : "Test notes for complete task occurrence",
-        "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
-        "observationValues" : [
-            {
-            "Temp" : "100",
-            "Resp rate" : "123",
-            "Heart rate" : "76"
+    "TaskSeries":[{
+            "taskSeriesName" : "Vitals",
+            "taskScheduleInfo" : [{
+                    "occurrenceFrequency" : "recurring",
+                    "scheduleStartTime" : "9",
+                    "scheduleEndTimeCheckout" : "false",
+                    "scheduleEndTime" : "11",
+                    "repeatEveryHour" : "1",
+                    "scheduleInstructions" : "Test Instructions for vitals",
+                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"]
+                }],
+            "taskOccurrenceInfo" :[{
+                    "occurrenceIndex" : "1",
+                    "occurrenceHour" : "10",
+                    "occurrenceAction" : "Completed",
+                    "occurrenceNotes" : "Test notes for complete task occurrence",
+                    "expectedOccurrenceStatus" : "Complete",
+                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
+                    "observationValues" : {
+                        "Temp" : "102",
+                        "Resp rate" : "124",
+                        "Heart rate" : "89",
+                        "Pain" : "Increased",
+                        "CRT" : ">= 2",
+                        "Hydration status" : "5-6%"
+                    }
+                },{
+                    "occurrenceIndex" : "2",
+                    "occurrenceHour" : "10",
+                    "occurrenceAction" : "Completed",
+                    "occurrenceNotes" : "Test notes for complete task occurrence",
+                    "expectedOccurrenceStatus" : "Complete",
+                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
+                    "observationValues" : {
+                        "Temp" : "100",
+                        "Resp rate" : "120",
+                        "Heart rate" : "64",
+                        "Pain" : "Increased",
+                        "CRT" : ">= 2",
+                        "Hydration status" : "5-6%"
+                    }
+            }]
         },{
-            "Temp" : "102",
-            "Resp rate" : "124",
-            "Heart rate" : "89",
-            "Pain" : "Increased",
-            "CRT" : ">= 2",
-            "Hydration status" : "5-6%"
-
-        }]
-    },
-    {
-        "taskSeriesName": "Offer food",
-        "occurrenceFrequency" : "recurring",
-        "scheduleStartTime" : 9,
-        "scheduleEndTime" : 11,
-        "repeatEveryHour" : 1,
-        "scheduleInstructions" : "Test Instructions for offer food",
-        "expectedNumberOfTaskOccurrences" : 3,
-        "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
-        "occurrenceIndex" : 1,
-        "occurrenceAction" : "Completed",
-        "expectedOcurrenceStatus" : ["Scheduled","Complete", "Scheduled"],
-        "taskOccurrenceNotes" : "Test notes for complete task occurrence",
-        "observationList" : ["Type of food", "Food offered"],
-        "observationValues" : [
-            {
-                "Type of food" : "100",
-                "Food offered" : "20"
-            }, {
-            "Type of food" : "100",
-            "Food offered" : "20"
-        }]
-    },
-    {
-        "taskSeriesName": "Water",
-        "occurrenceFrequency" : "recurring",
-        "scheduleStartTime" : 9,
-        "scheduleEndTime" : 11,
-        "repeatEveryHour" : 1,
-        "scheduleInstructions" : "Test Instructions for water",
-        "expectedNumberOfTaskOccurrences" : 3,
-        "actualOccurrenceStatus" : ["Overdue", "Overdue","Overdue"],
-        "occurrenceIndex" : 1,
-        "occurrenceAction" : "Completed",
-        "expectedOcurrenceStatus" : ["Scheduled","Complete", "Scheduled"],
-        "taskOccurrenceNotes" : "Test notes for complete task occurrence",
-        "observationList" : [],
-        "observationValues" : []
-    }
-]
+            "taskSeriesName" : "Offer food",
+            "taskScheduleInfo" : [{
+                    "occurrenceFrequency" : "recurring",
+                    "scheduleStartTime" : "9",
+                    "scheduleEndTimeCheckout" : "false",
+                    "scheduleEndTime" : "11",
+                    "repeatEveryHour" : "1",
+                    "scheduleInstructions" : "Test Instructions for offer food",
+                    "observationList" : ["Type of food", "Food offered"]
+                }],
+            "taskOccurrenceInfo" :[{
+                    "occurrenceIndex" : "1",
+                    "occurrenceHour" : "10",
+                    "occurrenceAction" : "Completed",
+                    "occurrenceNotes" : "Test notes for complete task occurrence",
+                    "expectedOccurrenceStatus" : "Complete",
+                    "observationList" : ["Type of food", "Food offered"],
+                    "observationValues" : {
+                        "Type of food" : "100",
+                        "Food offered" : "20"
+                    }
+                },{
+                    "occurrenceIndex" : "0",
+                    "occurrenceHour" : "10",
+                    "occurrenceAction" : "Completed",
+                    "occurrenceNotes" : "Test notes for complete task occurrence",
+                    "expectedOccurrenceStatus" : "Complete",
+                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
+                    "observationValues" : {
+                        "Type of food" : "106",
+                        "Food offered" : "25"
+                    }
+            }]
+    }]
 }

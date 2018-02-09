@@ -88,7 +88,7 @@ export class CareplannerSchedulerPage{
     clickOnTaskByName(taskSeriesName: string) {
         try {
             let _taskSeriesName = taskSeriesName.slice(0, 23);            
-            let _xpathValue: string = "//div[contains(@class,'wj-cell') and contains(@class,'wj-frozen') and not(contains(@class,'wj-group'))]/descendant::div[contains(@class,'itemname') and normalize-space(text()) = '" + _taskSeriesName +"']";
+            let _xpathValue: string = "//div[contains(@class,'wj-cell') and contains(@class,'wj-frozen') and not(contains(@class,'wj-group'))]/descendant::div[contains(@class,'itemname') and contains(normalize-space(text()) , '" + _taskSeriesName +"')]";
             let ele1 = element(by.xpath(_xpathValue));
             ele1.click();
             browser.sleep(3000);
@@ -114,20 +114,6 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    isTaskScheduled() {
-        try {
-            let __elementXpath: string = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt') and not(contains(@class,'wj-frozen'))][position() >=43 and not(position() >44)]/div/descendant::li/div[contains(@class,'occurance-icon')]";
-            return element(by.xpath(__elementXpath)).isDisplayed().then(value => {
-                FrameworkComponent.logHelper.info("Tasks is scheduled " + value);
-                return value;
-            });
-        } catch (error) {
-            FrameworkComponent.logHelper.info("Unable to find scheduled task in grid. Please check exception details");
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
     getNumberOfTaskOccurrence(startPosition, endPosition) {
         try {                       
             //let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
@@ -143,23 +129,11 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    clickOnOccurrenceByIndex(startPosition, endPosition, index) {
-        try {
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" +startPosition +"and not(position() >" +endPosition +")]/descendant::li";
-            let occurrences = element.all(by.xpath(__elementXpath)).get(index).getWebElement();
-            browser.actions().mouseMove(occurrences).click().perform();
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
     clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, occurrenceIndex) {
         try {            
             this.getPositionByTaskName(taskSeriesName).then((position)=>{                                
                 let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]/descendant::li";
-                element.all(by.xpath(__elementXpath)).get(occurrenceIndex).getWebElement().click();
-                // browser.actions().mouseMove(occurrences).click().perform();
+                element.all(by.xpath(__elementXpath)).get(occurrenceIndex).getWebElement().click();    
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -167,6 +141,7 @@ export class CareplannerSchedulerPage{
         }
     }
 
+    //Trial Method, Need to implement fully
     clickOnTaskSeriesOccurrenceByHour(taskSeriesName, occurrenceHour){
         try {
             this.getPositionByTaskName(taskSeriesName).then((position)=>{                                
@@ -193,17 +168,6 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    async verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, expectedNumberOfTaskOccurrences){
-        try {
-            browser.sleep(1000);
-            let taskOccurrenceCount = await this.getNumberOfTaskOccurrence(startPosition, endPosition).then((count) => {return count});
-            await expect(taskOccurrenceCount).toBe(expectedNumberOfTaskOccurrences);
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
     async getTheNumberOfTaskOccurrenceCreated(taskSeriesName){
         try {
             browser.sleep(1000);
@@ -219,26 +183,12 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    async verifyTheStatusOfTaskOccurrenceCreated(startPosition, endPosition, expectedStatus){
-        try {
-            let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
-
-            for (let index = 0; index < taskOccurrenceStatus.length; index++) {
-                await FrameworkComponent.logHelper.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
-                await expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
-            }
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
     async getStatusOfTheTaskOccurrenceByTaskName(taskSeriesName){
         try {
             let __taskOccurrenceStatus = await this.getPositionByTaskName(taskSeriesName).then((position)=>{
                 return this.getTaskOccurrenceStatus(position.startPosition, position.endPosition).then((statusList:any) =>{
-                    for (let index = 0; index < statusList.length; index++) {
-                        statusList[index] = statusList[index].split(' ')[0];
+                    for (let index = 1; index <= statusList.length; index++) {
+                        statusList[index-1] = statusList[index-1].split(' ')[0];
                     }
                     return statusList;
                 });
@@ -251,86 +201,14 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    async verifyTheStatusOfTaskOccurrenceUpdatedByIndex(startPosition, endPosition, occurrenceIndex, expectedStatus){
-        try {
-            browser.sleep(2000);
-            let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
-            FrameworkComponent.logHelper.info("Status of the occurrence " + occurrenceIndex + " is : " + taskOccurrenceStatus[occurrenceIndex].split(' ')[0]);
-            expect(taskOccurrenceStatus[occurrenceIndex].split(' ')[0]).toEqual(expectedStatus);      
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    async verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, canceledIndex, expectedStatus){
-        try {
-            let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
-            if(expectedStatus.length == 1){
-                expect(taskOccurrenceStatus.length).toEqual(0);
-            } else if ( canceledIndex == 0 && expectedStatus[canceledIndex] == 'Canceled') {
-                expectedStatus.splice(canceledIndex, 1);
-                for (let index = 0; index < taskOccurrenceStatus.length; index++) {
-                    FrameworkComponent.logHelper.info("Status of the occurrence " + index + " is : " + taskOccurrenceStatus[index].split(' ')[0]);
-                    expect(taskOccurrenceStatus[index].split(' ')[0]).toEqual(expectedStatus[index]);
-                }
-            }     
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    clickOnOccurrenceByScheduledTime(scheduledTime) {
-        try {
-            let startPosition = scheduledTime+1;
-            let endPosition = scheduledTime + 2;
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" + startPosition +"and not(position() >=" + endPosition +")]/descendant::li";
-            let occurrences = element(by.xpath(__elementXpath)).getWebElement();
-            browser.actions().mouseMove(occurrences).click().perform();
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    async verifyTheStatusOfTaskOccurrenceByTime(time, expectedStatus){
-        try {
-            let startPosition = time + 1;
-            let endPosition = time + 2;
-            browser.sleep(2000);
-            let taskOccurrenceStatus:any = await this.getTaskOccurrenceStatus(startPosition, endPosition);
-            FrameworkComponent.logHelper.info("Status of the occurrence time '" + time + "' hour is : " + taskOccurrenceStatus[0].split(' ')[0]);
-            expect(taskOccurrenceStatus[0].split(' ')[0]).toEqual(expectedStatus);      
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    ScheduleTaskWithObservations(taskSeriesInfo){
-        try {
-           
-            this.clickOnTaskByName(taskSeriesInfo.taskSeriesName);
-
-            browser.sleep(1000);  
-
-            Pages.cpTaskSchedulerPopup.scheduleTaskWithObservationDetails(taskSeriesInfo);
-
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    ScheduleTaskWithObservations1(taskSeriesName, taskScheduleInfo){
+    ScheduleTaskWithObservations(taskSeriesName, taskScheduleInfo){
         try {
            
             this.clickOnTaskByName(taskSeriesName);
 
             browser.sleep(1000);  
 
-            Pages.cpTaskSchedulerPopup.scheduleTaskWithObservationDetails1(taskScheduleInfo);
+            Pages.cpTaskSchedulerPopup.scheduleTaskWithObservationDetails(taskScheduleInfo);
 
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -338,54 +216,19 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    updateOccurrenceDetailsWithObservations(taskSeriesInfo, time?){
-        try {
-
-            this.clickOnTaskSeriesOccurrenceByIndex(taskSeriesInfo.taskSeriesName, taskSeriesInfo.occurrenceIndex);
-
-            browser.sleep(1000);
-
-            Pages.cpTaskOccurrencePopup.updateOccurrenceDetailsWithObservations(taskSeriesInfo);
-
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    updateOccurrenceDetailsWithObservations1(taskSeriesName, taskOccurrenceInfo, time?){
+    updateOccurrenceDetailsWithObservations(taskSeriesName, taskOccurrenceInfo, scheduleTime?){
         try {
 
             this.clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, taskOccurrenceInfo.occurrenceIndex);
 
             browser.sleep(1000);
 
-            Pages.cpTaskOccurrencePopup.updateOccurrenceDetailsWithObservations1(taskOccurrenceInfo);
+            Pages.cpTaskOccurrencePopup.updateOccurrenceDetailsWithObservations(taskOccurrenceInfo, scheduleTime);
 
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
-    }
-
-    getPositionByTaskIndex(__taskIndex) {
-        try {
-            let __sPos, __ePos;
-            if(__taskIndex == 0){ 
-                __sPos = 1 ;
-                __ePos = 25;
-                return { startPosition : __sPos, endPosition : __ePos };
-            } else if(__taskIndex >= 1){
-                __sPos =  __taskIndex * 24 + 1;
-                __ePos = __sPos + 24; 
-                return { startPosition : __sPos, endPosition : __ePos };
-            } else {
-                //fail test as product list not identified
-            }
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }    
     }
 
     getPositionByTaskName(taskSeriesName){
@@ -394,25 +237,12 @@ export class CareplannerSchedulerPage{
             return this.productTaskList.then((list) => {
                 let __taskIndex = list.indexOf(taskSeriesName);
                 if(__taskIndex == 0){ 
-                    // __sPos = 1 ;
-                    // __ePos = 25;
-                    __sPos =  this.eleNumberOfHoursDisplayed.count().then((count) => {
-                        return 1;
-                    });
-                    __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => {
-                        return count + 1;
-                    });
+                    __sPos =  this.eleNumberOfHoursDisplayed.count().then((count) => { return 1;});
+                    __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => { return count + 1; });
                     return { startPosition : __sPos, endPosition : __ePos };
                 } else if(__taskIndex >= 1){
-                    // __sPos =  __taskIndex * 24 + 1;
-                    // __ePos = __sPos + 24; 
-                    __sPos  = this.eleNumberOfHoursDisplayed.count().then((count) => {
-                        return __taskIndex * count + 1;
-                    });
-                    
-                    __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => {
-                        return __taskIndex * count + count + 1;
-                    });
+                    __sPos  = this.eleNumberOfHoursDisplayed.count().then((count) => { return __taskIndex * count + 1; });                
+                    __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => { return __taskIndex * count + count + 1; });
                     return { startPosition : __sPos, endPosition : __ePos };
                 } else {
                     //fail test as product list not identified
@@ -424,69 +254,43 @@ export class CareplannerSchedulerPage{
         }    
     }
 
-    calculateExpectedOccurrenceStatus(startTime, endTime, repeatHours) {
+    calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo) {
         try {
             
-            let numberOfTaskOccurrence = ((endTime - startTime)/repeatHours) + 1
-            
+            let numberOfTaskOccurrence;
             let occurrences = new Array, expectedOccurrenceStatus = new Array;
             let currentTime = new Date().getHours();
 
-            occurrences[0] = startTime;
-            for (let index = 1; index < numberOfTaskOccurrence; index++) {
-                occurrences[index] = occurrences[index-1] + repeatHours;                
+            switch (taskScheduleInfo.occurrenceFrequency) {
+                case 'once':
+                    numberOfTaskOccurrence = 1;
+                break;
+                case 'recurring':
+                    numberOfTaskOccurrence = ((taskScheduleInfo.scheduleEndTime - taskScheduleInfo.scheduleStartTime)/taskScheduleInfo.repeatEveryHour) + 1;
+                    break;                  
+                default:
+                    break;
             }
-        
+            occurrences[0] = taskScheduleInfo.scheduleStartTime;
+            for (let index = 1; index < numberOfTaskOccurrence; index++) {
+                occurrences[index] = occurrences[index-1] + taskScheduleInfo.repeatEveryHour;
+            }
+
             if(occurrences.length === numberOfTaskOccurrence) {
-                for(let index=0; index <= numberOfTaskOccurrence; index++){
-                    if(occurrences[index] == currentTime ){
+                for(let index=0; index < numberOfTaskOccurrence; index++){
+                    if(occurrences[index] == currentTime ) {
                         expectedOccurrenceStatus[index] = 'duenow';
-                    } else if(occurrences[index] < currentTime){
+                    } else if(occurrences[index] < currentTime) {
                         expectedOccurrenceStatus[index] = 'Overdue';
                     } else if(occurrences[index] > currentTime) {
                         expectedOccurrenceStatus[index] = 'Scheduled';
                     }
                 }
             } else {
-		        FrameworkComponent.logHelper.info('Number of Task Occurrences mismatched');
-		        throw 'Number of Task Occurrences mismatched';
+                FrameworkComponent.logHelper.info('Number of Task Occurrences mismatched');
+                throw 'Number of Task Occurrences mismatched';
             }
-            
-            return expectedOccurrenceStatus;
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
 
-    calculateExpectedOccurrenceCountAndStatus(startTime, endTime, repeatHours) {
-        try {
-            
-            let numberOfTaskOccurrence = ((endTime - startTime)/repeatHours) + 1
-            
-            let occurrences = new Array, expectedOccurrenceStatus = new Array;
-            let currentTime = new Date().getHours();
-
-            occurrences[0] = startTime;
-            for (let index = 1; index < numberOfTaskOccurrence; index++) {
-                occurrences[index] = occurrences[index-1] + repeatHours;                
-            }
-        
-            if(occurrences.length === numberOfTaskOccurrence) {
-                for(let index=0; index <= numberOfTaskOccurrence; index++){
-                    if(occurrences[index] == currentTime ){
-                        expectedOccurrenceStatus[index] = 'duenow';
-                    } else if(occurrences[index] < currentTime){
-                        expectedOccurrenceStatus[index] = 'Overdue';
-                    } else if(occurrences[index] > currentTime) {
-                        expectedOccurrenceStatus[index] = 'Scheduled';
-                    }
-                }
-            } else {
-		        FrameworkComponent.logHelper.info('Number of Task Occurrences mismatched');
-		        throw 'Number of Task Occurrences mismatched';
-            }
-            
             return {expectedOccurrenceCount: numberOfTaskOccurrence, expectedOccurrenceStatus };
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

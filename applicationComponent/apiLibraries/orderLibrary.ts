@@ -12,15 +12,18 @@ export class OrderLibrary {
         FrameworkComponent.logHelper.info("*********** Order Controller ***********")
     }
 
-    async addOrderToVisit(specData:SpecFile, productFileName?: string) {
+    async addOrderToVisit(specData:SpecFile, productFileName?: string, productFolderName?:string) {
         try {
             FrameworkComponent.logHelper.info("******************* Get Order To Visit ******************************");
             let __responseList = [];
             let __rootObject: AddingProductsModel.RootObject;
             let __options = DataReader.loadAPITemplates("putVisitInvoiceItems"); // require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/putVisitInvoiceItems.json'));
     
-            if (productFileName == null) { __rootObject = new AddingProductsModel.RootObject(); }
-            else { __rootObject = new AddingProductsModel.RootObject(productFileName); }
+            if (productFileName == null) { 
+                __rootObject = new AddingProductsModel.RootObject(); 
+            } else {                
+                __rootObject = new AddingProductsModel.RootObject(productFileName, productFolderName); 
+            }
             
             __rootObject.products.forEach(async product => {
                 FrameworkComponent.logHelper.log("*************** Adding Product to Order **************");
@@ -111,15 +114,11 @@ export class OrderLibrary {
         try {
             FrameworkComponent.logHelper.info("*********** Get Aggregated Details By Order ID  ***********");
             let __options = await this.getAggregatedDataByOrderIdOptions(specData);
-            FrameworkComponent.logHelper.info(__options);
-
             let __response = await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response)=>{
                 return response;
             });
-
             
-            let __categoryList:Category[] = new Array; 
-            
+            let __categoryList:Category[] = new Array;             
             await FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(__response).then((response) => {
                for (let index = 0; index < response.TaskCategories.length; index++) {
                     
@@ -131,12 +130,10 @@ export class OrderLibrary {
                         __taskSeries[i] = response.TaskCategories[index].TaskSeries[i].Name;
                     }
 
-                    __category.TaskSeriesList = __taskSeries;
-                        
+                    __category.TaskSeriesList = __taskSeries;                        
                     __categoryList[index] = __category;
                }
             });
-
             specData.Data.Client.Patient.Visit.Category = __categoryList;            
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

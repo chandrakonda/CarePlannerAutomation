@@ -1,0 +1,35 @@
+{
+    "Products" :{
+        "InvoiceItemId": 75705,
+        "InvoiceItemTypeId": 1,
+        "PLNo": 53,
+        "SeqNo": 1,
+        "Code": "53.1",
+        "MinimumQty": 1,
+        "DefaultQty": 1,
+        "MaximumQty": 1
+    },
+    "TaskSeries":{
+        "taskSeriesName" : "Acepromazine",
+        "taskScheduleInfo" : {
+            "occurrenceFrequency" : "once",
+            "scheduleStartTime" : "9",
+            "scheduleEndTimeCheckout" : "false",
+            "scheduleEndTime" : "",
+            "repeatEveryHour" : "",
+            "scheduleInstructions" : "Test Instructions for Acepromzazine",
+            "observationList" : ["Consistency"]
+            },
+        "taskOccurrenceInfo" :{
+            "occurrenceIndex" : "0",
+            "occurrenceHour" : "10",
+            "occurrenceAction" : "Planned",
+            "occurrenceNotes" : "Test notes for complete task occurrence",
+            "expectedOccurrenceStatus" : "Scheduled",
+            "observationList" : ["Consistency"],
+            "observationValues" : {
+                "Consistency" : "5-6%"
+            }
+        }
+    }
+}

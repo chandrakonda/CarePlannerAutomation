@@ -73,9 +73,9 @@
         "FieldType" : "text",
         "Abbrevation" : "b-wave ERG"
     },{
-        "Name" : "",
-        "FieldType" : "",
-        "Abbrevation" : ""
+        "Name" : "Consistency",
+        "FieldType" : "select",
+        "Abbrevation" : "Fecal consistency"
     },{
         "Name" : "",
         "FieldType" : "",

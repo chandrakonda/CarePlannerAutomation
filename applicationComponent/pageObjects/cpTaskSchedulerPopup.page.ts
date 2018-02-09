@@ -505,44 +505,7 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    scheduleTaskWithObservationDetails(taskSeries){
-        try {
-            if(this.isPopupDisplayed){
-                switch(taskSeries.occurrenceFrequency.toLowerCase()) {
-                    case "once":
-                        this.toggleFrequencyOnce()
-                            .enterTimeForSingleOccurrence(taskSeries.scheduleStartTime)
-                            .selectDateForSingleOccurrence()
-                            .enterInstructions(taskSeries.scheduleInstructions);
-                    break;
-                    case "recurring":
-                        this.toggleFrequencyRecurring()
-                            .enterStartTime(taskSeries.scheduleStartTime)
-                            .selectStartDate()
-                            .enterRepeatEveryHour(taskSeries.repeatEveryHour)
-                            .enterEndTime(taskSeries.scheduleEndTime)
-                            .selectEndDate()
-                            .enterInstructions(taskSeries.scheduleInstructions);
-                    break;
-                    default:
-                    break;
-                }
-
-                if(taskSeries.observationList.length>0){
-                    this.defineTaskObservationValues(taskSeries.observationList);
-                }
-                this.clickScheduleButton();
-                browser.sleep(2000);
-            } else {
-                FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
-            }
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    scheduleTaskWithObservationDetails1(taskScheduleInfo){
+    scheduleTaskWithObservationDetails(taskScheduleInfo){
         try {
             if(this.isPopupDisplayed){
                 switch(taskScheduleInfo.occurrenceFrequency.toLowerCase()) {

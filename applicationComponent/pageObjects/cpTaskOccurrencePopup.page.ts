@@ -260,90 +260,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    updateOccurrenceDetails(status:string, taskNotes:string, time?){
-        try {
-            if(this.isPopupDisplayed){
-                browser.sleep(1000);
-                switch (status.toLowerCase()) {
-                    case "completed":
-                        this.enterTaskNotes(taskNotes)
-                            .selectStatusInToggleButton(status)
-                            .enterCompletedTime(this.getScheduledTime)
-                            .selectCompletedDate()
-                            .clickOnSave();                        
-                        break;
-                    case "skipped":
-                        this.enterTaskNotes(taskNotes)
-                            .selectStatusInToggleButton(status)
-                            .clickOnSave();
-                        break;
-                    case "canceled":
-                            this.enterTaskNotes(taskNotes)
-                            .selectStatusInToggleButton(status)
-                            .clickOnSave();
-                        break;
-                    case "planned":
-                    case "rescheduled":
-                        this.enterTaskNotes(taskNotes)
-                            .selectStatusInToggleButton(status)
-                            .enterScheduledTime(time)
-                            .selectScheduledDate()
-                            .clickOnSave(); 
-                        break;
-                    default:
-                        break;
-                }
-                browser.sleep(1000);
-            }
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    updateOccurrenceDetailsWithObservations(taskSeriesInfo, time?){
-        try {
-            if(this.isPopupDisplayed){
-                browser.sleep(1000);
-                switch (taskSeriesInfo.occurrenceAction.toLowerCase()) {
-                    case "completed":
-                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
-                            .enterCompletedTime(this.getScheduledTime)
-                            .selectCompletedDate()
-                        break;
-                    case "skipped":
-                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
-                        break;
-                    case "canceled":
-                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
-                        break;
-                    case "planned":
-                    case "rescheduled":
-                        this.enterTaskNotes(taskSeriesInfo.taskOccurrenceNotes)
-                            .selectStatusInToggleButton(taskSeriesInfo.occurrenceAction)
-                            .enterScheduledTime(time)
-                            .selectScheduledDate()
-                        break;
-                    default:
-                        break;
-                }
-                browser.sleep(1000);
-
-                if(taskSeriesInfo.observationList.length>0){                    
-                    this.fillObservationDetails(taskSeriesInfo);
-                }
-                this.clickOnSave();
-            }
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
-
-    updateOccurrenceDetailsWithObservations1(taskOccurrenceInfo, time?){
+    updateOccurrenceDetailsWithObservations(taskOccurrenceInfo, scheduleTime?){
         try {
             if(this.isPopupDisplayed){
                 browser.sleep(1000);
@@ -352,7 +269,12 @@ export class CareplannerTaskOcurrencePopup {
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
                             .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
                             .enterCompletedTime(this.getScheduledTime)
-                            .selectCompletedDate()
+                            .selectCompletedDate();
+
+                            if(taskOccurrenceInfo.observationList.length>0){                    
+                                this.fillObservationDetails(taskOccurrenceInfo);
+                            }
+                            
                         break;
                     case "skipped":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
@@ -366,7 +288,7 @@ export class CareplannerTaskOcurrencePopup {
                     case "rescheduled":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
                             .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
-                            .enterScheduledTime(time)
+                            .enterScheduledTime(scheduleTime)
                             .selectScheduledDate()
                         break;
                     default:
@@ -374,9 +296,7 @@ export class CareplannerTaskOcurrencePopup {
                 }
                 browser.sleep(1000);
 
-                if(taskOccurrenceInfo.observationList.length>0){                    
-                    this.fillObservationDetails1(taskOccurrenceInfo);
-                }
+               
                 this.clickOnSave();
             }
         } catch (error) {
@@ -385,55 +305,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    fillObservationDetails(taskSeriesInfo) {
-        try {
-            taskSeriesInfo.observationList.forEach(observationName => {
-                            
-                let observationValue = taskSeriesInfo.observationValues[taskSeriesInfo.occurrenceIndex][observationName];
-                // let observationValue = taskSeriesInfo.observationValues[observationName];
-
-                let observationFieldInfo = DataReader.loadAPIDefaultValues('observationMappings');
-                observationFieldInfo = observationFieldInfo.observationlist.filter(list => list.Name.toLowerCase() === observationName.toLowerCase());
-
-                if(observationValue != null && observationFieldInfo.length === 1) {
-
-                    let fieldName = observationFieldInfo[0].Abbrevation;
-                    let fieldType = observationFieldInfo[0].FieldType;
-                    let fieldValue = observationValue;
-                    
-                    switch (fieldType.toLowerCase()) {
-                        case 'text':
-                            FrameworkComponent.logHelper.info('Textbox is the ' + fieldValue);
-                            let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input";
-                            element(by.xpath(textXpath)).sendKeys(fieldValue);
-                            break;
-                        case 'textarea':
-                            FrameworkComponent.logHelper.info('Textarea is the ' + fieldValue);
-                            let textAreaXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::textarea";
-                            element(by.xpath(textAreaXpath)).sendKeys(fieldValue);
-                            break;
-                        case 'radio':
-                            FrameworkComponent.logHelper.info('radio button is the ' + fieldValue);
-                            let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
-                            element(by.xpath(radioXpath)).click();
-                            break;
-                        case 'select':
-                            FrameworkComponent.logHelper.info('select is the ' + fieldValue);
-                            let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName + "')]]/following-sibling::div/descendant::select";
-                            element(by.xpath(selectXpath)).element(by.cssContainingText('option',fieldValue)).click();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            });
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }    
-
-    fillObservationDetails1(taskOccurrenceInfo) {
+    fillObservationDetails(taskOccurrenceInfo) {
         try {
             taskOccurrenceInfo.observationList.forEach(observationName => {
                                             
