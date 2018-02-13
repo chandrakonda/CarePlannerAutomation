@@ -1,14 +1,11 @@
 {
-    "Products" :{
+    "Products" :[{
         "InvoiceItemId": 75705,
         "InvoiceItemTypeId": 1,
         "PLNo": 53,
         "SeqNo": 1,
-        "Code": "53.1",
-        "MinimumQty": 1,
-        "DefaultQty": 1,
-        "MaximumQty": 1
-    },
+        "Code": "53.1"        
+    }],
     "TaskSeries":{
         "taskSeriesName" : "Acepromazine",
         "taskScheduleInfo" : {

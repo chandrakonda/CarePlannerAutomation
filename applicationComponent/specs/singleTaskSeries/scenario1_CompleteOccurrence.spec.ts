@@ -43,7 +43,8 @@ describe('schedule task occurrence and perform a action from user input', async 
             __testCase.TestName = 'Create Client, Patient, Appointment and add product to it ';
 
             //API call to create a data setup for client, patient & order the product to an appointment
-            await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData, 'singleItem', 'productList' );
+            // await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData, 'singleItem', 'productList' );
+            await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData);
 
             //Get the aggregated data (category & task series details of the product) for the visit created 
             await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
@@ -144,6 +145,57 @@ describe('schedule task occurrence and perform a action from user input', async 
             
         } catch (error) {
             __testCase.ExceptionDetails = error;
+        }
+    });
+
+    it('Verify the treatment log page information', async  () => {
+        try {
+            __testCase.TestName = 'Verify the treatment log page information';
+
+           await Pages.cpClientAndPetDetailsPage.clickOnTreatmentLogButton();
+
+            browser.sleep(3000);
+
+            let __treatmentLogPageDisplayedStatus = await Pages.cpTreatmentLogPage.isTreatmentLogPageLoaded();
+            
+            FrameworkComponent.logHelper.info(__treatmentLogPageDisplayedStatus)
+
+            expect(__treatmentLogPageDisplayedStatus).toBe(true);
+
+        } catch (error) {
+            __testCase.ExceptionDetails = error;
+        }
+    });
+
+    it('Verify the treatment log page headers', async () => {
+        try {
+            
+            __testCase.TestName = 'Verify the column headers of the treatment log page';
+
+            let __treatmentLogColumnHeaders = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeaders();
+            let __treatmentLogColumnHeadersCount = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeadersCount();
+
+            expect(__treatmentLogColumnHeadersCount).toBe(6);
+
+            let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
+            let __completedTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Completed');
+            let __treatmentTypeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Type');
+            let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
+            let __treatmentStatusIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Status');
+            let __statusStaffNameIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Staff');
+
+            let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInfo();
+            FrameworkComponent.logHelper.info(__treatmentLofInfo);
+
+            FrameworkComponent.logHelper.info(__treatmentLofInfo[__treatmentStatusIndex]);
+            expect(__treatmentLofInfo[__treatmentStatusIndex]).toBe('Completed');
+            FrameworkComponent.logHelper.info(__treatmentLofInfo[__scheduledTimeIndex]);
+            expect(__treatmentLofInfo[__scheduledTimeIndex]).toBe('9:00')
+            FrameworkComponent.logHelper.info(__treatmentLofInfo[__completedTimeIndex]);
+            expect(__treatmentLofInfo[__completedTimeIndex]).toBe('9');
+
+        } catch (error) {
+             __testCase.ExceptionDetails = error;
         }
     });
 });

@@ -20,13 +20,16 @@ export namespace AddingProductsModel {
         products: ProductCollection[];
         constructor(productFileName?: string, productFolderName?:string) {
             try {
-                // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values
-                if (productFileName != null) {
-                    let __datareader = new DataReader();        
-                    let __productToBeAdded = __datareader.loadJsonData(productFileName, productFolderName)///require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
-                    this.products = __productToBeAdded.products;
-                }
-                else {
+                if(productFileName != null){
+                    // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values
+                    if (typeof productFileName === 'string') {
+                        let __datareader = new DataReader();        
+                        let __productToBeAdded = __datareader.loadJsonData(productFileName, productFolderName)///require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
+                        this.products = __productToBeAdded.products;
+                    } else if (typeof productFileName === 'object') {
+                       this.products = productFileName;                        
+                    }                    
+                } else {
                     let __productToBeAdded = TestBase.GlobalData.ApiDefaultValues.VisitInvoiceItemsBillOnceValues.products; //require(path.join(__dirname, '..//..//..//data//defaultValues//visitInvoiceItems.json'));
 
                     this.products = __productToBeAdded;  //__productToBeAdded.products;

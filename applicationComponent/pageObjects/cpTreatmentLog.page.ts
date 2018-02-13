@@ -60,48 +60,63 @@ export class TreatmentLogPage{
         }
     }
 
-    async getTreatmentLogInfoByTaskName(taskName:string){
+    async getTreatmentLogInfo(){
         try {
-            
+            let __rowData = this.eleTableRowData.getText().then((rowData) => {
+                return rowData;
+            });
+            return __rowData;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
 
-    async getTreatmentStatusInfoByTaskName(taskName:string){
-        try {
-            
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
+    // async getTreatmentLogInfoByTaskName(taskName:string){
+    //     try {
+    //         let __rowData = this.eleTableRowData.getText().then((rowData) => {
+    //             return rowData;
+    //         });
+    //         return __rowData;
+    //     } catch (error) {
+    //         FrameworkComponent.logHelper.error(error);
+    //         throw error;
+    //     }
+    // }
 
-    async getTreatmentCompletedTimeByTaskName(taskName:string){
-        try {
+    // async getTreatmentStatusInfoByTaskName(taskName:string){
+    //     try {
             
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
+    //     } catch (error) {
+    //         FrameworkComponent.logHelper.error(error);
+    //         throw error;
+    //     }
+    // }
 
-    async getTreatmentCompletedDateByTaskName(taskName:string){
-        try {
+    // async getTreatmentCompletedTimeByTaskName(taskName:string){
+    //     try {
             
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
+    //     } catch (error) {
+    //         FrameworkComponent.logHelper.error(error);
+    //         throw error;
+    //     }
+    // }
+
+    // async getTreatmentCompletedDateByTaskName(taskName:string){
+    //     try {
+            
+    //     } catch (error) {
+    //         FrameworkComponent.logHelper.error(error);
+    //         throw error;
+    //     }
+    // }
     
-    async getTreatmentObservationDetailsByTaskName(taskName:string){
-        try {
+    // async getTreatmentObservationDetailsByTaskName(taskName:string){
+    //     try {
             
-        } catch (error) {
-            FrameworkComponent.logHelper.error(error);
-            throw error;
-        }
-    }
+    //     } catch (error) {
+    //         FrameworkComponent.logHelper.error(error);
+    //         throw error;
+    //     }
+    // }
 }

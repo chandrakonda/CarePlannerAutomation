@@ -19,12 +19,22 @@ export class OrderLibrary {
             let __rootObject: AddingProductsModel.RootObject;
             let __options = DataReader.loadAPITemplates("putVisitInvoiceItems"); // require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/putVisitInvoiceItems.json'));
     
-            if (productFileName == null) { 
-                __rootObject = new AddingProductsModel.RootObject(); 
-            } else {                
-                __rootObject = new AddingProductsModel.RootObject(productFileName, productFolderName); 
-            }
+            // if (productFileName == null) { 
+            //     __rootObject = new AddingProductsModel.RootObject(); 
+            // } else {                
+            //     __rootObject = new AddingProductsModel.RootObject(productFileName, productFolderName); 
+            // }
             
+            if(productFileName == null && productFolderName == null) {
+                if (specData.UserData.Products != null) {
+                    __rootObject = new AddingProductsModel.RootObject(specData.UserData.Products) 
+                } else {
+                    __rootObject = new AddingProductsModel.RootObject(); 
+                }                
+            } else if(productFileName != null && typeof productFileName === "string"){
+                __rootObject = new AddingProductsModel.RootObject(productFileName, productFolderName);
+            }
+
             __rootObject.products.forEach(async product => {
                 FrameworkComponent.logHelper.log("*************** Adding Product to Order **************");
                 //Set URL

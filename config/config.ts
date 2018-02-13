@@ -37,11 +37,11 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",        
+        // "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",        
         "../applicationComponent/specs/singleTaskSeries/scenario1_CompleteOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeries/scenario2_SkipOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeries/scenario3_CancelOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeries/scenario4_ReScheduleOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeries/scenario2_SkipOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeries/scenario3_CancelOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeries/scenario4_ReScheduleOccurrence.spec.js",
         
         //"../applicationComponent/specs/singleTaskSeries/testScheduleAndCompleteTaskOccurrence.spec.js",
         //"../applicationComponent/specs/singleTaskSeries/testScheduleAndSkipTaskOccurrence2.spec.js",
