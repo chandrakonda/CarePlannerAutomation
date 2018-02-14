@@ -16,7 +16,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         __dataReader = new DataReader();
         __data = new Data();
         specFileData.Data = __data;
-        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario3','newSingleTaskSeries');        
+        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario3','singleTaskSeries');        
         specFileData.TestCases = new Array<TestCase>();
     });
 
@@ -140,7 +140,7 @@ describe('schedule task occurrence and perform a action from user input', async 
             let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
             FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + __taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
             FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]);
-            expect(0).toBe(__occurrencesStatus.length);
+            expect(__occurrencesStatus.length).toBe(0);
             
             // //Verify the number of task occurrences after cancel
             // await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences-1);

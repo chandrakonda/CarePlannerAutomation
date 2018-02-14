@@ -273,13 +273,13 @@ export class CareplannerSchedulerPage{
             }
             occurrences[0] = taskScheduleInfo.scheduleStartTime;
             for (let index = 1; index < numberOfTaskOccurrence; index++) {
-                occurrences[index] = occurrences[index-1] + taskScheduleInfo.repeatEveryHour;
+                occurrences[index] = Number(occurrences[index-1]) + Number(taskScheduleInfo.repeatEveryHour);
             }
 
             if(occurrences.length === numberOfTaskOccurrence) {
                 for(let index=0; index < numberOfTaskOccurrence; index++){
                     if(occurrences[index] == currentTime ) {
-                        expectedOccurrenceStatus[index] = 'duenow';
+                        expectedOccurrenceStatus[index] = 'Duenow';
                     } else if(occurrences[index] < currentTime) {
                         expectedOccurrenceStatus[index] = 'Overdue';
                     } else if(occurrences[index] > currentTime) {

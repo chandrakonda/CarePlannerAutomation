@@ -16,7 +16,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         __dataReader = new DataReader();
         __data = new Data();
         specFileData.Data = __data;
-        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario4','newSingleTaskSeries');        
+        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario4','singleTaskSeries');        
         specFileData.TestCases = new Array<TestCase>();
     });
 

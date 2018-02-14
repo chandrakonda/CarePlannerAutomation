@@ -12,7 +12,7 @@ export class TreatmentLogPage{
 
     isTreatmentLogPageLoaded(){
         try {
-            this.eleTretmentLogGrid.isDisplayed().then((status) => {
+            return this.eleTretmentLogGrid.isDisplayed().then((status) => {
                 if(status == true){
                     return true;
                 } else {

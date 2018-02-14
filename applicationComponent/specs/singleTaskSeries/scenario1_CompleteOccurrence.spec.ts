@@ -16,7 +16,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         __dataReader = new DataReader();
         __data = new Data();
         specFileData.Data = __data;
-        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario1','newSingleTaskSeries');        
+        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario1','singleTaskSeries');        
         specFileData.TestCases = new Array<TestCase>();
     });
 
@@ -80,7 +80,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         try {
             __testCase.TestName = 'Schedule a specified number of tasks for a each task series';
             
-            let __taskSeriesInfo = specFileData.UserData.TaskSeries;            
+            let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
             //Schedule a task from the user input data
             await Pages.cpSchedulerPage.ScheduleTaskWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskScheduleInfo);
@@ -148,15 +148,15 @@ describe('schedule task occurrence and perform a action from user input', async 
         }
     });
 
-    it('Verify the treatment log page information', async  () => {
+    it('Verify the treatment log page information', () => {
         try {
             __testCase.TestName = 'Verify the treatment log page information';
 
-           await Pages.cpClientAndPetDetailsPage.clickOnTreatmentLogButton();
+           Pages.cpClientAndPetDetailsPage.clickOnTreatmentLogButton();
 
             browser.sleep(3000);
 
-            let __treatmentLogPageDisplayedStatus = await Pages.cpTreatmentLogPage.isTreatmentLogPageLoaded();
+            let __treatmentLogPageDisplayedStatus = Pages.cpTreatmentLogPage.isTreatmentLogPageLoaded();
             
             FrameworkComponent.logHelper.info(__treatmentLogPageDisplayedStatus)
 
@@ -176,6 +176,17 @@ describe('schedule task occurrence and perform a action from user input', async 
             let __treatmentLogColumnHeadersCount = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeadersCount();
 
             expect(__treatmentLogColumnHeadersCount).toBe(6);
+        } catch (error) {
+             __testCase.ExceptionDetails = error;
+        }
+    });
+
+    it('Verify the schedule information on the treatment log page', async () => {
+        try {
+            __testCase.TestName = 'Verify the schedule information on the treatment log page';
+
+            let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+            let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInfo();
 
             let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
             let __completedTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Completed');
@@ -184,18 +195,26 @@ describe('schedule task occurrence and perform a action from user input', async 
             let __treatmentStatusIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Status');
             let __statusStaffNameIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Staff');
 
-            let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInfo();
-            FrameworkComponent.logHelper.info(__treatmentLofInfo);
+            let __scheduleTime = ('0' + __taskSeriesInfo.taskScheduleInfo.scheduleStartTime).slice(-2) + ':00';
 
-            FrameworkComponent.logHelper.info(__treatmentLofInfo[__treatmentStatusIndex]);
-            expect(__treatmentLofInfo[__treatmentStatusIndex]).toBe('Completed');
-            FrameworkComponent.logHelper.info(__treatmentLofInfo[__scheduledTimeIndex]);
-            expect(__treatmentLofInfo[__scheduledTimeIndex]).toBe('9:00')
-            FrameworkComponent.logHelper.info(__treatmentLofInfo[__completedTimeIndex]);
-            expect(__treatmentLofInfo[__completedTimeIndex]).toBe('9');
+            FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__scheduledTimeIndex]);
+            FrameworkComponent.logHelper.info('Expected : ' + __scheduleTime);
+            expect(__treatmentLofInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
+            
+            FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__completedTimeIndex]);
+            FrameworkComponent.logHelper.info('Expected : ' + __scheduleTime);
+            expect(__treatmentLofInfo[__completedTimeIndex]).toBe(__scheduleTime);
+            
+            FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__treatmentDetailsIndex]);
+            FrameworkComponent.logHelper.info('Expected : ' + __taskSeriesInfo.taskSeriesName);
+            expect(__treatmentLofInfo[__treatmentDetailsIndex]).toContain(__taskSeriesInfo.taskSeriesName);
 
+            FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__treatmentStatusIndex]);
+            FrameworkComponent.logHelper.info('Expected : ' + __taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
+            expect(__treatmentLofInfo[__treatmentStatusIndex]).toBe(__taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
+            
         } catch (error) {
-             __testCase.ExceptionDetails = error;
-        }
-    });
+            __testCase.ExceptionDetails = error;
+        }        
+    })
 });

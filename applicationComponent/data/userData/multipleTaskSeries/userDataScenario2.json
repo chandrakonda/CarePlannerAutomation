@@ -3,9 +3,9 @@
             "taskSeriesName" : "Vitals",
             "taskScheduleInfo" : [{
                     "occurrenceFrequency" : "recurring",
-                    "scheduleStartTime" : "9",
+                    "scheduleStartTime" : "5",
                     "scheduleEndTimeCheckout" : "false",
-                    "scheduleEndTime" : "11",
+                    "scheduleEndTime" : "8",
                     "repeatEveryHour" : "1",
                     "scheduleInstructions" : "Test Instructions for vitals",
                     "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"]
@@ -13,9 +13,9 @@
             "taskOccurrenceInfo" :[{
                     "occurrenceIndex" : "1",
                     "occurrenceHour" : "10",
-                    "occurrenceAction" : "Completed",
+                    "occurrenceAction" : "Skipped",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
-                    "expectedOccurrenceStatus" : "Complete",
+                    "expectedOccurrenceStatus" : "Skipped",
                     "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
                     "observationValues" : {
                         "Temp" : "102",
@@ -27,7 +27,7 @@
                     }
                 },{
                     "occurrenceIndex" : "2",
-                    "occurrenceHour" : "10",
+                    "occurrenceHour" : "11",
                     "occurrenceAction" : "Completed",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
                     "expectedOccurrenceStatus" : "Complete",
@@ -41,20 +41,20 @@
                         "Hydration status" : "5-6%"
                     }
             }]
-        },{
+        }, {
             "taskSeriesName" : "Offer food",
             "taskScheduleInfo" : [{
                     "occurrenceFrequency" : "recurring",
-                    "scheduleStartTime" : "9",
+                    "scheduleStartTime" : "6",
                     "scheduleEndTimeCheckout" : "false",
-                    "scheduleEndTime" : "11",
+                    "scheduleEndTime" : "8",
                     "repeatEveryHour" : "1",
                     "scheduleInstructions" : "Test Instructions for offer food",
                     "observationList" : ["Type of food", "Food offered"]
                 }],
             "taskOccurrenceInfo" :[{
                     "occurrenceIndex" : "1",
-                    "occurrenceHour" : "10",
+                    "occurrenceHour" : "11",
                     "occurrenceAction" : "Completed",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
                     "expectedOccurrenceStatus" : "Complete",
@@ -75,5 +75,40 @@
                         "Food offered" : "25"
                     }
             }]
-    }]
+        }, {
+            "taskSeriesName" : "Urination",
+            "taskScheduleInfo" : [{
+                "occurrenceFrequency" : "recurring",
+                "scheduleStartTime" : "6",
+                "scheduleEndTimeCheckout" : "false",
+                "scheduleEndTime" : "9",
+                "repeatEveryHour" : "1",
+                "scheduleInstructions" : "Test Instructions for offer food",
+                "observationList" : ["Urine color", "test urine appearance"]
+            }],
+            "taskOccurrenceInfo" : [{
+                "occurrenceIndex" : "0",
+                "occurrenceHour" : "9",
+                "occurrenceAction" : "Completed",
+                "occurrenceNotes" : "Test notes for complete task occurrence",
+                "expectedOccurrenceStatus" : "Complete",
+                "observationList" : ["Urine color", "test urine appearance"],
+                "observationValues" : {
+                    "Urine color" : "Yellow",
+                    "test urine appearance" : "Hazy"
+                }
+            },{
+                "occurrenceIndex" : "1",
+                "occurrenceHour" : "10",
+                "occurrenceAction" : "Completed",
+                "occurrenceNotes" : "Test notes for complete task occurrence",
+                "expectedOccurrenceStatus" : "Complete",
+                "observationList" : ["Urine color", "test urine appearance"],
+                "observationValues" : {
+                    "Urine color" : "Clear",
+                    "test urine appearance" : "Clear"
+                }
+            }]
+        }
+    ]
 }
