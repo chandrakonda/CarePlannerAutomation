@@ -94,7 +94,7 @@ describe('Add a multi series product and schedule a task for all the task series
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
                     taskSeriesInfo.taskScheduleInfo.forEach(async taskScheduleInfo => {
-                        let __expectedResult = Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo);
+                        let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo);
                     
                         //Verify the number of task occurrences created
                         let __occurrenceCount = await Pages.cpSchedulerPage.getTheNumberOfTaskOccurrenceCreated(taskSeriesInfo.taskSeriesName);
@@ -153,6 +153,127 @@ describe('Add a multi series product and schedule a task for all the task series
                 __testCase.ExceptionDetails = error;
             }
         });
+
+        it('Verify the treatment log page information', () => {
+            try {
+                __testCase.TestName = 'Verify the treatment log page information';
+    
+               Pages.cpClientAndPetDetailsPage.clickOnTreatmentLogButton();
+    
+                browser.sleep(3000);
+    
+                let __treatmentLogPageDisplayedStatus = Pages.cpTreatmentLogPage.isTreatmentLogPageLoaded();
+                
+                FrameworkComponent.logHelper.info(__treatmentLogPageDisplayedStatus)
+    
+                expect(__treatmentLogPageDisplayedStatus).toBe(true);
+    
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Verify the treatment log page table headers and count', async () => {
+            try {
+                
+                __testCase.TestName = 'Verify the treatment log page table headers and count';
+    
+                let __treatmentLogColumnHeaders = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeaders();
+                let __treatmentLogColumnHeadersCount = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeadersCount();
+    
+                expect(__treatmentLogColumnHeadersCount).toBe(6);
+            } catch (error) {
+                 __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Verify the task occurrence scheduled time & completed time of each occurrence in the treatment log page', async () => {
+            try {
+                __testCase.TestName = 'Verify the task occurrence scheduled time & completed time of each occurrence in the treatment log page';
+    
+                let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList().then(listValues => {return listValues.sort()});
+                let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
+                let __completedTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Completed');
+                let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
+                
+                specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
+
+                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+                                           
+                    taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
+                
+                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        
+                        __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
+                            expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
+                            expect(logInfo[__completedTimeIndex]).toBe(__scheduleTime);
+                        });
+                    });
+                });                
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }        
+        });
+
+        it('Verify the task occurrences status of each occurrence in the treatment log page', async () => {
+            try {
+                __testCase.TestName = 'Verify the task occurrences status of each occurrence in the treatment log page';
+    
+                let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList().then(listValues => {return listValues.sort()});
+                let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
+                let __treatmentStatusIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Status');
+                let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
+
+                specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
+
+                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+                                           
+                    taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
+                
+                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        
+                        __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {                            
+                            expect(logInfo[__treatmentStatusIndex]).toBe(taskOccurrenceInfo.occurrenceAction);
+                        })                        
+                    });
+                });                
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }        
+        });
+
+        it('Verify the task occurrence observation details for each of the occurrence completed in treatment log page', async () => {
+            try {
+                __testCase.TestName = 'Verify the task occurrence observation details for each of the occurrence completed in treatment log page';
+
+                let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList().then(listValues => {return listValues.sort()});
+                let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
+                let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
+
+                specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
+
+                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+                                           
+                    taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
+                
+                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        
+                        __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
+                            expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
+
+                            taskOccurrenceInfo.observationList.forEach(observationList => {
+                                let __expectedObservationValues = observationList + ': '+ taskOccurrenceInfo.observationValues[observationList];
+                                expect(logInfo[__treatmentDetailsIndex]).toContain(__expectedObservationValues);                                
+                            });
+                        })                        
+                    });
+                });       
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
     });
 
 });

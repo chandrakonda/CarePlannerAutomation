@@ -16,7 +16,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         __dataReader = new DataReader();
         __data = new Data();
         specFileData.Data = __data;
-        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario4','singleTaskSeries');        
+        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario3','singleTaskSeriesSingleOccurrence');        
         specFileData.TestCases = new Array<TestCase>();
     });
 
@@ -95,7 +95,7 @@ describe('schedule task occurrence and perform a action from user input', async 
 
             let __taskSeriesInfo = specFileData.UserData.TaskSeries;
             let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
-            let __expectedResult = Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
+            let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
         
             //Verify the number of task occurrences created
             let __occurrenceCount = await Pages.cpSchedulerPage.getTheNumberOfTaskOccurrenceCreated(__taskSeriesInfo.taskSeriesName);
@@ -120,10 +120,9 @@ describe('schedule task occurrence and perform a action from user input', async 
             __testCase.TestName = 'Edit and update the task occurrence to the specified task occurrence status with observation details';
 
             let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-            let __reScheduleTime = new Date().getHours() + 2;
 
             //Edit & Update the status of the task occurrence
-            Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo, __reScheduleTime);
+            Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo);
             browser.sleep(2000);
             
         } catch (error) {
@@ -141,8 +140,15 @@ describe('schedule task occurrence and perform a action from user input', async 
             let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
             FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + __taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
             FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]);
-            expect(__occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]).toEqual(__taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
+            expect(__occurrencesStatus.length).toBe(0);
             
+            // //Verify the number of task occurrences after cancel
+            // await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences-1);
+            
+            // //Verify the task occurrence status after cancel
+            // await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus);
+            
+
         } catch (error) {
             __testCase.ExceptionDetails = error;
         }

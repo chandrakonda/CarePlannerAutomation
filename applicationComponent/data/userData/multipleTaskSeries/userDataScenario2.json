@@ -12,9 +12,9 @@
                 }],
             "taskOccurrenceInfo" :[{
                     "occurrenceIndex" : "1",
-                    "occurrenceHour" : "10",
+                    "occurrenceHour" : "6",
                     "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for complete task occurrence",
+                    "occurrenceNotes" : "Test notes for Skip task occurrence",
                     "expectedOccurrenceStatus" : "Skipped",
                     "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
                     "observationValues" : {
@@ -26,8 +26,8 @@
                         "Hydration status" : "5-6%"
                     }
                 },{
-                    "occurrenceIndex" : "2",
-                    "occurrenceHour" : "11",
+                    "occurrenceIndex" : "3",
+                    "occurrenceHour" : "8",
                     "occurrenceAction" : "Completed",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
                     "expectedOccurrenceStatus" : "Complete",
@@ -40,7 +40,7 @@
                         "CRT" : ">= 2",
                         "Hydration status" : "5-6%"
                     }
-            }]
+                }]
         }, {
             "taskSeriesName" : "Offer food",
             "taskScheduleInfo" : [{
@@ -53,19 +53,19 @@
                     "observationList" : ["Type of food", "Food offered"]
                 }],
             "taskOccurrenceInfo" :[{
-                    "occurrenceIndex" : "1",
-                    "occurrenceHour" : "11",
-                    "occurrenceAction" : "Completed",
-                    "occurrenceNotes" : "Test notes for complete task occurrence",
-                    "expectedOccurrenceStatus" : "Complete",
+                    "occurrenceIndex" : "0",
+                    "occurrenceHour" : "6",
+                    "occurrenceAction" : "Skipped",
+                    "occurrenceNotes" : "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus" : "Skipped",
                     "observationList" : ["Type of food", "Food offered"],
                     "observationValues" : {
                         "Type of food" : "100",
                         "Food offered" : "20"
                     }
                 },{
-                    "occurrenceIndex" : "0",
-                    "occurrenceHour" : "10",
+                    "occurrenceIndex" : "2",
+                    "occurrenceHour" : "8",
                     "occurrenceAction" : "Completed",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
                     "expectedOccurrenceStatus" : "Complete",
@@ -74,7 +74,7 @@
                         "Type of food" : "106",
                         "Food offered" : "25"
                     }
-            }]
+                }]
         }, {
             "taskSeriesName" : "Urination",
             "taskScheduleInfo" : [{
@@ -85,30 +85,41 @@
                 "repeatEveryHour" : "1",
                 "scheduleInstructions" : "Test Instructions for offer food",
                 "observationList" : ["Urine color", "test urine appearance"]
-            }],
+                }],
             "taskOccurrenceInfo" : [{
-                "occurrenceIndex" : "0",
-                "occurrenceHour" : "9",
-                "occurrenceAction" : "Completed",
-                "occurrenceNotes" : "Test notes for complete task occurrence",
-                "expectedOccurrenceStatus" : "Complete",
-                "observationList" : ["Urine color", "test urine appearance"],
-                "observationValues" : {
-                    "Urine color" : "Yellow",
-                    "test urine appearance" : "Hazy"
-                }
-            },{
-                "occurrenceIndex" : "1",
-                "occurrenceHour" : "10",
-                "occurrenceAction" : "Completed",
-                "occurrenceNotes" : "Test notes for complete task occurrence",
-                "expectedOccurrenceStatus" : "Complete",
-                "observationList" : ["Urine color", "test urine appearance"],
-                "observationValues" : {
-                    "Urine color" : "Clear",
-                    "test urine appearance" : "Clear"
-                }
-            }]
+                    "occurrenceIndex" : "0",
+                    "occurrenceHour" : "6",
+                    "occurrenceAction" : "Skipped",
+                    "occurrenceNotes" : "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus" : "Skipped",
+                    "observationList" : ["Urine color", "test urine appearance"],
+                    "observationValues" : {
+                        "Urine color" : "Yellow",
+                        "test urine appearance" : "Hazy"
+                        }
+                },{
+                    "occurrenceIndex" : "2",
+                    "occurrenceHour" : "8",
+                    "occurrenceAction" : "Completed",
+                    "occurrenceNotes" : "Test notes for complete task occurrence",
+                    "expectedOccurrenceStatus" : "Complete",
+                    "observationList" : ["Urine color", "test urine appearance"],
+                    "observationValues" : {
+                        "Urine color" : "Yellow",
+                        "test urine appearance" : "Hazy"
+                    }
+                },{
+                    "occurrenceIndex" : "3",
+                    "occurrenceHour" : "9",
+                    "occurrenceAction" : "Completed",
+                    "occurrenceNotes" : "Test notes for complete task occurrence",
+                    "expectedOccurrenceStatus" : "Complete",
+                    "observationList" : ["Urine color", "test urine appearance"],
+                    "observationValues" : {
+                        "Urine color" : "Clear",
+                        "test urine appearance" : "Clear"
+                    }
+                }]
         }
     ]
 }

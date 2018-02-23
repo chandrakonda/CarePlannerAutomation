@@ -10,7 +10,7 @@
         "taskSeriesName" : "Acepromazine",
         "taskScheduleInfo" : {
             "occurrenceFrequency" : "once",
-            "scheduleStartTime" : "10",
+            "scheduleStartTime" : "6",
             "scheduleEndTimeCheckout" : "false",
             "scheduleEndTime" : "",
             "repeatEveryHour" : "",

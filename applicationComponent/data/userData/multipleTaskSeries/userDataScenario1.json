@@ -8,7 +8,7 @@
                     "scheduleEndTime" : "8",
                     "repeatEveryHour" : "1",
                     "scheduleInstructions" : "Test Instructions for vitals",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"]
+                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT"]
                 }],
             "taskOccurrenceInfo" :[{
                     "occurrenceIndex" : "1",
@@ -16,7 +16,7 @@
                     "occurrenceAction" : "Completed",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
                     "expectedOccurrenceStatus" : "Complete",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
+                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT"],
                     "observationValues" : {
                         "Temp" : "102",
                         "Resp rate" : "124",
@@ -31,7 +31,7 @@
                     "occurrenceAction" : "Completed",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
                     "expectedOccurrenceStatus" : "Complete",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
+                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT"],
                     "observationValues" : {
                         "Temp" : "100",
                         "Resp rate" : "120",
@@ -69,7 +69,7 @@
                     "occurrenceAction" : "Completed",
                     "occurrenceNotes" : "Test notes for complete task occurrence",
                     "expectedOccurrenceStatus" : "Complete",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
+                    "observationList" : ["Type of food", "Food offered"],
                     "observationValues" : {
                         "Type of food" : "106",
                         "Food offered" : "25"

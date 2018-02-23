@@ -254,35 +254,76 @@ export class CareplannerSchedulerPage{
         }    
     }
 
-    calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo) {
+    getNumberOfTaskOccurrenceToSchedule(taskScheduleInfo) {
         try {
-            
-            let numberOfTaskOccurrence;
-            let occurrences = new Array, expectedOccurrenceStatus = new Array;
-            let currentTime = new Date().getHours();
-
+            let __numberOfTaskOccurrences;
             switch (taskScheduleInfo.occurrenceFrequency) {
                 case 'once':
-                    numberOfTaskOccurrence = 1;
+                    __numberOfTaskOccurrences = 1;
                 break;
                 case 'recurring':
-                    numberOfTaskOccurrence = ((taskScheduleInfo.scheduleEndTime - taskScheduleInfo.scheduleStartTime)/taskScheduleInfo.repeatEveryHour) + 1;
+                    __numberOfTaskOccurrences = ((taskScheduleInfo.scheduleEndTime - taskScheduleInfo.scheduleStartTime)/taskScheduleInfo.repeatEveryHour) + 1;
                     break;                  
                 default:
                     break;
             }
+
+            return __numberOfTaskOccurrences;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async getOccurrenceHoursToSchedule(taskScheduleInfo) {
+        try {
+            let __numberOfTaskOccurrences = await this.getNumberOfTaskOccurrenceToSchedule(taskScheduleInfo);
+            let occurrences = new Array;
             occurrences[0] = taskScheduleInfo.scheduleStartTime;
-            for (let index = 1; index < numberOfTaskOccurrence; index++) {
+            for (let index = 1; index < __numberOfTaskOccurrences; index++) {
                 occurrences[index] = Number(occurrences[index-1]) + Number(taskScheduleInfo.repeatEveryHour);
             }
+            return occurrences;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
 
-            if(occurrences.length === numberOfTaskOccurrence) {
-                for(let index=0; index < numberOfTaskOccurrence; index++){
-                    if(occurrences[index] == currentTime ) {
+    async calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo) {
+        try {
+            
+            let __numberOfTaskOccurrences;
+            let __occurrences = new Array, expectedOccurrenceStatus = new Array;
+            let __currentTime = new Date().getHours();
+
+
+            // switch (taskScheduleInfo.occurrenceFrequency) {
+            //     case 'once':
+            //         numberOfTaskOccurrence = 1;
+            //     break;
+            //     case 'recurring':
+            //         numberOfTaskOccurrence = ((taskScheduleInfo.scheduleEndTime - taskScheduleInfo.scheduleStartTime)/taskScheduleInfo.repeatEveryHour) + 1;
+            //         break;                  
+            //     default:
+            //         break;
+            // }
+            // occurrences[0] = taskScheduleInfo.scheduleStartTime;
+            // for (let index = 1; index < numberOfTaskOccurrence; index++) {
+            //     occurrences[index] = Number(occurrences[index-1]) + Number(taskScheduleInfo.repeatEveryHour);
+            // }
+
+            __occurrences = await this.getOccurrenceHoursToSchedule(taskScheduleInfo);
+            
+            __numberOfTaskOccurrences = await this.getNumberOfTaskOccurrenceToSchedule(taskScheduleInfo);
+
+            if(__occurrences.length === __numberOfTaskOccurrences) {
+                for(let index=0; index < __numberOfTaskOccurrences; index++){
+                    if(__occurrences[index] == __currentTime ) {
                         expectedOccurrenceStatus[index] = 'Duenow';
-                    } else if(occurrences[index] < currentTime) {
+                    } else if(__occurrences[index] < __currentTime) {
                         expectedOccurrenceStatus[index] = 'Overdue';
-                    } else if(occurrences[index] > currentTime) {
+                    } else if(__occurrences[index] > __currentTime) {
                         expectedOccurrenceStatus[index] = 'Scheduled';
                     }
                 }
@@ -291,7 +332,7 @@ export class CareplannerSchedulerPage{
                 throw 'Number of Task Occurrences mismatched';
             }
 
-            return {expectedOccurrenceCount: numberOfTaskOccurrence, expectedOccurrenceStatus };
+            return {expectedOccurrenceCount: __numberOfTaskOccurrences, expectedOccurrenceStatus };
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

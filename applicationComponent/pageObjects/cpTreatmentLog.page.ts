@@ -7,6 +7,7 @@ export class TreatmentLogPage{
     eleColumnHeaders = element.all(by.xpath("//*[@id='timelinegrid']/descendant::div[@wj-part='chcells']/div[contains(@class,'wj-cell wj-header')]"));
     eleDateGroupHeader = element.all(by.xpath("//*[@id='timelinegrid']/descendant::div[@wj-part='cells']/div[contains(@class,'wj-group')]"));
     eleTableRowData = element.all(by.xpath("//*[@id='timelinegrid']/descendant::div[@wj-part='cells']/div[contains(@class,'wj-cell') and not(contains(@class, 'wj-group'))]"));
+    eleDetailsList = element.all(by.xpath("//*[@id='timelinegrid']/descendant::div[@wj-part='cells']/div[contains(@class,'wj-cell') and not(contains(@class, 'wj-group'))]/descendant::div[contains(@class,'gridwrap')]"));
 
 
 
@@ -48,7 +49,7 @@ export class TreatmentLogPage{
         }
     }
 
-    getTreatmentLogColumnIndex(columnName:string){
+    getTreatmentLogColumnIndex(columnName:string) {
         try {
             let columnNameIndex = this.eleColumnHeaders.getText().then((headerValues) => {
                 return headerValues.indexOf(columnName);
@@ -60,7 +61,7 @@ export class TreatmentLogPage{
         }
     }
 
-    async getTreatmentLogInfo(){
+    async getTreatmentLogInfo() {
         try {
             let __rowData = this.eleTableRowData.getText().then((rowData) => {
                 return rowData;
@@ -71,6 +72,58 @@ export class TreatmentLogPage{
             throw error;
         }
     }
+
+    async getTreatmentLogInformationAsList() {
+        try {
+            let __columnCount = await this.getTreatmentLogColumnHeadersCount();
+            let __listData = new Array;
+            let __rowData:any = await this.eleTableRowData.getText().then((rowData) => {
+                return rowData;
+            });
+
+          while( __rowData.length > 0) {
+              __listData.push(__rowData.splice(0, __columnCount))
+          }
+
+            return __listData;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getTreatmentLogDetailsList():any {
+        try {
+            let __observationDetails = this.eleDetailsList.getText().then((detailsList) => {
+                return detailsList;
+            })
+            return __observationDetails;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async getTreatmentLogByTaskSeriesName(taskSeriesName){
+        try {
+            let __detailsList = new Array<string>();
+
+            let __treatmentLogDetails = await this.getTreatmentLogDetailsList();
+
+            __treatmentLogDetails.forEach( list => {
+                if(list.startsWith(taskSeriesName) || list.includes(taskSeriesName)){
+                    __detailsList.push(list);
+                }
+            });
+            
+            return __detailsList;
+            
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
 
     // async getTreatmentLogInfoByTaskName(taskName:string){
     //     try {

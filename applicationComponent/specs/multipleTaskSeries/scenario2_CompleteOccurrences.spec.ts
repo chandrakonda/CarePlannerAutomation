@@ -94,7 +94,7 @@ describe('Add a multi series product and schedule a task for all the task series
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
                     taskSeriesInfo.taskScheduleInfo.forEach(async taskScheduleInfo => {
-                        let __expectedResult = Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo);
+                        let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo);
                     
                         //Verify the number of task occurrences created
                         let __occurrenceCount = await Pages.cpSchedulerPage.getTheNumberOfTaskOccurrenceCreated(taskSeriesInfo.taskSeriesName);
