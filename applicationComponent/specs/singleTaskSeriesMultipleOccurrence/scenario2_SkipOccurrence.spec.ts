@@ -16,7 +16,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         __dataReader = new DataReader();
         __data = new Data();
         specFileData.Data = __data;
-        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario2','singleTaskMultipleOccurrence');        
+        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario2','singleTaskSeriesSingleOccurrence');        
         specFileData.TestCases = new Array<TestCase>();
     });
 
@@ -38,7 +38,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         specFileData.TestCases.push(__testCase);
     });
 
-    it('Data set up and client pet details', async () => {
+    it('Data Preparation', async () => {
         try {
             __testCase.TestName = 'Create Client, Patient, Appointment and add product to it ';
 
@@ -58,6 +58,8 @@ describe('schedule task occurrence and perform a action from user input', async 
             __testCase.TestName = "Verifying the category count and product task list";
 
             let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
+            FrameworkComponent.logHelper.info("List of categories observed from the aggregated data : " + __taskCategoryList.categoryList);
+            FrameworkComponent.logHelper.info("List of task series observed from the aggregated data : " + __taskCategoryList.taskList);
 
             //Verify the Category Count
             await expect(Pages.cpSchedulerPage.categoryCount).toEqual(__taskCategoryList.categoryList.length);
@@ -119,11 +121,9 @@ describe('schedule task occurrence and perform a action from user input', async 
 
             let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
-            __taskSeriesInfo.taskOccurrenceInfo.forEach(taskOccurrenceInfo => {
-                //Edit & Update the status of the task occurrence
-                Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, taskOccurrenceInfo);
-                browser.sleep(2000);                
-            });
+            //Edit & Update the status of the task occurrence
+            Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo);
+            browser.sleep(2000);
             
         } catch (error) {
             __testCase.ExceptionDetails = error;
@@ -136,14 +136,12 @@ describe('schedule task occurrence and perform a action from user input', async 
 
             let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
-            __taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
-                //Verify the status of the created Occurrences
-                let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
-                FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + taskOccurrenceInfo.expectedOccurrenceStatus);
-                FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]);
-                expect(__occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]).toEqual(taskOccurrenceInfo.expectedOccurrenceStatus);
-            });
-
+            //Verify the status of the created Occurrences
+            let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
+            FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + __taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
+            FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]);
+            expect(__occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]).toEqual(__taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
+            
         } catch (error) {
             __testCase.ExceptionDetails = error;
         }
@@ -182,55 +180,75 @@ describe('schedule task occurrence and perform a action from user input', async 
         }
     });
 
-    // it('Verify the task occurrence scheduled time & skipped time of each occurrence in the treatment log page', async () => {
-    //     try {
-    //         __testCase.TestName = 'Verify the task occurrence scheduled time & completed time of each occurrence in the treatment log page';
+    it('Verify the task occurrence scheduled time & skipped time of each occurrence in the treatment log page', async () => {
+        try {
+            __testCase.TestName = 'Verify the task occurrence scheduled time & completed time of each occurrence in the treatment log page';
 
-    //         let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-    //         let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
+            let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+            let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
 
-    //         let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
-    //         let __completedTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Completed');
-    //         let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
+            let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
+            let __completedTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Completed');
+            let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
 
-    //         let __scheduleTime = ('0' + __taskSeriesInfo.taskScheduleInfo.scheduleStartTime).slice(-2) + ':00';
+            let __scheduleTime = ('0' + __taskSeriesInfo.taskScheduleInfo.scheduleStartTime).slice(-2) + ':00';
 
-    //         __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
-    //             FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__scheduledTimeIndex]);
-    //             FrameworkComponent.logHelper.info('Expected : ' + __scheduleTime);
-    //             expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
+            __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
+                FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__scheduledTimeIndex]);
+                FrameworkComponent.logHelper.info('Expected : ' + __scheduleTime);
+                expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
                 
-    //             // ///Need to get the current date time of the skipped time
-    //             // FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__completedTimeIndex]);
-    //             // FrameworkComponent.logHelper.info('Expected : ' + __scheduleTime);
-    //             // expect(logInfo[__completedTimeIndex]).toBe(__scheduleTime);
+                // ///Need to get the current date time of the skipped time
+                // FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__completedTimeIndex]);
+                // FrameworkComponent.logHelper.info('Expected : ' + __scheduleTime);
+                // expect(logInfo[__completedTimeIndex]).toBe(__scheduleTime);
 
-    //         });
-    //     } catch (error) {
-    //         __testCase.ExceptionDetails = error;
-    //     }        
-    // });
+            });
+        } catch (error) {
+            __testCase.ExceptionDetails = error;
+        }        
+    });
 
-    // it('Verify the task occurrences status of each occurrence in the treatment log page', async () => {
+    it('Verify the task occurrences status of each occurrence in the treatment log page', async () => {
+        try {
+            __testCase.TestName = 'Verify the task occurrences status of each occurrence in the treatment log page';
+
+            let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+            let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
+            let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
+            let __treatmentStatusIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Status');
+            let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
+
+            let __scheduleTime = ('0' + __taskSeriesInfo.taskScheduleInfo.scheduleStartTime).slice(-2) + ':00';
+
+            __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
+                FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__treatmentStatusIndex]);
+                FrameworkComponent.logHelper.info('Expected : ' + __taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
+                expect(logInfo[__treatmentStatusIndex]).toBe(__taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
+            });
+        } catch (error) {
+            __testCase.ExceptionDetails = error;
+        }        
+    });
+
+    // it('Verify the task occurrence observation details for each of the occurrence skipped in treatment log page', async () => {
     //     try {
-    //         __testCase.TestName = 'Verify the task occurrences status of each occurrence in the treatment log page';
+    //         __testCase.TestName = 'Verify the task occurrence observation details for each of the occurrence completed in treatment log page';
 
     //         let __taskSeriesInfo = specFileData.UserData.TaskSeries;
     //         let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
     //         let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
-    //         let __treatmentStatusIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Status');
     //         let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
 
     //         let __scheduleTime = ('0' + __taskSeriesInfo.taskScheduleInfo.scheduleStartTime).slice(-2) + ':00';
-
     //         __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
-    //             FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__treatmentStatusIndex]);
-    //             FrameworkComponent.logHelper.info('Expected : ' + __taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
-    //             expect(logInfo[__treatmentStatusIndex]).toBe(__taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
+    //             __taskSeriesInfo.taskOccurrenceInfo.observationList.forEach(observationList => {
+    //                             let __expectedObservationValues = observationList + ': '+ __taskSeriesInfo.taskOccurrenceInfo.observationValues[observationList];
+    //                             expect(logInfo[__treatmentDetailsIndex]).toContain(__expectedObservationValues);                                
+    //             });
     //         });
     //     } catch (error) {
     //         __testCase.ExceptionDetails = error;
-    //     }        
+    //     }
     // });
-
 });

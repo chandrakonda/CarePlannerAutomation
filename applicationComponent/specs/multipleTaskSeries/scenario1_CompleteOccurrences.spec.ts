@@ -16,10 +16,8 @@ describe('Add a multi series product and schedule a task for all the task series
             __dataReader = new DataReader();
             __data = new Data();
             specFileData.Data = __data;
-            specFileData.UserData  = __dataReader.loadJsonData('userDataScenario1','multipleTaskSeries');
-            FrameworkComponent.logHelper.info(specFileData.UserData);
-            specFileData.TestCases = new Array<TestCase>();
-            
+            specFileData.UserData  = __dataReader.loadJsonData('userDataScenario1','multipleTaskSeries');            
+            specFileData.TestCases = new Array<TestCase>();            
         });
 
         afterAll( () => {
