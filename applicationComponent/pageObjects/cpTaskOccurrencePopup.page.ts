@@ -278,7 +278,11 @@ export class CareplannerTaskOcurrencePopup {
                         break;
                     case "skipped":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
-                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
+                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction);
+
+                            if(taskOccurrenceInfo.observationList.length>0){                    
+                                this.fillObservationDetails(taskOccurrenceInfo);
+                            }
                         break;
                     case "canceled":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
