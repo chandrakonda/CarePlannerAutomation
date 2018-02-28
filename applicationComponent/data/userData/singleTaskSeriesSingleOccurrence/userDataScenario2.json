@@ -24,7 +24,7 @@
             "occurrenceIndex" : "0",
             "occurrenceHour" : "10",
             "occurrenceAction" : "Skipped",
-            "occurrenceNotes" : "Test notes for complete task occurrence",
+            "occurrenceNotes" : "Test notes for skip task occurrence",
             "expectedOccurrenceStatus" : "Skipped",
             "observationList" : ["Consistency"],
             "observationValues" : {

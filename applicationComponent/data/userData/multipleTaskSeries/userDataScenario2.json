@@ -28,9 +28,9 @@
                 },{
                     "occurrenceIndex" : "3",
                     "occurrenceHour" : "8",
-                    "occurrenceAction" : "Completed",
-                    "occurrenceNotes" : "Test notes for complete task occurrence",
-                    "expectedOccurrenceStatus" : "Complete",
+                    "occurrenceAction" : "Skipped",
+                    "occurrenceNotes" : "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus" : "Skipped",
                     "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
                     "observationValues" : {
                         "Temp" : "100",
@@ -66,9 +66,9 @@
                 },{
                     "occurrenceIndex" : "2",
                     "occurrenceHour" : "8",
-                    "occurrenceAction" : "Completed",
-                    "occurrenceNotes" : "Test notes for complete task occurrence",
-                    "expectedOccurrenceStatus" : "Complete",
+                    "occurrenceAction" : "Skipped",
+                    "occurrenceNotes" : "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus" : "Skipped",
                     "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
                     "observationValues" : {
                         "Type of food" : "106",
@@ -100,9 +100,9 @@
                 },{
                     "occurrenceIndex" : "2",
                     "occurrenceHour" : "8",
-                    "occurrenceAction" : "Completed",
-                    "occurrenceNotes" : "Test notes for complete task occurrence",
-                    "expectedOccurrenceStatus" : "Complete",
+                    "occurrenceAction" : "Skipped",
+                    "occurrenceNotes" : "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus" : "Skipped",
                     "observationList" : ["Urine color", "test urine appearance"],
                     "observationValues" : {
                         "Urine color" : "Yellow",
@@ -111,9 +111,9 @@
                 },{
                     "occurrenceIndex" : "3",
                     "occurrenceHour" : "9",
-                    "occurrenceAction" : "Completed",
-                    "occurrenceNotes" : "Test notes for complete task occurrence",
-                    "expectedOccurrenceStatus" : "Complete",
+                    "occurrenceAction" : "Skipped",
+                    "occurrenceNotes" : "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus" : "Skipped",
                     "observationList" : ["Urine color", "test urine appearance"],
                     "observationValues" : {
                         "Urine color" : "Clear",

@@ -247,4 +247,33 @@ describe('schedule task occurrence and perform a action from user input', async 
         }        
     });
 
+    /// Observations are not displayed in the treatment log page for the skipped occurrence
+    // it('Verify the task occurrence observation details for each of the occurrence completed in treatment log page', async () => {
+    //     try {
+    //         __testCase.TestName = 'Verify the task occurrence observation details for each of the occurrence completed in treatment log page';
+
+    //         let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+    //         let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
+    //         let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
+    //         let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
+
+    //         let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(__taskSeriesInfo.taskScheduleInfo);
+
+    //         __taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
+
+    //             let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+
+    //             __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
+    //                 taskOccurrenceInfo.observationList.forEach(observationList => {
+    //                                 let __expectedObservationValues = observationList + ': '+ taskOccurrenceInfo.observationValues[observationList];
+    //                                 expect(logInfo[__treatmentDetailsIndex]).toContain(__expectedObservationValues);                                
+    //                 });
+    //             });
+    //         });
+
+    //     } catch (error) {
+    //         __testCase.ExceptionDetails = error;
+    //     }
+    // });
+
 });

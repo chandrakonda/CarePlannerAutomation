@@ -1,6 +1,7 @@
 import { FrameworkComponent } from '../../frameworkComponent';
 import { GlobalValues, SpecFile, AuthorizationLibrary, ClientAndPatientLibrary, AppointmentLibrary, OrderLibrary, VisitLibrary, TestBase} from '../../applicationComponent';
-import { browser } from 'protractor';
+import { browser, ProtractorBy } from 'protractor';
+import { protractor } from 'protractor/built/ptor';
 
 let __authLib:AuthorizationLibrary, __clientAndPatientLib:ClientAndPatientLibrary, __appointmentLib:AppointmentLibrary, __orderLib:OrderLibrary, __visitLib:VisitLibrary;
 
@@ -49,7 +50,7 @@ export class CarePlannerLibrary{
                 '&userId=' + specData.UserId +  // chandrasekhar.konda .. need to implement
                 '&accessToken=' + AuthorizationLibrary.authTokenValue
             FrameworkComponent.logHelper.info('URL: ', __url);
-            browser.get(__url);
+            browser.get(__url);           
             browser.sleep(5000);
 
         } catch (error) {

@@ -37,7 +37,7 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        // "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
+        "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
         // "../applicationComponent/specs/multipleTaskSeries/scenario2_CompleteOccurrences.spec.js",
 
         // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
@@ -45,9 +45,9 @@ export const config: Config = {
         // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",
 
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js"
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js"
     ],
 
     jasmineNodeOpts: {

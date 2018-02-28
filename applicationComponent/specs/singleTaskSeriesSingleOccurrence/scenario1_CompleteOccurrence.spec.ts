@@ -38,7 +38,7 @@ describe('schedule task occurrence and perform a action from user input', async 
         specFileData.TestCases.push(__testCase);
     });
 
-    it('Data Preparation', async () => {
+    it('Data set up and client pet details', async () => {
         try {
             __testCase.TestName = 'Create Client, Patient, Appointment and add product to it ';
 
@@ -59,8 +59,6 @@ describe('schedule task occurrence and perform a action from user input', async 
             __testCase.TestName = "Verifying the category count and product task list";
 
             let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
-            FrameworkComponent.logHelper.info("List of categories observed from the aggregated data : " + __taskCategoryList.categoryList);
-            FrameworkComponent.logHelper.info("List of task series observed from the aggregated data : " + __taskCategoryList.taskList);
 
             //Verify the Category Count
             await expect(Pages.cpSchedulerPage.categoryCount).toEqual(__taskCategoryList.categoryList.length);
@@ -202,10 +200,7 @@ describe('schedule task occurrence and perform a action from user input', async 
                 FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__completedTimeIndex]);
                 FrameworkComponent.logHelper.info('Expected : ' + __scheduleTime);
                 expect(logInfo[__completedTimeIndex]).toBe(__scheduleTime);
-
-            });
-            
-           
+            });            
             
         } catch (error) {
             __testCase.ExceptionDetails = error;
@@ -225,7 +220,7 @@ describe('schedule task occurrence and perform a action from user input', async 
             let __scheduleTime = ('0' + __taskSeriesInfo.taskScheduleInfo.scheduleStartTime).slice(-2) + ':00';
 
             __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
-                FrameworkComponent.logHelper.info('Actual : ' + __treatmentLofInfo[__treatmentStatusIndex]);
+                FrameworkComponent.logHelper.info('Actual : ' + logInfo[__treatmentStatusIndex]);
                 FrameworkComponent.logHelper.info('Expected : ' + __taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
                 expect(logInfo[__treatmentStatusIndex]).toBe(__taskSeriesInfo.taskOccurrenceInfo.occurrenceAction);
             });
@@ -255,19 +250,5 @@ describe('schedule task occurrence and perform a action from user input', async 
         }
     });
 
-    // it('Verify the observation details provided', async () => {
-
-    //     __testCase.TestName = 'Verify the schedule information on the treatment log page';
-
-    //     let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-    //     let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInfo();
-    //     let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
-    //     let __treatmentDetails = __treatmentLofInfo[__treatmentDetailsIndex];
-
-    //     FrameworkComponent.logHelper.info(__treatmentDetails);
-
-    //     let __treatmentLogDetailsBySeriesName = await Pages.cpTreatmentLogPage.getTreatmentLogByTaskSeriesName(__taskSeriesInfo.taskSeriesName);
-    //     FrameworkComponent.logHelper.info(__treatmentLogDetailsBySeriesName);
-
-    // });
+    
 });
