@@ -1,5 +1,5 @@
 import { CareplannerSchedulerPage, CareplannerClientAndPetDetailsPage, CareplannerTaskSchedulerPopup,
-    CareplannerTaskOcurrencePopup,CareNoteDialog,AddOptionalTaskDialog, TreatmentLogPage } from '../../applicationComponent';
+    CareplannerTaskOcurrencePopup,CareNoteDialog,AddOptionalTaskDialog, TreatmentLogPage, TrendViewPage } from '../../applicationComponent';
 
 
 export class Pages{
@@ -30,6 +30,10 @@ export class Pages{
         
     public static get cpTreatmentLogPage(): TreatmentLogPage {
         return new TreatmentLogPage();
+    }
+
+    public static get cpTrendViewPage(): TrendViewPage {
+        return new TrendViewPage();
     }
 
 }

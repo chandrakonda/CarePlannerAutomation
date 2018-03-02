@@ -9,6 +9,7 @@ export * from './applicationComponent/pageObjects/cpTaskSchedulerPopup.page'
 export * from './applicationComponent/pageObjects/cpAddTaskDialog.page'
 export * from './applicationComponent/pageObjects/cpCareNoteDialog.page'
 export * from './applicationComponent/pageObjects/cpTreatmentLog.page'
+export * from './applicationComponent/pageObjects/cpTrendView.page'
 /**
  * Utilities classes under the Application Component
  */
