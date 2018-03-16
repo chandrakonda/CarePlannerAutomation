@@ -2,6 +2,7 @@ import { FrameworkComponent } from '../../frameworkComponent';
 import { $, browser, element, by, By, ExpectedConditions, protractor } from "protractor";
 import { Pages } from './pages';
 import { resolve } from 'path';
+import { APILibraryController } from '../../applicationComponent';
 
 
 export class CareplannerSchedulerPage{
@@ -297,22 +298,6 @@ export class CareplannerSchedulerPage{
             let __occurrences = new Array, expectedOccurrenceStatus = new Array;
             let __currentTime = new Date().getHours();
 
-
-            // switch (taskScheduleInfo.occurrenceFrequency) {
-            //     case 'once':
-            //         numberOfTaskOccurrence = 1;
-            //     break;
-            //     case 'recurring':
-            //         numberOfTaskOccurrence = ((taskScheduleInfo.scheduleEndTime - taskScheduleInfo.scheduleStartTime)/taskScheduleInfo.repeatEveryHour) + 1;
-            //         break;                  
-            //     default:
-            //         break;
-            // }
-            // occurrences[0] = taskScheduleInfo.scheduleStartTime;
-            // for (let index = 1; index < numberOfTaskOccurrence; index++) {
-            //     occurrences[index] = Number(occurrences[index-1]) + Number(taskScheduleInfo.repeatEveryHour);
-            // }
-
             __occurrences = await this.getOccurrenceHoursToSchedule(taskScheduleInfo);
             
             __numberOfTaskOccurrences = await this.getNumberOfTaskOccurrenceToSchedule(taskScheduleInfo);
@@ -333,6 +318,44 @@ export class CareplannerSchedulerPage{
             }
 
             return {expectedOccurrenceCount: __numberOfTaskOccurrences, expectedOccurrenceStatus };
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getCompletedTaskOccurrenceDetailsList(specFileData) {
+        try {
+
+            // await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
+
+            let __aggregatedDataList = new Array;
+            specFileData.Data.Client.Patient.Visit.Category.forEach(category => {
+                
+                category.TaskSeriesList.forEach(taskSeriesList => {
+
+                    if(taskSeriesList.HourlyTaskOccurrences != undefined && taskSeriesList.HourlyTaskOccurrences.length > 0) {
+                        
+                        taskSeriesList.HourlyTaskOccurrences.forEach(occurrence => {
+                            let __occurrenceList = new Array;
+                            if(occurrence.TaskOccurrences[0].StatusName === 'Complete') {
+                                __occurrenceList.push(category.CategoryName);
+                                __occurrenceList.push(category.CategoryId);
+                                __occurrenceList.push(taskSeriesList.TaskName);
+                                __occurrenceList.push(taskSeriesList.TaskSeriesId);
+                                __occurrenceList.push(occurrence.TaskOccurrences[0].TaskOccurrenceId);
+                                __occurrenceList.push(occurrence.Hour);
+                                __occurrenceList.push(occurrence.Date);
+                                __occurrenceList.push(occurrence.Day);
+                                __occurrenceList.push(occurrence.TaskOccurrences[0].StatusName);
+                                __aggregatedDataList.push(__occurrenceList);
+                            }
+                        })
+                    }
+                })
+            })
+            FrameworkComponent.logHelper.info(__aggregatedDataList);
+            return __aggregatedDataList;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

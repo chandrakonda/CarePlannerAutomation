@@ -1,5 +1,5 @@
 import { FrameworkComponent } from '../../frameworkComponent';
-import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product, Category, TaskSeriesList } from '../../applicationComponent';
+import { TestBase, SpecFile, TaskOccurrence, TaskSeries, Product, Category, TaskSeriesList, HourlyTaskOccurrences } from '../../applicationComponent';
 import { AddingProductsModel } from '../data/model/products_model';
 import { DataReader } from '../../dataComponent/dataReaderHelper';
 
@@ -134,13 +134,23 @@ export class OrderLibrary {
                     
                     let __category = new Category();
                     __category.CategoryName   = response.TaskCategories[index].CategoryName;
+                    __category.CategoryId = response.TaskCategories[index].CategoryId;
 
-                    let __taskSeries:TaskSeriesList[] =  new Array;
+                    let __taskSeriesList:TaskSeriesList[] = new Array;
                     for (let i = 0; i < response.TaskCategories[index].TaskSeries.length; i++) {                       
-                        __taskSeries[i] = response.TaskCategories[index].TaskSeries[i].Name;
+                        let __taskSeries:TaskSeriesList =  new TaskSeriesList();
+                        __taskSeries.TaskName = response.TaskCategories[index].TaskSeries[i].Name;
+                        __taskSeries.TaskSeriesId = response.TaskCategories[index].TaskSeries[i].TaskSeriesId;
+                        let __hourlyTaskOccurrences:HourlyTaskOccurrences[] = new Array;
+                        __hourlyTaskOccurrences = response.TaskCategories[index].TaskSeries[i].HourlyTaskOccurrences;
+                        if(__hourlyTaskOccurrences.length > 0){
+                            __taskSeries.HourlyTaskOccurrences= __hourlyTaskOccurrences;
+                        }
+
+                        __taskSeriesList[i] = __taskSeries;
                     }
 
-                    __category.TaskSeriesList = __taskSeries;                        
+                    __category.TaskSeriesList = __taskSeriesList;                        
                     __categoryList[index] = __category;
                }
             });
@@ -156,8 +166,10 @@ export class OrderLibrary {
             FrameworkComponent.logHelper.info('*********** Set Options for Aggregated DataBy Order Id ***********');
             let __options =  DataReader.loadAPITemplates("getAggregatedData");
 
-            let startTime = moment().subtract(6, 'hours').toISOString();
-            let endTime = moment().subtract(4, 'hours').toISOString();
+            // let startTime = moment().subtract(6, 'hours').toISOString();
+            // let endTime = moment().subtract(4, 'hours').toISOString();
+            let startTime = moment().toISOString();
+            let endTime = moment().toISOString();
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + "Orders/" + specData.Data.Client.Patient.Visit.VisitId + "/AggregatedData/" + startTime + "/" + endTime;
     

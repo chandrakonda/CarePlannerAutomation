@@ -62,6 +62,7 @@ export class TestCase {
     TestResult: string;
     TestDescription: string;
     ExceptionDetails : string;
+    WarningInformation :string;
 }
 
 export class Data {
@@ -162,9 +163,21 @@ export class Scheduletaskseries {
 
 export class Category {
     CategoryName: string;
+    CategoryId:string;
     TaskSeriesList : TaskSeriesList[];
 }
 
 export class TaskSeriesList {
     TaskName: string;
+    TaskSeriesId:string;
+    HourlyTaskOccurrences: HourlyTaskOccurrences[]
+}
+
+export class HourlyTaskOccurrences {
+    TaskOccurrenceId:string;
+    Hour: string;
+    Day:string;
+    Date: string;
+    Occurrences: string[]
+
 }

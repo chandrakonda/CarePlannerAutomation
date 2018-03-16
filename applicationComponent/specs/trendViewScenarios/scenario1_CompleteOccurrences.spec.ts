@@ -1,6 +1,6 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
-import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from '../../../applicationcomponent'
-import { browser } from 'protractor';
+import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product, Category, TaskOccurrence } from '../../../applicationcomponent'
+import { browser, element } from 'protractor';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 
@@ -258,7 +258,7 @@ describe('Add a multi series product and schedule a task for all the task series
                             expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
 
                             taskOccurrenceInfo.observationList.forEach(observationList => {
-                                let __expectedObservationValues = observationList + ': ' + taskOccurrenceInfo.observationValues[observationList];
+                                let __expectedObservationValues = taskOccurrenceInfo.observationValues[observationList];
                                 expect(logInfo[__treatmentDetailsIndex]).toContain(__expectedObservationValues);
                             });
                         })
@@ -282,6 +282,57 @@ describe('Add a multi series product and schedule a task for all the task series
 
                 expect(__trendViewPageDisplayedStatus).toBe(true);
 
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        })
+
+        // it('Get the aggregated data', async () => {
+        //     try {
+        //         __testCase.TestName = 'Get aggregated data';
+        //         await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
+        //         FrameworkComponent.logHelper.info(specFileData.Data.Client.Patient.Visit.Category);
+        //         browser.sleep(2000);
+        //     } catch (error) {
+        //         __testCase.ExceptionDetails = error;
+        //     }
+        // })
+
+        it('Verify the observation list name & values',  async () => {
+            try {
+
+                let __completedTaskOccurrenceList = await Pages.cpSchedulerPage.getCompletedTaskOccurrenceDetailsList(specFileData);
+
+                specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
+
+                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+
+                    taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
+
+                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        
+                        if(taskOccurrenceInfo.occurrenceAction === 'Completed') {                        
+                            let __expectedObservationValues = taskOccurrenceInfo.observationValues;
+                            let __actualObservationValues = await  Pages.cpTrendViewPage.getObservationDetailsByTaskSeriesName(taskSeriesInfo.taskSeriesName, taskOccurrenceInfo.observationList, __scheduleTime);
+
+                            for (let index = 0; index < taskOccurrenceInfo.observationList.length; index++) {     
+                                
+                                FrameworkComponent.logHelper.info('Verifying the observation details of the task occurrence for task series name : ' + taskSeriesInfo.taskSeriesName);
+                                FrameworkComponent.logHelper.info('Observation Name : ' + taskOccurrenceInfo.observationList[index]);
+                                expect (__expectedObservationValues[index]).toContain(__actualObservationValues[index]);
+
+                                // if(__actualObservationValues[index] === __expectedObservationValues[0]){
+                                //     FrameworkComponent.logHelper.info('Verifying the observation : ' + taskOccurrenceInfo.observationList[index]);
+                                //     expect (__expectedObservationValues[index]).toContain(__actualObservationValues[index]);
+                                // } else {
+                                //     let __warningMessage = 'Observation details ' + taskOccurrenceInfo.observationList[index] + ' mismactched for the task series name : "'+ taskSeriesInfo.taskSeriesName +'"' + ' expected value : ' + __expectedObservationValues[index] + 'actul value : ' + __actualObservationValues[index];
+                                //     FrameworkComponent.logHelper.info(__warningMessage);
+                                //     __testCase.WarningInformation = __warningMessage;
+                                // }
+                            }
+                        }
+                    });
+                });
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }

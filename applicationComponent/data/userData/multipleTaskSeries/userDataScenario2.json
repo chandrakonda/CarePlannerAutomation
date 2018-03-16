@@ -1,125 +1,190 @@
 {
-    "TaskSeries":[{
-            "taskSeriesName" : "Vitals",
-            "taskScheduleInfo" : [{
-                    "occurrenceFrequency" : "recurring",
-                    "scheduleStartTime" : "5",
-                    "scheduleEndTimeCheckout" : "false",
-                    "scheduleEndTime" : "8",
-                    "repeatEveryHour" : "1",
-                    "scheduleInstructions" : "Test Instructions for vitals",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"]
-                }],
-            "taskOccurrenceInfo" :[{
-                    "occurrenceIndex" : "1",
-                    "occurrenceHour" : "6",
-                    "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for Skip task occurrence",
-                    "expectedOccurrenceStatus" : "Skipped",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
-                    "observationValues" : {
-                        "Temp" : "102",
-                        "Resp rate" : "124",
-                        "Heart rate" : "89",
-                        "Pain" : "Increased",
-                        "CRT" : ">= 2",
-                        "Hydration status" : "5-6%"
-                    }
-                },{
-                    "occurrenceIndex" : "3",
-                    "occurrenceHour" : "8",
-                    "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for Skip task occurrence",
-                    "expectedOccurrenceStatus" : "Skipped",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
-                    "observationValues" : {
-                        "Temp" : "100",
-                        "Resp rate" : "120",
-                        "Heart rate" : "64",
-                        "Pain" : "Increased",
-                        "CRT" : ">= 2",
-                        "Hydration status" : "5-6%"
-                    }
-                }]
-        }, {
-            "taskSeriesName" : "Offer food",
-            "taskScheduleInfo" : [{
-                    "occurrenceFrequency" : "recurring",
-                    "scheduleStartTime" : "6",
-                    "scheduleEndTimeCheckout" : "false",
-                    "scheduleEndTime" : "8",
-                    "repeatEveryHour" : "1",
-                    "scheduleInstructions" : "Test Instructions for offer food",
-                    "observationList" : ["Type of food", "Food offered"]
-                }],
-            "taskOccurrenceInfo" :[{
-                    "occurrenceIndex" : "0",
-                    "occurrenceHour" : "6",
-                    "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for Skip task occurrence",
-                    "expectedOccurrenceStatus" : "Skipped",
-                    "observationList" : ["Type of food", "Food offered"],
-                    "observationValues" : {
-                        "Type of food" : "100",
-                        "Food offered" : "20"
-                    }
-                },{
-                    "occurrenceIndex" : "2",
-                    "occurrenceHour" : "8",
-                    "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for Skip task occurrence",
-                    "expectedOccurrenceStatus" : "Skipped",
-                    "observationList" : ["Temp", "Resp rate", "Heart rate", "Pain", "CRT", "Hydration status"],
-                    "observationValues" : {
-                        "Type of food" : "106",
-                        "Food offered" : "25"
-                    }
-                }]
-        }, {
-            "taskSeriesName" : "Urination",
-            "taskScheduleInfo" : [{
-                "occurrenceFrequency" : "recurring",
-                "scheduleStartTime" : "6",
-                "scheduleEndTimeCheckout" : "false",
-                "scheduleEndTime" : "9",
-                "repeatEveryHour" : "1",
-                "scheduleInstructions" : "Test Instructions for offer food",
-                "observationList" : ["Urine color", "test urine appearance"]
-                }],
-            "taskOccurrenceInfo" : [{
-                    "occurrenceIndex" : "0",
-                    "occurrenceHour" : "6",
-                    "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for Skip task occurrence",
-                    "expectedOccurrenceStatus" : "Skipped",
-                    "observationList" : ["Urine color", "test urine appearance"],
-                    "observationValues" : {
-                        "Urine color" : "Yellow",
-                        "test urine appearance" : "Hazy"
-                        }
-                },{
-                    "occurrenceIndex" : "2",
-                    "occurrenceHour" : "8",
-                    "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for Skip task occurrence",
-                    "expectedOccurrenceStatus" : "Skipped",
-                    "observationList" : ["Urine color", "test urine appearance"],
-                    "observationValues" : {
-                        "Urine color" : "Yellow",
-                        "test urine appearance" : "Hazy"
-                    }
-                },{
-                    "occurrenceIndex" : "3",
-                    "occurrenceHour" : "9",
-                    "occurrenceAction" : "Skipped",
-                    "occurrenceNotes" : "Test notes for Skip task occurrence",
-                    "expectedOccurrenceStatus" : "Skipped",
-                    "observationList" : ["Urine color", "test urine appearance"],
-                    "observationValues" : {
-                        "Urine color" : "Clear",
-                        "test urine appearance" : "Clear"
-                    }
-                }]
+    "TaskSeries": [
+        {
+            "taskSeriesName": "Vitals",
+            "taskScheduleInfo": [
+                {
+                    "occurrenceFrequency": "recurring",
+                    "scheduleStartTime": "5",
+                    "scheduleEndTimeCheckout": "false",
+                    "scheduleEndTime": "8",
+                    "repeatEveryHour": "1",
+                    "scheduleInstructions": "Test Instructions for vitals",
+                    "observationList": [
+                        "Temp",
+                        "Resp rate",
+                        "Heart rate",
+                        "Pain",
+                        "CRT",
+                        "Hydration status"
+                    ]
+                }
+            ],
+            "taskOccurrenceInfo": [
+                {
+                    "occurrenceIndex": "1",
+                    "occurrenceHour": "6",
+                    "occurrenceAction": "Skipped",
+                    "occurrenceNotes": "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus": "Skipped",
+                    "observationList": [
+                        "Temp",
+                        "Resp rate",
+                        "Heart rate",
+                        "Pain",
+                        "CRT",
+                        "Hydration status"
+                    ],
+                    "observationValues": [
+                        "102",
+                        "124",
+                        "89",
+                        "Increased",
+                        ">= 2",
+                        "5-6%"
+                    ]
+                },
+                {
+                    "occurrenceIndex": "3",
+                    "occurrenceHour": "8",
+                    "occurrenceAction": "Skipped",
+                    "occurrenceNotes": "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus": "Skipped",
+                    "observationList": [
+                        "Temp",
+                        "Resp rate",
+                        "Heart rate",
+                        "Pain",
+                        "CRT",
+                        "Hydration status"
+                    ],
+                    "observationValues": [
+                        "100",
+                        "120",
+                        "64",
+                        "Increased",
+                        ">= 2",
+                        "5-6%"
+                    ]
+                }
+            ]
+        },
+        {
+            "taskSeriesName": "Offer food",
+            "taskScheduleInfo": [
+                {
+                    "occurrenceFrequency": "recurring",
+                    "scheduleStartTime": "6",
+                    "scheduleEndTimeCheckout": "false",
+                    "scheduleEndTime": "8",
+                    "repeatEveryHour": "1",
+                    "scheduleInstructions": "Test Instructions for offer food",
+                    "observationList": [
+                        "Type of food",
+                        "Food offered"
+                    ]
+                }
+            ],
+            "taskOccurrenceInfo": [
+                {
+                    "occurrenceIndex": "0",
+                    "occurrenceHour": "6",
+                    "occurrenceAction": "Skipped",
+                    "occurrenceNotes": "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus": "Skipped",
+                    "observationList": [
+                        "Type of food",
+                        "Food offered"
+                    ],
+                    "observationValues": [
+                        "100",
+                        "20"
+                    ]
+                },
+                {
+                    "occurrenceIndex": "2",
+                    "occurrenceHour": "8",
+                    "occurrenceAction": "Skipped",
+                    "occurrenceNotes": "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus": "Skipped",
+                    "observationList": [
+                        "Temp",
+                        "Resp rate",
+                        "Heart rate",
+                        "Pain",
+                        "CRT",
+                        "Hydration status"
+                    ],
+                    "observationValues": [
+                        "107",
+                        "26"
+                    ]
+                }
+            ]
+        },
+        {
+            "taskSeriesName": "Urination",
+            "taskScheduleInfo": [
+                {
+                    "occurrenceFrequency": "recurring",
+                    "scheduleStartTime": "6",
+                    "scheduleEndTimeCheckout": "false",
+                    "scheduleEndTime": "9",
+                    "repeatEveryHour": "1",
+                    "scheduleInstructions": "Test Instructions for offer food",
+                    "observationList": [
+                        "Urine color",
+                        "test urine appearance"
+                    ]
+                }
+            ],
+            "taskOccurrenceInfo": [
+                {
+                    "occurrenceIndex": "0",
+                    "occurrenceHour": "6",
+                    "occurrenceAction": "Skipped",
+                    "occurrenceNotes": "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus": "Skipped",
+                    "observationList": [
+                        "Urine color",
+                        "test urine appearance"
+                    ],
+                    "observationValues": [
+                        "Yellow",
+                        "Hazy"
+                    ]
+                },
+                {
+                    "occurrenceIndex": "2",
+                    "occurrenceHour": "8",
+                    "occurrenceAction": "Skipped",
+                    "occurrenceNotes": "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus": "Skipped",
+                    "observationList": [
+                        "Urine color",
+                        "test urine appearance"
+                    ],
+                    "observationValues": [
+                        "Yellow",
+                        "Hazy"
+                    ]
+                },
+                {
+                    "occurrenceIndex": "3",
+                    "occurrenceHour": "9",
+                    "occurrenceAction": "Skipped",
+                    "occurrenceNotes": "Test notes for Skip task occurrence",
+                    "expectedOccurrenceStatus": "Skipped",
+                    "observationList": [
+                        "Urine color",
+                        "test urine appearance"
+                    ],
+                    "observationValues": [
+                        "Clear",
+                        "Clear"
+                    ]
+                }
+            ]
         }
     ]
 }

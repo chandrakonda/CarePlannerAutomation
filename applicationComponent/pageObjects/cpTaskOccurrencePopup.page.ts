@@ -1,5 +1,5 @@
 import { FrameworkComponent } from '../../frameworkComponent';
-import { element, by, browser, protractor, ExpectedConditions } from 'protractor';
+import { element, by, browser, protractor, ExpectedConditions, ElementFinder } from 'protractor';
 import { DataReader } from '../../dataComponent/dataReaderHelper';
 
 
@@ -313,7 +313,9 @@ export class CareplannerTaskOcurrencePopup {
         try {
             taskOccurrenceInfo.observationList.forEach(observationName => {
                                             
-                let observationValue = taskOccurrenceInfo.observationValues[observationName];
+                // let observationValue = taskOccurrenceInfo.observationValues[observationName];
+
+                let observationValue = taskOccurrenceInfo.observationValues[taskOccurrenceInfo.observationList.indexOf(observationName)];
 
                 let observationFieldInfo = DataReader.loadAPIDefaultValues('observationMappings');
                 observationFieldInfo = observationFieldInfo.observationlist.filter(list => list.Name.toLowerCase() === observationName.toLowerCase());
@@ -343,7 +345,18 @@ export class CareplannerTaskOcurrencePopup {
                         case 'select':
                             FrameworkComponent.logHelper.info('select is the ' + fieldValue);
                             let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName + "')]]/following-sibling::div/descendant::select";
-                            element(by.xpath(selectXpath)).element(by.cssContainingText('option',fieldValue)).click();
+                            let dropDownElement = element(by.xpath(selectXpath));
+                            dropDownElement.getWebElement().findElements(by.tagName('option')).then((options) =>{
+                                options.forEach(element => {
+                                    let elementFound:boolean;
+                                    element.getText().then((value) => {
+                                        if(value.includes(fieldValue)) {
+                                            elementFound = true;
+                                            element.click();                                            
+                                        }
+                                    })                                    
+                                });
+                            });
                             break;
                         default:
                             break;

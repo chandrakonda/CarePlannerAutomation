@@ -30,9 +30,13 @@ export class CareplannerClientAndPetDetailsPage{
     eleEnterCareNotes = element(by.xpath(".//textarea[@placeholder='Add care note here.']"));
     eleAddCareNoteButton = element(by.xpath(".//button[text()='Add care note']"));
 
-    eleSchedulerButton = element(by.xpath("//button[contains(@class,'scheduler-view')]"));
-    eleTreatmentLogButton = element(by.xpath("//button[contains(@class,'scheduler-listview')]"));
-    eleTrendViewButton = element(by.xpath("//button[contains(@class,'scheduler-trendview')]"));
+    // eleSchedulerButton = element(by.xpath("//button[contains(@class,'scheduler-view')]"));
+    // eleTreatmentLogButton = element(by.xpath("//button[contains(@class,'scheduler-listview')]"));
+    // eleTrendViewButton = element(by.xpath("//button[contains(@class,'scheduler-trendview')]"));
+
+    eleSchedulerButton = element(by.xpath("//ul[@id='treatment_content']/li[contains(@class,'schedule-btn')]"));
+    eleTreatmentLogButton = element(by.xpath("//ul[@id='treatment_content']/li[contains(@class,'log-btn')]"));
+    eleTrendViewButton = element(by.xpath("//ul[@id='treatment_content']/li[contains(@class,'trend-btn')]"));
 
     get pageTitle(): any {
         try {
