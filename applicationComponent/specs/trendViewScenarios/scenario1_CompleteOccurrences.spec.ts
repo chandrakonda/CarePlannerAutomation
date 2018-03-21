@@ -140,10 +140,15 @@ describe('Add a multi series product and schedule a task for all the task series
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
                         //Verify the status of the created Occurrences
-                        let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(taskSeriesInfo.taskSeriesName);
+                        // let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(taskSeriesInfo.taskSeriesName);
+                        // FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + taskOccurrenceInfo.expectedOccurrenceStatus);
+                        // FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]);
+                        // expect(__occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]).toEqual(taskOccurrenceInfo.expectedOccurrenceStatus);
+
+                        let __occurrenceHourStatus = await Pages.cpSchedulerPage.getTaskOccurrenceStatusByHour(taskSeriesInfo.taskSeriesName, taskOccurrenceInfo.occurrenceHour);
                         FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + taskOccurrenceInfo.expectedOccurrenceStatus);
-                        FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]);
-                        expect(__occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]).toEqual(taskOccurrenceInfo.expectedOccurrenceStatus);
+                        FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrenceHourStatus);
+                        expect(__occurrenceHourStatus).toEqual(taskOccurrenceInfo.expectedOccurrenceStatus);
                     });
 
                 });
@@ -194,11 +199,12 @@ describe('Add a multi series product and schedule a task for all the task series
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
 
-                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
 
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
-                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        // let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        let __scheduleTime = taskOccurrenceInfo.occurrenceHour;
 
                         __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
                             expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
@@ -222,11 +228,12 @@ describe('Add a multi series product and schedule a task for all the task series
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
 
-                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
 
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
-                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        // let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        let __scheduleTime = taskOccurrenceInfo.occurrenceHour;
 
                         __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
                             expect(logInfo[__treatmentStatusIndex]).toBe(taskOccurrenceInfo.occurrenceAction);
@@ -248,17 +255,17 @@ describe('Add a multi series product and schedule a task for all the task series
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
 
-                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
 
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
-                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        let __scheduleTime = taskOccurrenceInfo.occurrenceHour;
 
                         __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
                             expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
 
                             taskOccurrenceInfo.observationList.forEach(observationList => {
-                                let __expectedObservationValues = taskOccurrenceInfo.observationValues[observationList];
+                                let __expectedObservationValues = taskOccurrenceInfo.observationValues[taskOccurrenceInfo.observationList.indexOf(observationList)];
                                 expect(logInfo[__treatmentDetailsIndex]).toContain(__expectedObservationValues);
                             });
                         })
@@ -305,12 +312,13 @@ describe('Add a multi series product and schedule a task for all the task series
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
 
-                    let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
+                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
 
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
-                        let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
-                        
+                        // let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
+                        let __scheduleTime = taskOccurrenceInfo.occurrenceHour;
+
                         if(taskOccurrenceInfo.occurrenceAction === 'Completed') {                        
                             let __expectedObservationValues = taskOccurrenceInfo.observationValues;
                             let __actualObservationValues = await  Pages.cpTrendViewPage.getObservationDetailsByTaskSeriesName(taskSeriesInfo.taskSeriesName, taskOccurrenceInfo.observationList, __scheduleTime);

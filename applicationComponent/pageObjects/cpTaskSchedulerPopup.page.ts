@@ -129,9 +129,9 @@ export class CareplannerTaskSchedulerPopup{
 
     enterStartTime(startTime: number) {
         try {
-            this.eleStartTimeTextBox.clear().then(() => {
+            this.eleStartTimeTextBox.clear().then(() => {                
                 this.eleStartTimeTextBox.sendKeys(startTime);
-                FrameworkComponent.logHelper.info("time entered as : " + startTime);
+                FrameworkComponent.logHelper.info("start time entered as : " + startTime);
             });
             return this;
         } catch (error) {

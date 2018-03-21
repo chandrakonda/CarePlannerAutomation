@@ -94,15 +94,14 @@ export class TrendViewPage {
             let __observationTimeList  = await this.getObservationTimeList();
             let __occurrenceIndex = __observationTimeList.indexOf(occurrenceTime);
 
-            for (let i = 0; i < __observationNames.length; i++) {
-                for (let j = 0; j < observationList.length; j++) {
-                    if (__observationNames[i].match(observationList[j])) {
-                        // __returnValues.push(observationList[j] + ': ' + __observationValues[__occurrenceIndex][j]);
-                        __returnValues.push(__observationValues[__occurrenceIndex][j]);
+            observationList.forEach(observationName => {                
+                for (let index = 0; index < __observationNames.length; index++) {                    
+                    if (__observationNames[index].match(observationName)) {
+                        __returnValues.push(__observationValues[__occurrenceIndex][index]);
                         break;
                     }
                 }
-            }
+            });
 
             FrameworkComponent.logHelper.info(__returnValues);       
             return __returnValues;
@@ -141,13 +140,6 @@ export class TrendViewPage {
                                 
                             }
                         }
-                        // __observationNames.forEach(obser => {
-                        //     taskScheduleInfo.observationList.forEach(value => {
-                        //         if(obser.match(value)){
-                        //             __observation.push(value);
-                        //         }
-                        //     })
-                        // });
                         __observationNames = __observation;
                     });
 

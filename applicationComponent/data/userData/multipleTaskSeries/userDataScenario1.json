@@ -22,7 +22,7 @@
             ],
             "taskOccurrenceInfo": [
                 {
-                    "occurrenceIndex": "1",
+                    
                     "occurrenceHour": "06:00",
                     "occurrenceAction": "Completed",
                     "occurrenceNotes": "Test notes for complete task occurrence",
@@ -36,7 +36,7 @@
                         "Hydration status"
                     ],
                     "observationValues": [
-                        "102",
+                        "102.0",
                         "124",
                         "89",
                         "Increased",
@@ -45,7 +45,7 @@
                     ]
                 },
                 {
-                    "occurrenceIndex": "2",
+                    
                     "occurrenceHour": "07:00",
                     "occurrenceAction": "Completed",
                     "occurrenceNotes": "Test notes for complete task occurrence",
@@ -59,7 +59,7 @@
                         "Hydration status"
                     ],
                     "observationValues": [
-                        "100",
+                        "100.0",
                         "120",
                         "64",
                         "Increased",
@@ -87,7 +87,7 @@
             ],
             "taskOccurrenceInfo": [
                 {
-                    "occurrenceIndex": "1",
+                    
                     "occurrenceHour": "07:00",
                     "occurrenceAction": "Completed",
                     "occurrenceNotes": "Test notes for complete task occurrence",
@@ -102,7 +102,7 @@
                     ]
                 },
                 {
-                    "occurrenceIndex": "0",
+                    
                     "occurrenceHour": "06:00",
                     "occurrenceAction": "Completed",
                     "occurrenceNotes": "Test notes for complete task occurrence",

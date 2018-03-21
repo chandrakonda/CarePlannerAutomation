@@ -147,7 +147,7 @@ export class CareplannerSchedulerPage{
         try {
             this.getPositionByTaskName(taskSeriesName).then((position)=>{                                
                 let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]";
-                element.all(by.xpath(__elementXpath)).get(occurrenceHour + 1).getWebElement().click();
+                element.all(by.xpath(__elementXpath)).get(parseInt(occurrenceHour,10)).getWebElement().click();
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -158,10 +158,28 @@ export class CareplannerSchedulerPage{
     getTaskOccurrenceStatus(startPosition, endPosition) {
         try {                      
             let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ + "and not(position() >" + endPosition.value_ + ")]/descendant::li";
-            let occurrence = element.all(by.xpath(__elementXpath));
-            return occurrence.getAttribute("class").then((className) => {
+            let __occurrence = element.all(by.xpath(__elementXpath));
+            return __occurrence.getAttribute("class").then((className) => {
                 FrameworkComponent.logHelper.info("Status of all the task occurrence : " + className);
                 return className;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getTaskOccurrenceStatusByHour(taskSeriesName, occurrenceHour) {
+        try {
+            return this.getPositionByTaskName(taskSeriesName).then((position)=>{   
+                let __occurrenceHour:number = parseInt(occurrenceHour, 10) + 1;
+                let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]["+ __occurrenceHour + "]/descendant::li";
+                let __occurrence = element(by.xpath(__elementXpath));
+                return __occurrence.getAttribute("class").then((className) => {
+                    let __status = className.split(' ')[0];
+                    FrameworkComponent.logHelper.info("Status of the task occurrence : '" + occurrenceHour + "' is : '" + className.split(' ')[0]) + "'";
+                    return __status;
+                })
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -220,7 +238,9 @@ export class CareplannerSchedulerPage{
     updateOccurrenceDetailsWithObservations(taskSeriesName, taskOccurrenceInfo, scheduleTime?){
         try {
 
-            this.clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, taskOccurrenceInfo.occurrenceIndex);
+            // this.clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, taskOccurrenceInfo.occurrenceIndex);
+
+            this.clickOnTaskSeriesOccurrenceByHour(taskSeriesName, taskOccurrenceInfo.occurrenceHour)
 
             browser.sleep(1000);
 
