@@ -1,42 +1,51 @@
 {
-    "Products" :[{
-        "InvoiceItemId": 75705,
-        "InvoiceItemTypeId": 1,
-        "PLNo": 53,
-        "SeqNo": 1,
-        "Code": "53.1"        
-    }],
-    "TaskSeries":{
-        "taskSeriesName" : "Acepromazine",
-        "taskScheduleInfo" : {
-            "occurrenceFrequency" : "recurring",
-            "scheduleStartTime" : "6",
-            "scheduleEndTimeCheckout" : "false",
-            "scheduleEndTime" : "8",
-            "repeatEveryHour" : "1",
-            "scheduleInstructions" : "Test Instructions for Acepromzazine",
-            "observationList" : ["Consistency"]
+    "Products": [
+        {
+            "InvoiceItemId": 77087,
+            "InvoiceItemTypeId": 1,
+            "PLNo": 101,
+            "SeqNo": 211,
+            "Code": "101.211"
+        }
+    ],
+    "TaskSeries": {
+        "taskSeriesName": "Glucose Curve 24h",
+        "taskScheduleInfo": {
+            "occurrenceFrequency": "recurring",
+            "scheduleStartTime": "06:00",
+            "scheduleEndTimeCheckout": "false",
+            "scheduleEndTime": "08:00",
+            "repeatEveryHour": "1",
+            "scheduleInstructions": "Test Instructions for Acepromzazine",
+            "observationList": [
+                
+            ]
+        },
+        "taskOccurrenceInfo": [
+            {
+                "occurrenceHour": "06:00",
+                "occurrenceAction": "Completed",
+                "occurrenceNotes": "Test notes for complete task occurrence",
+                "expectedOccurrenceStatus": "Complete",
+                "observationList": [
+                    
+                ],
+                "observationValues": [
+                    
+                ]
             },
-        "taskOccurrenceInfo" :[{
-            "occurrenceIndex" : "0",
-            "occurrenceHour" : "6",
-            "occurrenceAction" : "Completed",
-            "occurrenceNotes" : "Test notes for complete task occurrence",
-            "expectedOccurrenceStatus" : "Complete",
-            "observationList" : ["Consistency"],
-            "observationValues" : {
-                "Consistency" : "5-6%"
+            {
+                "occurrenceHour": "08:00",
+                "occurrenceAction": "Completed",
+                "occurrenceNotes": "Test notes for complete task occurrence",
+                "expectedOccurrenceStatus": "Complete",
+                "observationList": [
+                    
+                ],
+                "observationValues": [
+                    
+                ]
             }
-        },{
-            "occurrenceIndex" : "2",
-            "occurrenceHour" : "8",
-            "occurrenceAction" : "Completed",
-            "occurrenceNotes" : "Test notes for complete task occurrence",
-            "expectedOccurrenceStatus" : "Complete",
-            "observationList" : ["Consistency"],
-            "observationValues" : {
-                "Consistency" : "5-6%"
-            }
-        }]
+        ]
     }
 }

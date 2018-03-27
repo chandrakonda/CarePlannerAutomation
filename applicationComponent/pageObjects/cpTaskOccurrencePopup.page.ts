@@ -278,7 +278,8 @@ export class CareplannerTaskOcurrencePopup {
                         break;
                     case "skipped":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
-                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction);
+                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
+                            .enterScheduledTime(taskOccurrenceInfo.occurrenceHour);
 
                             if(taskOccurrenceInfo.observationList.length>0){                    
                                 this.fillObservationDetails(taskOccurrenceInfo);
@@ -293,7 +294,7 @@ export class CareplannerTaskOcurrencePopup {
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
                             .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
                             .enterScheduledTime(scheduleTime)
-                            .selectScheduledDate()
+                            .selectScheduledDate();
                         break;
                     default:
                         break;

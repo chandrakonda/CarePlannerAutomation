@@ -41,12 +41,13 @@ export class CareplannerClientAndPetDetailsPage{
     get pageTitle(): any {
         try {
 
-            return browser.getTitle().then(function (title) {
-            FrameworkComponent.logHelper.info("Page title is "+title);
-            return title;
+            return browser.getTitle().then((title) => {
+                FrameworkComponent.logHelper.info("Page title is "+title);
+                return title;
             });
-        }catch (error) {
+        } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -58,6 +59,7 @@ export class CareplannerClientAndPetDetailsPage{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -69,6 +71,7 @@ export class CareplannerClientAndPetDetailsPage{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -79,6 +82,7 @@ export class CareplannerClientAndPetDetailsPage{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -90,6 +94,7 @@ export class CareplannerClientAndPetDetailsPage{
             })
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -102,7 +107,8 @@ export class CareplannerClientAndPetDetailsPage{
             });
             return doctorName;
         } catch (error) {
-            FrameworkComponent.logHelper.error(error);
+            FrameworkComponent.logHelper.error(error); 
+            throw error;
         }
     }
 
@@ -114,6 +120,7 @@ export class CareplannerClientAndPetDetailsPage{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -126,6 +133,7 @@ export class CareplannerClientAndPetDetailsPage{
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -141,6 +149,7 @@ export class CareplannerClientAndPetDetailsPage{
     clickOnTreatmentLogButton(){
         try {
             this.eleTreatmentLogButton.click();
+            browser.sleep(3000);
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

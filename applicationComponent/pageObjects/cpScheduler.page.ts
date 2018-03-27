@@ -5,8 +5,8 @@ import { resolve } from 'path';
 import { APILibraryController } from '../../applicationComponent';
 
 
-export class CareplannerSchedulerPage{
-    
+export class CareplannerSchedulerPage {
+
     eleWJGrid = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']"));
     elePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']"));
     elePrdTaskListText = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']/text()[not(descendant::span)]"));
@@ -23,7 +23,7 @@ export class CareplannerSchedulerPage{
                 return catCount;
             });
             return categoryCount;
-        } catch (error) {        
+        } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
@@ -78,7 +78,7 @@ export class CareplannerSchedulerPage{
         try {
             let prdTaskList = this.elePrdTaskList.getText().then(prdList => {
                 return prdList;
-            });            
+            });
             return prdTaskList;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -88,8 +88,8 @@ export class CareplannerSchedulerPage{
 
     clickOnTaskByName(taskSeriesName: string) {
         try {
-            let _taskSeriesName = taskSeriesName.slice(0, 23);            
-            let _xpathValue: string = "//div[contains(@class,'wj-cell') and contains(@class,'wj-frozen') and not(contains(@class,'wj-group'))]/descendant::div[contains(@class,'itemname') and contains(normalize-space(text()) , '" + _taskSeriesName +"')]";
+            let _taskSeriesName = taskSeriesName.slice(0, 23);
+            let _xpathValue: string = "//div[contains(@class,'wj-cell') and contains(@class,'wj-frozen') and not(contains(@class,'wj-group'))]/descendant::div[contains(@class,'itemname') and contains(normalize-space(text()) , '" + _taskSeriesName + "')]";
             let ele1 = element(by.xpath(_xpathValue));
             ele1.click();
             browser.sleep(3000);
@@ -116,14 +116,14 @@ export class CareplannerSchedulerPage{
     }
 
     getNumberOfTaskOccurrence(startPosition, endPosition) {
-        try {                       
+        try {
             //let __elementXpath = "//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-cell wj-alt')][position() >=" +startPosition +"and not(position() >=" +endPosition +")]/descendant::li";
-            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ +"and not(position() >" + endPosition.value_ +")]/descendant::li";
+            let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ + "and not(position() >" + endPosition.value_ + ")]/descendant::li";
             return element.all(by.xpath(__elementXpath)).count()
-            .then(count => {
-                FrameworkComponent.logHelper.info("Task occurrence count is : " + count);
-                return count;
-            });
+                .then(count => {
+                    FrameworkComponent.logHelper.info("Task occurrence count is : " + count);
+                    return count;
+                });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -131,10 +131,10 @@ export class CareplannerSchedulerPage{
     }
 
     clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, occurrenceIndex) {
-        try {            
-            this.getPositionByTaskName(taskSeriesName).then((position)=>{                                
+        try {
+            this.getPositionByTaskName(taskSeriesName).then((position) => {
                 let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]/descendant::li";
-                element.all(by.xpath(__elementXpath)).get(occurrenceIndex).getWebElement().click();    
+                element.all(by.xpath(__elementXpath)).get(occurrenceIndex).getWebElement().click();
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -143,11 +143,11 @@ export class CareplannerSchedulerPage{
     }
 
     //Trial Method, Need to implement fully
-    clickOnTaskSeriesOccurrenceByHour(taskSeriesName, occurrenceHour){
+    clickOnTaskSeriesOccurrenceByHour(taskSeriesName, occurrenceHour) {
         try {
-            this.getPositionByTaskName(taskSeriesName).then((position)=>{                                
+            this.getPositionByTaskName(taskSeriesName).then((position) => {
                 let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]";
-                element.all(by.xpath(__elementXpath)).get(parseInt(occurrenceHour,10)).getWebElement().click();
+                element.all(by.xpath(__elementXpath)).get(parseInt(occurrenceHour, 10)).getWebElement().click();
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -156,7 +156,7 @@ export class CareplannerSchedulerPage{
     }
 
     getTaskOccurrenceStatus(startPosition, endPosition) {
-        try {                      
+        try {
             let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + startPosition.value_ + "and not(position() >" + endPosition.value_ + ")]/descendant::li";
             let __occurrence = element.all(by.xpath(__elementXpath));
             return __occurrence.getAttribute("class").then((className) => {
@@ -171,9 +171,9 @@ export class CareplannerSchedulerPage{
 
     getTaskOccurrenceStatusByHour(taskSeriesName, occurrenceHour) {
         try {
-            return this.getPositionByTaskName(taskSeriesName).then((position)=>{   
-                let __occurrenceHour:number = parseInt(occurrenceHour, 10) + 1;
-                let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")]["+ __occurrenceHour + "]/descendant::li";
+            return this.getPositionByTaskName(taskSeriesName).then((position) => {
+                let __occurrenceHour: number = parseInt(occurrenceHour, 10) + 1;
+                let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")][" + __occurrenceHour + "]/descendant::li";
                 let __occurrence = element(by.xpath(__elementXpath));
                 return __occurrence.getAttribute("class").then((className) => {
                     let __status = className.split(' ')[0];
@@ -187,11 +187,11 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    async getTheNumberOfTaskOccurrenceCreated(taskSeriesName){
+    async getTheNumberOfTaskOccurrenceCreated(taskSeriesName) {
         try {
             browser.sleep(1000);
-            let __taskOccurrenceCount = await this.getPositionByTaskName(taskSeriesName).then((position)=>{                  
-                return this.getNumberOfTaskOccurrence(position.startPosition, position.endPosition).then((count) =>{
+            let __taskOccurrenceCount = await this.getPositionByTaskName(taskSeriesName).then((position) => {
+                return this.getNumberOfTaskOccurrence(position.startPosition, position.endPosition).then((count) => {
                     return count;
                 })
             })
@@ -202,17 +202,17 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    async getStatusOfTheTaskOccurrenceByTaskName(taskSeriesName){
+    async getStatusOfTheTaskOccurrenceByTaskName(taskSeriesName) {
         try {
-            let __taskOccurrenceStatus = await this.getPositionByTaskName(taskSeriesName).then((position)=>{
-                return this.getTaskOccurrenceStatus(position.startPosition, position.endPosition).then((statusList:any) =>{
+            let __taskOccurrenceStatus = await this.getPositionByTaskName(taskSeriesName).then((position) => {
+                return this.getTaskOccurrenceStatus(position.startPosition, position.endPosition).then((statusList: any) => {
                     for (let index = 1; index <= statusList.length; index++) {
-                        statusList[index-1] = statusList[index-1].split(' ')[0];
+                        statusList[index - 1] = statusList[index - 1].split(' ')[0];
                     }
                     return statusList;
                 });
             });
-            
+
             return __taskOccurrenceStatus;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -220,12 +220,12 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    ScheduleTaskWithObservations(taskSeriesName, taskScheduleInfo){
+    ScheduleTaskWithObservations(taskSeriesName, taskScheduleInfo) {
         try {
-           
+
             this.clickOnTaskByName(taskSeriesName);
 
-            browser.sleep(1000);  
+            browser.sleep(1000);
 
             Pages.cpTaskSchedulerPopup.scheduleTaskWithObservationDetails(taskScheduleInfo);
 
@@ -235,7 +235,7 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    updateOccurrenceDetailsWithObservations(taskSeriesName, taskOccurrenceInfo, scheduleTime?){
+    updateOccurrenceDetailsWithObservations(taskSeriesName, taskOccurrenceInfo, scheduleTime?) {
         try {
 
             // this.clickOnTaskSeriesOccurrenceByIndex(taskSeriesName, taskOccurrenceInfo.occurrenceIndex);
@@ -252,19 +252,19 @@ export class CareplannerSchedulerPage{
         }
     }
 
-    getPositionByTaskName(taskSeriesName){
+    getPositionByTaskName(taskSeriesName) {
         try {
             let __sPos, __ePos, __avaHour;
-            return this.productTaskList.then((list) => {
-                let __taskIndex = list.indexOf(taskSeriesName);
-                if(__taskIndex == 0){ 
-                    __sPos =  this.eleNumberOfHoursDisplayed.count().then((count) => { return 1;});
+            return this.productTaskList.then((list:any) => {
+                let __taskIndex = list.indexOf(list.filter(taskName => taskName.includes(taskSeriesName))[0])
+                if (__taskIndex == 0) {
+                    __sPos = this.eleNumberOfHoursDisplayed.count().then((count) => { return 1; });
                     __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => { return count + 1; });
-                    return { startPosition : __sPos, endPosition : __ePos };
-                } else if(__taskIndex >= 1){
-                    __sPos  = this.eleNumberOfHoursDisplayed.count().then((count) => { return __taskIndex * count + 1; });                
+                    return { startPosition: __sPos, endPosition: __ePos };
+                } else if (__taskIndex >= 1) {
+                    __sPos = this.eleNumberOfHoursDisplayed.count().then((count) => { return __taskIndex * count + 1; });
                     __ePos = this.eleNumberOfHoursDisplayed.count().then((count) => { return __taskIndex * count + count + 1; });
-                    return { startPosition : __sPos, endPosition : __ePos };
+                    return { startPosition: __sPos, endPosition: __ePos };
                 } else {
                     //fail test as product list not identified
                 }
@@ -272,19 +272,23 @@ export class CareplannerSchedulerPage{
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
-        }    
+        }
     }
 
     getNumberOfTaskOccurrenceToSchedule(taskScheduleInfo) {
         try {
             let __numberOfTaskOccurrences;
+
             switch (taskScheduleInfo.occurrenceFrequency) {
                 case 'once':
                     __numberOfTaskOccurrences = 1;
-                break;
+                    break;
                 case 'recurring':
-                    __numberOfTaskOccurrences = ((taskScheduleInfo.scheduleEndTime - taskScheduleInfo.scheduleStartTime)/taskScheduleInfo.repeatEveryHour) + 1;
-                    break;                  
+                    let __scheduleStartTime = parseInt(taskScheduleInfo.scheduleStartTime, 10);
+                    let __scheduleEndTime = parseInt(taskScheduleInfo.scheduleEndTime, 10);
+                    let __repeatEveryHour = parseInt(taskScheduleInfo.repeatEveryHour, 10);
+                    __numberOfTaskOccurrences = ((__scheduleEndTime - __scheduleStartTime) / __repeatEveryHour) + 1;
+                    break;
                 default:
                     break;
             }
@@ -302,7 +306,8 @@ export class CareplannerSchedulerPage{
             let occurrences = new Array;
             occurrences[0] = taskScheduleInfo.scheduleStartTime;
             for (let index = 1; index < __numberOfTaskOccurrences; index++) {
-                occurrences[index] = Number(occurrences[index-1]) + Number(taskScheduleInfo.repeatEveryHour);
+                let __occurrenceHour = (parseInt(occurrences[index - 1], 10) + parseInt(taskScheduleInfo.repeatEveryHour, 10)).toString();               
+                occurrences[index] = ('0' + __occurrenceHour.slice(-2) + ':00');
             }
             return occurrences;
         } catch (error) {
@@ -313,22 +318,23 @@ export class CareplannerSchedulerPage{
 
     async calculateExpectedOccurrenceCountAndStatus(taskScheduleInfo) {
         try {
-            
+
             let __numberOfTaskOccurrences;
             let __occurrences = new Array, expectedOccurrenceStatus = new Array;
             let __currentTime = new Date().getHours();
 
             __occurrences = await this.getOccurrenceHoursToSchedule(taskScheduleInfo);
-            
+
             __numberOfTaskOccurrences = await this.getNumberOfTaskOccurrenceToSchedule(taskScheduleInfo);
 
-            if(__occurrences.length === __numberOfTaskOccurrences) {
-                for(let index=0; index < __numberOfTaskOccurrences; index++){
-                    if(__occurrences[index] == __currentTime ) {
+            if (__occurrences.length === __numberOfTaskOccurrences) {
+                for (let index = 0; index < __numberOfTaskOccurrences; index++) {
+                    let __occurrenceTime = parseInt(__occurrences[index], 10);
+                    if (__occurrenceTime == __currentTime) {
                         expectedOccurrenceStatus[index] = 'Duenow';
-                    } else if(__occurrences[index] < __currentTime) {
+                    } else if (__occurrenceTime < __currentTime) {
                         expectedOccurrenceStatus[index] = 'Overdue';
-                    } else if(__occurrences[index] > __currentTime) {
+                    } else if (__occurrenceTime > __currentTime) {
                         expectedOccurrenceStatus[index] = 'Scheduled';
                     }
                 }
@@ -337,7 +343,7 @@ export class CareplannerSchedulerPage{
                 throw 'Number of Task Occurrences mismatched';
             }
 
-            return {expectedOccurrenceCount: __numberOfTaskOccurrences, expectedOccurrenceStatus };
+            return { expectedOccurrenceCount: __numberOfTaskOccurrences, expectedOccurrenceStatus };
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -351,14 +357,14 @@ export class CareplannerSchedulerPage{
 
             let __aggregatedDataList = new Array;
             specFileData.Data.Client.Patient.Visit.Category.forEach(category => {
-                
+
                 category.TaskSeriesList.forEach(taskSeriesList => {
 
-                    if(taskSeriesList.HourlyTaskOccurrences != undefined && taskSeriesList.HourlyTaskOccurrences.length > 0) {
-                        
+                    if (taskSeriesList.HourlyTaskOccurrences != undefined && taskSeriesList.HourlyTaskOccurrences.length > 0) {
+
                         taskSeriesList.HourlyTaskOccurrences.forEach(occurrence => {
                             let __occurrenceList = new Array;
-                            if(occurrence.TaskOccurrences[0].StatusName === 'Complete') {
+                            if (occurrence.TaskOccurrences[0].StatusName === 'Complete') {
                                 __occurrenceList.push(category.CategoryName);
                                 __occurrenceList.push(category.CategoryId);
                                 __occurrenceList.push(taskSeriesList.TaskName);

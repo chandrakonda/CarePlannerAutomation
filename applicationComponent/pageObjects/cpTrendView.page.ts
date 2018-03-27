@@ -3,6 +3,7 @@ import { $, browser, element, by, By, ExpectedConditions, protractor } from "pro
 
 export class TrendViewPage {
 
+    eleTrendViewButton = element(by.xpath("//ul[@id='treatment_content']/li[contains(@class,'trend-btn')]"));
     eleTrendViewGrid = element(by.id('observation'));
     eleCategoryList = element.all(by.xpath("//*[@id='observation']/descendant::div[contains(@class,'trendHeader0')]"));
     eleTaskSeriesList = element.all(by.xpath("//*[@id='observation']/descendant::div[contains(@class,'trendHeader1')]"));
@@ -11,6 +12,20 @@ export class TrendViewPage {
     eleObservationValueList = element.all(by.xpath("//*[@id='observation']/descendant::div[contains(@class,'wj-cell') and contains(@class,'v-center') and not(contains(@class,'wj-group'))]"));
 
 
+    isTrendViewPageActive() {
+        try {
+           return this.eleTrendViewButton.getAttribute('class').then((className) => {
+               if(className.includes('active')) {
+                   return true;
+               } else {
+                   return false;
+               }
+           })
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
 
     
     isTrendViewPageLoaded(): any {

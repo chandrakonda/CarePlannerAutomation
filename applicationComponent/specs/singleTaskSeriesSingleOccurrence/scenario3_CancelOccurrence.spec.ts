@@ -1,156 +1,194 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
-import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from  '../../../applicationcomponent'
+import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from '../../../applicationcomponent'
 import { browser } from 'protractor';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 
-describe('schedule task occurrence and perform a action from user input', async () => {
-    
-    let specFileData: SpecFile;
-    let __data: Data;
-    let __testCase: TestCase;
-    let __dataReader : DataReader;    
+describe('Test single task occurrence in single task series  -->  ', () => {
 
-    beforeAll( () => {    
-        specFileData = new SpecFile();
-        __dataReader = new DataReader();
-        __data = new Data();
-        specFileData.Data = __data;
-        specFileData.UserData  = __dataReader.loadJsonData('userDataScenario3','singleTaskSeriesSingleOccurrence');        
-        specFileData.TestCases = new Array<TestCase>();
-    });
+    describe('Verify cancel action on each task series  -->  ', () => {
+        let specFileData: SpecFile;
+        let __data: Data;
+        let __testCase: TestCase;
+        let __dataReader: DataReader;
 
-    afterAll( () => {
-        TestBase.GlobalData.SpecFiles.push(specFileData);            
-    });
+        beforeAll(() => {
+            specFileData = new SpecFile();
+            __dataReader = new DataReader();
+            __data = new Data();
+            specFileData.Data = __data;
+            specFileData.UserData = __dataReader.loadJsonData('userDataScenario3', 'singleTaskSeriesSingleOccurrence');
+            specFileData.TestCases = new Array<TestCase>();
+        });
 
-    beforeEach(()=> {
-        __testCase = new TestCase();   
-        
-    });
+        afterAll(() => {
+            TestBase.GlobalData.SpecFiles.push(specFileData);
+        });
 
-    afterEach(()=> {
-        if(__testCase.ExceptionDetails != null){
-            __testCase.TestResult = 'Fail';
-        } else {
-            __testCase.TestResult = 'Pass';
-        }
-        specFileData.TestCases.push(__testCase);
-    });
+        beforeEach(() => {
+            __testCase = new TestCase();
 
-    it('Data Preparation', async () => {
-        try {
-            __testCase.TestName = 'Create Client, Patient, Appointment and add product to it ';
+        });
 
-            //API call to create a data setup for client, patient & order the product to an appointment
-            await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData, 'singleItem', 'productList' );
+        afterEach(() => {
+            if (__testCase.ExceptionDetails != null) {
+                __testCase.TestResult = 'Fail';
+            } else {
+                __testCase.TestResult = 'Pass';
+            }
+            specFileData.TestCases.push(__testCase);
+        });
 
-            //Get the aggregated data (category & task series details of the product) for the visit created 
-            await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
-            
-        } catch (error) {
-            __testCase.ExceptionDetails = error;
-        }
-    });
 
-    it('Verifying the category count and product task list', async () => {
-        try {
-            __testCase.TestName = "Verifying the category count and product task list";
+        it('Verify the careplanner application launching by setting up the informations of client, pet and visit informations', async () => {
+            try {
+                __testCase.TestName = 'Verify the careplanner application launching by setting up the informations of client, pet and visit informations';
 
-            let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
-            FrameworkComponent.logHelper.info("List of categories observed from the aggregated data : " + __taskCategoryList.categoryList);
-            FrameworkComponent.logHelper.info("List of task series observed from the aggregated data : " + __taskCategoryList.taskList);
+                //Data setup using API call
+                //API call to create a data setup for client, patient & order the product to an appointment
+                // await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData, 'singleItem', 'productList' );
+                await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData);
 
-            //Verify the Category Count
-            await expect(Pages.cpSchedulerPage.categoryCount).toEqual(__taskCategoryList.categoryList.length);
-            
-            //Verify the Task Count
-            await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(__taskCategoryList.taskList.length);
+                //Getting aggregated data to the specFileData
+                await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
 
-            //Get the actual & full name of the task series from aggreagted data
-            specFileData.UserData.TaskSeries.taskSeriesName = __taskCategoryList.taskList.filter(task=> task.substring(0, specFileData.UserData.TaskSeries.taskSeriesName.length) === specFileData.UserData.TaskSeries.taskSeriesName)[0];
+                browser.sleep(5000);
 
-        } catch (error) {
-            __testCase.ExceptionDetails = error;
-        }            
-    });
+                //Verify the page Title
+                let __pageTitle = await browser.getTitle().then((title) => { return title });
+                await expect(__pageTitle).toEqual('VCA Charge Capture');
 
-    it('Schedule a specified number of tasks for a each task series', async () => {
-        try {
-            __testCase.TestName = 'Schedule a specified number of tasks for a each task series';
-            
-            let __taskSeriesInfo = specFileData.UserData.TaskSeries;            
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
 
-            //Schedule a task from the user input data
-            await Pages.cpSchedulerPage.ScheduleTaskWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskScheduleInfo);
+        it('Verify the client & pet informations displayed in the careplanner banner', async () => {
+            try {
+                __testCase.TestName = "Verify the client & pet informations displayed in the careplanner banner";
 
-        } catch (error) {                
-            __testCase.ExceptionDetails = error;
-        }            
-    });
+                // let _clientLastName = specFileData.Data.Client.LastName.length >= 12 ? specFileData.Data.Client.LastName.slice(0, 12) + '…' : specFileData.Data.Client.LastName;
+                // let _patientName = specFileData.Data.Client.Patient.Name.length >= 12 ? specFileData.Data.Client.Patient.Name.slice(0, 12) + '…' : specFileData.Data.Client.Patient.Name;
+                let _clientLastName = specFileData.Data.Client.LastName.slice(0, 12);
+                let _patientName = specFileData.Data.Client.Patient.Name.slice(0, 12);
+                let speciesName = specFileData.Data.Client.Patient.Species;
 
-    it('Verify the specified count and status of the task occurrence with the scheduled task series', async ()=> {
-        try {
-            __testCase.TestName = 'Verify the specified count and status of the task occurrence with the scheduled task series';
+                //Verify the Client Last Name
+                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(_clientLastName);
 
-            let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-            let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
-            let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
-        
-            //Verify the number of task occurrences created
-            let __occurrenceCount = await Pages.cpSchedulerPage.getTheNumberOfTaskOccurrenceCreated(__taskSeriesInfo.taskSeriesName);
-            FrameworkComponent.logHelper.info('Expected number of occurrence count after updating occurrence status is : ' + __expectedResult.expectedOccurrenceCount);
-            FrameworkComponent.logHelper.info('Actual number of occurrence count after updating occurrence status is : ' + __occurrenceCount);
-            expect(__occurrenceCount).toEqual(__expectedResult.expectedOccurrenceCount);
-        
-            //Verify the status of the created Occurrences
-            let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
-            FrameworkComponent.logHelper.info('Expected status of all the occurrences after updating occurrence status are : ' + __expectedResult.expectedOccurrenceStatus);
-            FrameworkComponent.logHelper.info('Actual status of all the occurrences after updating occurrence status are : ' + __occurrencesStatus );
-            expect(__occurrencesStatus).toEqual(__expectedResult.expectedOccurrenceStatus);
-                
-        } catch (error) {
-            __testCase.ExceptionDetails = error;
-        }            
-    });
-        
-    it('Edit and update the task occurrence to the specified task occurrence status with observation details', () => {
-        try {
+                //Veify the Patient Name 
+                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(_patientName);
 
-            __testCase.TestName = 'Edit and update the task occurrence to the specified task occurrence status with observation details';
+                //Veify the Species Name
+                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(speciesName);
 
-            let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
 
-            //Edit & Update the status of the task occurrence
-            Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo);
-            browser.sleep(2000);
-            
-        } catch (error) {
-            __testCase.ExceptionDetails = error;
-        }            
-    });
+        it('Verify the product category and task list displayed in the careplanner scheduler page', async () => {
+            try {
+                __testCase.TestName = "Verify the product category and task list displayed in the careplanner scheduler page";
 
-    it('Verify the specified count and status of the task occurrences with the updated task series', async () => {
-        try {
-            __testCase.TestName = 'Verify the specified count and status of the task occurrences with the updated task series';
+                let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
 
-            let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                //Verify the Category Count
+                await expect(Pages.cpSchedulerPage.categoryCount).toEqual(__taskCategoryList.categoryList.length);
 
-            //Verify the status of the created Occurrences
-            let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
-            FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + __taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
-            FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]);
-            expect(__occurrencesStatus.length).toBe(0);
-            
-            // //Verify the number of task occurrences after cancel
-            // await Pages.cpSchedulerPage.verifyTheNumberOfTaskOccurrenceCreated(startPosition, endPosition, multiOccurrence.expectedNumberOfTaskOccurrences-1);
-            
-            // //Verify the task occurrence status after cancel
-            // await Pages.cpSchedulerPage.verifyTheStatusOfTaskOccurrenceCanceled(startPosition, endPosition, multiOccurrence.occurrenceIndex, multiOccurrence.expectedOcurrenceStatus);
-            
+                //Verify the Task Count
+                await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(__taskCategoryList.taskList.length);
 
-        } catch (error) {
-            __testCase.ExceptionDetails = error;
-        }
+                //Get the actual & full name of the task series from aggreagted data
+                specFileData.UserData.TaskSeries.taskSeriesName = __taskCategoryList.taskList.filter(task => task.TaskName.substring(0, specFileData.UserData.TaskSeries.taskSeriesName.length) === specFileData.UserData.TaskSeries.taskSeriesName)[0].TaskName;
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Schedule number of task occurrences for a each task series specified from the user data', async () => {
+            try {
+                __testCase.TestName = 'Schedule number of task occurrences for a each task series specified from the user data';
+
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+
+                //Schedule a task from the user input data
+                await Pages.cpSchedulerPage.ScheduleTaskWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskScheduleInfo);
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Verify the expected number of task occurrences scheduled for each task series specified from the user data', async () => {
+            try {
+                __testCase.TestName = 'Verify the expected number of task occurrences scheduled for each task series specified from the user data';
+
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
+                let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
+
+                //Verify the number of task occurrences created
+                let __occurrenceCount = await Pages.cpSchedulerPage.getTheNumberOfTaskOccurrenceCreated(__taskSeriesInfo.taskSeriesName);
+                FrameworkComponent.logHelper.info('Expected number of occurrence count after updating occurrence status is : ' + __expectedResult.expectedOccurrenceCount);
+                FrameworkComponent.logHelper.info('Actual number of occurrence count after updating occurrence status is : ' + __occurrenceCount);
+                expect(__occurrenceCount).toEqual(__expectedResult.expectedOccurrenceCount);
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Verify the expected task occurrence status for each task occurrences specified from the user data', async () => {
+            try {
+                __testCase.TestName = 'Verify the expected task occurrence status for each task occurrences specified from the user data';
+
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
+                let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
+
+                //Verify the status of the created Occurrences
+                let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
+                FrameworkComponent.logHelper.info('Expected status of all the occurrences after updating occurrence status are : ' + __expectedResult.expectedOccurrenceStatus);
+                FrameworkComponent.logHelper.info('Actual status of all the occurrences after updating occurrence status are : ' + __occurrencesStatus);
+                expect(__occurrencesStatus).toEqual(__expectedResult.expectedOccurrenceStatus);
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Update the task occurrence action details for each task occurrences specified from the user data', () => {
+            try {
+
+                __testCase.TestName = 'Update the task occurrence action details for each task occurrences specified from the user data';
+
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+
+                //Edit & Update the status of the task occurrence
+                Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo);
+                browser.sleep(2000);
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Verify the specified count and status of the task occurrences with the updated task series', async () => {
+            try {
+                __testCase.TestName = 'Verify the specified count and status of the task occurrences with the updated task series';
+
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+
+                //Verify the status of the created Occurrences
+                let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
+                FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + __taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
+                FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]);
+                expect(__occurrencesStatus.length).toBe(0);
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
     });
 });

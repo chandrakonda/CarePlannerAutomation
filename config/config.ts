@@ -1,7 +1,7 @@
 import { FrameworkComponent } from '../frameworkComponent';
 import { TestBase, GlobalValues, SpecFile } from '../applicationComponent';
 import { Config, browser, protractor } from "protractor";
-import {JSONReporter} from '../customReport';
+import { JSONReporter } from '../customReport';
 let path = require('path');
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
@@ -20,7 +20,7 @@ export const config: Config = {
     //elementExplorer : 
     chromeDriver: path.join(__dirname, '../../frameworkComponent/support/drivers/chromedriver.exe'),
     // SELENIUM_PROMISE_MANAGER:false,
-    
+
     capabilities: {
         browserName: 'chrome',
         loggingPrefs: {
@@ -37,19 +37,19 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        // "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
-        // "../applicationComponent/specs/multipleTaskSeries/scenario2_SkipOccurrences.spec.js",
+        "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
+        "../applicationComponent/specs/multipleTaskSeries/scenario2_SkipOccurrences.spec.js",
 
-        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
-        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario2_SkipOccurrence.spec.js",
-        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
-        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario2_SkipOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",
 
-        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
-        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
-        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js"
+        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js"
 
-        "../applicationComponent/specs/trendViewScenarios/scenario1_CompleteOccurrences.spec.js"
+        // "../applicationComponent/specs/trendViewScenarios/scenario1_CompleteOccurrences.spec.js"
     ],
 
     jasmineNodeOpts: {
@@ -57,22 +57,22 @@ export const config: Config = {
         defaultTimeoutInterval: 99999,
         isVerbose: true,
         includeStackTrace: true
-        
+
     },
 
     allScriptsTimeOut: 99999,
 
     beforeLaunch: () => {
-       try {
-        console.log('************Before Launch Started*******************');
+        try {
+            console.log('************Before Launch Started*******************');
 
-        FrameworkComponent.loggerConfiguration;
+            FrameworkComponent.loggerConfiguration;
 
-        console.log('************Before Launch Finished*******************');
-       } catch (error) {
-           console.log('Unable to configure logger ' + error);
-           throw error;
-       }
+            console.log('************Before Launch Finished*******************');
+        } catch (error) {
+            console.log('Unable to configure logger ' + error);
+            throw error;
+        }
     },
 
 
@@ -82,7 +82,7 @@ export const config: Config = {
             let __testBase = new TestBase();
 
             __testBase.beforeExecution();  // set up reporters , loggers 
-        
+
             browser.allScriptsTimeout = 99999;
             browser.ignoreSynchronization = false;
             browser.waitForAngularEnabled(false);
@@ -103,7 +103,7 @@ export const config: Config = {
 
             // Write data to JSON file    
             FrameworkComponent.JsonReporter();
-    
+
             browser.driver.quit();
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

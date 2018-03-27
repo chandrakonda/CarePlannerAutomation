@@ -1,35 +1,31 @@
 {
-    "Products" :{
-        "InvoiceItemId": 75705,
-        "InvoiceItemTypeId": 1,
-        "PLNo": 53,
-        "SeqNo": 1,
-        "Code": "53.1",
-        "MinimumQty": 1,
-        "DefaultQty": 1,
-        "MaximumQty": 1
-    },
-    "TaskSeries":{
-        "taskSeriesName" : "Acepromazine",
-        "taskScheduleInfo" : {
-            "occurrenceFrequency" : "once",
-            "scheduleStartTime" : "9",
-            "scheduleEndTimeCheckout" : "false",
-            "scheduleEndTime" : "",
-            "repeatEveryHour" : "",
-            "scheduleInstructions" : "Test Instructions for Acepromzazine",
-            "observationList" : ["Consistency"]
-            },
-        "taskOccurrenceInfo" :{
-            "occurrenceIndex" : "0",
-            "occurrenceHour" : "10",
-            "occurrenceAction" : "Skipped",
-            "occurrenceNotes" : "Test notes for skip task occurrence",
-            "expectedOccurrenceStatus" : "Skipped",
-            "observationList" : ["Consistency"],
-            "observationValues" : {
-                "Consistency" : "5-6%"
-            }
+    "Products": [
+        {
+            "InvoiceItemId": 84435,
+            "InvoiceItemTypeId": 1,
+            "PLNo": 199,
+            "SeqNo": 819,
+            "Code": "199.819"
+        }
+    ],
+    "TaskSeries": {
+        "taskSeriesName": "Cortisol",
+        "taskScheduleInfo": {
+            "occurrenceFrequency": "once",
+            "scheduleStartTime": "09:00",
+            "scheduleEndTimeCheckout": "false",
+            "scheduleEndTime": "",
+            "repeatEveryHour": "",
+            "scheduleInstructions": "Test Instructions for Cortisol ",
+            "observationList": []
+        },
+        "taskOccurrenceInfo": {
+            "occurrenceHour": "09:00",
+            "occurrenceAction": "Skipped",
+            "occurrenceNotes": "Test notes for skip task occurrence",
+            "expectedOccurrenceStatus": "Skipped",
+            "observationList": [],
+            "observationValues": []
         }
     }
 }

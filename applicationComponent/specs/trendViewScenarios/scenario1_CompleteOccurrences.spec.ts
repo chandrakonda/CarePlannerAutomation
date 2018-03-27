@@ -1,6 +1,6 @@
 import { FrameworkComponent } from '../../../frameworkComponent';
-import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product, Category, TaskOccurrence } from '../../../applicationcomponent'
-import { browser, element } from 'protractor';
+import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from '../../../applicationcomponent'
+import { browser } from 'protractor';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 
 
@@ -140,11 +140,6 @@ describe('Add a multi series product and schedule a task for all the task series
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
                         //Verify the status of the created Occurrences
-                        // let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(taskSeriesInfo.taskSeriesName);
-                        // FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + taskOccurrenceInfo.expectedOccurrenceStatus);
-                        // FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]);
-                        // expect(__occurrencesStatus[taskOccurrenceInfo.occurrenceIndex]).toEqual(taskOccurrenceInfo.expectedOccurrenceStatus);
-
                         let __occurrenceHourStatus = await Pages.cpSchedulerPage.getTaskOccurrenceStatusByHour(taskSeriesInfo.taskSeriesName, taskOccurrenceInfo.occurrenceHour);
                         FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + taskOccurrenceInfo.expectedOccurrenceStatus);
                         FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrenceHourStatus);
@@ -162,11 +157,7 @@ describe('Add a multi series product and schedule a task for all the task series
                 __testCase.TestName = 'Verify the treatment log page information';
 
                 Pages.cpClientAndPetDetailsPage.clickOnTreatmentLogButton();
-
-                browser.sleep(3000);
-
                 let __treatmentLogPageDisplayedStatus = Pages.cpTreatmentLogPage.isTreatmentLogPageLoaded();
-
                 expect(__treatmentLogPageDisplayedStatus).toBe(true);
 
             } catch (error) {
@@ -199,11 +190,8 @@ describe('Add a multi series product and schedule a task for all the task series
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
 
-                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
-
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
-                        // let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
                         let __scheduleTime = taskOccurrenceInfo.occurrenceHour;
 
                         __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
@@ -228,11 +216,8 @@ describe('Add a multi series product and schedule a task for all the task series
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
 
-                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
-
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
-                        // let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
                         let __scheduleTime = taskOccurrenceInfo.occurrenceHour;
 
                         __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
@@ -254,8 +239,6 @@ describe('Add a multi series product and schedule a task for all the task series
                 let __treatmentDetailsIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Details');
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
-
-                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
 
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
@@ -280,7 +263,7 @@ describe('Add a multi series product and schedule a task for all the task series
         it('Verify the trend view page information', () => {
             try {
                 __testCase.TestName = 'Verify the trend view page information';
-                
+
                 Pages.cpClientAndPetDetailsPage.clickOnTrendViewButton();
 
                 browser.sleep(3000);
@@ -294,49 +277,26 @@ describe('Add a multi series product and schedule a task for all the task series
             }
         })
 
-        // it('Get the aggregated data', async () => {
-        //     try {
-        //         __testCase.TestName = 'Get aggregated data';
-        //         await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
-        //         FrameworkComponent.logHelper.info(specFileData.Data.Client.Patient.Visit.Category);
-        //         browser.sleep(2000);
-        //     } catch (error) {
-        //         __testCase.ExceptionDetails = error;
-        //     }
-        // })
-
-        it('Verify the observation list name & values',  async () => {
+        it('Verify the observation list name & values', async () => {
             try {
 
                 let __completedTaskOccurrenceList = await Pages.cpSchedulerPage.getCompletedTaskOccurrenceDetailsList(specFileData);
 
                 specFileData.UserData.TaskSeries.forEach(async taskSeriesInfo => {
 
-                    // let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(taskSeriesInfo.taskScheduleInfo[0]);
-
                     taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
-                        // let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
                         let __scheduleTime = taskOccurrenceInfo.occurrenceHour;
 
-                        if(taskOccurrenceInfo.occurrenceAction === 'Completed') {                        
+                        if (taskOccurrenceInfo.occurrenceAction === 'Completed') {
                             let __expectedObservationValues = taskOccurrenceInfo.observationValues;
-                            let __actualObservationValues = await  Pages.cpTrendViewPage.getObservationDetailsByTaskSeriesName(taskSeriesInfo.taskSeriesName, taskOccurrenceInfo.observationList, __scheduleTime);
+                            let __actualObservationValues = await Pages.cpTrendViewPage.getObservationDetailsByTaskSeriesName(taskSeriesInfo.taskSeriesName, taskOccurrenceInfo.observationList, __scheduleTime);
 
-                            for (let index = 0; index < taskOccurrenceInfo.observationList.length; index++) {     
-                                
+                            for (let index = 0; index < taskOccurrenceInfo.observationList.length; index++) {
+
                                 FrameworkComponent.logHelper.info('Verifying the observation details of the task occurrence for task series name : ' + taskSeriesInfo.taskSeriesName);
                                 FrameworkComponent.logHelper.info('Observation Name : ' + taskOccurrenceInfo.observationList[index]);
-                                expect (__expectedObservationValues[index]).toContain(__actualObservationValues[index]);
-
-                                // if(__actualObservationValues[index] === __expectedObservationValues[0]){
-                                //     FrameworkComponent.logHelper.info('Verifying the observation : ' + taskOccurrenceInfo.observationList[index]);
-                                //     expect (__expectedObservationValues[index]).toContain(__actualObservationValues[index]);
-                                // } else {
-                                //     let __warningMessage = 'Observation details ' + taskOccurrenceInfo.observationList[index] + ' mismactched for the task series name : "'+ taskSeriesInfo.taskSeriesName +'"' + ' expected value : ' + __expectedObservationValues[index] + 'actul value : ' + __actualObservationValues[index];
-                                //     FrameworkComponent.logHelper.info(__warningMessage);
-                                //     __testCase.WarningInformation = __warningMessage;
-                                // }
+                                expect(__expectedObservationValues[index]).toContain(__actualObservationValues[index]);
                             }
                         }
                     });
