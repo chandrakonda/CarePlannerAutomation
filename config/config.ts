@@ -5,8 +5,8 @@ import { JSONReporter } from '../customReport';
 let path = require('path');
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
-
-
+var q = require('q');
+let __testBase:TestBase;
 
 export const config: Config = {
 
@@ -37,19 +37,19 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
-        "../applicationComponent/specs/multipleTaskSeries/scenario2_SkipOccurrences.spec.js",
+        "../applicationComponent/specs/sampleTestScenarios/scenario1.spec.js",
+        // "../applicationComponent/specs/sampleTestScenarios/scenario2.spec.js",
+        // "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
+        // "../applicationComponent/specs/multipleTaskSeries/scenario2_SkipOccurrences.spec.js",
 
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario2_SkipOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario2_SkipOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",
 
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js"
-
-        // "../applicationComponent/specs/trendViewScenarios/scenario1_CompleteOccurrences.spec.js"
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js"
     ],
 
     jasmineNodeOpts: {
@@ -79,8 +79,7 @@ export const config: Config = {
     onPrepare: () => {
         try {
             console.log('**************On Prepare Started**************');
-            let __testBase = new TestBase();
-
+            __testBase = new TestBase();
             __testBase.beforeExecution();  // set up reporters , loggers 
 
             browser.allScriptsTimeout = 99999;
@@ -88,8 +87,10 @@ export const config: Config = {
             browser.waitForAngularEnabled(false);
             browser.manage().window().maximize();
             browser.manage().timeouts().implicitlyWait(50000);
+
             let __jsonreport = new JSONReporter();
             jasmine.getEnv().addReporter(__jsonreport);
+
             console.log('**************On Prepare Exit**************');
         } catch (error) {
             console.log('Error in OnPrepare ' + error);
@@ -101,10 +102,12 @@ export const config: Config = {
         try {
             FrameworkComponent.logHelper.info('*************onComplete- Place holder ******************');
 
-            // Write data to JSON file    
-            FrameworkComponent.JsonReporter();
-
             browser.driver.quit();
+
+            return q.fcall(function() {
+                __testBase.afterExecution();
+            }).delay(10000);
+
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -112,10 +115,13 @@ export const config: Config = {
     },
 
     onCleanUp: () => {
+        
         console.log('*************onCleanUp - Place holder ******************');
     },
 
     afterLaunch: () => {
+      
         console.log('************afterLaunch - Place holder **************************');
     }
+    
 };

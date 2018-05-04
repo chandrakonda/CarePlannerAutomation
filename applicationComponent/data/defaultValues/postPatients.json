@@ -6,7 +6,7 @@
     "GenderId": 2,
     "SpeciesId": 1,
     "SpeciesName": "Canine",
-    "DateOfBirth": "2015-06-16T00:00:00",
+    "DateOfBirth": "2016-03-16T00:00:00",
     "Breeds": [
         {
             "BreedId": 10,
@@ -37,9 +37,9 @@
         "SexId": 1,
         "Name": "Male"
     },
-    "HasWellnessMembership": false,
-    "DOBAgeAsEntered": "6/16/2015",
-    "PetAge": "2y 4m",
+    "HasWellnessMembership": true,
+    "DOBAgeAsEntered": "",
+    "PetAge": "2y 1m",
     "IsPatientCareClubMember": false,
     "BreedNames": "Canaan Dog",
     "IsNewPatient": true,
@@ -48,6 +48,6 @@
     "NumberOfActiveMemberships": 0,
     "EarliestMembershipStartDate": null,
     "HasPhoto": false,
-    "EnteredWeight": "3.5 lb",
-    "EnteredWeightUnitId": 3
+    "EnteredWeight": null,
+    "EnteredWeightUnitId": 0
 }

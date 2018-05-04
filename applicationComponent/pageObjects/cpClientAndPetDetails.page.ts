@@ -7,9 +7,9 @@ export class CareplannerClientAndPetDetailsPage{
     elepetName = element(by.xpath(".//div[@class='petname']"));
     eleprimarydrName = element(by.xpath(".//label[text()='PRIMARY']/following-sibling::span"));
     eledrshift = element(by.xpath(".//label[text()='DAY/SHIFT']/following-sibling::span"));
-    eleWellness = element(by.xpath(".//li[@client_wellness cellinfo wellness']//span[@class='txt']"));
-    eleAlert = element(by.xpath(".//li[@client_wellness cellinfo vcaAlert']//span[@class='txt']"));
 
+    eleWellness = element(by.xpath(".//li[@class='client_wellness cellinfo wellness']/span[@class='txt']"));
+    eleAlert = element(by.xpath(".//li[@class='client_wellness cellinfo vcaAlert']/span[@class='txt']"));
 
     eleSpecies = element(by.xpath(".//div[@class='species']"));
     elePetGender = element(by.xpath(".//div[@class='bBox two']/div/div"));
@@ -125,10 +125,10 @@ export class CareplannerClientAndPetDetailsPage{
     }
 
 
-    get wellness(): any {
+    get petWellness(): any {
         try {
             return this.eleWellness.getText().then(function(welness) {
-                FrameworkComponent.logHelper.info("wellness is "+welness);
+                FrameworkComponent.logHelper.info("Wellness is "+ welness);
                 return welness;
             });
         } catch (error) {
@@ -136,6 +136,44 @@ export class CareplannerClientAndPetDetailsPage{
             throw error;
         }
     }
+
+    get petAlert(): any {
+        try {
+            return this.eleAlert.getText().then(function(alertText) {
+                FrameworkComponent.logHelper.info("Alert text is "+ alertText);
+                return alertText;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    get petAge(): any {
+        try {
+            return this.eleAge.getText().then(function(petAge) {
+                FrameworkComponent.logHelper.info("Pet age is "+ petAge);
+                return petAge;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    get petWeight(): any {
+        try {
+            return this.eleWeight.getText().then(function(petWeight) {
+                FrameworkComponent.logHelper.info("Pet age is "+ petWeight);
+                return petWeight;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    
 
     clickOnSchedulerButton(){
         try {

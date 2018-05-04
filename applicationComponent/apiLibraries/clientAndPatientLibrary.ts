@@ -63,10 +63,15 @@ export class ClientAndPatientLibrary {
         try {
             let __patient = new Patient();
             FrameworkComponent.logHelper.info("*********** Creating Patient ***********");
-            let __options = this.setCreatePatientOptions(specData );
+            let __options = await this.setCreatePatientOptions(specData );
             FrameworkComponent.logHelper.info(__options);     
             __patient.Species  = __options.body.BreedNames;       
             __patient.Name  = __options.body.PatientName;
+            __patient.Age = __options.body.PetAge;
+            __patient.Color = __options.body.Appearances[0].AppearanceName;
+            __patient.Gender = __options.body.Sex.Name;
+            __patient.Weight = __options.body.Weight;
+
             
             // Create patient 
             await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response) => {
@@ -105,6 +110,10 @@ export class ClientAndPatientLibrary {
             __options.body.ClientId = specData.Data.Client.Id;                
             //__options.body.PatientName = patientObj.Name ;
             __options.body.HospitalId =TestBase.GlobalData.EnvironmentDetails.hospitalid;
+
+            
+            
+
             return __options;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

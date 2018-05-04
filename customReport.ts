@@ -1,8 +1,8 @@
 var fs = require('fs');
 import { FrameworkComponent } from './frameworkComponent';
 import { TestBase } from './applicationcomponent'
-export class JSONReporter {
 
+export class JSONReporter {
 
     //Jasmine methods starts from here
 
@@ -16,6 +16,9 @@ export class JSONReporter {
         FrameworkComponent.logHelper.info('Total number of specs loaded   : ' + jasmine.totalSpecsDefined);
 
         TestBase.GlobalData.LoadedSpecFileCount = jasmine.totalSpecsDefined;
+
+        TestBase.GlobalData.StartTime = new Date();
+        
     }
 
     suiteStarted(suite) {
@@ -50,8 +53,8 @@ export class JSONReporter {
         //this.JSONObj[suite.description.trim()] = []
     }
 
-    jasmineDone() {
-
+    jasmineDone(jasmine) {
+        TestBase.GlobalData.EndTime = new Date();
         FrameworkComponent.logHelper.info('Execution complete');
     }
 }

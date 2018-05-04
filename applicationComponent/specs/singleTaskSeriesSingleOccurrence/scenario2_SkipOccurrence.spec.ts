@@ -31,11 +31,18 @@ describe('Test single task occurrence in single task series  -->  ', () => {
         });
 
         afterEach(()=> {
-            if(__testCase.ExceptionDetails != null){
-                __testCase.TestResult = 'Fail';
-            } else {
-                __testCase.TestResult = 'Pass';
-            }
+            var myReporter = {                
+
+                specDone: function (result) {
+                    __testCase.TestName = result.description;
+                    __testCase.TestResult = result.status;
+                    __testCase.ExceptionDetails = result.failedExpectations.length ? result.failedExpectations[0].message : '';
+                    __testCase.StartTime = result.started;
+                    __testCase.EndTime = result.stopped;
+                },
+            };
+
+            jasmine.getEnv().addReporter(myReporter);
             specFileData.TestCases.push(__testCase);
         });
 

@@ -8,7 +8,7 @@ export class GlobalValues {
     constructor(){
         this.ApiDefaultValues = new DefaultValues();
     }
-    StartTime: string;
+    StartTime: Date;
     GlobalAuthToken: string;
     EnvironmentDetails: ReadAppConfig.EnvironmentDetails;
     ReportFileLocation: string;
@@ -16,6 +16,7 @@ export class GlobalValues {
     SpecFiles: SpecFile[];
     ResultFolder : string;
     LoadedSpecFileCount : any;
+    EndTime:Date
     
     //Logger : any;
 }
@@ -63,6 +64,8 @@ export class TestCase {
     TestDescription: string;
     ExceptionDetails : string;
     WarningInformation :string;
+    StartTime: Date;
+    EndTime: Date;
 }
 
 export class Data {
@@ -95,15 +98,17 @@ export class Patient {
     Visit: Visit;
     Species: string;
     Age: string;
-    Sex: string;
+    Gender: string;
     AppointmentId : string;
+    Color:string;
+    Weight:string
 }
 
 export class Visit {
     VisitId: string;
     Product: Product;
     VisitInvoiceItem : VisitInvoiceItem[];
-    Category : Category[];
+    Category : Category[];    
 }
 
 export class VisitInvoiceItem {

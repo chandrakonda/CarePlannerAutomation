@@ -1,3 +1,7 @@
+import { FrameworkComponent } from "../frameworkComponent";
+let path = require('path');
+let configValues: ReadAppConfig.AppConfig = require(path.join(__dirname, '..\\..\\config\\appconfig.json'));
+
 export namespace ReadAppConfig {
 
     class Qa {
@@ -17,7 +21,7 @@ export namespace ReadAppConfig {
     }
 
     export class EnvironmentDetails {
-        severname: string;
+        servername: string;
         apiendpoint: string;
         applicationurl: string;
         hospitalid: number;
@@ -43,20 +47,44 @@ export namespace ReadAppConfig {
         environmentcollection: Environmentcollection;
         hospitalid: number;
         runtimeenvironment : EnvironmentDetails;
+        mailConfig : MailConfig;
     }
+
+    export class MailConfig {
+        service: string;
+        host:string;
+        port:number;
+        username:string;
+        password:string;
+        fromMail:string;
+        mailList:string;
+    }
+
+    
 
     // Load app config file which have environment details
 
     export function LoadConfigAndGetEnvironment() {
         try {
-            let path = require('path');
-            let configValues: ReadAppConfig.AppConfig = require(path.join(__dirname, '..\\..\\config\\appconfig.json'));
+            // let path = require('path');
+            // let configValues: ReadAppConfig.AppConfig = require(path.join(__dirname, '..\\..\\config\\appconfig.json'));
             let envList: ReadAppConfig.EnvironmentDetails[] = configValues.environmentcollection[configValues.environment];
             let filteredEnv : EnvironmentDetails = envList.filter(env => env.hospitalid == configValues.hospitalid)[0];
             configValues.runtimeenvironment = filteredEnv;
             return configValues.runtimeenvironment;
-        } catch (e) {
-            throw e;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    export function LoadMailConfigs() {
+        try {
+            let __mailConfig: MailConfig = configValues.mailConfig;
+            return __mailConfig;            
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 }

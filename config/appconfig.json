@@ -93,5 +93,23 @@
                 "cloudapiendpoint": "https://apiendpoint"
             }
         ]
+    },
+    "mailConfig1":{
+        "service": "gmail",
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "username":"prabu.r13@gmail.com",
+        "password":"*******",
+        "fromMail":"prabur@ilink-systems.com",
+        "mailList":"prabu.nkl@gmail.com; prabur@ilink-systems.com"
+    },
+    "mailConfig":{
+        "service": "ilink-systems",
+        "host": "mail2013.ilink-systems.com",
+        "port": 25,
+        "username":"prabur@ilink-systems.com",
+        "password":"Enter321",
+        "fromMail":"",
+        "mailList":"prabu.nkl@gmail.com; prabur@ilink-systems.com"
     }
 }
