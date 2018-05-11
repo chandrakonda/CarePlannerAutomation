@@ -1,12 +1,10 @@
-import { FrameworkComponent } from '../frameworkComponent';
-import { TestBase, GlobalValues, SpecFile } from '../applicationComponent';
-import { Config, browser, protractor } from "protractor";
+import { Config, browser } from "protractor";
+import { TestBase } from '../applicationComponent';
 import { JSONReporter } from '../customReport';
+import { FrameworkComponent } from '../frameworkComponent';
 let path = require('path');
-import * as fs from 'fs';
-import * as mkdirp from 'mkdirp';
 var q = require('q');
-let __testBase:TestBase;
+let __testBase: TestBase;
 
 export const config: Config = {
 
@@ -37,7 +35,12 @@ export const config: Config = {
     framework: "jasmine",
 
     specs: [
-        "../applicationComponent/specs/sampleTestScenarios/scenario1.spec.js",
+
+        "../applicationComponent/specs/whiteboardScenarios/scenario1_NonScheduledTaskCount.spec.js",
+        "../applicationComponent/specs/whiteboardScenarios/scenario2_OverdueCount.spec.js",
+
+
+        // "../applicationComponent/specs/sampleTestScenarios/scenario1.spec.js",
         // "../applicationComponent/specs/sampleTestScenarios/scenario2.spec.js",
         // "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
         // "../applicationComponent/specs/multipleTaskSeries/scenario2_SkipOccurrences.spec.js",
@@ -50,6 +53,8 @@ export const config: Config = {
         // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js"
+
+
     ],
 
     jasmineNodeOpts: {
@@ -104,7 +109,7 @@ export const config: Config = {
 
             browser.driver.quit();
 
-            return q.fcall(function() {
+            return q.fcall(function () {
                 __testBase.afterExecution();
             }).delay(10000);
 
@@ -115,13 +120,13 @@ export const config: Config = {
     },
 
     onCleanUp: () => {
-        
+
         console.log('*************onCleanUp - Place holder ******************');
     },
 
     afterLaunch: () => {
-      
+
         console.log('************afterLaunch - Place holder **************************');
     }
-    
+
 };

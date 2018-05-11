@@ -27,7 +27,7 @@ export namespace ReadAppConfig {
         hospitalid: number;
         authorizationurl: string;
         wwapiendpoint: string;
-        cloudapiendpoint:string;
+        cloudapiendpoint: string;
         username: string;
     }
 
@@ -46,21 +46,22 @@ export namespace ReadAppConfig {
         apiendpoint: string;
         environmentcollection: Environmentcollection;
         hospitalid: number;
-        runtimeenvironment : EnvironmentDetails;
-        mailConfig : MailConfig;
+        runtimeenvironment: EnvironmentDetails;
+        emailTestReports: boolean;
+        mailConfig: MailConfig;
     }
 
     export class MailConfig {
         service: string;
-        host:string;
-        port:number;
-        username:string;
-        password:string;
-        fromMail:string;
-        mailList:string;
+        host: string;
+        port: number;
+        username: string;
+        password: string;
+        fromMail: string;
+        mailList: string;
     }
 
-    
+
 
     // Load app config file which have environment details
 
@@ -69,7 +70,7 @@ export namespace ReadAppConfig {
             // let path = require('path');
             // let configValues: ReadAppConfig.AppConfig = require(path.join(__dirname, '..\\..\\config\\appconfig.json'));
             let envList: ReadAppConfig.EnvironmentDetails[] = configValues.environmentcollection[configValues.environment];
-            let filteredEnv : EnvironmentDetails = envList.filter(env => env.hospitalid == configValues.hospitalid)[0];
+            let filteredEnv: EnvironmentDetails = envList.filter(env => env.hospitalid == configValues.hospitalid)[0];
             configValues.runtimeenvironment = filteredEnv;
             return configValues.runtimeenvironment;
         } catch (error) {
@@ -81,7 +82,7 @@ export namespace ReadAppConfig {
     export function LoadMailConfigs() {
         try {
             let __mailConfig: MailConfig = configValues.mailConfig;
-            return __mailConfig;            
+            return __mailConfig;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

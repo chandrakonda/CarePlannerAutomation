@@ -1,5 +1,4 @@
 {
-    
     "environment": "Qa",
     "apiendpoint": "place holder",
     "hospitalid": 153,
@@ -13,8 +12,7 @@
                 "cloudapiendpoint": "https://apiendpoint",
                 "wwapiendpoint": "https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
                 "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
-                "username":"Chandrasekhar.Konda"
-                
+                "username": "Chandrasekhar.Konda"
             },
             {
                 "servername": "hcorpqa-ns04",
@@ -23,7 +21,7 @@
                 "cloudapiendpoint": "https://hospital_125server",
                 "wwapiendpoint": "https://hcorpqa-ns04.vcaantech.com:443/WoofwareWebAPI/API/",
                 "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
-                "username":"Josh.Chezum"
+                "username": "Josh.Chezum"
             },
             {
                 "servername": "hcorpqa-ns02",
@@ -32,7 +30,7 @@
                 "cloudapiendpoint": "https://apiendpoint",
                 "wwapiendpoint": "https://hcorpqa-ns02.vcaantech.com:443/WoofwareWebAPI/API/",
                 "authorizationurl": "https://apptsqa.vcahospitals.com:8443/AuthServer/OAuth/Token",
-                "username":"Josh.Chezum"
+                "username": "Josh.Chezum"
             }
         ],
         "UAT": [
@@ -94,22 +92,14 @@
             }
         ]
     },
-    "mailConfig1":{
-        "service": "gmail",
-        "host": "smtp.gmail.com",
-        "port": 587,
-        "username":"prabu.r13@gmail.com",
-        "password":"*******",
-        "fromMail":"prabur@ilink-systems.com",
-        "mailList":"prabu.nkl@gmail.com; prabur@ilink-systems.com"
-    },
-    "mailConfig":{
+    "emailTestReports": false,
+    "mailConfig": {
         "service": "ilink-systems",
-        "host": "mail2013.ilink-systems.com",
-        "port": 25,
-        "username":"prabur@ilink-systems.com",
-        "password":"Enter321",
-        "fromMail":"",
-        "mailList":"prabu.nkl@gmail.com; prabur@ilink-systems.com"
+        "host": "smtp.office365.com",
+        "port": 587,
+        "username": "prabur@ilink-systems.com",
+        "password": "Enter321",
+        "fromMail": "prabur@ilink-systems.com",
+        "mailList": "prabur@ilink-systems.com"
     }
 }

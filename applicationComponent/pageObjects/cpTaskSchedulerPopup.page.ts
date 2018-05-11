@@ -1,8 +1,7 @@
+import { browser, by, element, protractor } from 'protractor';
 import { FrameworkComponent } from '../../frameworkComponent';
-import { element, by, browser, protractor } from 'protractor';
 
-
-export class CareplannerTaskSchedulerPopup{
+export class CareplannerTaskSchedulerPopup {
 
     elePopup = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[@class='header']"));
     elePopupHeader = element(by.xpath("//*[@id='Scheduleseries']/descendant::h4[contains(@class,'header')]"));
@@ -15,16 +14,16 @@ export class CareplannerTaskSchedulerPopup{
     eleDateDropDown = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/sui-select"));
     eleDateDropDownContent = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::sui-select-option/span[2]"));
     eleDateDropDownList = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
-    
+
     eleFrequencyRecurringToggleButton = element(by.xpath(".//input[@id='recurring']/following-sibling::label[text()='Recurring']"));
 
     eleStartTimeTextBox = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start time']/following-sibling::div/input[contains(@class,'custominput')]"));
     eleStartTimeTextBoxScheduleOnce = element(by.xpath(".//input[@class='custominput ng-untouched ng-pristine ng-valid']"));
-    
+
     eleStartDateDropDown = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/sui-select"));
     eleStartDateDropDownContent = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::sui-select-option/span[2]"));
     eleStartDateDropDownList = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='Start date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
-    
+
     eleEndDateDropDown = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/sui-select"));
     eleEndDateDropDownContent = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::sui-select-option/span[2]"));
     eleEndDateDropDownList = element(by.xpath("//*[@id='Scheduleseries']/descendant::div[contains(@class,'text') and text() ='End date']/following-sibling::div/descendant::div[contains(@class,'menu transition visible')]"))
@@ -49,11 +48,11 @@ export class CareplannerTaskSchedulerPopup{
     eleTaskObservationUnSelectedList = element.all(by.xpath("//*[contains(@id,'taskSeriesObservations')]/parent::div/descendant::label[preceding-sibling::input[@type='checkbox' and @value='false']]"));
     eleAccordionIcon = element.all(by.xpath("//*[@id='accordion_title']/div[contains(@class,'title')]"));
     eleActiveAccordionIcon = element.all(by.xpath("//*[@id='accordion_title']/div[contains(@class,'title active')]"));
-    
+
 
     get isPopupDisplayed() {
         try {
-            return this.elePopup.isDisplayed().then((value)=>{
+            return this.elePopup.isDisplayed().then((value) => {
                 FrameworkComponent.logHelper.info("display status value is : " + value);
                 return value;
             });
@@ -64,7 +63,7 @@ export class CareplannerTaskSchedulerPopup{
     }
 
 
-    toggleFrequency(frequency:string){
+    toggleFrequency(frequency: string) {
         try {
             switch (frequency) {
                 case 'Once':
@@ -129,7 +128,7 @@ export class CareplannerTaskSchedulerPopup{
 
     enterStartTime(startTime: number) {
         try {
-            this.eleStartTimeTextBox.clear().then(() => {                
+            this.eleStartTimeTextBox.clear().then(() => {
                 this.eleStartTimeTextBox.sendKeys(startTime);
                 FrameworkComponent.logHelper.info("start time entered as : " + startTime);
             });
@@ -143,9 +142,9 @@ export class CareplannerTaskSchedulerPopup{
     get getStartTimeScheduleOnce(): any {
         try {
             return this.eleStartTimeTextBoxScheduleOnce.getAttribute('value').then((startTime) => {
-                console.log("Start time is "+ startTime);
+                console.log("Start time is " + startTime);
                 return startTime;
-            });            
+            });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -219,7 +218,7 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    enterTimeForSingleOccurrence(time:number){
+    enterTimeForSingleOccurrence(time: number) {
         try {
             this.eleTimeTextBox.clear().then(() => {
                 this.eleTimeTextBox.sendKeys(time);
@@ -232,7 +231,7 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    selectDateForSingleOccurrence(){
+    selectDateForSingleOccurrence() {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleDateDropDown));
@@ -246,7 +245,7 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    selectStartDate(){
+    selectStartDate() {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleStartDateDropDown), 2000);
@@ -260,7 +259,7 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    selectEndDate(){
+    selectEndDate() {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleEndDateDropDown), 2000);
@@ -301,17 +300,17 @@ export class CareplannerTaskSchedulerPopup{
     }
 
 
-    scheduleTaskOccurrence(occurrenceInfo:TaskOccurreceDetails){
+    scheduleTaskOccurrence(occurrenceInfo: TaskOccurreceDetails) {
         try {
-            if(this.isPopupDisplayed){
-                switch(occurrenceInfo.frequency.toLowerCase()){
+            if (this.isPopupDisplayed) {
+                switch (occurrenceInfo.frequency.toLowerCase()) {
                     case "once":
                         this.toggleFrequencyOnce()
                             .enterTimeForSingleOccurrence(occurrenceInfo.scheduleStartTime)
                             .selectDateForSingleOccurrence()
                             .enterInstructions(occurrenceInfo.taskInstructions)
                             .clickScheduleButton();
-                    break;
+                        break;
                     case "recurring":
                         this.toggleFrequencyRecurring()
                             .enterStartTime(occurrenceInfo.scheduleStartTime)
@@ -321,20 +320,20 @@ export class CareplannerTaskSchedulerPopup{
                             .selectEndDate()
                             .enterInstructions(occurrenceInfo.taskInstructions)
                             .clickScheduleButton();
-                    break;
+                        break;
                     default:
-                    break;
-                }         
+                        break;
+                }
             } else {
                 FrameworkComponent.logHelper.error("Schedule Task Occurrence Popup not displayed");
             }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
-            throw error;            
+            throw error;
         }
     }
 
-    getTaskObservartionListAvailable(){
+    getTaskObservartionListAvailable() {
         try {
             let taskObservationList = this.eleTaskObservationList.getText().then((observationList) => {
                 return observationList;
@@ -342,25 +341,25 @@ export class CareplannerTaskSchedulerPopup{
             return taskObservationList;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
-            throw error;            
+            throw error;
         }
     }
 
-    getSelectedTaskObservationList(){
+    getSelectedTaskObservationList() {
         try {
-            let selectedObservationList = this.eleTaskObservationSelectedList.getText().then((selectedList) => {                
+            let selectedObservationList = this.eleTaskObservationSelectedList.getText().then((selectedList) => {
                 return selectedList;
             });
             return selectedObservationList;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
-            throw error;            
+            throw error;
         }
     }
 
-    getUnSelectedTaskObservationList(){
+    getUnSelectedTaskObservationList() {
         try {
-            let unselectedObservationList =this.eleTaskObservationUnSelectedList.getText().then((unselectedList) => {
+            let unselectedObservationList = this.eleTaskObservationUnSelectedList.getText().then((unselectedList) => {
                 return unselectedList;
             });
             return unselectedObservationList;
@@ -373,7 +372,7 @@ export class CareplannerTaskSchedulerPopup{
     getTaskObservationEnabledStatus(observationName) {
         try {
             let __val;
-            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='"+ observationName +"']]";
+            let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox' and following-sibling::label[text()='" + observationName + "']]";
             __val = element(by.xpath(__elementXpath)).getAttribute('value');
             return __val;
         } catch (error) {
@@ -382,12 +381,12 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    selectTaskObservationByName(observationName){
+    selectTaskObservationByName(observationName) {
         try {
-            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[contains(text(),'"+ observationName +"')]";
+            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[contains(text(),'" + observationName + "')]";
             //let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
             this.getTaskObservationEnabledStatus(observationName).then((status) => {
-                if(status === 'false'){
+                if (status === 'false') {
                     FrameworkComponent.logHelper.info("Selcting the '" + observationName + "' checkbox");
                     element(by.xpath(__elementXpath1)).click();
                     // browser.sleep(1000);
@@ -401,14 +400,14 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    unselectTaskObservationByName(observationName){
+    unselectTaskObservationByName(observationName) {
         try {
-            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[contains(text(),'"+ observationName +"')]";
+            let __elementXpath1 = "//*[@id='accordion_title'][2]/descendant::label[contains(text(),'" + observationName + "')]";
             //let __elementXpath = "//*[@id='accordion_title'][2]/descendant::input[@type='checkbox'][following-sibling::label[text()='" + observationName +"']]"
             this.getTaskObservationEnabledStatus(observationName).then((status) => {
-                if(status === 'true'){
+                if (status === 'true') {
                     FrameworkComponent.logHelper.info("Unselcting the '" + observationName + "' checkbox");
-                    element(by.xpath(__elementXpath1)).click(); 
+                    element(by.xpath(__elementXpath1)).click();
                     // browser.sleep(1000);
                 } else {
                     FrameworkComponent.logHelper.info("'" + observationName + "' checkbox has been already unselected");
@@ -420,7 +419,7 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    selectListOfTaskObservationsByName(taskObservationList){
+    selectListOfTaskObservationsByName(taskObservationList) {
         try {
             taskObservationList.forEach(taskObservation => {
                 this.selectTaskObservationByName(taskObservation);
@@ -431,7 +430,7 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    unselectListOfTaskObservationsByName(taskObservationList){
+    unselectListOfTaskObservationsByName(taskObservationList) {
         try {
             taskObservationList.forEach(taskObservation => {
                 FrameworkComponent.logHelper.info('Task Observation Name need to be unselected' + taskObservation);
@@ -443,20 +442,20 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    expandScheduler(){
+    expandScheduler() {
         try {
-           if(this.isPopupDisplayed){
-               let __schedulerIcon = this.eleAccordionIcon.get(0).getWebElement();
-               __schedulerIcon.click();
-               browser.sleep(2000);
-           }
+            if (this.isPopupDisplayed) {
+                let __schedulerIcon = this.eleAccordionIcon.get(0).getWebElement();
+                __schedulerIcon.click();
+                browser.sleep(2000);
+            }
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
 
-    IsSchedulerExpanded(){
+    IsSchedulerExpanded() {
         try {
             let __taskObservationIcon = this.eleAccordionIcon.get(0).getAttribute('class');
             expect(__taskObservationIcon).toContain('active');
@@ -466,9 +465,9 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    expandTaskObservation(){
+    expandTaskObservation() {
         try {
-            if(this.isPopupDisplayed){
+            if (this.isPopupDisplayed) {
                 let __taskObservationIcon = this.eleAccordionIcon.get(1).getWebElement();
                 __taskObservationIcon.click();
                 browser.sleep(2000);
@@ -479,23 +478,23 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    IsTaskObservationExpanded(){
+    IsTaskObservationExpanded() {
         try {
-            let __taskObservationIcon = this.eleAccordionIcon.get(1).getAttribute('class').then((status)=>{
-                if(status.includes('active')){
+            let __taskObservationIcon = this.eleAccordionIcon.get(1).getAttribute('class').then((status) => {
+                if (status.includes('active')) {
                     return true;
                 } else {
                     return false;
                 }
-            });           
-            return __taskObservationIcon;           
+            });
+            return __taskObservationIcon;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
 
-    closeTaskSchedulerPopup(){
+    closeTaskSchedulerPopup() {
         try {
             this.eleCancelButton.click();
             return this;
@@ -505,16 +504,16 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    scheduleTaskWithObservationDetails(taskScheduleInfo){
+    scheduleTaskWithObservationDetails(taskScheduleInfo) {
         try {
-            if(this.isPopupDisplayed){
-                switch(taskScheduleInfo.occurrenceFrequency.toLowerCase()) {
+            if (this.isPopupDisplayed) {
+                switch (taskScheduleInfo.occurrenceFrequency.toLowerCase()) {
                     case "once":
                         this.toggleFrequencyOnce()
                             .enterTimeForSingleOccurrence(taskScheduleInfo.scheduleStartTime)
                             .selectDateForSingleOccurrence()
                             .enterInstructions(taskScheduleInfo.scheduleInstructions);
-                    break;
+                        break;
                     case "recurring":
                         this.toggleFrequencyRecurring()
                             .enterStartTime(taskScheduleInfo.scheduleStartTime)
@@ -523,12 +522,12 @@ export class CareplannerTaskSchedulerPopup{
                             .enterEndTime(taskScheduleInfo.scheduleEndTime)
                             .selectEndDate()
                             .enterInstructions(taskScheduleInfo.scheduleInstructions);
-                    break;
+                        break;
                     default:
-                    break;
+                        break;
                 }
 
-                if(taskScheduleInfo.observationList.length > 0){
+                if (taskScheduleInfo.observationList.length > 0) {
                     this.defineTaskObservationValues(taskScheduleInfo.observationList);
                 }
                 this.clickScheduleButton();
@@ -542,14 +541,14 @@ export class CareplannerTaskSchedulerPopup{
         }
     }
 
-    defineTaskObservationValues(taskObservationList){
+    defineTaskObservationValues(taskObservationList) {
         try {
 
             this.expandTaskObservation();
-            
+
             this.eleTaskObservationList.getText().then((observationList) => {
-                for (let index = 0; index < observationList.length; index++) {                    
-                    if(taskObservationList.includes(observationList[index])) {
+                for (let index = 0; index < observationList.length; index++) {
+                    if (taskObservationList.includes(observationList[index])) {
                         this.selectTaskObservationByName(observationList[index]);
                     }
                     else {

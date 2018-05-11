@@ -4,7 +4,7 @@ import { FrameworkComponent } from "./frameworkHelper";
 var q = require('q');
 
 export class EmailHelper {
-    
+
     sendEmailTrail() {
         var transporter: nodemailer.Transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -17,14 +17,14 @@ export class EmailHelper {
             tls: { rejectUnauthorized: false },
             debug: true
         });
-    
+
         var mailOptions = {
             to: 'prabu.nkl@gmail.com',
             subject: 'Test Summary Report',
             text: ""
-    
+
         };
-    
+
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 return console.log(error);
@@ -32,7 +32,7 @@ export class EmailHelper {
             console.log('Mail sent: ' + info.response);
         });
     };
- 
+
     sendEmailWithContent(transporter: nodemailer.Transporter, mailOptions: MailOptions) {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
@@ -44,7 +44,7 @@ export class EmailHelper {
         });
     }
 
-    sendEmail(mailConfig, subjectInfo, mailBodyInfo, attachmentFilePath?, attachmentFileName?  ) {
+    sendEmail(mailConfig, subjectInfo, mailBodyInfo, attachmentFilePath?, attachmentFileName?) {
         try {
             //Create Transporter to send an email
             var transporter: nodemailer.Transporter = nodemailer.createTransport({
@@ -61,14 +61,14 @@ export class EmailHelper {
 
             //Create mail options to send an email
             var mailOptions = {
-                // from: mailConfig.mailList,
+                from: mailConfig.fromMail,
                 to: mailConfig.mailList,
-                subject: subjectInfo,                
+                subject: subjectInfo,
                 html: mailBodyInfo,
-                attachments:[
+                attachments: [
                     {
                         filename: attachmentFileName,
-                        path: attachmentFilePath + '/' + attachmentFileName ,
+                        path: attachmentFilePath + '/' + attachmentFileName,
                     }
                 ]
             };

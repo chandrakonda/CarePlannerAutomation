@@ -6,7 +6,7 @@ export class APIServiceHelper {
     constructor() { }
 
     parseResultOfMakePostRequest(response: any) {
-    
+
         let result: any;
         let __result: Promise<any>;
         result = response;

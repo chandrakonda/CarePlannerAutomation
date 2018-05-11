@@ -1,16 +1,16 @@
 {
     "method": "GET",
     "url": "",
-    "qs": { 
-        "IncludeOrderItemList": "true", 
+    "qs": {
+        "IncludeOrderItemList": "true",
         "patientId": ""
     },
-    "headers": { 
-       "cache-control": "no-cache",
-       "applicationname": "Retriever",
-       "username": "vcaantech\\tablet_nonprod",
-       "x-hospital-id": "",
-       "authorization": "",
-       "accept": "application/json, text/json, application/xml, text/xml"
+    "headers": {
+        "cache-control": "no-cache",
+        "applicationname": "Retriever",
+        "username": "vcaantech\\tablet_nonprod",
+        "x-hospital-id": "",
+        "authorization": "",
+        "accept": "application/json, text/json, application/xml, text/xml"
     }
 }

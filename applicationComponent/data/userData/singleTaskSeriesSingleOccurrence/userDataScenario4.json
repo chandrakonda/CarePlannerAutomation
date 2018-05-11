@@ -25,7 +25,7 @@
         "taskOccurrenceInfo": {
             "occurrenceHour": "09:00",
             "occurrenceAction": "Planned",
-            "rescheduleHour" : "11:00",            
+            "rescheduleHour": "11:00",
             "occurrenceNotes": "Test notes for complete task occurrence",
             "expectedOccurrenceStatus": "Scheduled",
             "observationList": [],

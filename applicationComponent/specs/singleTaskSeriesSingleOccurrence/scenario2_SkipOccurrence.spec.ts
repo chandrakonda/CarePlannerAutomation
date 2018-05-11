@@ -1,37 +1,37 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from  '../../../applicationcomponent'
 import { browser } from 'protractor';
+import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase } from '../../../applicationcomponent';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../../frameworkComponent';
 
 
 describe('Test single task occurrence in single task series  -->  ', () => {
-    
+
     describe('Verify skip action on each task series  -->  ', () => {
         let specFileData: SpecFile;
         let __data: Data;
         let __testCase: TestCase;
-        let __dataReader : DataReader;    
+        let __dataReader: DataReader;
 
-        beforeAll( () => {    
+        beforeAll(() => {
             specFileData = new SpecFile();
             __dataReader = new DataReader();
             __data = new Data();
             specFileData.Data = __data;
-            specFileData.UserData  = __dataReader.loadJsonData('userDataScenario2','singleTaskSeriesSingleOccurrence');        
+            specFileData.UserData = __dataReader.loadJsonData('userDataScenario2', 'singleTaskSeriesSingleOccurrence');
             specFileData.TestCases = new Array<TestCase>();
         });
 
-        afterAll( () => {
-            TestBase.GlobalData.SpecFiles.push(specFileData);            
+        afterAll(() => {
+            TestBase.GlobalData.SpecFiles.push(specFileData);
         });
 
-        beforeEach(()=> {
-            __testCase = new TestCase();   
-            
+        beforeEach(() => {
+            __testCase = new TestCase();
+
         });
 
-        afterEach(()=> {
-            var myReporter = {                
+        afterEach(() => {
+            var myReporter = {
 
                 specDone: function (result) {
                     __testCase.TestName = result.description;
@@ -105,7 +105,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
 
                 //Verify the Task Count
                 await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(__taskCategoryList.taskList.length);
-                
+
                 //Get the actual & full name of the task series from aggreagted data
                 specFileData.UserData.TaskSeries.taskSeriesName = __taskCategoryList.taskList.filter(task => task.TaskName.substring(0, specFileData.UserData.TaskSeries.taskSeriesName.length) === specFileData.UserData.TaskSeries.taskSeriesName)[0].TaskName;
             } catch (error) {
@@ -140,7 +140,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 FrameworkComponent.logHelper.info('Expected number of occurrence count after updating occurrence status is : ' + __expectedResult.expectedOccurrenceCount);
                 FrameworkComponent.logHelper.info('Actual number of occurrence count after updating occurrence status is : ' + __occurrenceCount);
                 expect(__occurrenceCount).toEqual(__expectedResult.expectedOccurrenceCount);
-                
+
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }
@@ -171,7 +171,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 __testCase.TestName = 'Update the task occurrence action details for each task occurrences specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-                
+
                 //Edit & Update the status of the task occurrence
                 Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo);
                 browser.sleep(2000);
@@ -186,7 +186,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 __testCase.TestName = 'Verify the specified count and status of the task occurrences with the updated task series';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-                
+
                 //Verify the status of the created Occurrences
                 let __occurrenceHourStatus = await Pages.cpSchedulerPage.getTaskOccurrenceStatusByHour(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo.occurrenceHour);
                 FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + __taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
@@ -284,7 +284,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
 
                 let __occurrenceScheduledTime = await Pages.cpSchedulerPage.getOccurrenceHoursToSchedule(__taskSeriesInfo.taskScheduleInfo);
 
-                if(__taskSeriesInfo.taskScheduleInfo.observationList.length > 0) {
+                if (__taskSeriesInfo.taskScheduleInfo.observationList.length > 0) {
                     __taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
 
                         let __scheduleTime = ('0' + __occurrenceScheduledTime[taskOccurrenceInfo.occurrenceIndex]).slice(-2) + ':00';
@@ -328,7 +328,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
-                if(__taskSeriesInfo.taskScheduleInfo.observationList.length > 0) {
+                if (__taskSeriesInfo.taskScheduleInfo.observationList.length > 0) {
                     __taskSeriesInfo.forEach(async taskSeriesInfo => {
 
                         taskSeriesInfo.taskOccurrenceInfo.forEach(async taskOccurrenceInfo => {
@@ -355,7 +355,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 }
             } catch (error) {
                 __testCase.ExceptionDetails = error;
-            }   
+            }
         });
     });
 

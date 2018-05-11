@@ -1,6 +1,6 @@
 var fs = require('fs');
+import { TestBase } from './applicationcomponent';
 import { FrameworkComponent } from './frameworkComponent';
-import { TestBase } from './applicationcomponent'
 
 export class JSONReporter {
 
@@ -18,18 +18,18 @@ export class JSONReporter {
         TestBase.GlobalData.LoadedSpecFileCount = jasmine.totalSpecsDefined;
 
         TestBase.GlobalData.StartTime = new Date();
-        
+
     }
 
     suiteStarted(suite) {
-        FrameworkComponent.logHelper.info("***********************Describe with name :'"+[suite.description.trim()]+"' execution started");
+        FrameworkComponent.logHelper.info("***********************Describe with name :'" + [suite.description.trim()] + "' execution started");
         //this.JSONObj[suite.description.trim()] = []
         //FrameworkComponent.logHelper.info([suite.description.trim()]);
     }
 
     specStarted(spec) {
         FrameworkComponent.logHelper.info("**********TestStarted: Test case execution started");
-        FrameworkComponent.logHelper.info("Test Case Name '" + spec.description +"'");
+        FrameworkComponent.logHelper.info("Test Case Name '" + spec.description + "'");
     }
 
     specDone(spec) {
@@ -37,7 +37,7 @@ export class JSONReporter {
         FrameworkComponent.logHelper.info("Test case status: '" + spec.status + "'");
 
         if (spec.passedExpectations.length !== 0) {
-          //  FrameworkComponent.logHelper.info(spec.passedExpectations);
+            //  FrameworkComponent.logHelper.info(spec.passedExpectations);
         }
         else {
             for (var i = 0; i < spec.failedExpectations.length; i++) {
@@ -49,7 +49,7 @@ export class JSONReporter {
     }
 
     suiteDone(suite) {
-        FrameworkComponent.logHelper.info("***********************Describe with name : '"+[suite.description.trim()]+"' completed with status '"+suite.status+"'");
+        FrameworkComponent.logHelper.info("***********************Describe with name : '" + [suite.description.trim()] + "' completed with status '" + suite.status + "'");
         //this.JSONObj[suite.description.trim()] = []
     }
 

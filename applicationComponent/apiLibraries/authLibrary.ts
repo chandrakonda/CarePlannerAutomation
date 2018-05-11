@@ -1,12 +1,12 @@
-import { FrameworkComponent } from '../../frameworkComponent';
 import { TestBase } from '../../applicationComponent';
 import { DataReader } from '../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../frameworkComponent';
 
 const path = require('path');
 const requestPromise = require('request-promise');
 var request = require('request');
 
-export class AuthorizationLibrary{
+export class AuthorizationLibrary {
 
     static authTokenValue: string;
     static tokenValue: string;
@@ -16,19 +16,19 @@ export class AuthorizationLibrary{
 
     async getAuthToken() {
         try {
-            let __options = this.authTokenOptions();            
+            let __options = this.authTokenOptions();
             FrameworkComponent.logHelper.info(__options);
             let __response = await FrameworkComponent.apiServiceHelper.makeApiCall(__options);
             // browser.sleep(10000);
             let __response1 = JSON.parse(__response);
             FrameworkComponent.logHelper.info(__response1);
-            FrameworkComponent.logHelper.info("bearer "+__response1.access_token);
+            FrameworkComponent.logHelper.info("bearer " + __response1.access_token);
             FrameworkComponent.logHelper.info("*******************************************************");
             AuthorizationLibrary.authTokenValue = __response1.access_token;
             TestBase.GlobalData.GlobalAuthToken = "bearer " + __response1.access_token;
-        } catch (error) { 
+        } catch (error) {
             FrameworkComponent.logHelper.error(error);
-            throw error; 
+            throw error;
         }
     }
 
@@ -37,7 +37,7 @@ export class AuthorizationLibrary{
             FrameworkComponent.logHelper.info("*********** Getting Auth Token value ***********");
             //let __options = require(path.join(__dirname, '../../../applicationComponent/data/apiTemplates/authToken.json'));
             let __options = DataReader.loadAPITemplates('authToken');
-            __options.url = TestBase.GlobalData.EnvironmentDetails.authorizationurl;           
+            __options.url = TestBase.GlobalData.EnvironmentDetails.authorizationurl;
             return __options;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);

@@ -4,20 +4,19 @@ import { DataReader } from '../../../dataComponent/dataReaderHelper';
 import { FrameworkComponent } from '../../../frameworkComponent';
 
 
-describe('Test single task occurrence in single task series  -->  ', () => {
+describe('Test whiteboard scenarios  -->  ', () => {
 
-    describe('Verify cancel action on each task series  -->  ', () => {
+    describe('Verify the number of overdue task count displayed in the whiteboard for a filtered patient -->  ', () => {
         let specFileData: SpecFile;
         let __data: Data;
         let __testCase: TestCase;
         let __dataReader: DataReader;
-
         beforeAll(() => {
             specFileData = new SpecFile();
             __dataReader = new DataReader();
             __data = new Data();
             specFileData.Data = __data;
-            specFileData.UserData = __dataReader.loadJsonData('userDataScenario3', 'singleTaskSeriesSingleOccurrence');
+            specFileData.UserData = __dataReader.loadJsonData('userDataScenario2', 'whiteboard');
             specFileData.TestCases = new Array<TestCase>();
         });
 
@@ -27,7 +26,6 @@ describe('Test single task occurrence in single task series  -->  ', () => {
 
         beforeEach(() => {
             __testCase = new TestCase();
-
         });
 
         afterEach(() => {
@@ -52,9 +50,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 __testCase.TestName = 'Verify the careplanner application launching by setting up the informations of client, pet and visit informations';
 
                 //Data setup using API call
-                //API call to create a data setup for client, patient & order the product to an appointment
-                // await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData, 'singleItem', 'productList' );
-                await APILibraryController.careplannerLibrary.apiTestDataSetUpWithUserProductData(specFileData);
+                await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);
 
                 //Getting aggregated data to the specFileData
                 await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
@@ -106,8 +102,6 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 //Verify the Task Count
                 await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(__taskCategoryList.taskList.length);
 
-                //Get the actual & full name of the task series from aggreagted data
-                specFileData.UserData.TaskSeries.taskSeriesName = __taskCategoryList.taskList.filter(task => task.TaskName.substring(0, specFileData.UserData.TaskSeries.taskSeriesName.length) === specFileData.UserData.TaskSeries.taskSeriesName)[0].TaskName;
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }
@@ -165,37 +159,179 @@ describe('Test single task occurrence in single task series  -->  ', () => {
             }
         });
 
-        it('Update the task occurrence action details for each task occurrences specified from the user data', () => {
+        it('Select the technician and location details', async () => {
             try {
+                __testCase.TestName = 'select the technician and location details';
+                let __technicianName = 'Me';
+                let __locationName = 'Cat- Double Occupancy';
 
-                __testCase.TestName = 'Update the task occurrence action details for each task occurrences specified from the user data';
+                Pages.cpClientAndPetDetailsPage.selectTechnicianFromDropDown(__technicianName);
 
-                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                browser.sleep(3000);
 
-                //Edit & Update the status of the task occurrence
-                Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskOccurrenceInfo);
+                Pages.cpClientAndPetDetailsPage.selectLocationFromDropDown(__locationName);
+
                 browser.sleep(2000);
 
+                let __technicianNameSelected = Pages.cpClientAndPetDetailsPage.selectedTechnicianName;
+                FrameworkComponent.logHelper.info(__technicianNameSelected);
+                expect(__technicianNameSelected).toBe(__technicianName);
+
+                let __locationNameSelected = Pages.cpClientAndPetDetailsPage.selectedLocationName;
+                FrameworkComponent.logHelper.info(__locationNameSelected);
+                expect(__locationNameSelected).toBe(__locationName);
+
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }
         });
 
-        it('Verify the specified count and status of the task occurrences with the updated task series', async () => {
+        it('Navigate to the whiteboard section and verify the filter is in off state', () => {
             try {
-                __testCase.TestName = 'Verify the specified count and status of the task occurrences with the updated task series';
+                __testCase.TestName = 'navigate to the whiteboard section';
 
-                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                Pages.cpClientAndPetDetailsPage.navigateToWhiteBoard();
 
-                //Verify the status of the created Occurrences
-                let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
-                FrameworkComponent.logHelper.info('Expected status of all the occurrences are : ' + __taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
-                FrameworkComponent.logHelper.info('Actual status of all the occurrences are : ' + __occurrencesStatus[__taskSeriesInfo.taskOccurrenceInfo.occurrenceIndex]);
-                expect(__occurrencesStatus.length).toBe(0);
+                browser.sleep(10000);
+
+                expect(Pages.cpWhiteboardPage.IsAtWhiteboardPage()).toBe(true);
+
+                // expect(Pages.cpWhiteboardPage.getFilterStatus).toBe('OFF');
+
 
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }
         });
+
+        it('Clear the filter properties', () => {
+            try {
+                __testCase.TestName = 'clear the filter properties';
+
+                Pages.cpWhiteboardPage.clearFilterOptionsSelected();
+
+                expect(Pages.cpWhiteboardPage.getFilterStatus).toBe('OFF');
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        })
+
+        it('Verify the filter popup get displayed on clicking filter button', () => {
+            try {
+                __testCase.TestName = 'verify the filter popup get displayed on clicking filter button';
+
+                Pages.cpWhiteboardPage.clickOnFilterButton();
+
+                browser.sleep(1000);
+
+                expect(Pages.cpWhiteboardPage.IsFilterPopupDisplayed()).toBe(true);
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        })
+
+        it('Select the location in filter options', () => {
+            try {
+                __testCase.TestName = 'select the filter options';
+
+                Pages.cpWhiteboardPage.clickOnFilterByName('location');
+
+                expect(Pages.cpWhiteboardPage.selectedFilterTitle).toBe('Location');
+
+                expect(Pages.cpWhiteboardPage.IsSelectAllCheckboxSelected()).toBe(true);
+
+                Pages.cpWhiteboardPage.unselectCheckboxSelectAll();
+
+                expect(Pages.cpWhiteboardPage.IsSelectAllCheckboxSelected()).toBe(false);
+
+                Pages.cpWhiteboardPage.selectFilterOptionsByGivenName('Cat- Double Occupancy');
+
+                Pages.cpWhiteboardPage.clickOnBackButton();
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Select the technician in filter options', () => {
+            try {
+                __testCase.TestName = 'select the filter options';
+
+                Pages.cpWhiteboardPage.clickOnFilterByName('technician');
+
+                expect(Pages.cpWhiteboardPage.selectedFilterTitle).toBe('Technician');
+
+                expect(Pages.cpWhiteboardPage.IsSelectAllCheckboxSelected()).toBe(true);
+
+                Pages.cpWhiteboardPage.unselectCheckboxSelectAll();
+
+                expect(Pages.cpWhiteboardPage.IsSelectAllCheckboxSelected()).toBe(false);
+
+                Pages.cpWhiteboardPage.selectFilterOptionsByGivenName('Me');
+
+                Pages.cpWhiteboardPage.clickOnBackButton();
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Apply the filter options selected and verify the filter applied', () => {
+            try {
+
+                __testCase.TestName = 'Apply the filter options selected and verify the filter applied';
+
+                Pages.cpWhiteboardPage.applyFilterOptionSelected();
+
+                browser.sleep(10000);
+
+                expect(Pages.cpWhiteboardPage.getFilterStatus).toBe('ON');
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        })
+
+        it('Verify the patient information displayed in the filtered list of whiteboard', () => {
+            try {
+                __testCase.TestName = 'verify the patient information filtered in whiteboard';
+                let __patientName = specFileData.Data.Client.Patient.Name.slice(0, 12);
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 12);
+                let __isNameFiltered = Pages.cpWhiteboardPage.IsPatientInformationFilteredByName(__patientName + ' ' + __clientLastName);
+                expect(__isNameFiltered).toBe(true);
+
+                // let __overdueTaskCount = Pages.cpWhiteboardPage.getOverdueCountByclienttName(__clientLastName);
+                // expect(__overdueTaskCount).toBe('4');
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
+        it('Verify the number of non scheduled  task series count displayed is matching for the patient information in whiteboard', () => {
+            try {
+                __testCase.TestName = 'verify the patient information filtered in whiteboard';
+
+                let __expectedOverDueCount = 3;
+
+                //We have to call the api edmund gave for the Whiteboard to get the non scheduled count
+
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 14);
+
+                let __actualOverDueCount = Pages.cpWhiteboardPage.getOverdueCountByclienttName(__clientLastName);
+
+                FrameworkComponent.logHelper.info("Expected Number of Over Due Task Count : " + __expectedOverDueCount);
+                FrameworkComponent.logHelper.info("Actual Number of Over Due Task Count displayed as : " + __actualOverDueCount);
+
+                expect(__actualOverDueCount).toBe(__expectedOverDueCount);
+
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
+
     });
+
 });

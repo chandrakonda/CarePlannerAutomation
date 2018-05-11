@@ -1,17 +1,17 @@
-{ 
-	"method": "GET",
+{
+    "method": "GET",
     "url": "",
-    "qs": { 
+    "qs": {
         "visitIds": "",
-        "startTime":"",
-        "endTime":""
+        "startTime": "",
+        "endTime": ""
     },
-    "headers": { 
+    "headers": {
         "cache-control": "no-cache",
         "applicationname": "Retriever",
         "username": "vcaantech\\tablet_nonprod",
         "x-hospital-id": "153",
         "authorization": "",
         "accept": "application/json, text/json, application/xml, text/xml"
-    } 
+    }
 }

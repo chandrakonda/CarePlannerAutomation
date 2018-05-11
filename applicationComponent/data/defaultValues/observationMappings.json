@@ -1,89 +1,109 @@
 {
-    "observationlist":[
-        {        
-        "Name":"Temp",
-        "FieldType":"text",
-        "Abbrevation":"Temp"
-    },{
-        "Name" : "Resp rate",
-        "FieldType": "text",
-        "Abbrevation": "Resp rate"
-    },{
-        "Name" : "Heart rate",
-        "FieldType": "text",
-        "Abbrevation": "Heart rate"
-    },{
-        "Name":"CRT",
-        "FieldType":"radio",
-        "Abbrevation":"Capillary Refill time"
-    },{
-        "Name" : "MM color",
-        "FieldType": "select",
-        "Abbrevation" : "Mucous Membrane color"
-    },{
-        "Name" : "Pain",
-        "FieldType": "select",
-        "Abbrevation": "Pain"
-    },{
-        "Name" : "Weight",
-        "FieldType" : "text",
-        "Abbrevation" : "Weight"
-    },{
-        "Name" : "Mentation",
-        "FieldType" : "select",
-        "Abbrevation" : "Mentation/consciousness"
-    },{
-        "Name" : "Hydration status",
-        "FieldType" : "select",
-        "Abbrevation" : "Hydration"
-    },{
-        "Name" : "Type of food",
-        "FieldType" : "textarea",
-        "Abbrevation" : "Type of food"
-    },{
-        "Name" : "Food offered",
-        "FieldType" : "text",
-        "Abbrevation" : "Food offered"
-    },{
-        "Name" : "RR",
-        "FieldType" : "text",
-        "Abbrevation" : "RR"
-    },{
-        "Name" : "Urine color",
-        "FieldType" : "select",
-        "Abbrevation" : "Color of urine"
-    },{
-        "Name" : "Test urine appearance",
-        "FieldType" : "select",
-        "Abbrevation" : "Appearance of urine"
-    },{
-        "Name" : "Ca phos crystals",
-        "FieldType" : "select",
-        "Abbrevation" : "Bacteria in urine"
-    },{
-        "Name" : "Fungal culture",
-        "FieldType" : "NA",
-        "Abbrevation" : "NA"
-    },{
-        "Name" : "Amphetamine",
-        "FieldType" : "radio",
-        "Abbrevation" : "Negative (Normal)|Positive"
-    },{
-        "Name" : "b-wave ERG",
-        "FieldType" : "text",
-        "Abbrevation" : "b-wave ERG"
-    },{
-        "Name" : "Consistency",
-        "FieldType" : "select",
-        "Abbrevation" : "Fecal consistency"
-    },{
-        "Name" : "",
-        "FieldType" : "",
-        "Abbrevation" : ""
-    },{
-        "Name" : "",
-        "FieldType" : "",
-        "Abbrevation" : ""
-    }
+    "observationlist": [
+        {
+            "Name": "Temp",
+            "FieldType": "text",
+            "Abbrevation": "Temp"
+        },
+        {
+            "Name": "Resp rate",
+            "FieldType": "text",
+            "Abbrevation": "Resp rate"
+        },
+        {
+            "Name": "Heart rate",
+            "FieldType": "text",
+            "Abbrevation": "Heart rate"
+        },
+        {
+            "Name": "CRT",
+            "FieldType": "radio",
+            "Abbrevation": "Capillary Refill time"
+        },
+        {
+            "Name": "MM color",
+            "FieldType": "select",
+            "Abbrevation": "Mucous Membrane color"
+        },
+        {
+            "Name": "Pain",
+            "FieldType": "select",
+            "Abbrevation": "Pain"
+        },
+        {
+            "Name": "Weight",
+            "FieldType": "text",
+            "Abbrevation": "Weight"
+        },
+        {
+            "Name": "Mentation",
+            "FieldType": "select",
+            "Abbrevation": "Mentation/consciousness"
+        },
+        {
+            "Name": "Hydration status",
+            "FieldType": "select",
+            "Abbrevation": "Hydration"
+        },
+        {
+            "Name": "Type of food",
+            "FieldType": "textarea",
+            "Abbrevation": "Type of food"
+        },
+        {
+            "Name": "Food offered",
+            "FieldType": "text",
+            "Abbrevation": "Food offered"
+        },
+        {
+            "Name": "RR",
+            "FieldType": "text",
+            "Abbrevation": "RR"
+        },
+        {
+            "Name": "Urine color",
+            "FieldType": "select",
+            "Abbrevation": "Color of urine"
+        },
+        {
+            "Name": "Test urine appearance",
+            "FieldType": "select",
+            "Abbrevation": "Appearance of urine"
+        },
+        {
+            "Name": "Ca phos crystals",
+            "FieldType": "select",
+            "Abbrevation": "Bacteria in urine"
+        },
+        {
+            "Name": "Fungal culture",
+            "FieldType": "NA",
+            "Abbrevation": "NA"
+        },
+        {
+            "Name": "Amphetamine",
+            "FieldType": "radio",
+            "Abbrevation": "Negative (Normal)|Positive"
+        },
+        {
+            "Name": "b-wave ERG",
+            "FieldType": "text",
+            "Abbrevation": "b-wave ERG"
+        },
+        {
+            "Name": "Consistency",
+            "FieldType": "select",
+            "Abbrevation": "Fecal consistency"
+        },
+        {
+            "Name": "",
+            "FieldType": "",
+            "Abbrevation": ""
+        },
+        {
+            "Name": "",
+            "FieldType": "",
+            "Abbrevation": ""
+        }
     ]
 }

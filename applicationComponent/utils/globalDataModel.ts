@@ -1,11 +1,10 @@
-
 import { ReadAppConfig } from '../../applicationComponent';
-import {DataReader} from '../../dataComponent/dataReaderHelper';
+import { DataReader } from '../../dataComponent/dataReaderHelper';
 const path = require('path');
 
 export class GlobalValues {
-    ApiDefaultValues : any;
-    constructor(){
+    ApiDefaultValues: any;
+    constructor() {
         this.ApiDefaultValues = new DefaultValues();
     }
     StartTime: Date;
@@ -14,33 +13,33 @@ export class GlobalValues {
     ReportFileLocation: string;
     LogFileLocation: string;
     SpecFiles: SpecFile[];
-    ResultFolder : string;
-    LoadedSpecFileCount : any;
-    EndTime:Date
-    
+    ResultFolder: string;
+    LoadedSpecFileCount: any;
+    EndTime: Date
+
     //Logger : any;
 }
 
-class DefaultValues{
+class DefaultValues {
 
-    PostClientsDefaultValues :any;
-    PostPatientsDefaultValues : any;
-    BookAppointmentValues : any;
-    VisitInvoiceItemsBillOnceValues : any;
+    PostClientsDefaultValues: any;
+    PostPatientsDefaultValues: any;
+    BookAppointmentValues: any;
+    VisitInvoiceItemsBillOnceValues: any;
 
-    constructor(){
+    constructor() {
         //this.PostClientsDefaultValues = require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/postClients.json'));
         this.PostClientsDefaultValues = DataReader.loadAPIDefaultValues('postClients');// require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/postClients.json'));
         this.PostPatientsDefaultValues = DataReader.loadAPIDefaultValues('postPatients'); //require(path.join(__dirname, '../../../applicationComponent/data/defaultValues//postPatients.json'));
         this.BookAppointmentValues = DataReader.loadAPIDefaultValues('bookAppointment'); //require(path.join(__dirname, '../../../applicationComponent/data/defaultValues/bookAppointment.json'));
-        this.VisitInvoiceItemsBillOnceValues =   DataReader.loadAPIDefaultValues('visitInvoiceItems'); //require(path.join(__dirname, '../../../applicationComponent/data/defaultValues//visitInvoiceItems.json'));
+        this.VisitInvoiceItemsBillOnceValues = DataReader.loadAPIDefaultValues('visitInvoiceItems'); //require(path.join(__dirname, '../../../applicationComponent/data/defaultValues//visitInvoiceItems.json'));
     }
 
     ///PostClientsDefaultValues : any = this.__postclient;
     //PostPatientsDefaultValues : any = this.__postpet;
     //BookAppointmentValues : any = this.__bookappointment;
     //VisitInvoiceItemsBillOnceValues : any =  this.__billonceproduct;
-    VisitInvoiceItemsBillEveryValues : any;
+    VisitInvoiceItemsBillEveryValues: any;
 
 }
 
@@ -51,9 +50,9 @@ export class SpecFile {
     EndTime: string;
     TestCases: TestCase[];
     Data: Data;
-    ApplicationUrl : string;
-    UserId : string;
-    UserData : any;
+    ApplicationUrl: string;
+    UserId: string;
+    UserData: any;
     ApiData: any;
 }
 
@@ -62,8 +61,8 @@ export class TestCase {
     TestName: string;
     TestResult: string;
     TestDescription: string;
-    ExceptionDetails : string;
-    WarningInformation :string;
+    ExceptionDetails: string;
+    WarningInformation: string;
     StartTime: Date;
     EndTime: Date;
 }
@@ -80,7 +79,7 @@ export class Data {
     TaskOccurrenceId: string;
     UserId: string;
     ClientLastName: string;
-    
+
 
 
 }
@@ -99,23 +98,23 @@ export class Patient {
     Species: string;
     Age: string;
     Gender: string;
-    AppointmentId : string;
-    Color:string;
-    Weight:string
+    AppointmentId: string;
+    Color: string;
+    Weight: string
 }
 
 export class Visit {
     VisitId: string;
     Product: Product;
-    VisitInvoiceItem : VisitInvoiceItem[];
-    Category : Category[];    
+    VisitInvoiceItem: VisitInvoiceItem[];
+    Category: Category[];
 }
 
 export class VisitInvoiceItem {
 
-    visitinvoiceitemid : string;
-    visitinvoiceitemname : string;
-    invoiceitemid : string;
+    visitinvoiceitemid: string;
+    visitinvoiceitemname: string;
+    invoiceitemid: string;
 
 }
 
@@ -138,7 +137,7 @@ export class TaskSeries {
     Initialtaskoccurrencecount: number;
     Rescheduleoccurrencecount: number;
     TaskOccurrence: TaskOccurrence[];
-    TaskSeriesId : string;
+    TaskSeriesId: string;
 }
 
 export class TaskOccurrence {
@@ -146,7 +145,7 @@ export class TaskOccurrence {
     InitialTaskOccurrenceStatus: string;
     FinalTaskOccurrenceStatus: string;
     ScheduleTime: string;
-    TaskOccurrenceId : string;
+    TaskOccurrenceId: string;
 
 }
 
@@ -168,20 +167,20 @@ export class Scheduletaskseries {
 
 export class Category {
     CategoryName: string;
-    CategoryId:string;
-    TaskSeriesList : TaskSeriesList[];
+    CategoryId: string;
+    TaskSeriesList: TaskSeriesList[];
 }
 
 export class TaskSeriesList {
     TaskName: string;
-    TaskSeriesId:string;
+    TaskSeriesId: string;
     HourlyTaskOccurrences: HourlyTaskOccurrences[]
 }
 
 export class HourlyTaskOccurrences {
-    TaskOccurrenceId:string;
+    TaskOccurrenceId: string;
     Hour: string;
-    Day:string;
+    Day: string;
     Date: string;
     Occurrences: string[]
 

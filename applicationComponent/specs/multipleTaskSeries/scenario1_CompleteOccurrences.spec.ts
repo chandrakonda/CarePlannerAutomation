@@ -1,7 +1,7 @@
-import { FrameworkComponent } from '../../../frameworkComponent';
-import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from '../../../applicationcomponent'
 import { browser } from 'protractor';
+import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase } from '../../../applicationcomponent';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../../frameworkComponent';
 
 
 describe('Test multiple task occurrence in multiple task series  -->  ', () => {
@@ -29,7 +29,7 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
         });
 
         afterEach(() => {
-            var myReporter = {                
+            var myReporter = {
 
                 specDone: function (result) {
                     __testCase.TestName = result.description;

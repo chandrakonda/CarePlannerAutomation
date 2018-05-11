@@ -1,7 +1,7 @@
+import { by, element } from "protractor";
 import { FrameworkComponent } from '../../frameworkComponent';
-import { $, browser, element, by, By, ExpectedConditions, protractor } from "protractor";
 
-export class TreatmentLogPage{
+export class TreatmentLogPage {
 
     eleTretmentLogGrid = element(by.id('timelinegrid'))
     eleColumnHeaders = element.all(by.xpath("//*[@id='timelinegrid']/descendant::div[@wj-part='chcells']/div[contains(@class,'wj-cell wj-header')]"));
@@ -9,12 +9,10 @@ export class TreatmentLogPage{
     eleTableRowData = element.all(by.xpath("//*[@id='timelinegrid']/descendant::div[@wj-part='cells']/div[contains(@class,'wj-cell') and not(contains(@class, 'wj-group'))]"));
     eleDetailsList = element.all(by.xpath("//*[@id='timelinegrid']/descendant::div[@wj-part='cells']/div[contains(@class,'wj-cell') and not(contains(@class, 'wj-group'))]/descendant::div[contains(@class,'gridwrap')]"));
 
-
-
-    isTreatmentLogPageLoaded(){
+    isTreatmentLogPageLoaded() {
         try {
             return this.eleTretmentLogGrid.isDisplayed().then((status) => {
-                if(status == true){
+                if (status == true) {
                     return true;
                 } else {
                     return false;
@@ -26,7 +24,7 @@ export class TreatmentLogPage{
         }
     }
 
-    getTreatmentLogColumnHeadersCount(){
+    getTreatmentLogColumnHeadersCount() {
         try {
             return this.eleColumnHeaders.count().then((columnCount) => {
                 return columnCount;
@@ -37,7 +35,7 @@ export class TreatmentLogPage{
         }
     }
 
-    getTreatmentLogColumnHeaders(){
+    getTreatmentLogColumnHeaders() {
         try {
             let columnHeaders = this.eleColumnHeaders.getText().then((headerValues) => {
                 return headerValues;
@@ -49,12 +47,12 @@ export class TreatmentLogPage{
         }
     }
 
-    getTreatmentLogColumnIndex(columnName:string) {
+    getTreatmentLogColumnIndex(columnName: string) {
         try {
             let columnNameIndex = this.eleColumnHeaders.getText().then((headerValues) => {
                 return headerValues.indexOf(columnName);
             });
-            return columnNameIndex;            
+            return columnNameIndex;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -77,13 +75,13 @@ export class TreatmentLogPage{
         try {
             let __columnCount = await this.getTreatmentLogColumnHeadersCount();
             let __listData = new Array;
-            let __rowData:any = await this.eleTableRowData.getText().then((rowData) => {
+            let __rowData: any = await this.eleTableRowData.getText().then((rowData) => {
                 return rowData;
             });
 
-          while( __rowData.length > 0) {
-              __listData.push(__rowData.splice(0, __columnCount))
-          }
+            while (__rowData.length > 0) {
+                __listData.push(__rowData.splice(0, __columnCount))
+            }
 
             return __listData;
         } catch (error) {
@@ -92,7 +90,7 @@ export class TreatmentLogPage{
         }
     }
 
-    getTreatmentLogDetailsList():any {
+    getTreatmentLogDetailsList(): any {
         try {
             let __observationDetails = this.eleDetailsList.getText().then((detailsList) => {
                 return detailsList;
@@ -104,20 +102,20 @@ export class TreatmentLogPage{
         }
     }
 
-    async getTreatmentLogByTaskSeriesName(taskSeriesName){
+    async getTreatmentLogByTaskSeriesName(taskSeriesName) {
         try {
             let __detailsList = new Array<string>();
 
             let __treatmentLogDetails = await this.getTreatmentLogDetailsList();
 
-            __treatmentLogDetails.forEach( list => {
-                if(list.startsWith(taskSeriesName) || list.includes(taskSeriesName)){
+            __treatmentLogDetails.forEach(list => {
+                if (list.startsWith(taskSeriesName) || list.includes(taskSeriesName)) {
                     __detailsList.push(list);
                 }
             });
-            
+
             return __detailsList;
-            
+
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -139,7 +137,7 @@ export class TreatmentLogPage{
 
     // async getTreatmentStatusInfoByTaskName(taskName:string){
     //     try {
-            
+
     //     } catch (error) {
     //         FrameworkComponent.logHelper.error(error);
     //         throw error;
@@ -148,7 +146,7 @@ export class TreatmentLogPage{
 
     // async getTreatmentCompletedTimeByTaskName(taskName:string){
     //     try {
-            
+
     //     } catch (error) {
     //         FrameworkComponent.logHelper.error(error);
     //         throw error;
@@ -157,16 +155,16 @@ export class TreatmentLogPage{
 
     // async getTreatmentCompletedDateByTaskName(taskName:string){
     //     try {
-            
+
     //     } catch (error) {
     //         FrameworkComponent.logHelper.error(error);
     //         throw error;
     //     }
     // }
-    
+
     // async getTreatmentObservationDetailsByTaskName(taskName:string){
     //     try {
-            
+
     //     } catch (error) {
     //         FrameworkComponent.logHelper.error(error);
     //         throw error;

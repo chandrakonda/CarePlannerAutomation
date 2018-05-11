@@ -1,9 +1,5 @@
-// import { APIServiceHelper } from '../../../frameworkComponent';
 import { TestBase } from '../../../applicationComponent';
-import { browser } from 'protractor';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
-
-
 const path = require('path');
 
 export namespace AddingProductsModel {
@@ -18,17 +14,17 @@ export namespace AddingProductsModel {
 
     export class RootObject {
         products: ProductCollection[];
-        constructor(productFileName?: string, productFolderName?:string) {
+        constructor(productFileName?: string, productFolderName?: string) {
             try {
-                if(productFileName != null){
+                if (productFileName != null) {
                     // If user gives any file name from which he wants to load data, then we will use it. Or else we will load default values
                     if (typeof productFileName === 'string') {
-                        let __datareader = new DataReader();        
+                        let __datareader = new DataReader();
                         let __productToBeAdded = __datareader.loadJsonData(productFileName, productFolderName)///require(path.join(__dirname, '..//..//..//data//userData//' + productFileName + '.json'));
                         this.products = __productToBeAdded.products;
                     } else if (typeof productFileName === 'object') {
-                       this.products = productFileName;                        
-                    }                    
+                        this.products = productFileName;
+                    }
                 } else {
                     let __productToBeAdded = TestBase.GlobalData.ApiDefaultValues.VisitInvoiceItemsBillOnceValues.products; //require(path.join(__dirname, '..//..//..//data//defaultValues//visitInvoiceItems.json'));
 

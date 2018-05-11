@@ -21,7 +21,7 @@
                 }
             ],
             "taskOccurrenceInfo": [
-                {                    
+                {
                     "occurrenceHour": "06:00",
                     "occurrenceAction": "Skipped",
                     "occurrenceNotes": "Test notes for complete task occurrence",
@@ -43,7 +43,7 @@
                         "5-6% dehydrated (minimal)"
                     ]
                 },
-                {                    
+                {
                     "occurrenceHour": "07:00",
                     "occurrenceAction": "Skipped",
                     "occurrenceNotes": "Test notes for complete task occurrence",
@@ -84,7 +84,7 @@
                 }
             ],
             "taskOccurrenceInfo": [
-                {                    
+                {
                     "occurrenceHour": "07:00",
                     "occurrenceAction": "Skipped",
                     "occurrenceNotes": "Test notes for complete task occurrence",
@@ -98,7 +98,7 @@
                         "20"
                     ]
                 },
-                {                    
+                {
                     "occurrenceHour": "06:00",
                     "occurrenceAction": "Skipped",
                     "occurrenceNotes": "Test notes for complete task occurrence",

@@ -10,6 +10,6 @@
         "content-type": "application/json",
         "accept": "application/json, text/json, application/xml, text/xml"
     },
-    "body": {    },
+    "body": {},
     "json": true
 }

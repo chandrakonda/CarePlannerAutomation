@@ -28,20 +28,20 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
         });
 
         afterEach(() => {
-            var myReporter = {                
+            var myReporter = {
 
                 specDone: function (result) {
                     __testCase.TestName = result.description;
                     __testCase.TestResult = result.status;
                     __testCase.ExceptionDetails = result.failedExpectations.length ? result.failedExpectations[0].message : '';
                     __testCase.StartTime = result.started;
-                    __testCase.EndTime = result.stopped;              
+                    __testCase.EndTime = result.stopped;
                 },
-                
+
             };
 
             jasmine.getEnv().addReporter(myReporter);
-           
+
             specFileData.TestCases.push(__testCase);
         });
 

@@ -1,9 +1,9 @@
-import { FrameworkComponent } from '../../frameworkComponent';
-import { TestBase, SpecFile, Visit } from '../../applicationComponent';
+import * as moment from 'moment';
+import { SpecFile, TestBase, Visit } from '../../applicationComponent';
 import { DataReader } from '../../dataComponent/dataReaderHelper';
+import { FrameworkComponent } from '../../frameworkComponent';
 
 const path = require('path');
-import * as moment from 'moment';
 
 export class AppointmentLibrary {
 
@@ -11,13 +11,13 @@ export class AppointmentLibrary {
         FrameworkComponent.logHelper.info("*********** AppointmentController ***********");
     }
 
-    async createNewAppointment(specData:SpecFile) {
+    async createNewAppointment(specData: SpecFile) {
         try {
             FrameworkComponent.logHelper.info("*********** Creating New Appointment ***********");
             let options = this.createNewAppointmentOptions(specData);
 
             FrameworkComponent.logHelper.info(options);
-            
+
             // Create client 
             await FrameworkComponent.apiServiceHelper.makeApiCall(options).then((response) => {
                 FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(response).then((responseValue) => {
@@ -33,24 +33,24 @@ export class AppointmentLibrary {
         }
     }
 
-    createNewAppointmentOptions(specData:SpecFile) {
+    createNewAppointmentOptions(specData: SpecFile) {
         try {
             FrameworkComponent.logHelper.info("*********** Create New Appointment ***********");
             // Load Template
-           // let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postBookAppointment.json'));
-           // load API Templates
+            // let __options = require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postBookAppointment.json'));
+            // load API Templates
             let __options = DataReader.loadAPITemplates("postBookAppointment");//require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postBookAppointment.json'));
-    
+
             var startTime = moment().subtract(6, 'hours').toISOString();
             var endTime = moment().subtract(4, 'hours').toISOString();
-    
+
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'Appointments';
-    
+
             //Set header values
             __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid;
             __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
-    
+
             //Set body data using default values
             __options.body = TestBase.GlobalData.ApiDefaultValues.BookAppointmentValues; // require(path.join(__dirname, '..//..//..//data//defaultValues//bookAppointment.json'));
             __options.body.ClientId = specData.Data.Client.Id;
@@ -65,12 +65,12 @@ export class AppointmentLibrary {
         }
     }
 
-    async checkinAppointment(specData:SpecFile) {
+    async checkinAppointment(specData: SpecFile) {
         try {
             FrameworkComponent.logHelper.info("*********** CheckIn the Appointment created for Client ***********");
             let __options = await this.checkinAppointmentOptions(specData);
             FrameworkComponent.logHelper.info(__options);
-            
+
             // Create client 
             let __response = await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response) => {
                 return response;
@@ -88,26 +88,26 @@ export class AppointmentLibrary {
         }
     }
 
-    checkinAppointmentOptions(specData:SpecFile) {
+    checkinAppointmentOptions(specData: SpecFile) {
         try {
             FrameworkComponent.logHelper.info("*********** Check In Appointment ***********");
             // Load Template
             let __options = DataReader.loadAPITemplates("postCheckInAppointment"); //require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/postCheckInAppointment.json'));
-    
+
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'CheckInAppointment';
-    
+
             //Set qs values
             __options.qs.appointmentId = specData.Data.AppointmentId.toString();
             __options.qs.isMergeMedicalNote = "false";
-    
+
             //Set header values
             __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid.toString();
             __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
-    
+
             FrameworkComponent.logHelper.info("Options: " + __options.qs.appointmentId);
             //browser.logger.info(options);
-    
+
             return __options;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -115,17 +115,17 @@ export class AppointmentLibrary {
         }
     }
 
-    async getCheckedInPatientDetail(specData:SpecFile) {
+    async getCheckedInPatientDetail(specData: SpecFile) {
         try {
             FrameworkComponent.logHelper.info("*********** Getting Checked-In Patient Details ***********");
             let __options = await this.getCheckedInPatientDetailsOptions(specData);
             FrameworkComponent.logHelper.info(__options);
-            
+
             // Create client 
             let __response = await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response) => {
                 return response;
             });
-            
+
             let __visit = new Visit();
 
             // parse response
@@ -143,20 +143,20 @@ export class AppointmentLibrary {
 
     }
 
-    getCheckedInPatientDetailsOptions(specData:SpecFile) {
+    getCheckedInPatientDetailsOptions(specData: SpecFile) {
         try {
             FrameworkComponent.logHelper.info('*********** Getting visit details ***********');
-            
+
             // Load Template
             let __options = DataReader.loadAPITemplates("getCheckedInPatientDetails"); // require(path.join(__dirname, '../../../../applicationComponent/data/apiTemplates/getCheckedInPatientDetails.json'));
-    
+
             //Set URL
             __options.url = TestBase.GlobalData.EnvironmentDetails.wwapiendpoint + 'CheckedInPatients';
-    
+
             //Set qs values
             __options.qs.patientId = specData.Data.Client.Patient.Id.toString();
             __options.qs.IncludeOrderItemList = 'true';
-    
+
             //Set header values
             __options.headers['x-hospital-id'] = TestBase.GlobalData.EnvironmentDetails.hospitalid.toString();
             __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
@@ -165,7 +165,7 @@ export class AppointmentLibrary {
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
-        }       
+        }
     }
 
 }

@@ -1,5 +1,5 @@
+import { by, element } from "protractor";
 import { FrameworkComponent } from '../../frameworkComponent';
-import { $, browser, element, by, By, ExpectedConditions, protractor } from "protractor";
 
 export class TrendViewPage {
 
@@ -14,24 +14,24 @@ export class TrendViewPage {
 
     isTrendViewPageActive() {
         try {
-           return this.eleTrendViewButton.getAttribute('class').then((className) => {
-               if(className.includes('active')) {
-                   return true;
-               } else {
-                   return false;
-               }
-           })
+            return this.eleTrendViewButton.getAttribute('class').then((className) => {
+                if (className.includes('active')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
 
-    
+
     isTrendViewPageLoaded(): any {
         try {
             return this.eleTrendViewGrid.isDisplayed().then((status) => {
-                if(status == true){
+                if (status == true) {
                     return true;
                 } else {
                     return false;
@@ -43,9 +43,9 @@ export class TrendViewPage {
         }
     }
 
-    getCategoryListedOnTrendView() : any {
+    getCategoryListedOnTrendView(): any {
         try {
-            
+
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -106,11 +106,11 @@ export class TrendViewPage {
             let __returnValues = new Array;
             let __observationNames: any = await this.getObservationColumnNames();
             let __observationValues: any[] = await this.getObservationRecords();
-            let __observationTimeList  = await this.getObservationTimeList();
+            let __observationTimeList = await this.getObservationTimeList();
             let __occurrenceIndex = __observationTimeList.indexOf(occurrenceTime);
 
-            observationList.forEach(observationName => {                
-                for (let index = 0; index < __observationNames.length; index++) {                    
+            observationList.forEach(observationName => {
+                for (let index = 0; index < __observationNames.length; index++) {
                     if (__observationNames[index].match(observationName)) {
                         __returnValues.push(__observationValues[__occurrenceIndex][index]);
                         break;
@@ -118,7 +118,7 @@ export class TrendViewPage {
                 }
             });
 
-            FrameworkComponent.logHelper.info(__returnValues);       
+            FrameworkComponent.logHelper.info(__returnValues);
             return __returnValues;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -131,28 +131,28 @@ export class TrendViewPage {
 
         try {
 
-            let __observationNames:any = await this.getObservationColumnNames();
+            let __observationNames: any = await this.getObservationColumnNames();
             let __observationColumnCount = __observationNames.length;
-            let __observationValues:any[]  = await this.getObservationRecords();
+            let __observationValues: any[] = await this.getObservationRecords();
             let __returnValues = new Array;
 
             specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
-                
-                if(taskSeriesInfo.taskSeriesName === taskSeriesName){
-                
+
+                if (taskSeriesInfo.taskSeriesName === taskSeriesName) {
+
                     taskSeriesInfo.taskScheduleInfo.forEach(taskScheduleInfo => {
 
                         let __observation = new Array;
 
                         for (let i = 0; i < __observationNames.length; i++) {
-                            
+
                             for (let j = 0; j < taskScheduleInfo.observationList.length; j++) {
-                                
-                                if(__observationNames[i].match(taskScheduleInfo.observationList[j])) {
+
+                                if (__observationNames[i].match(taskScheduleInfo.observationList[j])) {
                                     __observation.push(taskScheduleInfo.observationList[j]);
                                     break;
                                 }
-                                
+
                             }
                         }
                         __observationNames = __observation;
@@ -160,15 +160,15 @@ export class TrendViewPage {
 
                     for (let index = 0; index < __observationValues.length; index++) {
                         let __individualValue = new Array;
-                        
-                        __observationNames.forEach(obser=> {
-                            __individualValue.push( obser + ' : ' + __observationValues[index][__observationNames.indexOf(obser)]);                       
-                        });                        
+
+                        __observationNames.forEach(obser => {
+                            __individualValue.push(obser + ' : ' + __observationValues[index][__observationNames.indexOf(obser)]);
+                        });
                         __returnValues[index] = __individualValue;
                     }
                 }
             });
-           
+
             FrameworkComponent.logHelper.info(__returnValues);
             return __returnValues;
         } catch (error) {
@@ -182,14 +182,14 @@ export class TrendViewPage {
         try {
             let __observationNames = await this.getObservationColumnNames();
             let __observationColumnCount = __observationNames.length;
-            let __observationValues:any   = await this.eleObservationValueList.getText().then((value) => {
+            let __observationValues: any = await this.eleObservationValueList.getText().then((value) => {
                 return value;
             });
-            let __observationList:any[] = new Array;
-                
+            let __observationList: any[] = new Array;
+
             while (__observationValues.length > 0) {
-                __observationList.push(__observationValues.splice(0,__observationColumnCount))
-            }            
+                __observationList.push(__observationValues.splice(0, __observationColumnCount))
+            }
             return __observationList;
 
         } catch (error) {

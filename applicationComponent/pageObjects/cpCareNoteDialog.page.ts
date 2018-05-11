@@ -1,11 +1,11 @@
-import { $, browser, element, by, By, ExpectedConditions } from "protractor";
+import { by, element } from "protractor";
 import { FrameworkComponent } from '../../frameworkComponent';
 
 export class CareNoteDialog {
     //Page Elements
     careNoteDialogButton = element(by.xpath("//button[contains(@id,'carenotes')]"));
     public careNoteDialogHeader = element(by.xpath("//wj-popup[@id='carenotes']//div[contains(@class,'text')]"));
-    careNoteHeaderClose = element(by.xpath("//wj-popup[@id='carenotes']//div[@class='icon closeButton']"));    
+    careNoteHeaderClose = element(by.xpath("//wj-popup[@id='carenotes']//div[@class='icon closeButton']"));
     public careNotetextArea = element(by.xpath("//wj-popup[@id='carenotes']//textarea"));
     addCareNoteButton = element(by.xpath("//wj-popup[@id='carenotes']//button[contains(text(),'Add care note')]"));
     closeCancelButton = element(by.xpath("//wj-popup[@id='carenotes']//button[contains(text(),'Close') or contains(text(), 'Cancel')]"));
@@ -41,7 +41,7 @@ export class CareNoteDialog {
             return this.careNotetextArea.getText();
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
-        }        
+        }
     }
 
     get careNoteHeader(): any {
@@ -57,7 +57,7 @@ export class CareNoteDialog {
             return this.firstCareNote.getText();
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
-        }        
+        }
     }
-    
+
 }

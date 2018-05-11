@@ -1,10 +1,9 @@
-
 //import { CarePlannerPetDetails } from '../../pages/carePlanner/cpPetdetails.page';
-import { FrameworkComponent } from '../../frameworkComponent';
-import { SpecFile, Data, TestCase, TestBase, APILibraryController, Pages, TaskSeries, Product } from '../../applicationcomponent'
-import { browser, element, by, ExpectedConditions, protractor } from 'protractor';
 //import { CareNoteDialog } from '../../pages/carePlanner/careNoteDialog.page';
 import * as moment from 'moment';
+import { browser } from 'protractor';
+import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase } from '../../applicationcomponent';
+import { FrameworkComponent } from '../../frameworkComponent';
 //import { CarePlannerApiCalls } from '../../lib/apiServices/carePlannerApiCalls';
 
 let cpSchedulerPage, cpPetDetailsPage, careNote;

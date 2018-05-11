@@ -64,7 +64,7 @@ export class DataReader {
 
 
 }
-    
+
     // static loadAPIUserData(fiileName: string, folderName?: string): any {
     //     try {
     //         // Load specific data 

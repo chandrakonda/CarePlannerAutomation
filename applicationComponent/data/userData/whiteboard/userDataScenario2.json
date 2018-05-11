@@ -1,0 +1,26 @@
+{
+    "Products": [
+        {
+            "InvoiceItemId": 77087,
+            "InvoiceItemTypeId": 1,
+            "PLNo": 101,
+            "SeqNo": 211,
+            "Code": "101.211"
+        }
+    ],
+    "TaskSeries": {
+        "taskSeriesName": "Glucose Curve 24h",
+        "taskScheduleInfo": {
+            "occurrenceFrequency": "recurring",
+            "scheduleStartTime": "00:00",
+            "scheduleEndTimeCheckout": "false",
+            "scheduleEndTime": "02:00",
+            "repeatEveryHour": "1",
+            "scheduleInstructions": "Test Instructions for Acepromzazine",
+            "observationList": []
+        },
+        "taskOccurrenceInfo": [
+            {}
+        ]
+    }
+}

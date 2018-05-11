@@ -1,12 +1,11 @@
-import { FrameworkComponent } from '../../frameworkComponent';
-import { element, by, browser, protractor, ExpectedConditions, ElementFinder } from 'protractor';
+import { browser, by, element, protractor } from 'protractor';
 import { DataReader } from '../../dataComponent/dataReaderHelper';
-
+import { FrameworkComponent } from '../../frameworkComponent';
 
 export class CareplannerTaskOcurrencePopup {
 
     elePopupHeader = element(by.xpath("//*[@id='Occurrencesries']/descendant::h4"));
-    
+
     eleScheduleTime = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'Scheduled time')]]/following-sibling::div/descendant::input[1]"));
     eleScheduledDateDropDown = element(by.xpath("//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'Scheduled time')]]/following-sibling::div/descendant::sui-select"));
 
@@ -37,7 +36,7 @@ export class CareplannerTaskOcurrencePopup {
     get isPopupDisplayed() {
         try {
             FrameworkComponent.logHelper.info("Check the Popup is displayed");
-            return this.elePopupHeader.isPresent().then((value)=>{
+            return this.elePopupHeader.isPresent().then((value) => {
                 return value;
             });
         } catch (error) {
@@ -46,26 +45,26 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    enterAmountToConfirm(amountToAdministerValue){
+    enterAmountToConfirm(amountToAdministerValue) {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.presenceOf(this.eleAmountToConfirm), 3000);
             this.eleAmountToConfirm.isPresent().then(() => {
                 FrameworkComponent.logHelper.info("Task notes entered as : " + amountToAdministerValue);
                 this.eleAmountToConfirm.sendKeys(amountToAdministerValue);
-            }); 
+            });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
 
-    fillAmountToConfirm(){
+    fillAmountToConfirm() {
         try {
             let amountFieldStatus = this.eleAmountToConfirm.isEnabled;
             FrameworkComponent.logHelper.info("Amout to Administer text field is : " + amountFieldStatus);
-            if(amountFieldStatus){
-                let amount = this.amountToAdminister.then((value) => {return value});
+            if (amountFieldStatus) {
+                let amount = this.amountToAdminister.then((value) => { return value });
                 this.enterAmountToConfirm(amount);
             }
             return this;
@@ -75,9 +74,9 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    get instructions(){
+    get instructions() {
         try {
-            let occurrenceInstruction = this.eleInstructions.getText().then((value) => { return value;})
+            let occurrenceInstruction = this.eleInstructions.getText().then((value) => { return value; })
             FrameworkComponent.logHelper.info("Occurrence Instructions Displayed as : '" + occurrenceInstruction + "'");
             return occurrenceInstruction;
         } catch (error) {
@@ -86,9 +85,9 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    get productFullName(){
+    get productFullName() {
         try {
-            let productName = this.eleProduct.getText().then((value) => { return value;})
+            let productName = this.eleProduct.getText().then((value) => { return value; })
             FrameworkComponent.logHelper.info("Product Full Name Displayed as : '" + productName + "'");
             return productName;
         } catch (error) {
@@ -97,9 +96,9 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    get doseValue(){
+    get doseValue() {
         try {
-            let doseValue = this.eleDose.getText().then((value) => { return value;})
+            let doseValue = this.eleDose.getText().then((value) => { return value; })
             FrameworkComponent.logHelper.info("Dose Value Displayed as : '" + doseValue + "'");
             return doseValue;
         } catch (error) {
@@ -108,9 +107,9 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    get amountToAdminister(){
+    get amountToAdminister() {
         try {
-            let amountToAdminister = this.eleAmountToAdminister.getText().then((value) => { return value;})
+            let amountToAdminister = this.eleAmountToAdminister.getText().then((value) => { return value; })
             FrameworkComponent.logHelper.info("Amount TO Administer Value Displayed as : '" + amountToAdminister + "'");
             return amountToAdminister;
         } catch (error) {
@@ -119,14 +118,14 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    enterTaskNotes(taskNotes: string){
+    enterTaskNotes(taskNotes: string) {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.presenceOf(this.eleTaskNotes), 3000);
             this.eleTaskNotes.isPresent().then(() => {
                 FrameworkComponent.logHelper.info("Task notes entered as : " + taskNotes);
                 this.eleTaskNotes.sendKeys(taskNotes);
-            }); 
+            });
             return this;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -134,7 +133,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    clickOnClose(){
+    clickOnClose() {
         try {
             FrameworkComponent.logHelper.info("Click on 'Close' button");
             this.eleCloseButton.click();
@@ -144,7 +143,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    clickOnSave(){
+    clickOnSave() {
         try {
             FrameworkComponent.logHelper.info("Click on 'Save' button");
             this.eleSaveButton.click();
@@ -155,7 +154,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    clickOnCompleteAndSave(){
+    clickOnCompleteAndSave() {
         try {
             FrameworkComponent.logHelper.info("Click on 'Complete and Save' button");
             this.eleCompleteAndSaveButton.click();
@@ -165,7 +164,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    selectStatusInToggleButton(statusName:string){
+    selectStatusInToggleButton(statusName: string) {
         try {
             switch (statusName.toLowerCase()) {
                 case 'planned':
@@ -195,7 +194,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    enterScheduledTime(time){
+    enterScheduledTime(time) {
         try {
             this.eleScheduleTime.clear().then(() => {
                 this.eleScheduleTime.sendKeys(time);
@@ -208,9 +207,9 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    get getScheduledTime(){
+    get getScheduledTime() {
         try {
-            let scheduledTime =  this.eleScheduleTime.getAttribute('value').then((value)=> {return value;});
+            let scheduledTime = this.eleScheduleTime.getAttribute('value').then((value) => { return value; });
             return scheduledTime;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -218,8 +217,8 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    selectScheduledDate(){
-        try {            
+    selectScheduledDate() {
+        try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleScheduledDateDropDown));
             this.eleScheduledDateDropDown.click();
@@ -230,7 +229,7 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    enterCompletedTime(time){
+    enterCompletedTime(time) {
         try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleCompletedTime), 3000);
@@ -245,13 +244,13 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    selectCompletedDate(){
-        try {            
+    selectCompletedDate() {
+        try {
             var EC = protractor.ExpectedConditions;
             browser.wait(EC.elementToBeClickable(this.eleCompletedDateDropDown));
             this.eleCompletedDateDropDown.click();
             browser.wait(EC.visibilityOf(this.eleCompleteDateDropDownList), 5000);
-            var date = this.eleCompletedDateDropDownContent.getText().then((value) => {return value});
+            var date = this.eleCompletedDateDropDownContent.getText().then((value) => { return value });
             this.eleCompletedDateDropDownContent.click();
             return this;
         } catch (error) {
@@ -260,9 +259,9 @@ export class CareplannerTaskOcurrencePopup {
         }
     }
 
-    updateOccurrenceDetailsWithObservations(taskOccurrenceInfo, scheduleTime?){
+    updateOccurrenceDetailsWithObservations(taskOccurrenceInfo, scheduleTime?) {
         try {
-            if(this.isPopupDisplayed){
+            if (this.isPopupDisplayed) {
                 browser.sleep(1000);
                 switch (taskOccurrenceInfo.occurrenceAction.toLowerCase()) {
                     case "completed":
@@ -271,19 +270,18 @@ export class CareplannerTaskOcurrencePopup {
                             .enterCompletedTime(this.getScheduledTime)
                             .selectCompletedDate();
 
-                            if(taskOccurrenceInfo.observationList.length>0){                    
-                                this.fillObservationDetails(taskOccurrenceInfo);
-                            }
-                            
+                        if (taskOccurrenceInfo.observationList.length > 0) {
+                            this.fillObservationDetails(taskOccurrenceInfo);
+                        }
                         break;
                     case "skipped":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
                             .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
                             .enterScheduledTime(taskOccurrenceInfo.occurrenceHour);
 
-                            if(taskOccurrenceInfo.observationList.length>0){                    
-                                this.fillObservationDetails(taskOccurrenceInfo);
-                            }
+                        if (taskOccurrenceInfo.observationList.length > 0) {
+                            this.fillObservationDetails(taskOccurrenceInfo);
+                        }
                         break;
                     case "canceled":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
@@ -300,8 +298,6 @@ export class CareplannerTaskOcurrencePopup {
                         break;
                 }
                 browser.sleep(1000);
-
-               
                 this.clickOnSave();
             }
         } catch (error) {
@@ -313,7 +309,7 @@ export class CareplannerTaskOcurrencePopup {
     fillObservationDetails(taskOccurrenceInfo) {
         try {
             taskOccurrenceInfo.observationList.forEach(observationName => {
-                                            
+
                 // let observationValue = taskOccurrenceInfo.observationValues[observationName];
 
                 let observationValue = taskOccurrenceInfo.observationValues[taskOccurrenceInfo.observationList.indexOf(observationName)];
@@ -321,41 +317,41 @@ export class CareplannerTaskOcurrencePopup {
                 let observationFieldInfo = DataReader.loadAPIDefaultValues('observationMappings');
                 observationFieldInfo = observationFieldInfo.observationlist.filter(list => list.Name.toLowerCase() === observationName.toLowerCase());
 
-                if(observationValue != null && observationFieldInfo.length === 1) {
+                if (observationValue != null && observationFieldInfo.length === 1) {
 
                     let fieldName = observationFieldInfo[0].Abbrevation;
                     let fieldType = observationFieldInfo[0].FieldType;
                     let fieldValue = observationValue;
-                    
+
                     switch (fieldType.toLowerCase()) {
                         case 'text':
                             FrameworkComponent.logHelper.info('Textbox is the ' + fieldValue);
-                            let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input";
+                            let textXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'" + fieldName + "')]]/following-sibling::div/descendant::input";
                             element(by.xpath(textXpath)).sendKeys(fieldValue);
                             break;
                         case 'textarea':
                             FrameworkComponent.logHelper.info('Textarea is the ' + fieldValue);
-                            let textAreaXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::textarea";
+                            let textAreaXpath = "//*[@id='Occurrencesries']/descendant::div[./div[contains(text(),'" + fieldName + "')]]/following-sibling::div/descendant::textarea";
                             element(by.xpath(textAreaXpath)).sendKeys(fieldValue);
                             break;
                         case 'radio':
                             FrameworkComponent.logHelper.info('radio button is the ' + fieldValue);
-                            let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName +"')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='"+ fieldValue + "']]";
+                            let radioXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'" + fieldName + "')]]/following-sibling::div/descendant::input[following-sibling::label/i[text()='" + fieldValue + "']]";
                             element(by.xpath(radioXpath)).click();
                             break;
                         case 'select':
                             FrameworkComponent.logHelper.info('select is the ' + fieldValue);
-                            let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'"+ fieldName + "')]]/following-sibling::div/descendant::select";
+                            let selectXpath = "//*[@id='Occurrencesries']/descendant::div[span[contains(text(),'" + fieldName + "')]]/following-sibling::div/descendant::select";
                             let dropDownElement = element(by.xpath(selectXpath));
-                            dropDownElement.getWebElement().findElements(by.tagName('option')).then((options) =>{
+                            dropDownElement.getWebElement().findElements(by.tagName('option')).then((options) => {
                                 options.forEach(element => {
-                                    let elementFound:boolean;
+                                    let elementFound: boolean;
                                     element.getText().then((value) => {
-                                        if(value.includes(fieldValue)) {
+                                        if (value.includes(fieldValue)) {
                                             elementFound = true;
-                                            element.click();                                            
+                                            element.click();
                                         }
-                                    })                                    
+                                    })
                                 });
                             });
                             break;
@@ -368,7 +364,7 @@ export class CareplannerTaskOcurrencePopup {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
-    }   
+    }
 
-    
+
 }

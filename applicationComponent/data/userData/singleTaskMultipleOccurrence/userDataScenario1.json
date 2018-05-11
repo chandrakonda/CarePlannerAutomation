@@ -17,9 +17,7 @@
             "scheduleEndTime": "08:00",
             "repeatEveryHour": "1",
             "scheduleInstructions": "Test Instructions for Acepromzazine",
-            "observationList": [
-                
-            ]
+            "observationList": []
         },
         "taskOccurrenceInfo": [
             {
@@ -27,24 +25,16 @@
                 "occurrenceAction": "Completed",
                 "occurrenceNotes": "Test notes for complete task occurrence",
                 "expectedOccurrenceStatus": "Complete",
-                "observationList": [
-                    
-                ],
-                "observationValues": [
-                    
-                ]
+                "observationList": [],
+                "observationValues": []
             },
             {
                 "occurrenceHour": "08:00",
                 "occurrenceAction": "Completed",
                 "occurrenceNotes": "Test notes for complete task occurrence",
                 "expectedOccurrenceStatus": "Complete",
-                "observationList": [
-                    
-                ],
-                "observationValues": [
-                    
-                ]
+                "observationList": [],
+                "observationValues": []
             }
         ]
     }

@@ -28,7 +28,7 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
         });
 
         afterEach(() => {
-            var myReporter = {                
+            var myReporter = {
 
                 specDone: function (result) {
                     __testCase.TestName = result.description;
@@ -53,7 +53,7 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
 
         it('Pass Test 2', () => {
             try {
-                expect(1).toBe(1);                
+                expect(1).toBe(1);
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }

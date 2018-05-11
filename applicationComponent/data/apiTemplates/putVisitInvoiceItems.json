@@ -1,5 +1,5 @@
 {
-	"method": "PUT",
+    "method": "PUT",
     "url": "",
     "headers": {
         "cache-control": "no-cache",
@@ -10,7 +10,6 @@
         "authorization": "",
         "accept": "application/json, text/json, application/xml, text/xml"
     },
-    "body":{ },
-    "json": true 
+    "body": {},
+    "json": true
 }
-

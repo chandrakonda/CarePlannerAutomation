@@ -1,9 +1,6 @@
+import { browser, by, element } from "protractor";
 import { FrameworkComponent } from '../../frameworkComponent';
-import { $, browser, element, by, By, ExpectedConditions, protractor } from "protractor";
 import { Pages } from './pages';
-import { resolve } from 'path';
-import { APILibraryController } from '../../applicationComponent';
-
 
 export class CareplannerSchedulerPage {
 
@@ -255,7 +252,7 @@ export class CareplannerSchedulerPage {
     getPositionByTaskName(taskSeriesName) {
         try {
             let __sPos, __ePos, __avaHour;
-            return this.productTaskList.then((list:any) => {
+            return this.productTaskList.then((list: any) => {
                 let __taskIndex = list.indexOf(list.filter(taskName => taskName.includes(taskSeriesName))[0])
                 if (__taskIndex == 0) {
                     __sPos = this.eleNumberOfHoursDisplayed.count().then((count) => { return 1; });
@@ -292,7 +289,6 @@ export class CareplannerSchedulerPage {
                 default:
                     break;
             }
-
             return __numberOfTaskOccurrences;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -306,7 +302,7 @@ export class CareplannerSchedulerPage {
             let occurrences = new Array;
             occurrences[0] = taskScheduleInfo.scheduleStartTime;
             for (let index = 1; index < __numberOfTaskOccurrences; index++) {
-                let __occurrenceHour = (parseInt(occurrences[index - 1], 10) + parseInt(taskScheduleInfo.repeatEveryHour, 10)).toString();               
+                let __occurrenceHour = (parseInt(occurrences[index - 1], 10) + parseInt(taskScheduleInfo.repeatEveryHour, 10)).toString();
                 occurrences[index] = ('0' + __occurrenceHour.slice(-2) + ':00');
             }
             return occurrences;
@@ -324,7 +320,6 @@ export class CareplannerSchedulerPage {
             let __currentTime = new Date().getHours();
 
             __occurrences = await this.getOccurrenceHoursToSchedule(taskScheduleInfo);
-
             __numberOfTaskOccurrences = await this.getNumberOfTaskOccurrenceToSchedule(taskScheduleInfo);
 
             if (__occurrences.length === __numberOfTaskOccurrences) {

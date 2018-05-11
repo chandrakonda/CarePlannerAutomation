@@ -29,7 +29,7 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
         });
 
         afterEach(() => {
-            var myReporter = {                
+            var myReporter = {
 
                 specDone: function (result) {
                     __testCase.TestName = result.description;

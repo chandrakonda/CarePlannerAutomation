@@ -9,8 +9,12 @@
         "removeComments": false,
         "declaration": false,
         "outDir": "typeScriptConvertedFiles",
-        
-        "types": ["jasmine","jasminewd2", "node","protractor"]
+        "types": [
+            "jasmine",
+            "jasminewd2",
+            "node",
+            "protractor"
+        ]
     },
     "exclude": [
         "node_modules",
