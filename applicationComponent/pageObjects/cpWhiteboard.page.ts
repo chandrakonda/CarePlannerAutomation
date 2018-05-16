@@ -1,4 +1,4 @@
-import { by, element } from "protractor";
+import { browser, by, element } from "protractor";
 import { FrameworkComponent } from "../../frameworkComponent";
 
 export class CareplannerWhiteboardPage {
@@ -31,11 +31,13 @@ export class CareplannerWhiteboardPage {
 
     elePatientInformationsListed = element.all(by.xpath("//*[@id='whiteboard']/wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'patient_item')]/descendant::li[@class='client_name']/div"));
 
+    eleNumberOfHoursDisplayed = element.all(by.xpath(".//wj-flex-grid/descendant::div[@wj-part='chcells']/descendant::div[contains(@class,'wj-cell wj-header') and not(contains(@class,'wj-frozen')) and not(contains(@style,'display: none;'))]"));
+
     IsAtWhiteboardPage() {
         try {
             return this.eleWhiteboard.isDisplayed().then((displayed) => {
                 return displayed;
-            })
+            });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -180,9 +182,7 @@ export class CareplannerWhiteboardPage {
         try {
             let __xpath = ".//wj-popup[@id='fillterpopup']/descendant::wj-flex-grid/descendant::div[@wj-part='cells']/descendant::input[following-sibling::label[contains(text(),'" + optionNameToSelect + "')]]";
 
-            let __filterOptionElement = element(by.xpath(__xpath));
-
-            __filterOptionElement.getWebElement().click();
+            element(by.xpath(__xpath)).getWebElement().click();
 
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -286,21 +286,15 @@ export class CareplannerWhiteboardPage {
         }
     }
 
-    IsPatientInformationFilteredByName(clientPatientName) {
+    IsPatientInformationFilteredByName(clientName) {
         try {
-            return this.elePatientInformationsListed.getText().then((displayeName) => {
-                let __returnValue = false;
-                if (displayeName.length >= 1) {
-                    for (let index = 0; index < displayeName.length; index++) {
-                        if (displayeName[index] === clientPatientName) {
-                            __returnValue = true;
-                        }
-                    }
-                } else {
-                    __returnValue = false;
-                }
-                return __returnValue;
-            })
+
+            let __xpath = ".//wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'wj-frozen')]/descendant::li[@class='client_name']/descendant::div/span[contains(text(),'" + clientName + "')]";
+
+            return element(by.xpath(__xpath)).isDisplayed().then((displayedStatus) => {
+                return displayedStatus;
+            });
+                       
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
@@ -333,4 +327,114 @@ export class CareplannerWhiteboardPage {
             throw error;
         }
     }
+
+    getPatientNameIndexByClientName(clientName) {
+        try {
+            let __xpath = ".//wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'wj-frozen')]/descendant::li[@class='client_name']/descendant::div/span";
+
+            return element.all(by.xpath(__xpath)).getText().then((listItems) => {
+                FrameworkComponent.logHelper.info(listItems);
+                return listItems.indexOf(clientName);
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async getPositionByClientName(clientName) {
+        try {
+            let __sPos, __ePos, __avaHour;
+
+            let __clientNameIndex = await this.getPatientNameIndexByClientName(clientName);
+
+            //get total hours displayed in the ui
+            let __totalHoursDisplayed = await this.eleNumberOfHoursDisplayed.count().then((count) => { return count; });
+
+            if (__clientNameIndex == 0) {
+                __sPos = 1;
+                __ePos = __totalHoursDisplayed;
+            } else if (__clientNameIndex >= 1) {
+                __sPos = __clientNameIndex * __totalHoursDisplayed + 1;
+                __ePos = __clientNameIndex * __totalHoursDisplayed + __totalHoursDisplayed;
+            } else {
+                __sPos = 0;
+                __ePos = 0;
+            }
+            return { StartPosition: __sPos, EndPosition: __ePos };
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getNumberOfTaskOccurrenceListedByPosition(startPosition, endPosition) {
+        try {
+            let __xpath = ".//wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'wj-cell') and not(contains(@class,'wj-frozen'))][position() >= " + startPosition + " and not(position() > " + endPosition + ")]/descendant::ul[@class='occurence1']";
+
+            return element.all(by.xpath(__xpath)).count().then((taskOccurrenceCount) => {
+                return taskOccurrenceCount
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getOccurrenceStatusByPosition(startPosition, endPosition) {
+        try {
+            let __xpath = ".//wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'wj-cell') and not(contains(@class,'wj-frozen'))][position() >= " + startPosition + " and not(position() > " + endPosition + ")]/descendant::ul[@class='occurence1']/li";
+
+            return element.all(by.xpath(__xpath)).getAttribute('class').then((listItems) => {
+                let __returnValues = new Array;
+                for (let index = 0; index < listItems.length; index++) {
+                    switch (listItems[index].split(' ')[0].trim().toLowerCase()) {
+                        case 'wb_overdue':
+                            __returnValues[index] = 'Overdue';
+                            break;
+                        case 'wb_skipped':
+                            __returnValues[index] = 'Skipped';
+                            break;
+                        case 'wb_completed':
+                            __returnValues[index] = 'Completed';
+                            break;
+                        case 'wb_planned':
+                            __returnValues[index] = 'Planned';
+                            break;
+                        case 'wb_duenow':
+                            __returnValues[index] = 'Duenow';
+                            break;
+                        default:
+                            __returnValues[index] = '';
+                            break;
+                    }
+                }
+                return __returnValues;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    scrollToLeftWhiteboardGrid() {
+        try {
+            browser.executeScript("$('#whiteboard > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollLeft($('#whiteboard > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollLeft + 20)");
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    clickOnPatientByClientName(clientName) {
+        try {
+            let __xpath = ".//wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'wj-frozen')]/descendant::li[@class='client_name']/descendant::div/span[text()='" + clientName + "']";
+
+            element(by.xpath(__xpath)).getWebElement().click();
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
 }

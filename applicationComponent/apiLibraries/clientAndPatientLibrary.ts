@@ -8,7 +8,7 @@ export class ClientAndPatientLibrary {
 
     constructor() {
         FrameworkComponent.logHelper.info("*********** ClientAndPatientController ***********");
-        __timestamp = new Date().getDate().toString() + new Date().getMinutes().toString();
+        __timestamp = new Date().getDate().toString() + new Date().getMinutes().toString() + new Date().getSeconds().toString();
     }
 
     async createClient(specData: SpecFile) {

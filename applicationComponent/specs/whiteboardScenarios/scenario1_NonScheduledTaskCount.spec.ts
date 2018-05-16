@@ -47,7 +47,6 @@ describe('Test whiteboard scenarios  -->  ', () => {
 
         it('Verify the careplanner application launching by setting up the informations of client, pet and visit informations', async () => {
             try {
-                __testCase.TestName = 'Verify the careplanner application launching by setting up the informations of client, pet and visit informations';
 
                 //Data setup using API call
                 await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);
@@ -61,38 +60,36 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 let __pageTitle = await browser.getTitle().then((title) => { return title });
                 await expect(__pageTitle).toEqual('VCA Charge Capture');
 
+                expect(await Pages.cpSchedulerPage.IsAtSchedulerPage()).toBe(true);
+
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the client & pet informations displayed in the careplanner banner', async () => {
             try {
-                __testCase.TestName = "Verify the client & pet informations displayed in the careplanner banner";
 
-                // let _clientLastName = specFileData.Data.Client.LastName.length >= 12 ? specFileData.Data.Client.LastName.slice(0, 12) + '…' : specFileData.Data.Client.LastName;
-                // let _patientName = specFileData.Data.Client.Patient.Name.length >= 12 ? specFileData.Data.Client.Patient.Name.slice(0, 12) + '…' : specFileData.Data.Client.Patient.Name;
-                let _clientLastName = specFileData.Data.Client.LastName.slice(0, 12);
-                let _patientName = specFileData.Data.Client.Patient.Name.slice(0, 12);
-                let speciesName = specFileData.Data.Client.Patient.Species;
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __patientName = specFileData.Data.Client.Patient.Name.slice(0, 13);
+                let __speciesName = specFileData.Data.Client.Patient.Species;
 
                 //Verify the Client Last Name
-                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(_clientLastName);
+                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(__clientLastName);
 
                 //Veify the Patient Name 
-                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(_patientName);
+                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(__patientName);
 
                 //Veify the Species Name
-                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(speciesName);
+                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(__speciesName);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the product category and task list displayed in the careplanner scheduler page', async () => {
             try {
-                __testCase.TestName = "Verify the product category and task list displayed in the careplanner scheduler page";
 
                 let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
 
@@ -103,44 +100,41 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(__taskCategoryList.taskList.length);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Select the technician and location details', async () => {
             try {
-                __testCase.TestName = 'select the technician and location details';
                 let __technicianName = 'Me';
                 let __locationName = 'Cat- Double Occupancy';
 
-                Pages.cpClientAndPetDetailsPage.selectTechnicianFromDropDown(__technicianName);
+                await Pages.cpClientAndPetDetailsPage.selectTechnicianFromDropDown(__technicianName);
+                await browser.sleep(2000);
 
-                browser.sleep(3000);
-
-                Pages.cpClientAndPetDetailsPage.selectLocationFromDropDown(__locationName);
-
-                browser.sleep(2000);
-
-                let __technicianNameSelected = Pages.cpClientAndPetDetailsPage.selectedTechnicianName;
+                let __technicianNameSelected = await Pages.cpClientAndPetDetailsPage.selectedTechnicianName;
                 FrameworkComponent.logHelper.info(__technicianNameSelected);
                 expect(__technicianNameSelected).toBe(__technicianName);
 
-                let __locationNameSelected = Pages.cpClientAndPetDetailsPage.selectedLocationName;
+
+                await Pages.cpClientAndPetDetailsPage.selectLocationFromDropDown(__locationName);
+                await browser.sleep(1000);
+
+                let __locationNameSelected = await Pages.cpClientAndPetDetailsPage.selectedLocationName;
                 FrameworkComponent.logHelper.info(__locationNameSelected);
                 expect(__locationNameSelected).toBe(__locationName);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Navigate to the whiteboard section and verify the filter is in off state', () => {
             try {
-                __testCase.TestName = 'navigate to the whiteboard section';
 
                 Pages.cpClientAndPetDetailsPage.navigateToWhiteBoard();
 
-                browser.sleep(10000);
+                browser.sleep(5000);
 
                 expect(Pages.cpWhiteboardPage.IsAtWhiteboardPage()).toBe(true);
 
@@ -148,26 +142,26 @@ describe('Test whiteboard scenarios  -->  ', () => {
 
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
-        it('Clear the filter properties', () => {
+        it('Verfiy the filter properties cleared', async () => {
             try {
-                __testCase.TestName = 'clear the filter properties';
 
-                Pages.cpWhiteboardPage.clearFilterOptionsSelected();
+                await Pages.cpWhiteboardPage.clearFilterOptionsSelected();
 
-                expect(Pages.cpWhiteboardPage.getFilterStatus).toBe('OFF');
+                browser.sleep(2000);
+
+                await expect(Pages.cpWhiteboardPage.getFilterStatus).toBe('OFF');
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         })
 
         it('Verify the filter popup get displayed on clicking filter button', () => {
             try {
-                __testCase.TestName = 'verify the filter popup get displayed on clicking filter button';
 
                 Pages.cpWhiteboardPage.clickOnFilterButton();
 
@@ -176,13 +170,12 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 expect(Pages.cpWhiteboardPage.IsFilterPopupDisplayed()).toBe(true);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         })
 
         it('Select the location in filter options', () => {
             try {
-                __testCase.TestName = 'select the filter options';
 
                 Pages.cpWhiteboardPage.clickOnFilterByName('location');
 
@@ -199,13 +192,12 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 Pages.cpWhiteboardPage.clickOnBackButton();
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Select the technician in filter options', () => {
             try {
-                __testCase.TestName = 'select the filter options';
 
                 Pages.cpWhiteboardPage.clickOnFilterByName('technician');
 
@@ -222,55 +214,51 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 Pages.cpWhiteboardPage.clickOnBackButton();
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Apply the filter options selected and verify the filter applied', () => {
             try {
 
-                __testCase.TestName = 'Apply the filter options selected and verify the filter applied';
-
                 Pages.cpWhiteboardPage.applyFilterOptionSelected();
 
-                browser.sleep(10000);
+                browser.sleep(2000);
 
                 expect(Pages.cpWhiteboardPage.getFilterStatus).toBe('ON');
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         })
 
-        it('Verify the patient information displayed in the filtered list of whiteboard', () => {
+        it('Verify the patient information displayed in the filtered list of whiteboard', async () => {
             try {
-                __testCase.TestName = 'verify the patient information filtered in whiteboard';
-                let __patientName = specFileData.Data.Client.Patient.Name.slice(0, 14);
-                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 14);
-                let __isNameFiltered = Pages.cpWhiteboardPage.IsPatientInformationFilteredByName(__patientName + ' ' + __clientLastName);
+
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+
+                let __isNameFiltered = await Pages.cpWhiteboardPage.IsPatientInformationFilteredByName(__clientLastName);
                 expect(__isNameFiltered).toBe(true);
 
-                // let __overdueTaskCount = Pages.cpWhiteboardPage.getOverdueCountByclienttName(__clientLastName);
-                // expect(__overdueTaskCount).toBe('4');
-
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
-        it('Verify the number of non scheduled  task series count displayed is matching for the patient information in whiteboard', () => {
+        it('Verify the number of non scheduled  task series count displayed is matching for the patient information in whiteboard', async () => {
             try {
-                __testCase.TestName = 'verify the patient information filtered in whiteboard';
-                let __expectedNonScheduledTaskCount = 0;
 
-                specFileData.Data.Client.Patient.Visit.Category.forEach(category => {
-                    __expectedNonScheduledTaskCount = __expectedNonScheduledTaskCount + category.TaskSeriesList.length;
-                });
+                Pages.cpWhiteboardPage.scrollToLeftWhiteboardGrid();
 
-                //We have to call the api edmund gave for the Whiteboard to get the non scheduled count
+                let __patientId = specFileData.Data.Client.Patient.Id;
+                let __taskOccurrenceStatusCount = await APILibraryController.careplannerLibrary.getTaskOccurrenceStatusCountByPatientId(__patientId);
+                let __expectedNonScheduledTaskCount = __taskOccurrenceStatusCount.TaskNotScheduledCount;
 
-                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 14);
+                // specFileData.Data.Client.Patient.Visit.Category.forEach(category => {
+                //     __expectedNonScheduledTaskCount = __expectedNonScheduledTaskCount + category.TaskSeriesList.length;
+                // });
 
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
                 let __actualNonScheduledTaskCount = Pages.cpWhiteboardPage.getNotScheduledCountByClientName(__clientLastName);
 
                 FrameworkComponent.logHelper.info("Expected Non Scheduled Task Series Count : " + __expectedNonScheduledTaskCount);
@@ -279,7 +267,84 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 expect(__actualNonScheduledTaskCount).toBe(__expectedNonScheduledTaskCount);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                FrameworkComponent.logHelper.error(error);
+            }
+        });
+
+        it('Verfiy the task occurrence count scheduled in whiteboard screen', async () => {
+            try {
+
+                await Pages.cpWhiteboardPage.scrollToLeftWhiteboardGrid();
+
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
+
+                let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
+                let __clientNameindex = Pages.cpWhiteboardPage.getPatientNameIndexByClientName(__clientLastName);
+                let __position = await Pages.cpWhiteboardPage.getPositionByClientName(__clientLastName);
+                let __numberOfOccurrence = await Pages.cpWhiteboardPage.getNumberOfTaskOccurrenceListedByPosition(__position.StartPosition, __position.EndPosition);
+
+                FrameworkComponent.logHelper.info("Expected number of occurrence found : " + __expectedResult.expectedOccurrenceCount);
+                FrameworkComponent.logHelper.info("Actual number of occurrence found : " + __numberOfOccurrence);
+                expect(__numberOfOccurrence).toBe(__expectedResult.expectedOccurrenceCount);
+
+            } catch (error) {
+                FrameworkComponent.logHelper.error(error);
+            }
+        });
+
+        it('Verify the task occurrence status of the scheduled occurrence in whiteboard page', async () => {
+            try {
+
+                Pages.cpWhiteboardPage.scrollToLeftWhiteboardGrid();
+
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
+
+                let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
+                let __position = await Pages.cpWhiteboardPage.getPositionByClientName(__clientLastName);
+                let __actualOccurrenceStatus = await Pages.cpWhiteboardPage.getOccurrenceStatusByPosition(__position.StartPosition, __position.EndPosition);
+
+                FrameworkComponent.logHelper.info("Expected list of status : " + __expectedResult.expectedOccurrenceStatus);
+                FrameworkComponent.logHelper.info("Actual status displayed as : " + __actualOccurrenceStatus);
+                expect(__actualOccurrenceStatus).toEqual(__expectedResult.expectedOccurrenceStatus);
+
+            } catch (error) {
+                FrameworkComponent.logHelper.error(error);
+            }
+        });
+
+        it('Navigate to scheduler page by click on the patient info filtered', () => {
+            try {
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+
+                Pages.cpWhiteboardPage.clickOnPatientByClientName(__clientLastName);
+
+                browser.sleep(2000);
+
+                expect(Pages.cpSchedulerPage.IsAtSchedulerPage()).toBe(true);
+
+            } catch (error) {
+                FrameworkComponent.logHelper.error(error);
+            }
+        });
+
+        it('Verify the user can able to reset the location', async () => {
+            try {
+                let __locationName = 'No Location';
+
+                await Pages.cpClientAndPetDetailsPage.selectLocationFromDropDown(__locationName);
+
+                browser.sleep(1000);
+
+                let __locationNameSelected = await Pages.cpClientAndPetDetailsPage.selectedLocationName;
+                FrameworkComponent.logHelper.info(__locationNameSelected);
+                expect(__locationNameSelected).toBe(__locationName);
+
+            } catch (error) {
+                FrameworkComponent.logHelper.error(error);
             }
         });
 

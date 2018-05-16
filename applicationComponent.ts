@@ -27,6 +27,7 @@ export * from './applicationComponent/apiLibraries/clientAndPatientLibrary'
 export * from './applicationComponent/apiLibraries/appointmentLibrary'
 export * from './applicationComponent/apiLibraries/orderLibrary'
 export * from './applicationComponent/apiLibraries/visitLibrary'
+export * from './applicationComponent/apiLibraries/checkedInPatientLibrary';
 // /**
 //  * API Service classes under the Application Component  --> API Libraries
 //  */

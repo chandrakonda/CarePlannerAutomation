@@ -4,6 +4,7 @@ import { Pages } from './pages';
 
 export class CareplannerSchedulerPage {
 
+    eleSchedulerGrid = element(by.xpath(".//div[@id='schedulergrid']/wj-flex-grid"));
     eleWJGrid = element(by.xpath(".//wj-flex-grid[@id='wijgridObject']"));
     elePrdTaskList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']"));
     elePrdTaskListText = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[@class='task-table']/descendant::div[@class='itemname']/text()[not(descendant::span)]"));
@@ -13,6 +14,17 @@ export class CareplannerSchedulerPage {
     eleCategoryList = element.all(by.xpath(".//wj-flex-grid[@id='wijgridObject']/descendant::div[contains(@class,'wj-frozen-col')]/descendant::div[contains(@class,'groupheader_txt')]"));
 
     eleNumberOfHoursDisplayed = element.all(by.xpath("//*[@id='wijgridObject']/descendant::div[contains(@class,'wj-colheaders')]/div[not(contains(@class, 'wj-cell wj-header wj-frozen-col wj-wrap')) and not(contains(@class, 'wj-cell wj-header wj-wrap'))]"));
+
+    IsAtSchedulerPage() {
+        try {
+            return this.eleSchedulerGrid.isDisplayed().then((displayed) => {
+                return displayed;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
 
     get categoryCount() {
         try {
@@ -377,6 +389,15 @@ export class CareplannerSchedulerPage {
             })
             FrameworkComponent.logHelper.info(__aggregatedDataList);
             return __aggregatedDataList;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    scrollToLeftSchedulerGrid() {
+        try {
+            browser.executeScript("$('#schedulergrid > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollLeft($('#schedulergrid > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollLeft + 20)");
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

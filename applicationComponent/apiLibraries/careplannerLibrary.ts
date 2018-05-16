@@ -1,9 +1,8 @@
+import { browser } from 'protractor';
+import { AppointmentLibrary, AuthorizationLibrary, CheckedInPatientLibrary, ClientAndPatientLibrary, OrderLibrary, SpecFile, TestBase, VisitLibrary } from '../../applicationComponent';
 import { FrameworkComponent } from '../../frameworkComponent';
-import { GlobalValues, SpecFile, AuthorizationLibrary, ClientAndPatientLibrary, AppointmentLibrary, OrderLibrary, VisitLibrary, TestBase } from '../../applicationComponent';
-import { browser, ProtractorBy } from 'protractor';
-import { protractor } from 'protractor/built/ptor';
 
-let __authLib: AuthorizationLibrary, __clientAndPatientLib: ClientAndPatientLibrary, __appointmentLib: AppointmentLibrary, __orderLib: OrderLibrary, __visitLib: VisitLibrary;
+let __authLib: AuthorizationLibrary, __clientAndPatientLib: ClientAndPatientLibrary, __appointmentLib: AppointmentLibrary, __orderLib: OrderLibrary, __visitLib: VisitLibrary, __checkedInPatients:CheckedInPatientLibrary;
 
 export class CarePlannerLibrary {
 
@@ -128,4 +127,8 @@ export class CarePlannerLibrary {
         }
     }
 
+    async getTaskOccurrenceStatusCountByPatientId(patientId) {
+        __checkedInPatients = new CheckedInPatientLibrary();
+        return __checkedInPatients.getTaskOccurrenceStatusCountByPatientId(patientId);                
+    }
 }

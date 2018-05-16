@@ -36,9 +36,8 @@ export const config: Config = {
 
     specs: [
 
-        "../applicationComponent/specs/whiteboardScenarios/scenario1_NonScheduledTaskCount.spec.js",
+        // "../applicationComponent/specs/whiteboardScenarios/scenario1_NonScheduledTaskCount.spec.js",
         "../applicationComponent/specs/whiteboardScenarios/scenario2_OverdueCount.spec.js",
-
 
         // "../applicationComponent/specs/sampleTestScenarios/scenario1.spec.js",
         // "../applicationComponent/specs/sampleTestScenarios/scenario2.spec.js",
