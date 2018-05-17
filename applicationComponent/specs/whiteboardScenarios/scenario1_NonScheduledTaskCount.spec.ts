@@ -254,62 +254,13 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 let __taskOccurrenceStatusCount = await APILibraryController.careplannerLibrary.getTaskOccurrenceStatusCountByPatientId(__patientId);
                 let __expectedNonScheduledTaskCount = __taskOccurrenceStatusCount.TaskNotScheduledCount;
 
-                // specFileData.Data.Client.Patient.Visit.Category.forEach(category => {
-                //     __expectedNonScheduledTaskCount = __expectedNonScheduledTaskCount + category.TaskSeriesList.length;
-                // });
-
                 let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
-                let __actualNonScheduledTaskCount = Pages.cpWhiteboardPage.getNotScheduledCountByClientName(__clientLastName);
+                let __actualNonScheduledTaskCount = await Pages.cpWhiteboardPage.getNotScheduledCountByClientName(__clientLastName);
 
                 FrameworkComponent.logHelper.info("Expected Non Scheduled Task Series Count : " + __expectedNonScheduledTaskCount);
                 FrameworkComponent.logHelper.info("Actual Non Scheduled Task Series Count displayed as : " + __actualNonScheduledTaskCount);
 
                 expect(__actualNonScheduledTaskCount).toBe(__expectedNonScheduledTaskCount);
-
-            } catch (error) {
-                FrameworkComponent.logHelper.error(error);
-            }
-        });
-
-        it('Verfiy the task occurrence count scheduled in whiteboard screen', async () => {
-            try {
-
-                await Pages.cpWhiteboardPage.scrollToLeftWhiteboardGrid();
-
-                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
-                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
-
-                let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
-                let __clientNameindex = Pages.cpWhiteboardPage.getPatientNameIndexByClientName(__clientLastName);
-                let __position = await Pages.cpWhiteboardPage.getPositionByClientName(__clientLastName);
-                let __numberOfOccurrence = await Pages.cpWhiteboardPage.getNumberOfTaskOccurrenceListedByPosition(__position.StartPosition, __position.EndPosition);
-
-                FrameworkComponent.logHelper.info("Expected number of occurrence found : " + __expectedResult.expectedOccurrenceCount);
-                FrameworkComponent.logHelper.info("Actual number of occurrence found : " + __numberOfOccurrence);
-                expect(__numberOfOccurrence).toBe(__expectedResult.expectedOccurrenceCount);
-
-            } catch (error) {
-                FrameworkComponent.logHelper.error(error);
-            }
-        });
-
-        it('Verify the task occurrence status of the scheduled occurrence in whiteboard page', async () => {
-            try {
-
-                Pages.cpWhiteboardPage.scrollToLeftWhiteboardGrid();
-
-                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
-                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
-                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
-
-                let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
-                let __position = await Pages.cpWhiteboardPage.getPositionByClientName(__clientLastName);
-                let __actualOccurrenceStatus = await Pages.cpWhiteboardPage.getOccurrenceStatusByPosition(__position.StartPosition, __position.EndPosition);
-
-                FrameworkComponent.logHelper.info("Expected list of status : " + __expectedResult.expectedOccurrenceStatus);
-                FrameworkComponent.logHelper.info("Actual status displayed as : " + __actualOccurrenceStatus);
-                expect(__actualOccurrenceStatus).toEqual(__expectedResult.expectedOccurrenceStatus);
 
             } catch (error) {
                 FrameworkComponent.logHelper.error(error);

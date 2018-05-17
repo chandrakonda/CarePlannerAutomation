@@ -47,7 +47,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the careplanner application launching by setting up the informations of client, pet and visit informations', async () => {
             try {
-                __testCase.TestName = 'Verify the careplanner application launching by setting up the informations of client, pet and visit informations';
 
                 //Data setup using API call
                 //API call to create a data setup for client, patient & order the product to an appointment
@@ -64,37 +63,33 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                 await expect(__pageTitle).toEqual('VCA Charge Capture');
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the client & pet informations displayed in the careplanner banner', async () => {
             try {
-                __testCase.TestName = "Verify the client & pet informations displayed in the careplanner banner";
-
-                // let _clientLastName = specFileData.Data.Client.LastName.length >= 12 ? specFileData.Data.Client.LastName.slice(0, 12) + '…' : specFileData.Data.Client.LastName;
-                // let _patientName = specFileData.Data.Client.Patient.Name.length >= 12 ? specFileData.Data.Client.Patient.Name.slice(0, 12) + '…' : specFileData.Data.Client.Patient.Name;
-                let _clientLastName = specFileData.Data.Client.LastName.slice(0, 12);
-                let _patientName = specFileData.Data.Client.Patient.Name.slice(0, 12);
-                let speciesName = specFileData.Data.Client.Patient.Species;
+                
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __patientName = specFileData.Data.Client.Patient.Name.slice(0, 13);
+                let __speciesName = specFileData.Data.Client.Patient.Species;
 
                 //Verify the Client Last Name
-                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(_clientLastName);
+                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(__clientLastName);
 
                 //Veify the Patient Name 
-                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(_patientName);
+                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(__patientName);
 
                 //Veify the Species Name
-                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(speciesName);
+                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(__speciesName);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the product category and task list displayed in the careplanner scheduler page', async () => {
             try {
-                __testCase.TestName = "Verify the product category and task list displayed in the careplanner scheduler page";
 
                 let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
 
@@ -107,27 +102,27 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                 //Get the actual & full name of the task series from aggreagted data
                 specFileData.UserData.TaskSeries.taskSeriesName = __taskCategoryList.taskList.filter(task => task.TaskName.substring(0, specFileData.UserData.TaskSeries.taskSeriesName.length) === specFileData.UserData.TaskSeries.taskSeriesName)[0].TaskName;
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Schedule number of task occurrences for a each task series specified from the user data', async () => {
             try {
-                __testCase.TestName = 'Schedule number of task occurrences for a each task series specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+
+                await Pages.cpSchedulerPage.scrollToLeftSchedulerGrid();
 
                 //Schedule a task from the user input data
                 await Pages.cpSchedulerPage.ScheduleTaskWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskScheduleInfo);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the expected number of task occurrences scheduled for each task series specified from the user data', async () => {
             try {
-                __testCase.TestName = 'Verify the expected number of task occurrences scheduled for each task series specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
                 let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
@@ -140,13 +135,12 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                 expect(__occurrenceCount).toEqual(__expectedResult.expectedOccurrenceCount);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the expected task occurrence status for each task occurrences specified from the user data', async () => {
             try {
-                __testCase.TestName = 'Verify the expected task occurrence status for each task occurrences specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
                 let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
@@ -159,14 +153,12 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                 expect(__occurrencesStatus).toEqual(__expectedResult.expectedOccurrenceStatus);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Update the task occurrence action details for each task occurrences specified from the user data', () => {
             try {
-
-                __testCase.TestName = 'Update the task occurrence action details for each task occurrences specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
@@ -176,13 +168,12 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                     browser.sleep(2000);
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the expected task occurrence status for each task occurrences updated', async () => {
             try {
-                __testCase.TestName = 'Verify the specified count and status of the task occurrences with the updated task series';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
@@ -202,10 +193,8 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                 // });
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
-
     });
-
 });

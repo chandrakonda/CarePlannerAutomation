@@ -304,9 +304,16 @@ export class CareplannerWhiteboardPage {
     getOverdueCountByclienttName(clientName) {
         try {
             let __xpath = ".//*[@id='whiteboard']/wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'patient_item')]/descendant::li[@class='client_name']/span[contains(@class,'ui circular red')]/div[parent::span[preceding-sibling::div/span[text()='" + clientName + "']]]";
-            return element(by.xpath(__xpath)).getText().then((overdueTaskCount) => {
-                if (overdueTaskCount.length === 1) {
-                    return +overdueTaskCount;
+
+            return element(by.xpath(__xpath)).isPresent().then((displayStatus) => {
+                if (displayStatus) {
+                    return element(by.xpath(__xpath)).getText().then((overdueTaskCount) => {
+                        if (overdueTaskCount.length === 1) {
+                            return +overdueTaskCount;
+                        }
+                    });
+                } else {
+                    return 0;
                 }
             });
         } catch (error) {
@@ -319,8 +326,14 @@ export class CareplannerWhiteboardPage {
         try {
             let __xpath = ".//*[@id='whiteboard']/wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'patient_item')][descendant::li[@class='client_name']/descendant::span[text()='" + clientName + "']]/descendant::div[@id='whiteboard']/descendant::div[@class='count']";
 
-            return element(by.xpath(__xpath)).getText().then((notScheduledCount) => {
-                return +notScheduledCount;
+            return element(by.xpath(__xpath)).isPresent().then((displayStatus) => {
+                if (displayStatus) {
+                    return element(by.xpath(__xpath)).getText().then((notScheduledCount) => {
+                        return +notScheduledCount;
+                    });
+                } else {
+                    return 0;
+                }
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -370,7 +383,7 @@ export class CareplannerWhiteboardPage {
 
     getNumberOfTaskOccurrenceListedByPosition(startPosition, endPosition) {
         try {
-            let __xpath = ".//wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'wj-cell') and not(contains(@class,'wj-frozen'))][position() >= " + startPosition + " and not(position() > " + endPosition + ")]/descendant::ul[@class='occurence1']";
+            let __xpath = ".//wj-flex-grid/descendant::div[@wj-part='cells']/descendant::div[contains(@class,'wj-cell') and not(contains(@class,'wj-frozen'))][position() >= " + startPosition + " and not(position() > " + endPosition + ")]/descendant::ul[contains(@class,'occurence')]";
 
             return element.all(by.xpath(__xpath)).count().then((taskOccurrenceCount) => {
                 return taskOccurrenceCount
@@ -434,6 +447,25 @@ export class CareplannerWhiteboardPage {
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
+        }
+    }
+
+    formatTaskOccurrenceStatus(stausList) {
+        try {
+            let __returnStatusList = new Array;
+            stausList.forEach(statusName => {
+                switch (statusName.toLowerCase()) {
+                    case 'complete':
+                        __returnStatusList.push("Completed")
+                        break;                
+                    default:
+                        __returnStatusList.push(statusName);
+                        break;
+                }
+            });
+            return __returnStatusList;      
+        } catch (error) {
+            
         }
     }
 

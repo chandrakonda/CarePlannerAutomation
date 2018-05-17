@@ -3,7 +3,6 @@ import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase } from 
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 import { FrameworkComponent } from '../../../frameworkComponent';
 
-
 describe('Test whiteboard scenarios  -->  ', () => {
 
     describe('Verify the number of overdue task count displayed in the whiteboard for a filtered patient -->  ', () => {
@@ -16,7 +15,7 @@ describe('Test whiteboard scenarios  -->  ', () => {
             __dataReader = new DataReader();
             __data = new Data();
             specFileData.Data = __data;
-            specFileData.UserData = __dataReader.loadJsonData('userDataScenario2', 'whiteboard');
+            specFileData.UserData = __dataReader.loadJsonData('userDataScenario3', 'whiteboard');
             specFileData.TestCases = new Array<TestCase>();
         });
 
@@ -155,7 +154,22 @@ describe('Test whiteboard scenarios  -->  ', () => {
             }
         });
 
-      
+        it('Update the task occurrence action details for each task occurrences specified from the user data', () => {
+            try {
+
+                __testCase.TestName = 'Update the task occurrence action details for each task occurrences specified from the user data';
+
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+
+                __taskSeriesInfo.taskOccurrenceInfo.forEach(taskOccurrenceInfo => {
+                    //Edit & Update the status of the task occurrence
+                    Pages.cpSchedulerPage.updateOccurrenceDetailsWithObservations(__taskSeriesInfo.taskSeriesName, taskOccurrenceInfo);
+                    browser.sleep(2000);
+                });
+            } catch (error) {
+                __testCase.ExceptionDetails = error;
+            }
+        });
 
         it('Select the technician and location details', async () => {
             try {
@@ -313,6 +327,62 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 FrameworkComponent.logHelper.info("Expected Number of Over Due Task Count : " + __expectedOverDueCount);
                 FrameworkComponent.logHelper.info("Actual Number of Over Due Task Count displayed as : " + __actualOverDueCount);
                 expect(__actualOverDueCount).toBe(__expectedOverDueCount);
+
+            } catch (error) {
+                FrameworkComponent.logHelper.error(error);
+            }
+        });
+
+        it('Verfiy the task occurrence count scheduled in whiteboard screen', async () => {
+            try {
+
+                await Pages.cpWhiteboardPage.scrollToLeftWhiteboardGrid();
+
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
+
+                let __expectedResult = await Pages.cpSchedulerPage.calculateExpectedOccurrenceCountAndStatus(__taskScheduleInfo);
+                let __clientNameindex = Pages.cpWhiteboardPage.getPatientNameIndexByClientName(__clientLastName);
+                let __position = await Pages.cpWhiteboardPage.getPositionByClientName(__clientLastName);
+                let __numberOfOccurrence = await Pages.cpWhiteboardPage.getNumberOfTaskOccurrenceListedByPosition(__position.StartPosition, __position.EndPosition);
+
+                FrameworkComponent.logHelper.info("Expected number of occurrence found : " + __expectedResult.expectedOccurrenceCount);
+                FrameworkComponent.logHelper.info("Actual number of occurrence found : " + __numberOfOccurrence);
+                await expect(__numberOfOccurrence).toBe(__expectedResult.expectedOccurrenceCount);
+
+            } catch (error) {
+                FrameworkComponent.logHelper.error(error);
+            }
+        });
+
+        it('Verify the task occurrence status of the scheduled occurrence in whiteboard page', async () => {
+            try {
+
+                Pages.cpWhiteboardPage.scrollToLeftWhiteboardGrid();
+
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+                let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
+
+                await Pages.cpWhiteboardPage.clickOnPatientByClientName(__clientLastName);
+                await browser.sleep(2000);
+                await expect(Pages.cpSchedulerPage.IsAtSchedulerPage()).toBe(true);
+
+                let __occurrencesStatus = await Pages.cpSchedulerPage.getStatusOfTheTaskOccurrenceByTaskName(__taskSeriesInfo.taskSeriesName);
+                let __expectedOccurrencesStatus = await Pages.cpWhiteboardPage.formatTaskOccurrenceStatus(__occurrencesStatus);
+
+                await Pages.cpClientAndPetDetailsPage.navigateToWhiteBoard();
+                await browser.sleep(2000);
+                await expect(Pages.cpWhiteboardPage.IsAtWhiteboardPage()).toBe(true);
+
+                
+                let __position = await Pages.cpWhiteboardPage.getPositionByClientName(__clientLastName);
+                let __actualOccurrenceStatus = await Pages.cpWhiteboardPage.getOccurrenceStatusByPosition(__position.StartPosition, __position.EndPosition);
+
+                await FrameworkComponent.logHelper.info("Expected list of status : " + __expectedOccurrencesStatus);
+                await FrameworkComponent.logHelper.info("Actual status displayed as : " + __actualOccurrenceStatus);
+                await expect(__actualOccurrenceStatus).toEqual(__expectedOccurrencesStatus);
 
             } catch (error) {
                 FrameworkComponent.logHelper.error(error);

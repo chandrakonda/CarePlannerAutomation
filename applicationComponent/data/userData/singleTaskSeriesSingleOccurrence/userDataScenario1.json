@@ -25,7 +25,7 @@
             "occurrenceNotes": "Test notes for complete task occurrence",
             "expectedOccurrenceStatus": "Complete",
             "observationList": [],
-            "observationValues": []
+            "observationValues": []            
         }
     }
 }

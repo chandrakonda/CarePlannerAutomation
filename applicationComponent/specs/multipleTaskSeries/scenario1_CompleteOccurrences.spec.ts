@@ -47,9 +47,6 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
 
         it('Verify the careplanner application launching by setting up the informations of client, pet and visit informations', async () => {
             try {
-                __testCase.TestName = 'Verify the careplanner application launching by setting up the informations of client, pet and visit informations';
-
-                // FrameworkComponent.logHelper.info(jasmine.getEnv().currentSpec.description);
 
                 //Data setup using API call
                 await APILibraryController.careplannerLibrary.apiTestDataSetUpWithDefaultData(specFileData);
@@ -64,37 +61,33 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                 await expect(__pageTitle).toEqual('VCA Charge Capture');
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the client & pet informations displayed in the careplanner banner', async () => {
             try {
-                __testCase.TestName = "Verify the client & pet informations displayed in the careplanner banner";
 
-                // let _clientLastName = specFileData.Data.Client.LastName.length >= 12 ? specFileData.Data.Client.LastName.slice(0, 12) + '…' : specFileData.Data.Client.LastName;
-                // let _patientName = specFileData.Data.Client.Patient.Name.length >= 12 ? specFileData.Data.Client.Patient.Name.slice(0, 12) + '…' : specFileData.Data.Client.Patient.Name;
-                let _clientLastName = specFileData.Data.Client.LastName.slice(0, 12);
-                let _patientName = specFileData.Data.Client.Patient.Name.slice(0, 12);
-                let speciesName = specFileData.Data.Client.Patient.Species;
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __patientName = specFileData.Data.Client.Patient.Name.slice(0, 13);
+                let __speciesName = specFileData.Data.Client.Patient.Species;
 
                 //Verify the Client Last Name
-                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(_clientLastName);
+                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(__clientLastName);
 
                 //Veify the Patient Name 
-                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(_patientName);
+                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(__patientName);
 
                 //Veify the Species Name
-                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(speciesName);
+                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(__speciesName);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the product category and task list displayed in the careplanner scheduler page', async () => {
             try {
-                __testCase.TestName = "Verify the product category and task list displayed in the careplanner scheduler page";
 
                 let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
 
@@ -105,13 +98,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                 await expect(Pages.cpSchedulerPage.productTaskListCount).toEqual(__taskCategoryList.taskList.length);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Schedule number of task occurrences for a each task series specified from the user data', () => {
             try {
-                __testCase.TestName = 'Schedule number of task occurrences for a each task series specified from the user data';
 
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
@@ -123,13 +115,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                     });
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the expected number of task occurrences scheduled for each task series specified from the user data', () => {
             try {
-                __testCase.TestName = 'Verify the expected number of task occurrences scheduled for each task series specified from the user data';
 
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
@@ -147,13 +138,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                     });
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the expected task occurrence status for each task occurrences specified from the user data', () => {
             try {
-                __testCase.TestName = 'Verify the expected task occurrence status for each task occurrences specified from the user data';
 
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
@@ -170,15 +160,17 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                     });
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Update the task occurrence action details for each task occurrences specified from the user data', () => {
             try {
 
-                __testCase.TestName = 'Update the task occurrence action details for each task occurrences specified from the user data';
+                Pages.cpSchedulerPage.scrollToLeftSchedulerGrid();
 
+                browser.sleep(3000);
+                
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
                     taskSeriesInfo.taskOccurrenceInfo.forEach(taskOccurrenceInfo => {
@@ -189,13 +181,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                     });
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the expected task occurrence status for each task occurrences updated', () => {
             try {
-                __testCase.TestName = 'Verify the expected task occurrence status for each task occurrences updated';
 
                 specFileData.UserData.TaskSeries.forEach(taskSeriesInfo => {
 
@@ -210,39 +201,36 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
 
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Navigate to treatment log page and verify the page information displayed in treatment log page', () => {
             try {
-                __testCase.TestName = 'Navigate to treatment log page and verify the page information displayed in treatment log page';
 
                 Pages.cpClientAndPetDetailsPage.clickOnTreatmentLogButton();
                 let __treatmentLogPageDisplayedStatus = Pages.cpTreatmentLogPage.isTreatmentLogPageLoaded();
                 expect(__treatmentLogPageDisplayedStatus).toBe(true);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the treatment log table information (headers & column count)', async () => {
             try {
-                __testCase.TestName = 'Verify the treatment log table information (headers & column count)';
 
                 let __treatmentLogColumnHeaders = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeaders();
                 let __treatmentLogColumnHeadersCount = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeadersCount();
                 expect(__treatmentLogColumnHeadersCount).toBe(6);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the scheduled time & completed time of each task occurrences updated in treatment log page', async () => {
             try {
-                __testCase.TestName = 'Verify the scheduled time & completed time of each task occurrences updated in treatment log page';
 
                 let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList().then(listValues => { return listValues.sort() });
                 let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
@@ -262,13 +250,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                     });
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the task occurrence status of each task occurrences updated in treatment log page', async () => {
             try {
-                __testCase.TestName = 'Verify the task occurrence status of each task occurrences updated in treatment log page';
 
                 let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList().then(listValues => { return listValues.sort() });
                 let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
@@ -287,13 +274,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                     });
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the task occurrence observation details of each task occurrences updated in the treatment log page', async () => {
             try {
-                __testCase.TestName = 'Verify the task occurrence observation details of each task occurrences updated in the treatment log page';
 
                 let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList().then(listValues => { return listValues.sort() });
                 let __scheduledTimeIndex = await Pages.cpTreatmentLogPage.getTreatmentLogColumnIndex('Scheduled');
@@ -317,13 +303,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                 });
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Navigate to trend view page and verify information displayed in trendview page', () => {
             try {
-                __testCase.TestName = 'Navigate to trend view page and verify information displayed in trendview page';
 
                 Pages.cpClientAndPetDetailsPage.clickOnTrendViewButton();
                 browser.sleep(3000);
@@ -332,13 +317,12 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                 expect(__trendViewPageDisplayedStatus).toBe(true);
 
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the observation list & values of each task occurrences in the trend view page', async () => {
             try {
-                __testCase.TestName = 'Verify the observation list & values of each task occurrences in the trend view page';
 
                 let __completedTaskOccurrenceList = await Pages.cpSchedulerPage.getCompletedTaskOccurrenceDetailsList(specFileData);
 
@@ -364,10 +348,8 @@ describe('Test multiple task occurrence in multiple task series  -->  ', () => {
                     });
                 });
             } catch (error) {
-                __testCase.ExceptionDetails = error;
+                  FrameworkComponent.logHelper.error(error);
             }
         });
-
     });
-
 });

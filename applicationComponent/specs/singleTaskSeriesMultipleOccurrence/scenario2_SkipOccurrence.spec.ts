@@ -47,7 +47,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the careplanner application launching by setting up the informations of client, pet and visit informations', async () => {
             try {
-                __testCase.TestName = 'Verify the careplanner application launching by setting up the informations of client, pet and visit informations';
 
                 //Data setup using API call
                 //API call to create a data setup for client, patient & order the product to an appointment
@@ -70,22 +69,19 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the client & pet informations displayed in the careplanner banner', async () => {
             try {
-                __testCase.TestName = "Verify the client & pet informations displayed in the careplanner banner";
 
-                // let _clientLastName = specFileData.Data.Client.LastName.length >= 12 ? specFileData.Data.Client.LastName.slice(0, 12) + '…' : specFileData.Data.Client.LastName;
-                // let _patientName = specFileData.Data.Client.Patient.Name.length >= 12 ? specFileData.Data.Client.Patient.Name.slice(0, 12) + '…' : specFileData.Data.Client.Patient.Name;
-                let _clientLastName = specFileData.Data.Client.LastName.slice(0, 12);
-                let _patientName = specFileData.Data.Client.Patient.Name.slice(0, 12);
-                let speciesName = specFileData.Data.Client.Patient.Species;
+                let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
+                let __patientName = specFileData.Data.Client.Patient.Name.slice(0, 13);
+                let __speciesName = specFileData.Data.Client.Patient.Species;
 
                 //Verify the Client Last Name
-                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(_clientLastName);
+                await expect(Pages.cpClientAndPetDetailsPage.clientName).toContain(__clientLastName);
 
                 //Veify the Patient Name 
-                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(_patientName);
+                await expect(Pages.cpClientAndPetDetailsPage.petName).toContain(__patientName);
 
                 //Veify the Species Name
-                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(speciesName);
+                await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(__speciesName);
 
             } catch (error) {
                 __testCase.ExceptionDetails = error;
@@ -94,7 +90,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the product category and task list displayed in the careplanner scheduler page', async () => {
             try {
-                __testCase.TestName = "Verify the product category and task list displayed in the careplanner scheduler page";
 
                 let __taskCategoryList = await APILibraryController.careplannerLibrary.getCategoryListFromAggregatedDataByOrderId(specFileData);
 
@@ -113,9 +108,10 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Schedule number of task occurrences for a each task series specified from the user data', async () => {
             try {
-                __testCase.TestName = 'Schedule number of task occurrences for a each task series specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
+
+                await Pages.cpSchedulerPage.scrollToLeftSchedulerGrid();
 
                 //Schedule a task from the user input data
                 await Pages.cpSchedulerPage.ScheduleTaskWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskScheduleInfo);
@@ -127,7 +123,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the expected number of task occurrences scheduled for each task series specified from the user data', async () => {
             try {
-                __testCase.TestName = 'Verify the expected number of task occurrences scheduled for each task series specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
                 let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
@@ -146,7 +141,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the expected task occurrence status for each task occurrences specified from the user data', async () => {
             try {
-                __testCase.TestName = 'Verify the expected task occurrence status for each task occurrences specified from the user data';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
                 let __taskScheduleInfo = __taskSeriesInfo.taskScheduleInfo;
@@ -166,8 +160,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
         it('Update the task occurrence action details for each task occurrences specified from the user data', () => {
             try {
 
-                __testCase.TestName = 'Update the task occurrence action details for each task occurrences specified from the user data';
-
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
                 __taskSeriesInfo.taskOccurrenceInfo.forEach(taskOccurrenceInfo => {
@@ -182,7 +174,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the expected task occurrence status for each task occurrences updated', () => {
             try {
-                __testCase.TestName = 'Verify the specified count and status of the task occurrences with the updated task series';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
@@ -201,7 +192,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Navigate to treatment log page and verify the page information displayed in treatment log page', () => {
             try {
-                __testCase.TestName = 'Navigate to treatment log page and verify the page information displayed in treatment log page';
 
                 Pages.cpClientAndPetDetailsPage.clickOnTreatmentLogButton();
                 browser.sleep(3000);
@@ -215,7 +205,7 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the treatment log table information (headers & column count)', async () => {
             try {
-                __testCase.TestName = 'Verify the treatment log table information (headers & column count)';
+
                 let __treatmentLogColumnHeaders = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeaders();
                 let __treatmentLogColumnHeadersCount = await Pages.cpTreatmentLogPage.getTreatmentLogColumnHeadersCount();
                 expect(__treatmentLogColumnHeadersCount).toBe(6);
@@ -227,7 +217,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the scheduled time & completed time of each task occurrences updated in treatment log page', async () => {
             try {
-                __testCase.TestName = 'Verify the scheduled time & completed time of each task occurrences updated in treatment log page';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
                 let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
@@ -252,7 +241,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the task occurrence status of each task occurrences updated in treatment log page', async () => {
             try {
-                __testCase.TestName = 'Verify the task occurrence status of each task occurrences updated in treatment log page';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
                 let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
@@ -276,7 +264,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the task occurrence observation details of each task occurrences updated in the treatment log page', async () => {
             try {
-                __testCase.TestName = 'Verify the task occurrence observation details of each task occurrences updated in the treatment log page';
 
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
                 let __treatmentLofInfo = await Pages.cpTreatmentLogPage.getTreatmentLogInformationAsList();
@@ -298,7 +285,7 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                         });
                     });
                 } else {
-                    expect(__taskSeriesInfo.taskOccurrenceInfo.observationList.length).toBe(0);
+                    expect(__taskSeriesInfo.taskScheduleInfo.observationList.length).toBe(0);
                 }
 
             } catch (error) {
@@ -308,7 +295,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Navigate to trend view page and verify information displayed in trendview page', () => {
             try {
-                __testCase.TestName = 'Navigate to trend view page and verify information displayed in trendview page';
 
                 Pages.cpClientAndPetDetailsPage.clickOnTrendViewButton();
                 browser.sleep(3000);
@@ -323,7 +309,6 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
 
         it('Verify the observation list & values of each task occurrences in the trend view page', async () => {
             try {
-                __testCase.TestName = 'Verify the observation list & values of each task occurrences in the trend view page';
 
                 let __completedTaskOccurrenceList = await Pages.cpSchedulerPage.getCompletedTaskOccurrenceDetailsList(specFileData);
 
@@ -352,13 +337,11 @@ describe('Test multiple task occurrence in single task series  -->  ', () => {
                         });
                     });
                 } else {
-                    expect(__taskSeriesInfo.taskOccurrenceInfo.observationList.length).toBe(0);
+                    expect(__taskSeriesInfo.taskScheduleInfo.observationList.length).toBe(0);
                 }
             } catch (error) {
                 __testCase.ExceptionDetails = error;
             }
         });
-
     });
-
 });

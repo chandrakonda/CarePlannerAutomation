@@ -15,7 +15,7 @@
         "taskSeriesName": "Acepromazine",
         "taskScheduleInfo": {
             "occurrenceFrequency": "once",
-            "scheduleStartTime": "09:00",
+            "scheduleStartTime": "03:00",
             "scheduleEndTimeCheckout": "false",
             "scheduleEndTime": "",
             "repeatEveryHour": "",
@@ -23,11 +23,11 @@
             "observationList": []
         },
         "taskOccurrenceInfo": {
-            "occurrenceHour": "09:00",
-            "occurrenceAction": "Planned",
-            "rescheduleHour": "11:00",
+            "occurrenceHour": "03:00",
+            "occurrenceAction": "Rescheduled",
+            "rescheduleHour": "09:00",
             "occurrenceNotes": "Test notes for complete task occurrence",
-            "expectedOccurrenceStatus": "Scheduled",
+            "expectedOccurrenceStatus": "Planned",
             "observationList": [],
             "observationValues": []
         }

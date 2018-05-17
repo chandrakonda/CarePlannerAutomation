@@ -178,8 +178,9 @@ export class CareplannerSchedulerPage {
         }
     }
 
-    getTaskOccurrenceStatusByHour(taskSeriesName, occurrenceHour) {
+    async getTaskOccurrenceStatusByHour(taskSeriesName, occurrenceHour) {
         try {
+
             return this.getPositionByTaskName(taskSeriesName).then((position) => {
                 let __occurrenceHour: number = parseInt(occurrenceHour, 10) + 1;
                 let __elementXpath = "//*[@id='wijgridObject']/descendant::div[not(contains(@class,'wj-cell wj-group')) and contains(@class,'wj-cell')][position() >" + position.startPosition.value_ + "and not(position() >" + position.endPosition.value_ + ")][" + __occurrenceHour + "]/descendant::li";
@@ -221,7 +222,6 @@ export class CareplannerSchedulerPage {
                     return statusList;
                 });
             });
-
             return __taskOccurrenceStatus;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
@@ -398,6 +398,15 @@ export class CareplannerSchedulerPage {
     scrollToLeftSchedulerGrid() {
         try {
             browser.executeScript("$('#schedulergrid > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollLeft($('#schedulergrid > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollLeft + 20)");
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    scrollToRightSchedulerGrid() {
+        try {
+            browser.executeScript("$('#schedulergrid > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollRight($('#schedulergrid > wj-flex-grid > div:nth-child(1) > div:nth-child(2)').scrollRight + 20)");
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

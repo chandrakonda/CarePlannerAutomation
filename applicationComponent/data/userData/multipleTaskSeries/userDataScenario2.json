@@ -15,8 +15,7 @@
                         "Resp rate",
                         "Heart rate",
                         "Pain",
-                        "CRT",
-                        "Hydration status"
+                        "CRT"
                     ]
                 }
             ],
@@ -31,16 +30,14 @@
                         "Resp rate",
                         "Heart rate",
                         "Pain",
-                        "CRT",
-                        "Hydration status"
+                        "CRT"
                     ],
                     "observationValues": [
                         "102.0",
                         "124",
                         "89",
                         "Increased",
-                        ">= 2",
-                        "5-6% dehydrated (minimal)"
+                        ">= 2"
                     ]
                 },
                 {
@@ -53,16 +50,14 @@
                         "Resp rate",
                         "Heart rate",
                         "Pain",
-                        "CRT",
-                        "Hydration status"
+                        "CRT"
                     ],
                     "observationValues": [
                         "100.0",
                         "120",
                         "64",
                         "Increased",
-                        ">= 2",
-                        "5-6% dehydrated (minimal)"
+                        ">= 2"
                     ]
                 }
             ]

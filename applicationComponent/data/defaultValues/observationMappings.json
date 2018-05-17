@@ -93,7 +93,7 @@
         {
             "Name": "Consistency",
             "FieldType": "select",
-            "Abbrevation": "Fecal consistency"
+            "Abbrevation": "Hydration"
         },
         {
             "Name": "",

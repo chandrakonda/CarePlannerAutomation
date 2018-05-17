@@ -288,12 +288,15 @@ export class CareplannerTaskOcurrencePopup {
                             .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
                         break;
                     case "planned":
+                        this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
+                            .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)                          
+                            .selectScheduledDate();
                     case "rescheduled":
                         this.enterTaskNotes(taskOccurrenceInfo.occurrenceNotes)
                             .selectStatusInToggleButton(taskOccurrenceInfo.occurrenceAction)
                             .enterScheduledTime(scheduleTime)
                             .selectScheduledDate();
-                        break;
+                        break;                   
                     default:
                         break;
                 }
