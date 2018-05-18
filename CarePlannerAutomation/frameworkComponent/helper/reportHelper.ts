@@ -22,10 +22,9 @@ export class ReportHelper {
             //jasmine.getEnv().clearReporters();
             jasmine.getEnv().addReporter(new SpecReporter({
                 customProcessors: [CustomProcessor],
-
             }));
         } catch (error) {
-
+            throw error;
         }
     }
 
@@ -47,8 +46,6 @@ export class ReportHelper {
             path: ReportHelper.FolderName, //__path.join(__dirname, __folderName),
             screenshotOnPassed: false,
             showBrowser: true,
-
-
         });
         jasmine.getEnv().addReporter(prettyReporter);
     }
@@ -61,7 +58,7 @@ export class ReportHelper {
                 console.error(err);
                 return;
             };
-            console.log("File has been created");
+            console.log("JSON Report File has been created");
         });
 
     }

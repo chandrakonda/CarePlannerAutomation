@@ -21,7 +21,7 @@ export class APIServiceHelper {
             else {
                 if (result instanceof Object) {
                     if (result.Data == null) {
-                        FrameworkComponent.logHelper.info("Instance of object result.data ==null");
+                        FrameworkComponent.logHelper.info("Instance of object result.data == null");
                         __result = Promise.resolve(result.StatusCode);
                     } else {
                         FrameworkComponent.logHelper.info("Instance of object result.data is not null");
@@ -38,8 +38,8 @@ export class APIServiceHelper {
                     }
                 }
             }
-        } catch (e) {
-            throw e;
+        } catch (error) {
+            throw error;
         }
         return __result;
     }
@@ -49,7 +49,7 @@ export class APIServiceHelper {
         let __response = await requestPromise(options).then((body) => {
             //FrameworkComponent.logHelper.info(body);
             return body;
-        }).catch(function (error) {
+        }).catch((error) => {
             throw error;
             //FrameworkComponent.logHelper.info(error);
         });
@@ -60,8 +60,8 @@ export class APIServiceHelper {
         //Get response in an object and return value
         try {
             return requestPromise(options);
-        } catch (e) {
-            throw e;
+        } catch (error) {
+            throw error;
         }
     }
 }

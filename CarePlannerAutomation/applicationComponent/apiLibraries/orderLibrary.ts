@@ -95,11 +95,16 @@ export class OrderLibrary {
                     FrameworkComponent.logHelper.info("Task Series Id :'" + __taskSeries.TaskSeriesId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId + "'");
                     FrameworkComponent.logHelper.info("Task Occurance Id :'" + __taskOccurrences.TaskOccurrenceId + "' for OrderId : '" + specData.Data.Client.Patient.Visit.VisitId + "'");
                 }
-                specData.Data.Client.Patient.Visit.Product.TaskSeries[0] = __taskSeries;
+                // specData.Data.Client.Patient.Visit.Product.TaskSeries[0] = __taskSeries;
+                // specData.Data.Client.Patient.Visit.Product.TaskSeries[0].TaskOccurrence.push(__taskOccurrences);
+                specData.Data.Client.Patient.Visit.Product.TaskSeries = new Array;
+                specData.Data.Client.Patient.Visit.Product.TaskSeries.push(__taskSeries);
+                specData.Data.Client.Patient.Visit.Product.TaskSeries[0].TaskOccurrence = new Array
                 specData.Data.Client.Patient.Visit.Product.TaskSeries[0].TaskOccurrence.push(__taskOccurrences);
             });
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 

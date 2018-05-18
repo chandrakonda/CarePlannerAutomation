@@ -111,6 +111,7 @@ export class ClientAndPatientLibrary {
             return __options;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 }

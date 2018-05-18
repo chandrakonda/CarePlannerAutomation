@@ -2,7 +2,7 @@ import { browser } from 'protractor';
 import { AppointmentLibrary, AuthorizationLibrary, CheckedInPatientLibrary, ClientAndPatientLibrary, OrderLibrary, SpecFile, TestBase, VisitLibrary } from '../../applicationComponent';
 import { FrameworkComponent } from '../../frameworkComponent';
 
-let __authLib: AuthorizationLibrary, __clientAndPatientLib: ClientAndPatientLibrary, __appointmentLib: AppointmentLibrary, __orderLib: OrderLibrary, __visitLib: VisitLibrary, __checkedInPatients:CheckedInPatientLibrary;
+let __authLib: AuthorizationLibrary, __clientAndPatientLib: ClientAndPatientLibrary, __appointmentLib: AppointmentLibrary, __orderLib: OrderLibrary, __visitLib: VisitLibrary, __checkedInPatients: CheckedInPatientLibrary;
 
 export class CarePlannerLibrary {
 
@@ -128,7 +128,12 @@ export class CarePlannerLibrary {
     }
 
     async getTaskOccurrenceStatusCountByPatientId(patientId) {
-        __checkedInPatients = new CheckedInPatientLibrary();
-        return __checkedInPatients.getTaskOccurrenceStatusCountByPatientId(patientId);                
+        try {
+            __checkedInPatients = new CheckedInPatientLibrary();
+            return __checkedInPatients.getTaskOccurrenceStatusCountByPatientId(patientId);
+        } catch (error) {
+            FrameworkComponent.logHelper.info(error);
+            throw error;
+        }
     }
 }
