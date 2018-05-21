@@ -36,21 +36,23 @@ export const config: Config = {
 
     specs: [
 
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js",
+        "../applicationComponent/specs/databaseScenarios/databaseScenarios.spec.js",
 
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario2_SkipOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
-        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js",
 
-        "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
-        "../applicationComponent/specs/multipleTaskSeries/scenario2_SkipOccurrences.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario2_SkipOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
+        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",
 
-        "../applicationComponent/specs/whiteboardScenarios/scenario1_NonScheduledTaskCount.spec.js",
-        "../applicationComponent/specs/whiteboardScenarios/scenario2_OverdueCount.spec.js",
-        "../applicationComponent/specs/whiteboardScenarios/scenario3_OccurrenceCountAndStatus.spec.js",
+        // "../applicationComponent/specs/multipleTaskSeries/scenario1_CompleteOccurrences.spec.js",
+        // "../applicationComponent/specs/multipleTaskSeries/scenario2_SkipOccurrences.spec.js",
+
+        // "../applicationComponent/specs/whiteboardScenarios/scenario1_NonScheduledTaskCount.spec.js",
+        // "../applicationComponent/specs/whiteboardScenarios/scenario2_OverdueCount.spec.js",
+        // "../applicationComponent/specs/whiteboardScenarios/scenario3_OccurrenceCountAndStatus.spec.js",
     ],
 
     jasmineNodeOpts: {

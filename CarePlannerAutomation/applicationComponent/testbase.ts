@@ -20,8 +20,10 @@ export class TestBase {
             FrameworkComponent.pettyHtmlReporter();
 
             // We are filtering config options based on environment and we are taking only filtered environment details
-            TestBase.GlobalData.EnvironmentDetails = ReadAppConfig.LoadConfigAndGetEnvironment();
-
+            TestBase.GlobalData.EnvironmentDetails = ReadAppConfig.loadConfigAndGetEnvironment();
+            
+            // TestBase.GlobalData.DatabaseDetails = ReadAppConfig.loadDatabaseConfiguration();
+            
             TestBase.GlobalData.SpecFiles = new Array<SpecFile>();
 
             // Set token value 

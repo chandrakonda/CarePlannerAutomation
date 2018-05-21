@@ -49,6 +49,7 @@ export namespace ReadAppConfig {
         runtimeenvironment: EnvironmentDetails;
         emailTestReports: boolean;
         mailConfig: MailConfig;
+        databaseConfig: DatabaseConfig;        
     }
 
     export class MailConfig {
@@ -61,11 +62,18 @@ export namespace ReadAppConfig {
         mailList: string;
     }
 
+    export class DatabaseConfig {        
+        serverName: string;
+        databaseName: string
+        userName: string;
+        password: string;
+        portNumber: string;
+    }
 
 
     // Load app config file which have environment details
 
-    export function LoadConfigAndGetEnvironment() {
+    export function loadConfigAndGetEnvironment() {
         try {
             // let path = require('path');
             // let configValues: ReadAppConfig.AppConfig = require(path.join(__dirname, '..\\..\\config\\appconfig.json'));
@@ -79,7 +87,19 @@ export namespace ReadAppConfig {
         }
     }
 
-    export function LoadMailConfigs() {
+    export function loadDatabaseConfiguration() {
+        try {
+            let envList = configValues.databaseConfig[configValues.environment];
+            let filteredEnv: DatabaseConfig = envList.filter(env => env.hospitalid == configValues.hospitalid)[0];
+            configValues.databaseConfig = filteredEnv;
+            return configValues.databaseConfig;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    export function loadMailConfigs() {
         try {
             let __mailConfig: MailConfig = configValues.mailConfig;
             return __mailConfig;
@@ -87,6 +107,6 @@ export namespace ReadAppConfig {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
-    }
+    }  
 }
 

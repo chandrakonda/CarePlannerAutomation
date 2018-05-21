@@ -53,7 +53,7 @@ export class Utils {
     sendEmail(testExecutionInfo, testReportFilePath, testReportFileName) {
         try {
             //Mail COnfiguration and attaching the report
-            let __mailConfig = ReadAppConfig.LoadMailConfigs();
+            let __mailConfig = ReadAppConfig.loadMailConfigs();
             let __mailSubjectInfo = 'Careplanner Automation Report || Environment : ' + testExecutionInfo.__serverName + ' || Hospital ID : ' + testExecutionInfo.__hospitalId + ' || Total TC : ' + testExecutionInfo.__totalTestCasesCount + ' || Pass Count : ' + testExecutionInfo.__passCount + ' || Fail Count : ' + testExecutionInfo.__failCount;
             let __mailBodyInfo = testExecutionInfo.__fulEmailBodyContent;
             FrameworkComponent.emailHelper.sendEmail(__mailConfig, __mailSubjectInfo, __mailBodyInfo, testReportFilePath, testReportFileName);

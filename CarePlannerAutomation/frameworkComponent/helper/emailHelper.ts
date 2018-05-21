@@ -5,34 +5,6 @@ var q = require('q');
 
 export class EmailHelper {
 
-    sendEmailTrail() {
-        var transporter: nodemailer.Transporter = nodemailer.createTransport({
-            service: 'gmail',
-            host: 'smtp.gmail.com',
-            port: 587,
-            auth: {
-                user: 'prabu.r13@gmail.com',
-                pass: 'Prabur@123'
-            },
-            tls: { rejectUnauthorized: false },
-            debug: true
-        });
-
-        var mailOptions = {
-            to: 'prabu.nkl@gmail.com',
-            subject: 'Test Summary Report',
-            text: ""
-
-        };
-
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Mail sent: ' + info.response);
-        });
-    };
-
     sendEmailWithContent(transporter: nodemailer.Transporter, mailOptions: MailOptions) {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {

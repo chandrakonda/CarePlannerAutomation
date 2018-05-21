@@ -1,4 +1,5 @@
 import { APIServiceHelper } from "./apiServiceHelper";
+import { DatabaseHelper } from "./databaseHelper";
 import { EmailHelper } from "./emailHelper";
 import { CustomException } from "./exceptionHelper";
 import { LogHelper } from "./logHelper";
@@ -10,6 +11,10 @@ export class FrameworkComponent {
         return new APIServiceHelper();
     }
 
+    public static get databaseHelper(): DatabaseHelper {
+        return new DatabaseHelper();
+    }
+
     public static get emailHelper(): EmailHelper {
         return new EmailHelper();
     }
@@ -17,7 +22,6 @@ export class FrameworkComponent {
     public static get customException(): CustomException {
         return new CustomException();
     }
-
 
     public static get logHelper(): any {
         return LogHelper.Logger;

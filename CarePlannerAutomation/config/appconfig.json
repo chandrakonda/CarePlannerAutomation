@@ -101,5 +101,27 @@
         "password": "Enter321",
         "fromMail": "prabur@ilink-systems.com",
         "mailList": "prabur@ilink-systems.com"
+    },
+    "databaseConfig": {
+        "Qa": [
+            {
+                "hospitalid": 153,
+                "server": "lapmsuat-db01",
+                "database": "SparkyHosp101_3242018",
+                "user": "ha",
+                "password": "D3nnyW@$here",
+                "port": ""
+            },
+            {
+                "hospitalid": 528,
+                "server": "lapmsuat-db01",
+                "database": "SparkyHosp528_UAT",
+                "user": "ha",
+                "password": "D3nnyW@$here",
+                "port": ""
+            }
+        ],
+        "Staging": [],
+        "UAT": []
     }
 }
