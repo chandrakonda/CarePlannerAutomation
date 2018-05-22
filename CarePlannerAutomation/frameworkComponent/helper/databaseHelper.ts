@@ -4,65 +4,176 @@ const client = require("mssql");
 
 export class DatabaseHelper {
 
-    async query(dbConfig, query) {
+
+    createConnectionString(serverName, databaseName, userName, passwrd, portNumber?, requestTimeout?, connectionTimeout?) {
         try {
-            const __dbConnection = new client.ConnectionPool(dbConfig);
-            let __queryResult;
+            return {
+                server: serverName,
+                database: databaseName,
+                user: userName,
+                password: passwrd,
+                port: portNumber,
+                requestTimeout: requestTimeout,
+                connectionTimeout: connectionTimeout
+            };
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async connectToDatabase(dbConfig) {
+        try {
+            var __dbConnection = new client.ConnectionPool(dbConfig);
             await __dbConnection.connect();
 
-            if(__dbConnection.connected) {
-                
-                FrameworkComponent.logHelper.info("Database connection has been established");
-                __queryResult = await __dbConnection.request().query(query);
-                __dbConnection.close();
+            if (await this.isDatabaseConnected(__dbConnection)) {
+                return __dbConnection;
+            } else {
+                throw "Unable to connect to database with the given parameters";
+            }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async executeQueryWithConfigDetails(dbConfig, queryString) {
+        try {
+            return await this.connectToDatabase(dbConfig).then((dbConnection) => {
+                return this.createRequest(dbConnection).then((request) => {
+                    return this.queryRequest(request, queryString).then((result) => {
+                        this.closeDatabaseConnection(dbConnection);
+                        return result.recordset.toTable();
+                    });
+                });
+            }).catch((error) => {
+                return error;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async executeQuery(serverName, databaseName, userName, password, queryString, portNumber?, requestTimeout?, connectionTimeout?) {
+        try {
+            let __dbConfig = this.createConnectionString(serverName, databaseName, userName, password, portNumber, requestTimeout, connectionTimeout);
+            return this.executeQueryWithConfigDetails(__dbConfig, queryString);
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async executeStoredProcedureWithoutParameters(dbConfig, storedProcedureName) {
+        try {
+            return await this.connectToDatabase(dbConfig).then((dbConnection) => {
+                return this.createRequest(dbConnection).then((request) => {
+                    return this.executeRequest(request, storedProcedureName).then((result) => {
+                        this.closeDatabaseConnection(dbConnection);
+                        return result.recordset.toTable();
+                    });
+                })
+            }).catch((error) => {
+                throw error;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async executeStoredProcedureWithInputParameters(dbConfig, storedProcedureName, inputParameters: any[], parameterValues: any[]) {
+        try {
+
+            return await this.connectToDatabase(dbConfig).then((dbConnection) => {
+                return this.createRequest(dbConnection).then((request) => {
+                    return this.addStoredProcedureParametersToRequest(request, inputParameters, parameterValues).then((req) => {
+                        return this.executeRequest(req, storedProcedureName).then((result) => {
+                            this.closeDatabaseConnection(dbConnection);
+                            return result.recordset.toTable();
+                        });
+                    });
+                });
+            }).catch((error) => {
+                throw error;
+            });
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    closeDatabaseConnection(dbConnection) {
+        try {
+            dbConnection.close();
+            if (!dbConnection.connected) {
+                FrameworkComponent.logHelper.info("Database connection has been safely closed");
+            } else {
+                FrameworkComponent.logHelper.info("Database connection has not been closed successfully");
+            }
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async isDatabaseConnected(dbConnection) {
+        try {
+            if (dbConnection.connected) {
+                FrameworkComponent.logHelper.info("Database connection has been successfully established");
+                return true;
             } else {
                 FrameworkComponent.logHelper.info("Unable to connect to the database with the given connection string");
             }
-            return __queryResult.recordsets;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
 
-    createConnectionString(serverName, databaseName, userName, passwrd, portNumber?) {
+    async createRequest(dbConnection) {
         try {
-            let __config = {              
-                server : serverName,
-                database : databaseName,
-                user : userName,
-                password : passwrd,
-                port : portNumber
-            }
-            return __config;
+            return new client.Request(dbConnection);
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
 
-    async queryDatabase(serverName, databaseName, userName, password, queryString, portNumber) {
+    async queryRequest(request, queryString) {
         try {
-            let __dbConfig = this.createConnectionString(serverName, databaseName, userName, password, portNumber);
-            const __dbConnection = new client.ConnectionPool(__dbConfig);
-            let __queryResult;
-            await __dbConnection.connect();
+            return await request.query(queryString);
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
 
-            if(__dbConnection.connected) {
-                
-                FrameworkComponent.logHelper.info("Database connection has been established");
-                __queryResult = await __dbConnection.request().query(queryString);
-                
-                FrameworkComponent.logHelper.info(__queryResult);
-                __dbConnection.close();
+    async executeRequest(request, storedProcedureName) {
+        try {
+            return await request.execute(storedProcedureName);
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async addStoredProcedureParametersToRequest(request, inputParameters, parameterValues) {
+        try {
+            if (inputParameters.length === parameterValues.length) {
+                for (let index = 0; index < inputParameters.length; index++) {
+                    request.input(inputParameters[index], client.VarChar(50), parameterValues[index]);
+                }
             } else {
-                FrameworkComponent.logHelper.info("Unable to connect to the database with the given connection string");
+                throw "Input Parameters count does not match Parameter Values count. ";
             }
-            return __queryResult.recordSets;
+            return request;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
         }
     }
-    
+
 }

@@ -106,19 +106,23 @@
         "Qa": [
             {
                 "hospitalid": 153,
-                "server": "lapmsuat-db01",
-                "database": "SparkyHosp101_3242018",
+                "server": "hcorpqa-db02",
+                "database": "SparkyHosp153_QA",
                 "user": "ha",
                 "password": "D3nnyW@$here",
-                "port": ""
+                "port": "",
+                "requestTimeout": 60000,
+                "connectionTimeout": 3000
             },
             {
-                "hospitalid": 528,
-                "server": "lapmsuat-db01",
-                "database": "SparkyHosp528_UAT",
+                "hospitalid": 125,
+                "server": "hcorpqa-db02",
+                "database": "SparkyHosp153_QA",
                 "user": "ha",
                 "password": "D3nnyW@$here",
-                "port": ""
+                "port": "",
+                "requestTimeout": 60000,
+                "connectionTimeout": 3000
             }
         ],
         "Staging": [],

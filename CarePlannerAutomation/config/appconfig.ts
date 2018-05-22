@@ -68,6 +68,8 @@ export namespace ReadAppConfig {
         userName: string;
         password: string;
         portNumber: string;
+        requestTimeout: number;
+        connectionTimeout: number;
     }
 
 
