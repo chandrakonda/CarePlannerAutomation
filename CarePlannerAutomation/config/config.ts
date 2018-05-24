@@ -32,17 +32,17 @@ export const config: Config = {
         }
     },
     //highlightDelay : 1000,
-    framework: "jasmine",
+    framework: "jasmine2",
 
     specs: [
 
-        "../applicationComponent/specs/databaseScenarios/databaseScenarios.spec.js",
+        // "../applicationComponent/specs/databaseScenarios/databaseScenarios.spec.js",
 
         // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario1_CompleteOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario2_SkipOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesMultipleOccurrence/scenario3_CancelOccurrence.spec.js",
 
-        // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
+        "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario1_CompleteOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario2_SkipOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario3_CancelOccurrence.spec.js",
         // "../applicationComponent/specs/singleTaskSeriesSingleOccurrence/scenario4_ReScheduleOccurrence.spec.js",

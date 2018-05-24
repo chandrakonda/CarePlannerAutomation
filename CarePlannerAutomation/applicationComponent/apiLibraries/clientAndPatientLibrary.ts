@@ -16,18 +16,21 @@ export class ClientAndPatientLibrary {
             let __client = new Client();
             FrameworkComponent.logHelper.info("*********** Creating Client ***********");
             let __options = this.setCreateClientOptions(specData);
-            FrameworkComponent.logHelper.info(__options);
+            FrameworkComponent.logHelper.info(__options);            
 
             // Create client 
             await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response) => {
                 // parse response
-                FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(response).then((responseValue) => {
+                FrameworkComponent.apiServiceHelper.parseResultOfMakePostRequest(response).then(async (responseValue) => {
                     //FrameworkComponent.logHelper.info(responseValue);
+                    __client.FirstName = responseValue.FirstName;
                     __client.LastName = responseValue.LastName;
                     __client.Id = responseValue.ClientId
+                    __client.ClientChartNumber = "";
                     specData.Data.Client = __client;
                     FrameworkComponent.logHelper.info(specData.Data.Client);
                     specData.Data.Client.Id = responseValue.ClientId;
+                    
                 });
             });
 
@@ -71,6 +74,7 @@ export class ClientAndPatientLibrary {
             __patient.Color = __options.body.Appearances[0].AppearanceName;
             __patient.Gender = __options.body.Sex.Name;
             __patient.Weight = __options.body.Weight;
+            __patient.PatientChartNumber = __options.body.PatientChartNumber;
 
             // Create patient 
             await FrameworkComponent.apiServiceHelper.makeApiCall(__options).then((response) => {

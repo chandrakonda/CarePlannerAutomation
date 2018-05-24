@@ -15,7 +15,8 @@ export class GlobalValues {
     SpecFiles: SpecFile[];
     ResultFolder: string;
     LoadedSpecFileCount: any;
-    EndTime: Date
+    EndTime: Date;
+    DBConfigDetails : ReadAppConfig.DatabaseConfig;
 
     //Logger : any;
 }
@@ -61,7 +62,7 @@ export class TestCase {
     TestName: string;
     TestResult: string;
     TestDescription: string;
-    ExceptionDetails: string;
+    ExceptionDetails: string[];
     WarningInformation: string;
     StartTime: Date;
     EndTime: Date;
@@ -86,6 +87,7 @@ export class Data {
 
 export class Client {
     Id: any;
+    ClientChartNumber:string;
     FirstName: string;
     LastName: string;
     Patient: Patient;
@@ -93,6 +95,7 @@ export class Client {
 
 export class Patient {
     Id: string;
+    PatientChartNumber:string;
     Name: string;
     Visit: Visit;
     Species: string;

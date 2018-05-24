@@ -1,5 +1,5 @@
 import { browser } from 'protractor';
-import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase } from '../../../applicationcomponent';
+import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase, Utils } from '../../../applicationcomponent';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 import { FrameworkComponent } from '../../../frameworkComponent';
 
@@ -10,6 +10,8 @@ describe('Test whiteboard scenarios  -->  ', () => {
         let __data: Data;
         let __testCase: TestCase;
         let __dataReader: DataReader;
+        let __utils: Utils;
+        
         beforeAll(() => {
             specFileData = new SpecFile();
             __dataReader = new DataReader();
@@ -25,20 +27,15 @@ describe('Test whiteboard scenarios  -->  ', () => {
 
         beforeEach(() => {
             __testCase = new TestCase();
+            __utils = new Utils();
         });
 
         afterEach(() => {
             var myReporter = {
-
-                specDone: function (result) {
-                    __testCase.TestName = result.description;
-                    __testCase.TestResult = result.status;
-                    __testCase.ExceptionDetails = result.failedExpectations.length ? result.failedExpectations[0].message : '';
-                    __testCase.StartTime = result.started;
-                    __testCase.EndTime = result.stopped;
+                specDone: (result) => {
+                    __testCase = __utils.updateResultInformation(__testCase, result, specFileData);
                 },
             };
-
             jasmine.getEnv().addReporter(myReporter);
             specFileData.TestCases.push(__testCase);
         });
@@ -54,6 +51,12 @@ describe('Test whiteboard scenarios  -->  ', () => {
                 await APILibraryController.careplannerLibrary.apiGetAggregatedDataByOrderId(specFileData);
 
                 browser.sleep(5000);
+
+                let __clientChartNumber = await FrameworkComponent.databaseHelper.executeQueryWithConfigDetails(TestBase.GlobalData.DBConfigDetails, "select ChartNumber from client where clientId = '" + specFileData.Data.Client.Id + "'");
+                specFileData.Data.Client.ClientChartNumber = __clientChartNumber.rows[0][0];
+
+                let __patinetChartNumber = await FrameworkComponent.databaseHelper.executeQueryWithConfigDetails(TestBase.GlobalData.DBConfigDetails, "select PatientChartNumber from patient where patientId = '" + specFileData.Data.Client.Patient.Id + "'");
+                specFileData.Data.Client.Patient.PatientChartNumber = __patinetChartNumber.rows[0][0];
 
                 //Verify the page Title
                 let __pageTitle = await browser.getTitle().then((title) => { return title });

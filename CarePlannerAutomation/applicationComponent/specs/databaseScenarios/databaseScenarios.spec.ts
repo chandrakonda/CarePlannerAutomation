@@ -32,12 +32,17 @@ describe('databsae connection', () => {
     });
 
     afterEach(() => {
+        let __clientInfo = specFileData.Data.Client.FirstName + specFileData.Data.Client.LastName + ' - ' + specFileData.Data.Client.Id;
         var myReporter = {
 
             specDone: function (result) {
+
+                if(result.status == 'failed') {
+                    result.failedExpectations.push("Custom Message");
+                }
                 __testCase.TestName = result.description;
                 __testCase.TestResult = result.status;
-                __testCase.ExceptionDetails = result.failedExpectations.length ? result.failedExpectations[0].message : '';
+                __testCase.ExceptionDetails = result.failedExpectations.length > 0 ? result.failedExpectations[0].message : '';
                 __testCase.StartTime = result.started;
                 __testCase.EndTime = result.stopped;
             },
@@ -49,7 +54,7 @@ describe('databsae connection', () => {
 
     it('Verify the Database version deployed', async () => {
         try {
-
+            
             FrameworkComponent.logHelper.info("Creating the DB connection & get Sparky Config Values");
 
             let __resultTable = await FrameworkComponent.databaseHelper.executeQueryWithConfigDetails(__dbConfig, "select * from SparkyConfig");
@@ -68,11 +73,11 @@ describe('databsae connection', () => {
             FrameworkComponent.logHelper.info('Datbase version identified as : ' + __result);
 
             expect(__result).toBe('2.134.18130.4');
-            
+                        
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
-        }
+        } 
     })
 
     it('Verify the number of records from the stored procedure result', async () => {

@@ -1,8 +1,7 @@
 import { browser } from 'protractor';
-import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase } from '../../../applicationcomponent';
+import { APILibraryController, Data, Pages, SpecFile, TestBase, TestCase, Utils } from '../../../applicationcomponent';
 import { DataReader } from '../../../dataComponent/dataReaderHelper';
 import { FrameworkComponent } from '../../../frameworkComponent';
-
 
 describe('Test single task occurrence in single task series  -->  ', () => {
 
@@ -11,6 +10,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
         let __data: Data;
         let __testCase: TestCase;
         let __dataReader: DataReader;
+        let __utils: Utils;
 
         beforeAll(() => {
             specFileData = new SpecFile();
@@ -22,26 +22,24 @@ describe('Test single task occurrence in single task series  -->  ', () => {
         });
 
         afterAll(() => {
+           
+
             TestBase.GlobalData.SpecFiles.push(specFileData);
         });
 
         beforeEach(() => {
             __testCase = new TestCase();
-
+            __utils = new Utils();
         });
 
         afterEach(() => {
-            var myReporter = {
 
-                specDone: function (result) {
-                    __testCase.TestName = result.description;
-                    __testCase.TestResult = result.status;
-                    __testCase.ExceptionDetails = result.failedExpectations.length ? result.failedExpectations[0].message : '';
-                    __testCase.StartTime = result.started;
-                    __testCase.EndTime = result.stopped;
+            var myReporter = {
+                specDone: (result) => {                 
+                    __testCase = __utils.updateResultInformation(__testCase, result, specFileData);
                 },
             };
-
+            
             jasmine.getEnv().addReporter(myReporter);
             specFileData.TestCases.push(__testCase);
         });
@@ -60,18 +58,24 @@ describe('Test single task occurrence in single task series  -->  ', () => {
 
                 browser.sleep(5000);
 
+                let __clientChartNumber = await FrameworkComponent.databaseHelper.executeQueryWithConfigDetails(TestBase.GlobalData.DBConfigDetails, "select ChartNumber from client where clientId = '" + specFileData.Data.Client.Id + "'");
+                specFileData.Data.Client.ClientChartNumber = __clientChartNumber.rows[0][0];
+
+                let __patinetChartNumber = await FrameworkComponent.databaseHelper.executeQueryWithConfigDetails(TestBase.GlobalData.DBConfigDetails, "select PatientChartNumber from patient where patientId = '" + specFileData.Data.Client.Patient.Id + "'");
+                specFileData.Data.Client.Patient.PatientChartNumber = __patinetChartNumber.rows[0][0];
+
                 //Verify the page Title
                 let __pageTitle = await browser.getTitle().then((title) => { return title });
                 await expect(__pageTitle).toEqual('VCA Charge Capture');
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
         it('Verify the client & pet informations displayed in the careplanner banner', async () => {
             try {
-                
+
                 let __clientLastName = specFileData.Data.Client.LastName.slice(0, 13);
                 let __patientName = specFileData.Data.Client.Patient.Name.slice(0, 13);
                 let __speciesName = specFileData.Data.Client.Patient.Species;
@@ -86,7 +90,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 await expect(Pages.cpClientAndPetDetailsPage.speciesName).toContain(__speciesName);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -104,7 +108,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 //Get the actual & full name of the task series from aggreagted data
                 specFileData.UserData.TaskSeries.taskSeriesName = __taskCategoryList.taskList.filter(task => task.TaskName.substring(0, specFileData.UserData.TaskSeries.taskSeriesName.length) === specFileData.UserData.TaskSeries.taskSeriesName)[0].TaskName;
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -114,12 +118,12 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
                 await Pages.cpSchedulerPage.scrollToLeftSchedulerGrid();
-                
+
                 //Schedule a task from the user input data
                 await Pages.cpSchedulerPage.ScheduleTaskWithObservations(__taskSeriesInfo.taskSeriesName, __taskSeriesInfo.taskScheduleInfo);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -137,7 +141,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 expect(__occurrenceCount).toEqual(__expectedResult.expectedOccurrenceCount);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -155,7 +159,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 expect(__occurrencesStatus).toEqual(__expectedResult.expectedOccurrenceStatus);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -169,7 +173,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 browser.sleep(2000);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -185,7 +189,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 expect(__occurrenceHourStatus).toEqual(__taskSeriesInfo.taskOccurrenceInfo.expectedOccurrenceStatus);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -198,7 +202,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 expect(__treatmentLogPageDisplayedStatus).toBe(true);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -210,7 +214,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 expect(__treatmentLogColumnHeadersCount).toBe(6);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -230,9 +234,9 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                     expect(logInfo[__scheduledTimeIndex]).toBe(__scheduleTime);
                     expect(logInfo[__completedTimeIndex]).toBe(__scheduleTime);
                 });
-                
+
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -252,7 +256,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 });
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -268,20 +272,20 @@ describe('Test single task occurrence in single task series  -->  ', () => {
 
                 if (__taskSeriesInfo.taskScheduleInfo.observationList.length > 0) {
 
-                        let __scheduleTime = ('0' + __occurrenceScheduledTime[__taskSeriesInfo.taskOccurrenceInfo.occurrenceHour]).slice(-2) + ':00';
+                    let __scheduleTime = ('0' + __occurrenceScheduledTime[__taskSeriesInfo.taskOccurrenceInfo.occurrenceHour]).slice(-2) + ':00';
 
-                        __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
-                            __taskSeriesInfo.taskOccurrenceInfo.observationList.forEach(observationList => {
-                                let __expectedObservationValues = observationList + ': ' + __taskSeriesInfo.taskOccurrenceInfo.observationValues[observationList];
-                                expect(logInfo[__treatmentDetailsIndex]).toContain(__expectedObservationValues);
-                            });
+                    __treatmentLofInfo.filter(logInfo => logInfo[__treatmentDetailsIndex].includes(__taskSeriesInfo.taskSeriesName) && logInfo[__scheduledTimeIndex] === __scheduleTime).forEach(logInfo => {
+                        __taskSeriesInfo.taskOccurrenceInfo.observationList.forEach(observationList => {
+                            let __expectedObservationValues = observationList + ': ' + __taskSeriesInfo.taskOccurrenceInfo.observationValues[observationList];
+                            expect(logInfo[__treatmentDetailsIndex]).toContain(__expectedObservationValues);
                         });
+                    });
                 } else {
-                    expect(__taskSeriesInfo.taskScheduleInfo.observationList.length).toBe(0);
+                    expect(__taskSeriesInfo.taskScheduleInfo.observationList.length).toBe(1);
                 }
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -295,7 +299,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 expect(__trendViewPageDisplayedStatus).toBe(true);
 
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
 
@@ -307,7 +311,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                 let __taskSeriesInfo = specFileData.UserData.TaskSeries;
 
                 if (__taskSeriesInfo.taskScheduleInfo.observationList.length > 0) {
-                    
+
                     let __scheduleTime = __taskSeriesInfo.taskOccurrenceInfo.occurrenceHour;
 
                     if (__taskSeriesInfo.taskOccurrenceInfo.occurrenceAction === 'Completed') {
@@ -327,7 +331,7 @@ describe('Test single task occurrence in single task series  -->  ', () => {
                     expect(__taskSeriesInfo.taskScheduleInfo.observationList.length).toBe(0);
                 }
             } catch (error) {
-                  FrameworkComponent.logHelper.error(error);
+                FrameworkComponent.logHelper.error(error);
             }
         });
     });

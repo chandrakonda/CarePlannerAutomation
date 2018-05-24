@@ -1,5 +1,6 @@
-import { ReadAppConfig, TestBase } from "../../applicationComponent";
+import { ReadAppConfig, SpecFile, TestBase } from "../../applicationComponent";
 import { FrameworkComponent } from "../../frameworkComponent";
+
 
 export class Utils {
 
@@ -57,6 +58,68 @@ export class Utils {
             let __mailSubjectInfo = 'Careplanner Automation Report || Environment : ' + testExecutionInfo.__serverName + ' || Hospital ID : ' + testExecutionInfo.__hospitalId + ' || Total TC : ' + testExecutionInfo.__totalTestCasesCount + ' || Pass Count : ' + testExecutionInfo.__passCount + ' || Fail Count : ' + testExecutionInfo.__failCount;
             let __mailBodyInfo = testExecutionInfo.__fulEmailBodyContent;
             FrameworkComponent.emailHelper.sendEmail(__mailConfig, __mailSubjectInfo, __mailBodyInfo, testReportFilePath, testReportFileName);
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getClientInformationForReport(specFileData:SpecFile) {
+        try {                       
+            return {message : "Client Information :  ClientName - " + specFileData.Data.Client.LastName + '  ' +specFileData.Data.Client.FirstName + " || ClientId : " + specFileData.Data.Client.Id + " || Client ChartNo. - " + specFileData.Data.Client.ClientChartNumber}
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getPatientInformationForReport(specFileData:SpecFile) {
+        try {                        
+            return { message : "Patient Information : PatientName - " + specFileData.Data.Client.Patient.Name + " || PatientId - " + specFileData.Data.Client.Patient.Id + " || Patient ChartNo. - " + specFileData.Data.Client.Patient.PatientChartNumber}
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    getVisitInformationForReport(specFileData:SpecFile) {
+        try {            
+            return {message : "Visit Information : VisitId - "  + specFileData.Data.VisitId}
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    updateResultInformation(__testCase, result, specFileData) {
+        try {
+            // let __testCase = new TestCase();
+            // if(__testCase.TestResult != undefined) {
+                __testCase.TestName = result.description;
+                __testCase.TestResult = result.status;
+                __testCase.ExceptionDetails = new Array;
+                __testCase.StartTime = result.started;
+                __testCase.EndTime = result.stopped;
+
+                if (result.status == 'failed') {
+
+                    if(specFileData.Data.Client != undefined) {
+                        result.failedExpectations.push(this.getClientInformationForReport(specFileData));
+                        result.failedExpectations.push(this.getPatientInformationForReport(specFileData));
+                        result.failedExpectations.push(this.getVisitInformationForReport(specFileData));
+                    } 
+                }
+                
+                if (result.failedExpectations.length > 0 && result.failedException.length < 4) {
+                // if (result.failedExpectations.length > 0 ) {
+                    result.failedExpectations.forEach(failedException => {
+                        __testCase.ExceptionDetails.push(failedException.message);
+                    });
+                }    
+                
+                result.failedException = '';
+            // }
+            return __testCase;
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;

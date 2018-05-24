@@ -14,6 +14,7 @@ export * from './applicationComponent/pageObjects/cpTrendView.page'
  * Utilities classes under the Application Component
  */
 export * from './applicationComponent/utils/globalDataModel'
+export * from './applicationComponent/utils/utils'
 export * from './applicationComponent/testbase'
 
 
