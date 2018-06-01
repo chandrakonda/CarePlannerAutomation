@@ -1,0 +1,110 @@
+{
+    "environment": "Qa",
+    "apiendpoint": "place holder",
+    "hospitalid": 153,
+    "runtimeenvironment": "will be set in runtime",
+    "environmentcollection": {
+        "Qa": [
+            {
+                "servername": "",
+                "hospitalid": 153,
+                "applicationurl": "https://api-dev.vcaantech.com/WOOFwareUI/#/home",
+                "cloudapiendpoint": "",
+                "wwapiendpoint": "https://masfdev01.westus.cloudapp.azure.com/ww3/crm/api/v1",
+                "authorizationurl": "https://login.microsoftonline.com/vca.com/oauth2/token",
+                "username": "Chandrasekhar.Konda"
+            },
+            {
+                "servername": "",
+                "hospitalid": 153,
+                "applicationurl": "",
+                "cloudapiendpoint": "",
+                "wwapiendpoint": "",
+                "authorizationurl": "",
+                "username": "Josh.Chezum"
+            }
+        ],
+        "UAT": [
+            {
+                "servername": "",
+                "hospitalid": 153,
+                "applicationurl": "",
+                "cloudapiendpoint": "",
+                "wwapiendpoint": "",
+                "authorizationurl": "",
+                "username": "Chandrasekhar.Konda"
+            },
+            {
+                "servername": "",
+                "hospitalid": 153,
+                "applicationurl": "",
+                "cloudapiendpoint": "",
+                "wwapiendpoint": "",
+                "authorizationurl": "",
+                "username": "Josh.Chezum"
+            }
+        ],
+        "Staging": [
+            {
+                "servername": "",
+                "hospitalid": 153,
+                "applicationurl": "",
+                "cloudapiendpoint": "",
+                "wwapiendpoint": "",
+                "authorizationurl": "",
+                "username": "Chandrasekhar.Konda"
+            },
+            {
+                "servername": "",
+                "hospitalid": 153,
+                "applicationurl": "",
+                "cloudapiendpoint": "",
+                "wwapiendpoint": "",
+                "authorizationurl": "",
+                "username": "Josh.Chezum"
+            }
+        ]
+    },
+    "emailTestReports": false,
+    "mailConfig": {
+        "service": "ilink-systems",
+        "host": "smtp.office365.com",
+        "port": 587,
+        "username": "prabur@ilink-systems.com",
+        "password": "Enter321",
+        "fromMail": "prabur@ilink-systems.com",
+        "mailList": "prabur@ilink-systems.com"
+    },
+    "databaseConfig": {
+        "Qa": [
+            {
+                "hospitalid": 153,
+                "server": "hcorpqa-db02",
+                "database": "SparkyHosp153_QA",
+                "user": "ha",
+                "password": "D3nnyW@$here",
+                "port": "",
+                "requestTimeout": 60000,
+                "connectionTimeout": 3000
+            },
+            {
+                "hospitalid": 125,
+                "server": "hcorpqa-db02",
+                "database": "SparkyHosp153_QA",
+                "user": "ha",
+                "password": "D3nnyW@$here",
+                "port": "",
+                "requestTimeout": 60000,
+                "connectionTimeout": 3000
+            }
+        ],
+        "Staging": [
+            {},
+            {}
+        ],
+        "UAT": [
+            {},
+            {}
+        ]
+    }
+}

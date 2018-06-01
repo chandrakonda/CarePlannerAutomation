@@ -1,0 +1,25 @@
+{
+    "method": "POST",
+    "url": "https://login.microsoftonline.com/vca.com/oauth2/token",
+    "headers": {
+        "cache-control": "no-cache",
+        "accept": "*/*",
+        "host": "login.microsoftonline.com",
+        "cookie": "esctx=AQABAAAAAADX8GCi6Js6SK82TsD2Pb7ree-0tsqrlS6qJYQAMYCHVysYQJhx3OveFFm6UZ4dcY3Vhyd9MO9XIiyctceL_hxEgxr8fh9vzc4I2Ed7mhd54GhJiqOdSTmGzhXwJyn4KAkfUvkk3O2Bvv4bjSbHq1iPyAiqmOtyLBoZQEdhZW4xE8qBUi28TVTVJVLhBvtC-fcgAA; x-ms-gateway-slice=011; stsservicecookie=ests",
+        "accept-encoding": "gzip, deflate",
+        "content-length": 243,
+        "content-type": "application/x-www-form-urlencoded"        
+    },
+    "form": {
+        "client_id": "25c8e4be-4ed7-4b77-b89c-6f4d776b004f",
+        "grant_type": "password",
+        "username": "mobile.test21@vca.com",
+        "password": "Helpdesk21!",
+        "override": "true",
+        "resource": "6dee88aa-50a0-4043-9742-9dc396e27b6e",
+        "client_secret": "GO7RzcCKBNe2WhwHepYDGUq3hNTbmOw0N5MpV4LbJu0="  
+    },
+    "timeout": 600000,
+    "resolveWithFullResponse": true,
+    "rejectUnauthorized": false
+}
