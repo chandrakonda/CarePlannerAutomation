@@ -1,4 +1,4 @@
-import { APILibrary, AppConfig, GlobalValues, JSONReporter, ReadAppConfig, SpecFile, Utils } from "../applicationComponent";
+import { AppConfig, GlobalValues, JSONReporter, ReadAppConfig, SpecFile, Utils, APILibraries } from "../applicationComponent";
 import { FrameworkComponent, ReportHelper } from "../frameworkComponent";
 let path = require('path');
 
@@ -38,7 +38,7 @@ export class TestBase {
             Utils.setBrowserConfigurations();
 
             // Create and Set authorization token value 
-            await APILibrary.woofware30.getAuthToken();     
+            await APILibraries.woofware30.getAuthToken();     
             
             FrameworkComponent.logHelper.info('Generated Authorization token  : ' + TestBase.GlobalData.GlobalAuthToken);
                 

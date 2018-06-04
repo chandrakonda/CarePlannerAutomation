@@ -1,10 +1,10 @@
 import { AuthorizationLibrary } from "../../applicationComponent";
-import { SearchLibrary } from "./searchLibrary";
+import { ClientLibrary } from "./clientLibrary";
 import { WoofwareAPILibrary } from "./woofware3.0";
 
 
 
-export class APILibrary {
+export class APILibraries {
     /**
      * static get woofware30() : WoofwareAPILibrary    */
     public static get woofware30() : WoofwareAPILibrary {
@@ -21,7 +21,7 @@ export class APILibrary {
     /**
      * name
      */
-    public static get searchLibarary() : SearchLibrary {
-        return new SearchLibrary();
+    public static get clientLibrary() : ClientLibrary {
+        return new ClientLibrary();
     }
 }

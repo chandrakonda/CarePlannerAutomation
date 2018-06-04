@@ -1,0 +1,23 @@
+{
+    "clientDetails": [
+        {
+            "clientId": "",
+            "clientFirstName": "",
+            "clientLastName": "",
+            "clientDocumentId": "",
+            "clientChartNumber": "",
+            "clientPhoneNumber": "",
+            "clientEmailId": "",
+            "petDetails": [
+                {
+                    "petId": "",
+                    "petName": "",
+                    "petBreedName": "",
+                    "petAge": "",
+                    "petSex": "",
+                    "petDOB": ""
+                }
+            ]
+        }
+    ]
+}

@@ -1,23 +1,24 @@
 import { browser } from "protractor";
-import { APILibrary } from "../../applicationComponent";
+import { APILibraries } from "../../applicationComponent";
 import { FrameworkComponent } from "../../frameworkComponent";
+
 
 export class WoofwareAPILibrary {
 
     async getAuthToken() {
         try {
             await browser.sleep(10000);
-            await APILibrary.authorizationLibrary.getAuthToken();            
+            await APILibraries.authorizationLibrary.getAuthToken();            
         } catch (error) {
             FrameworkComponent.logHelper.info(error);
             throw error;
         }
     }
 
-    async searchBy(clientName) {
+    async searchClientByClientName(clientName) {
         try {
             await browser.sleep(10000);
-            let __returnValue = await APILibrary.searchLibarary.searchByClientName(clientName);
+            let __returnValue = await APILibraries.clientLibrary.searchClientByClientName(clientName);
             return __returnValue;
         } catch (error) {
             FrameworkComponent.logHelper.info(error);

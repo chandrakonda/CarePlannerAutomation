@@ -1,4 +1,4 @@
-import { WoofwareHomePage, WoofwareTopBar } from "../../applicationComponent";
+import { WoofwareHomePage, WoofwareMedicalOverviewPage, WoofwareTopBar } from "../../applicationComponent";
 
 export class Pages {
 
@@ -8,5 +8,9 @@ export class Pages {
 
     public static get WoofwareHomePage() : WoofwareHomePage {
         return new WoofwareHomePage();
+    }
+
+    public static get WoofwareMedicalOverviewPage() : WoofwareMedicalOverviewPage {
+        return new WoofwareMedicalOverviewPage();
     }
 }

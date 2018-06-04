@@ -131,25 +131,69 @@ export class WoofwareHomePage {
     async getPatientNamesFromSearchResultsUsingClientName(clientName) {
         try {
             let __searchResults = await this.__elePetDetailsFromSearchResults.getWebElements();
-            let __patientList;
 
-            __searchResults.forEach(async client => {
+            let __xpath = ".//app-results/descendant::div[contains(@class,'pet-details-margin')][preceding-sibling::div[contains(@class,'pet-owner')]/descendant::span[contains(@class,'pet-owner-text-box') and text()='" + clientName + "']]/descendant::span[contains(@class,'pet-text-box')]";
 
-                await client.findElement(by.xpath(("/descendant::span[contains(@class, 'pet-owner-text-box')]"))).getText().then((cName) => {
-                    
-                    if(cName === clientName) {
-
-                        let __xpath = ".//app-results/descendant::div[contains(@class,'result-scroll')]/descendant::div[contains(@class,'search-suggestion-box')]/div[contains(@class,'pet-details')][preceding-sibling::div[contains(@class,'pet-owner')]/descendant::span[contains(@class,'pet-owner-text-box') and text() = '"+ clientName +"']]";
-
-                        __patientList = element(by.xpath(__xpath)).getText().then((patientList) => {
-                            return patientList;
-                        });
-                    }
-                });                
+            let __patientList = element.all(by.xpath(__xpath)).getText().then((patienList) => {
+                return patienList;
             });
 
             return __patientList;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async isPatientNameExitUnderClientName(clientName, patientName) {
+        try {
+
+            let __xpath = ".//app-results/descendant::div[contains(@class,'pet-details-margin')][preceding-sibling::div[contains(@class,'pet-owner')]/descendant::span[contains(@class,'pet-owner-text-box') and text()='" + clientName + "']]/descendant::span[contains(@class,'pet-text-box')]";
+
+            let __patientList = await  element.all(by.xpath(__xpath)).getWebElements();
+
+            let __patientExist = false;
+
+            for (let index = 0; index < __patientList.length; index++) {            
+                let __petName = await __patientList[index].getText().then((name) => {return name});
+                if(__petName === patientName) {
+                   __patientExist = true;
+                   break;
+                }                
+            }
             
+            return __patientExist;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async clickOnPatientNameFromSearchResults(clientName, patientName) {
+        try {
+
+            let __xpath = ".//app-results/descendant::div[contains(@class,'pet-details-margin')][preceding-sibling::div[contains(@class,'pet-owner')]/descendant::span[contains(@class,'pet-owner-text-box') and text()='" + clientName + "']]/descendant::span[contains(@class,'pet-text-box')]";
+
+            let __patientList = await  element.all(by.xpath(__xpath)).getWebElements();
+
+            for (let index = 0; index < __patientList.length; index++) {            
+                let __petName = await __patientList[index].getText().then((name) => {return name});
+                if(__petName === patientName) {
+                    __patientList[index].click();
+                    // browser.sleep(2000);
+                    break;
+                }                
+            }
+
+            
+            //     patientList.forEach(patient => {
+            //         patient.getText().then((petName) => {
+            //             if (petName === patientName) {
+            //                 patient.click();
+            //                 browser.sleep(2000);
+            //             }
+            //         });
+            //     })            
         } catch (error) {
             FrameworkComponent.logHelper.error(error);
             throw error;
