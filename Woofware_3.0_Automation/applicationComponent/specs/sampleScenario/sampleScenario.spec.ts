@@ -27,6 +27,11 @@ describe('Test Woofware 3.0', () => {
                 }
             })
             browser.sleep(5000);
+
+            var width = 3200;
+            var height = 769;
+            // browser.driver.manage().window().setSize(width, height);
+            // browser.executeScript('window.parent.document.body.style.zoom = 0.5;');
         });
 
         afterAll(() => {
@@ -43,7 +48,7 @@ describe('Test Woofware 3.0', () => {
     it('Verify the search result count with api response of woofware3.0', async () => {
         try {
 
-            let __clientFirstName = 'Chezum';
+            let __clientFirstName = 'Smith';
            
             let __expectedSearchResultCount = await APILibraries.clientLibrary.searchClientByClientName(__clientFirstName);
 
@@ -64,8 +69,8 @@ describe('Test Woofware 3.0', () => {
 
     it('Verify the patient Exist under the client name ', async () => {
         try {
-            let __clientFullName = 'Chezum, Fitz';
-            let __patientName = 'A3.Adrianne';
+            let __clientFullName = 'Smith, G';
+            let __patientName = 'Lucy';
 
             let __actualStatus = await Pages.WoofwareHomePage.isPatientNameExitUnderClientName(__clientFullName, __patientName);
 
@@ -85,7 +90,7 @@ describe('Test Woofware 3.0', () => {
            
             let __medicalOverviewPageDisplayed = await Pages.WoofwareMedicalOverviewPage.isMedicalOverviewPageDisplayed();
             browser.sleep(2000);
-            
+            // browser.executeScript('window.parent.document.body.style.zoom = 0.5;');
             expect(__medicalOverviewPageDisplayed).toBe(true);
         } catch (error) {
             FrameworkComponent.logHelper.info(error);
@@ -96,8 +101,8 @@ describe('Test Woofware 3.0', () => {
     it('Verify the patient name & client name displayed in the medical overview page', async () => {
         try {
 
-            let __expectedClientName = 'Chezum, Fitz';
-            let __expectedPatientName = 'A3.Adrianne';
+            let __expectedClientName = 'Smith, G';
+            let __expectedPatientName = 'Lucy';
             let __actualPatientName = await Pages.WoofwareMedicalOverviewPage.getPatientNameDisplayed();
             let __actualClientName = await Pages.WoofwareMedicalOverviewPage.getClientNameDisplayed();
 

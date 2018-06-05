@@ -54,7 +54,8 @@ export class ClientLibrary {
             let __parsedApiResponse = await JSON.parse(__apiResponse);
             return __parsedApiResponse;
         } catch (error) {
-            
+            FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 
@@ -67,7 +68,38 @@ export class ClientLibrary {
             __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
             return __options;
         } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    async getClientByPatientIdHospitalNumber(patientId, hospitalNumber) {
+        try {
+            let __options = this.setOptionsForGetClientByPatientIdHospitalNumber(patientId, hospitalNumber);
+            FrameworkComponent.logHelper.info("Options set to get the the client by patient id & hospital number: ");
+            FrameworkComponent.logHelper.info(__options);
+
+            await browser.sleep(1000);
+
+            let __apiResponse = await FrameworkComponent.apiServiceHelper.makeApiCall(__options);
+            let __parsedApiResponse = await JSON.parse(__apiResponse);
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
+        }
+    }
+
+    private setOptionsForGetClientByPatientIdHospitalNumber(patientId, hospitalNumber) {
+        try {
+            FrameworkComponent.logHelper.info("*********** Setting Options for GetClientByPatientIdHospitalNumber API Request ***********");
             
+            let __options = DataReaderController.loadAPITemplates('getClientTemplate');
+            __options.url = TestBase.GlobalData.EnvironmentConfigDetails.wwapiendpoint + "/client/" + patientId + "/" + hospitalNumber;
+            __options.headers.authorization = TestBase.GlobalData.GlobalAuthToken;
+            return __options;
+        } catch (error) {
+            FrameworkComponent.logHelper.error(error);
+            throw error;
         }
     }
 }

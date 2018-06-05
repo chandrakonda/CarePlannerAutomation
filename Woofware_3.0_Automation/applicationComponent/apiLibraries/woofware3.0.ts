@@ -8,7 +8,7 @@ export class WoofwareAPILibrary {
     async getAuthToken() {
         try {
             await browser.sleep(10000);
-            await APILibraries.authorizationLibrary.getAuthToken();            
+            await APILibraries.authorizationLibrary.getAuthToken();
         } catch (error) {
             FrameworkComponent.logHelper.info(error);
             throw error;
@@ -26,6 +26,28 @@ export class WoofwareAPILibrary {
         }
     }
 
+    async getClientByDocumentId(documentId) {
+        try {
+            await browser.sleep(10000);
+            let __returnValue = await APILibraries.clientLibrary.getClientByDocumentId(documentId);
+            return __returnValue;
+        } catch (error) {
+            FrameworkComponent.logHelper.info(error);
+            throw error;
+        }
+    }
+
+    async getClientByPatientIdAndHospitalNumber(patientId, hospitalNumber) {
+        try {
+            await browser.sleep(10000);
+            let __returnValue = await APILibraries.clientLibrary.getClientByPatientIdHospitalNumber(patientId, hospitalNumber);
+            return __returnValue;
+        } catch (error) {
+            FrameworkComponent.logHelper.info(error);
+            throw error;
+        }
+    }
+    
     /**
      * API workflow for creating a client and patient
      */

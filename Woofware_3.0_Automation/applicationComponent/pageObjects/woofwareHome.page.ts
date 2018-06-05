@@ -1,4 +1,4 @@
-import { by, element } from "protractor";
+import { browser, by, element } from "protractor";
 import { FrameworkComponent } from "../../frameworkComponent";
 
 export class WoofwareHomePage {
@@ -178,8 +178,11 @@ export class WoofwareHomePage {
 
             for (let index = 0; index < __patientList.length; index++) {            
                 let __petName = await __patientList[index].getText().then((name) => {return name});
+                FrameworkComponent.logHelper.info(__petName);
                 if(__petName === patientName) {
-                    __patientList[index].click();
+                    // browser.actions().mouseMove(__patientList[index]).perform();
+                    // __patientList[index].click();
+                    browser.executeScript('arguments[0].click()', __patientList[index]);
                     // browser.sleep(2000);
                     break;
                 }                
